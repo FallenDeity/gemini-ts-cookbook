@@ -1,0 +1,40 @@
+[
+  {
+    "objectID": "quickstarts/Text_Generation.html",
+    "href": "quickstarts/Text_Generation.html",
+    "title": "Text Generation",
+    "section": "",
+    "text": "Text Generation\nGenerating text using gemini\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Text Generation"
+    ]
+  },
+  {
+    "objectID": "docs/index.html",
+    "href": "docs/index.html",
+    "title": "docs",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "docs/index.html#quarto",
+    "href": "docs/index.html#quarto",
+    "title": "docs",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "quickstarts/Get_Started.html",
+    "href": "quickstarts/Get_Started.html",
+    "title": "Getting Started",
+    "section": "",
+    "text": "Getting Started\n.ipynb files and preview using typescript kernel (tslab) and quarto!\n\nconsole.log(\"Hello World!\");\n\nHello World!\n\n\n\nfunction fib(n: number): number {\n    if (n &lt;= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}\n\nconsole.log(fib(10)); // Output: 55\n\n55\n\n\n\nconst foo = { class: \"CS 101\" };\nconst x = foo.class;\nconsole.log(x);\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Getting Started"
+    ]
+  }
+]
