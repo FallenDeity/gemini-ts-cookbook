@@ -30,7 +30,7 @@
     "href": "quickstarts/Get_Started.html",
     "title": "Getting Started",
     "section": "",
-    "text": "Getting Started\n.ipynb files and preview using typescript kernel (tslab) and quarto!\n\nconsole.log(\"Hello World!\");\n\nHello World!\n\n\n\nfunction fib(n: number): number {\n  if (n &lt;= 1) return n;\n  return fib(n - 1) + fib(n - 2);\n}\n\nconsole.log(fib(10)); // Output: 55\n\n55\n\n\n\nconst foo = { class: \"CS 101\" };\nconst x = foo.class;\nconsole.log(x);\n\nCS 101\n\n\n\n\n\n\n Back to top",
+    "text": "Getting Started\n.ipynb files and preview using typescript kernel (tslab) and quarto!\n\nconsole.log(\"Hello World!\");\n\nHello World!\n\n\n\nfunction fib(n: number): number {\n  if (n &lt;= 1) return n;\n  return fib(n - 1) + fib(n - 2);\n}\n\nconsole.log(fib(10)); // Output: 55\n\n55\n\n\n\nconst foo = { class: \"CS 101\" };\nconst x = foo.class;\nconsole.log(x);\n\nCS 101\n\n\n\nconst foo2 = { class: \"CS 101\" };\nconst x2 = foo2.class;\n\n42\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Home",
       "Quickstarts",
