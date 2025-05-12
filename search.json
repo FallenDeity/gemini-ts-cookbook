@@ -1,14 +1,158 @@
 [
   {
-    "objectID": "quickstarts/Text_Generation.html",
-    "href": "quickstarts/Text_Generation.html",
-    "title": "Text Generation",
+    "objectID": "quickstarts/Get_Started.html",
+    "href": "quickstarts/Get_Started.html",
+    "title": "Gemini API: Getting started with Gemini 2.0",
     "section": "",
-    "text": "Text Generation\nGenerating text using gemini\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\n\ndotenv.config({\n  path: \"../.env\",\n});\nconsole.log(\"Secrets Loaded from .env file\");\n\nSecrets Loaded from .env file\n\n\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\nasync function main() {\n  const response = await ai.models.generateContent({\n    model: \"gemini-2.0-flash-001\",\n    contents: \"Why is the sky blue?\",\n  });\n  console.log(response.text);\n}\n\n\n// @ts-nocheck - tslab allows top level awaits\nawait main();\n\nThe sky appears blue due to a phenomenon called **Rayleigh scattering**. Here's a breakdown:\n\n*   **Sunlight and the Atmosphere:** Sunlight, which looks white to us, is actually made up of all the colors of the rainbow. When sunlight enters the Earth's atmosphere, it collides with tiny air molecules (mostly nitrogen and oxygen).\n\n*   **Scattering:** This collision causes the light to scatter in different directions.\n\n*   **Rayleigh Scattering:** Rayleigh scattering is a type of scattering that affects light with short wavelengths (like blue and violet) much more strongly than light with longer wavelengths (like red and orange). This means blue and violet light are scattered around the atmosphere far more than other colors.\n\n*   **Why Blue and Not Violet?** Violet light is scattered even more than blue light. However, there are a few reasons why we see a blue sky instead of a violet one:\n    *   **Sunlight's Spectrum:** The sun emits slightly less violet light than blue light.\n    *   **Atmospheric Absorption:** Some violet light is absorbed by the upper atmosphere.\n    *   **Our Eyes:** Our eyes are more sensitive to blue light than violet light.\n\n*   **The Result:** Because blue light is scattered more effectively throughout the atmosphere, it reaches our eyes from all directions, making the sky appear blue.\n\nIn summary, Rayleigh scattering is the scattering of electromagnetic radiation (of which light is a form) by particles of a much smaller wavelength. It causes the sky to be blue.\n\n\n\n\nimport { ContentListUnion, FileState } from \"@google/genai\";\n\nconst image_url = \"https://storage.googleapis.com/generativeai-downloads/data/jetpack.png\";\n\nasync function explainImage() {\n  const response = await fetch(image_url);\n  const blob = await response.blob();\n  const image = new Blob([blob], { type: \"image/png\" });\n  tslab.display.png(new Uint8Array(await image.arrayBuffer()));\n  const file = await ai.files.upload({\n    file: image,\n    config: {\n      displayName: \"jetpack.png\",\n    },\n  });\n  let getFile = await ai.files.get({ name: file.name ?? \"\" });\n  while (getFile.state === FileState.PROCESSING) {\n    getFile = await ai.files.get({ name: file.name ?? \"\" });\n    console.log(`current file status: ${getFile.state ?? \"unknown\"}`);\n    console.log(\"File is still processing, retrying in 5 seconds\");\n\n    await new Promise((resolve) =&gt; {\n      setTimeout(resolve, 5000);\n    });\n  }\n  if (file.state === FileState.FAILED) {\n    throw new Error(\"File processing failed.\");\n  }\n  const content: ContentListUnion = [\"Write a short and engaging blog post based on this picture.\"];\n\n  if (file.uri && file.mimeType) {\n    const fileContent = google.createPartFromUri(file.uri, file.mimeType);\n    content.push(fileContent);\n  }\n\n  const data = await ai.models.generateContent({\n    model: \"gemini-2.0-flash\",\n    contents: content,\n  });\n\n  console.log(data.text);\n}\n\n\n// @ts-nocheck - tslab allows top level awaits\nawait explainImage();\n\n\n\n\n\n\n\n\n## Ditch the Traffic, Embrace the Jetpack Backpack!\n\nOkay, picture this: you're stuck in rush hour, fuming as you inch forward. But *what if* you could just…take off?\n\nWell, my friends, feast your eyes on the future: the Jetpack Backpack! Yes, you read that right. This isn't your average book bag. This sleek, lightweight backpack (that conveniently fits your 18\" laptop) is hiding a secret weapon: **retractable boosters!**\n\nImagine soaring above the gridlock, propelled by clean, steam-powered energy. This isn't just about convenience; it's about a greener commute. And with padded strap support, you can stay comfy during your 15 minutes of flight per charge. Plus, it has USB-C charging, so you're always ready to fly.\n\nIs it real? Maybe not *yet*. But a design like this makes you wonder, what if we really could fly to work one day? \n\nWhat do you think? Would you rock a Jetpack Backpack? Let me know in the comments!\n\n\n\n\n\n\n\n Back to top",
+    "text": "The new Google Gen AI SDK provides a unified interface to Gemini models through both the Gemini Developer API and the Gemini API on Vertex AI. With a few exceptions, code that runs on one platform will run on both. This notebook uses the Developer API.\nThis notebook will walk you through:\nMore details about this new SDK on the documentation.",
     "crumbs": [
       "Home",
       "Quickstarts",
-      "Text Generation"
+      "Gemini API: Getting started with Gemini 2.0"
+    ]
+  },
+  {
+    "objectID": "quickstarts/Get_Started.html#setup",
+    "href": "quickstarts/Get_Started.html#setup",
+    "title": "Gemini API: Getting started with Gemini 2.0",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is one directory up from the notebook, hence we need to use ../ to go up one directory. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── quickstarts\n    └── Get_Started.ipynb",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Getting started with Gemini 2.0"
+    ]
+  },
+  {
+    "objectID": "quickstarts/Get_Started.html#initialize-sdk-client",
+    "href": "quickstarts/Get_Started.html#initialize-sdk-client",
+    "title": "Gemini API: Getting started with Gemini 2.0",
+    "section": "Initialize SDK Client",
+    "text": "Initialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Getting started with Gemini 2.0"
+    ]
+  },
+  {
+    "objectID": "quickstarts/Get_Started.html#choose-a-model",
+    "href": "quickstarts/Get_Started.html#choose-a-model",
+    "title": "Gemini API: Getting started with Gemini 2.0",
+    "section": "Choose a model",
+    "text": "Choose a model\nSelect the model you want to use in this guide. You can either select one from the list or enter a model name manually. Keep in mind that some models, such as the 2.5 ones are thinking models and thus take slightly more time to respond.\nFor a full overview of all Gemini models, check the documentation.\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-04-17\";",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Getting started with Gemini 2.0"
+    ]
+  },
+  {
+    "objectID": "quickstarts/Get_Started.html#send-text-prompts",
+    "href": "quickstarts/Get_Started.html#send-text-prompts",
+    "title": "Gemini API: Getting started with Gemini 2.0",
+    "section": "Send text prompts",
+    "text": "Send text prompts\nUse the models.generateContent method to generate responses to your prompts. You can pass text directly to models.generateContent and use the .text property to get the text content of the response. Note that the .text field will work when there’s only one part in the output.\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: \"What's the largest planet in our solar system?\",\n});\n\ntslab.display.markdown(response.text ?? \"\");\n\nThe largest planet in our solar system is Jupiter.",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Getting started with Gemini 2.0"
+    ]
+  },
+  {
+    "objectID": "quickstarts/Get_Started.html#count-tokens",
+    "href": "quickstarts/Get_Started.html#count-tokens",
+    "title": "Gemini API: Getting started with Gemini 2.0",
+    "section": "Count tokens",
+    "text": "Count tokens\nTokens are the basic inputs to the Gemini models. You can use the models.countTokens method to calculate the number of input tokens before sending a request to the Gemini API.\n\nconst count = await ai.models.countTokens({\n  model: MODEL_ID,\n  contents: \"What's the highest mountain in Africa?\",\n});\n\nconsole.log(JSON.stringify(count, null, 2));\n\n{\n  \"totalTokens\": 10\n}",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Getting started with Gemini 2.0"
+    ]
+  },
+  {
+    "objectID": "quickstarts/Get_Started.html#send-multimodal-prompts",
+    "href": "quickstarts/Get_Started.html#send-multimodal-prompts",
+    "title": "Gemini API: Getting started with Gemini 2.0",
+    "section": "Send multimodal prompts",
+    "text": "Send multimodal prompts\nUse Gemini 2.0 model (gemini-2.0-flash-exp), a multimodal model that supports multimodal prompts. You can include text, PDF documents, images, audio and video in your prompt requests and get text or code responses.\nIn this first example, you’ll download an image from a specified URL, save it as a byte stream and then write those bytes to a local file named jetpack.png.\n\nconst fs = require(\"fs\") as typeof import(\"fs\");\nconst path = require(\"path\") as typeof import(\"path\");\n\nconst IMG_URL = \"https://storage.googleapis.com/generativeai-downloads/data/jetpack.png\";\n\nconst downloadImage = async (url: string, filePath: string) =&gt; {\n  const response = await fetch(url);\n  if (!response.ok) {\n    throw new Error(`Failed to download image: ${response.statusText}`);\n  }\n  const buffer = await response.blob();\n  const bufferData = Buffer.from(await buffer.arrayBuffer());\n  fs.writeFileSync(filePath, bufferData);\n};\n\nconst filePath = path.join(\"../assets\", \"jetpack.png\");\nawait downloadImage(IMG_URL, filePath);\n\nIn this second example, you’ll open a previously saved image, create a thumbnail of it and then generate a short blog post based on the thumbnail, displaying both the thumbnail and the generated blog post. The deferredFileUpload is a helper function that waits for the model to finish processing the file before returning the response. This is useful when you want to upload a file and then immediately use it in the same request.\n\nimport { File, FileState } from \"@google/genai\";\n\ntslab.display.png(fs.readFileSync(\"../assets/jetpack.png\"));\n\nasync function deferredFileUpload(filePath: string, config: { displayName: string }): Promise&lt;File&gt; {\n  const file = await ai.files.upload({\n    file: filePath,\n    config,\n  });\n  let getFile = await ai.files.get({ name: file.name ?? \"\" });\n  while (getFile.state === FileState.PROCESSING) {\n    getFile = await ai.files.get({ name: file.name ?? \"\" });\n    console.log(`current file status: ${getFile.state ?? \"unknown\"}`);\n    console.log(\"File is still processing, retrying in 5 seconds\");\n\n    await new Promise((resolve) =&gt; {\n      setTimeout(resolve, 1000);\n    });\n  }\n  if (file.state === FileState.FAILED) {\n    throw new Error(\"File processing failed.\");\n  }\n  return file;\n}\n\ntry {\n  const file = await deferredFileUpload(filePath, {\n    displayName: \"jetpack.png\",\n  });\n  console.log(\"File uploaded successfully\", file.name ?? \"\");\n  if (!file.uri || !file.mimeType) {\n    throw new Error(\"File URI or MIME type is missing\");\n  }\n  const blog = await ai.models.generateContent({\n    model: MODEL_ID,\n    contents: [\n      \"Write a short and engaging blog post based on this picture.\",\n      google.createPartFromUri(file.uri, file.mimeType),\n    ],\n  });\n  tslab.display.markdown(blog.text ?? \"\");\n} catch (error) {\n  console.error(\"Error uploading file:\", error);\n  throw error;\n}\n\n\n\n\n\n\n\n\nFile uploaded successfully files/lqnru1a65qjn\n\n\nHere’s a short, engaging blog post based on the sketch:\n\n\nThe Jetpack Backpack Concept: Is This the Future of Your Commute?\nStuck in traffic? Tired of lugging a heavy backpack across campus or the city? What if your backpack could give you a little… boost?\nCheck out this cool concept sketch we stumbled upon: The Jetpack Backpack!\nFrom the looks of it, someone’s been dreaming up a truly futuristic way to carry your gear. On the surface, it’s a functional backpack – described as lightweight, with padded strap support, and even spacious enough to fit an 18-inch laptop. It’s designed to look like a normal backpack, so maybe you won’t get too many stares before lift-off.\nBut the real magic happens when those retractable boosters kick in! Powered by steam (hello, surprisingly green and clean tech!), this concept promises a new dimension to personal transport. Charging is even a modern USB-C affair.\nNow, the sketch notes a 15-minute battery life. So maybe it’s not for your cross-country road trip replacement just yet! But imagine skipping that final mile of gridlock, hopping over stairs, or just making a truly epic entrance.\nThis sketch reminds us that innovation often starts with a wild idea and a pen on paper. While this might be firmly in the concept realm for now, it’s fun to imagine the possibilities!\nWhat do you think? Would you strap into a Jetpack Backpack? Let us know in the comments!",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Getting started with Gemini 2.0"
+    ]
+  },
+  {
+    "objectID": "quickstarts/Get_Started.html#the-jetpack-backpack-concept-is-this-the-future-of-your-commute",
+    "href": "quickstarts/Get_Started.html#the-jetpack-backpack-concept-is-this-the-future-of-your-commute",
+    "title": "Gemini API: Getting started with Gemini 2.0",
+    "section": "The Jetpack Backpack Concept: Is This the Future of Your Commute?",
+    "text": "The Jetpack Backpack Concept: Is This the Future of Your Commute?\nStuck in traffic? Tired of lugging a heavy backpack across campus or the city? What if your backpack could give you a little… boost?\nCheck out this cool concept sketch we stumbled upon: The Jetpack Backpack!\nFrom the looks of it, someone’s been dreaming up a truly futuristic way to carry your gear. On the surface, it’s a functional backpack – described as lightweight, with padded strap support, and even spacious enough to fit an 18-inch laptop. It’s designed to look like a normal backpack, so maybe you won’t get too many stares before lift-off.\nBut the real magic happens when those retractable boosters kick in! Powered by steam (hello, surprisingly green and clean tech!), this concept promises a new dimension to personal transport. Charging is even a modern USB-C affair.\nNow, the sketch notes a 15-minute battery life. So maybe it’s not for your cross-country road trip replacement just yet! But imagine skipping that final mile of gridlock, hopping over stairs, or just making a truly epic entrance.\nThis sketch reminds us that innovation often starts with a wild idea and a pen on paper. While this might be firmly in the concept realm for now, it’s fun to imagine the possibilities!\nWhat do you think? Would you strap into a Jetpack Backpack? Let us know in the comments!",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Getting started with Gemini 2.0"
+    ]
+  },
+  {
+    "objectID": "quickstarts/Get_Started.html#configure-model-parameters",
+    "href": "quickstarts/Get_Started.html#configure-model-parameters",
+    "title": "Gemini API: Getting started with Gemini 2.0",
+    "section": "Configure model parameters",
+    "text": "Configure model parameters\nYou can include parameter values in each call that you send to a model to control how the model generates a response. Learn more about experimenting with parameter values.\n\nconst varied_params_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: \"Tell me how the internet works, but pretend I'm a puppy who only understands squeaky toys.\",\n  config: {\n    temperature: 0.4,\n    topP: 0.95,\n    topK: 20,\n    candidateCount: 1,\n    seed: 5,\n    stopSequences: [\"STOP!\"],\n    presencePenalty: 0.0,\n    frequencyPenalty: 0.0,\n  },\n});\n\ntslab.display.markdown(varied_params_response.text ?? \"\");\n\nOkay, listen up, little fluff-ball! Squeak!\nYou know how you love a good squeak? Squeak squeak! What if the best squeak is way over there? Points vaguely Like, across the room, or even outside?\nYou want that squeak! So, your brain goes whirr and makes a request for the squeak. But you can’t just send one giant WOOF of squeak-wanting. It gets broken into tiny, tiny little squeaky bits! Imagine tiny squeaks floating!\nAnd each little squeaky bit needs a special smell attached, like a ‘Go to the Red Ball’ smell, so it knows where to go. That’s the address! Sniff sniff!\nThese little squeaky bits, with their special smells, run out into the world! Waggy tail zoom! But the world is big! They need help.\nThat’s where the Sniffy Guides come in! Imagine little noses pointing! These Sniffy Guides (like magic noses!) sniff the special smell on each squeaky bit and say, ‘Oh, this one goes that way!’ and point it along the path. Point point! They send the squeaky bits from one Sniffy Guide to the next, all over the house and yard!\nFinally, all the little squeaky bits, following their special smell and the Sniffy Guides, arrive at the Big Squeaky Toy Box! Imagine a giant box full of squeaks! This is where the real squeak lives!\nThe Big Squeaky Toy Box sees all your little squeaky bits asking for the squeak. So, it gets the actual squeak ready! SQUEAK!\nAnd guess what? It breaks that big squeak into little squeaky bits too! More tiny squeaks! And puts your special smell (or maybe a ‘Come Back Home’ smell) on them. Sniff sniff!\nThese new squeaky bits, carrying the real squeak, follow the Sniffy Guides all the way back to you! Zoom zoom! They sniff their way through the house, guided by the magic noses.\nWhen all the little squeaky bits arrive back at your ears, they put themselves back together! Click! And POP! You hear the wonderful SQUEAK you asked for! Happy tail wag!\nAnd there are special Squeaky Rules for how the squeaky bits travel and how the Sniffy Guides work, so everyone gets their squeaks without bumping into each other! Good puppy!\nSo, the internet is just a super-duper, giant network of Sniffy Guides and Big Squeaky Toy Boxes, sending little squeaky bits with special smells back and forth so puppies (and humans!) can get the squeaks they want, no matter how far away!\nSQUEAK! Good boy/girl! Now go chase that tail!",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Getting started with Gemini 2.0"
+    ]
+  },
+  {
+    "objectID": "quickstarts/Get_Started.html#configure-safety-filters",
+    "href": "quickstarts/Get_Started.html#configure-safety-filters",
+    "title": "Gemini API: Getting started with Gemini 2.0",
+    "section": "Configure safety filters",
+    "text": "Configure safety filters\nThe Gemini API provides safety filters that you can adjust across multiple filter categories to restrict or allow certain types of content. You can use these filters to adjust what is appropriate for your use case. See the Configure safety filters page for details.\nIn this example, you’ll use a safety filter to only block highly dangerous content, when requesting the generation of potentially disrespectful phrases.\n\nconst filtered_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents:\n    \"Write a list of 2 disrespectful things that I might say to the universe after stubbing my toe in the dark.\",\n  config: {\n    safetySettings: [\n      {\n        category: google.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,\n        threshold: google.HarmBlockThreshold.BLOCK_NONE,\n      },\n    ],\n  },\n});\ntslab.display.markdown(filtered_response.text ?? \"\");\n\nHere are 2 disrespectful things you might say to the universe after stubbing your toe in the dark:\n\n“Seriously, universe?! Did you plan that?!”\n“Oh, thanks, universe. Really needed that.” (Said with heavy sarcasm)",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Getting started with Gemini 2.0"
+    ]
+  },
+  {
+    "objectID": "quickstarts/Get_Started.html#start-a-multi-turn-chat",
+    "href": "quickstarts/Get_Started.html#start-a-multi-turn-chat",
+    "title": "Gemini API: Getting started with Gemini 2.0",
+    "section": "Start a multi-turn chat",
+    "text": "Start a multi-turn chat\nThe Gemini API enables you to have freeform conversations across multiple turns.\nNext you’ll set up a helpful coding assistant:\n\nconst system_prompt = `\nYou are an expert software developer and a helpful coding assistant.\nYou are able to generate high-quality code in any programming language.\n`;\n\nconst chat = ai.chats.create({\n  model: MODEL_ID,\n  config: {\n    systemInstruction: system_prompt,\n  },\n});\n\nUse chat.sendMessage to pass a message back and receive a response.\n\nconst chat_response_1 = await chat.sendMessage({\n  message: \"Write a function that checks if a year is a leap year.\",\n});\ntslab.display.markdown(chat_response_1.text ?? \"\");\n\nOkay, here’s a function in Python that checks if a year is a leap year based on the standard Gregorian calendar rules.\nLeap Year Rules:\n\nA year is a leap year if it is divisible by 4.\nHowever, if the year is divisible by 100, it is NOT a leap year.\nBut, if the year is divisible by 400, it IS a leap year.\n\nLet’s translate these rules into code.\ndef is_leap(year):\n  \"\"\"\n  Checks if a given year is a leap year according to the Gregorian calendar rules.\n\n  Args:\n    year: An integer representing the year.\n\n  Returns:\n    True if the year is a leap year, False otherwise.\n  \"\"\"\n  # Rule 1: Check if divisible by 4\n  if year % 4 == 0:\n    # Rule 2: Check if divisible by 100\n    if year % 100 == 0:\n      # Rule 3: Check if divisible by 400 (exception to rule 2)\n      if year % 400 == 0:\n        return True  # Divisible by 400, so it's a leap year\n      else:\n        return False # Divisible by 100 but not 400, so not a leap year\n    else:\n      return True  # Divisible by 4 but not 100, so it's a leap year\n  else:\n    return False   # Not divisible by 4, so not a leap year\n\n# --- Example Usage ---\n\nprint(f\"Is 2000 a leap year? {is_leap(2000)}\") # Expected: True (Divisible by 400)\nprint(f\"Is 1900 a leap year? {is_leap(1900)}\") # Expected: False (Divisible by 100 but not 400)\nprint(f\"Is 2024 a leap year? {is_leap(2024)}\") # Expected: True (Divisible by 4 but not 100)\nprint(f\"Is 2023 a leap year? {is_leap(2023)}\") # Expected: False (Not divisible by 4)\nprint(f\"Is 1600 a leap year? {is_leap(1600)}\") # Expected: True (Divisible by 400)\nprint(f\"Is 2100 a leap year? {is_leap(2100)}\") # Expected: False (Divisible by 100 but not 400)\nMore Concise Version (using boolean logic):\nYou can also combine the conditions into a single boolean expression:\ndef is_leap_concise(year):\n  \"\"\"\n  Checks if a given year is a leap year using a concise boolean expression.\n\n  Args:\n    year: An integer representing the year.\n\n  Returns:\n    True if the year is a leap year, False otherwise.\n  \"\"\"\n  return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)\n\n# --- Example Usage (using the concise version) ---\nprint(\"\\nUsing concise version:\")\nprint(f\"Is 2000 a leap year? {is_leap_concise(2000)}\") # Expected: True\nprint(f\"Is 1900 a leap year? {is_leap_concise(1900)}\") # Expected: False\nprint(f\"Is 2024 a leap year? {is_leap_concise(2024)}\") # Expected: True\nprint(f\"Is 2023 a leap year? {is_leap_concise(2023)}\") # Expected: False\nBoth functions implement the same logic and produce the correct results. The first version using nested if/else might be slightly easier to read for beginners, while the second version is more compact.\n\n\n\nconst chat_response_2 = await chat.sendMessage({\n  message: \"Okay, write a unit test of the generated function.\",\n});\ntslab.display.markdown(chat_response_2.text ?? \"\");\n\nOkay, let’s write a unit test for the is_leap function using Python’s built-in unittest framework.\nFirst, make sure you have the is_leap function available. You can either put the function in the same file as the tests or import it from another file. For this example, we’ll assume it’s in the same file.\nimport unittest\n\n# Assume the function you want to test is defined here (or imported)\ndef is_leap(year):\n  \"\"\"\n  Checks if a given year is a leap year according to the Gregorian calendar rules.\n\n  Args:\n    year: An integer representing the year.\n\n  Returns:\n    True if the year is a leap year, False otherwise.\n  \"\"\"\n  # Rule 1: Check if divisible by 4\n  if year % 4 == 0:\n    # Rule 2: Check if divisible by 100\n    if year % 100 == 0:\n      # Rule 3: Check if divisible by 400 (exception to rule 2)\n      if year % 400 == 0:\n        return True  # Divisible by 400, so it's a leap year\n      else:\n        return False # Divisible by 100 but not 400, so not a leap year\n    else:\n      return True  # Divisible by 4 but not 100, so it's a leap year\n  else:\n    return False   # Not divisible by 4, so not a leap year\n\n# ---------------------------------------------------------------------\n# Unit Tests\n# ---------------------------------------------------------------------\n\nclass TestIsLeapYear(unittest.TestCase):\n    \"\"\"\n    Test cases for the is_leap function.\n    \"\"\"\n\n    def test_divisible_by_4_not_by_100(self):\n        \"\"\"Years divisible by 4 but not by 100 should be leap years.\"\"\"\n        self.assertTrue(is_leap(2024))\n        self.assertTrue(is_leap(2020))\n        self.assertTrue(is_leap(1996))\n        self.assertTrue(is_leap(4)) # Test a small year\n\n    def test_divisible_by_100_not_by_400(self):\n        \"\"\"Years divisible by 100 but not by 400 should NOT be leap years.\"\"\"\n        self.assertFalse(is_leap(1900))\n        self.assertFalse(is_leap(2100))\n        self.assertFalse(is_leap(1800))\n        self.assertFalse(is_leap(100)) # Test a small year\n\n    def test_divisible_by_400(self):\n        \"\"\"Years divisible by 400 should be leap years.\"\"\"\n        self.assertTrue(is_leap(2000))\n        self.assertTrue(is_leap(1600))\n        self.assertTrue(is_leap(2400))\n        self.assertTrue(is_leap(400)) # Test a small year\n\n    def test_not_divisible_by_4(self):\n        \"\"\"Years not divisible by 4 should NOT be leap years.\"\"\"\n        self.assertFalse(is_leap(2023))\n        self.assertFalse(is_leap(2025))\n        self.assertFalse(is_leap(1999))\n        self.assertFalse(is_leap(1)) # Test a small year\n\n# This allows running the tests directly from the command line\nif __name__ == '__main__':\n    unittest.main(argv=['first-arg-is-ignored'], exit=False) # Added argv/exit for compatibility in some environments like notebooks\nExplanation:\n\nimport unittest: Imports the necessary testing framework.\nimport is_leap: (If is_leap is in a separate file, e.g., my_module.py, you would use from my_module import is_leap).\nclass TestIsLeapYear(unittest.TestCase):: Creates a test class that inherits from unittest.TestCase. This class will contain the individual test methods.\ntest_... methods: Each method starting with test_ is automatically recognized by unittest as a test case.\nDocstrings: The docstrings within the test methods explain what scenario each test is covering, which is good practice.\nAssertions: Inside each test method, we use assertion methods provided by unittest.TestCase:\n\nself.assertTrue(expression): Asserts that the expression evaluates to True.\nself.assertFalse(expression): Asserts that the expression evaluates to False.\nWe call is_leap() with specific years that represent each rule of the leap year logic and assert the expected boolean result.\n\nif __name__ == '__main__':: This block ensures that the unittest.main() function is called only when the script is executed directly (not when imported as a module).\nunittest.main(): This function discovers and runs the tests defined in classes inheriting from unittest.TestCase within the script.\n\nHow to Run the Tests:\n\nSave the code above as a Python file (e.g., test_leap_year.py).\nOpen a terminal or command prompt.\nNavigate to the directory where you saved the file.\nRun the command: python test_leap_year.py\n\nYou will see output indicating how many tests ran and whether they passed or failed. If all tests pass, it means your is_leap function is correctly implementing the standard Gregorian leap year rules for the test cases provided.",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Getting started with Gemini 2.0"
+    ]
+  },
+  {
+    "objectID": "quickstarts/Get_Started.html#save-and-resume-a-chat",
+    "href": "quickstarts/Get_Started.html#save-and-resume-a-chat",
+    "title": "Gemini API: Getting started with Gemini 2.0",
+    "section": "Save and resume a chat",
+    "text": "Save and resume a chat\nYou can use the chat.getHistory method to get the history of the chat. This will return an array of Content[] objects, which you can use to resume the chat later.\n\nconst chat_history = chat.getHistory();\nconsole.log(JSON.stringify(chat_history[0], null, 2));\nconst new_chat = ai.chats.create({\n  model: MODEL_ID,\n  config: {\n    systemInstruction: system_prompt,\n  },\n  history: chat_history,\n});\nconst chat_response_3 = await new_chat.sendMessage({\n  message: \"What was the name of the function again?\",\n});\ntslab.display.markdown(chat_response_3.text ?? \"\");\n\n{\n  \"role\": \"user\",\n  \"parts\": [\n    {\n      \"text\": \"Write a function that checks if a year is a leap year.\"\n    }\n  ]\n}\n\n\nThe name of the function is is_leap.",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Getting started with Gemini 2.0"
+    ]
+  },
+  {
+    "objectID": "quickstarts/Get_Started.html#serialize-and-deserialize-a-chat",
+    "href": "quickstarts/Get_Started.html#serialize-and-deserialize-a-chat",
+    "title": "Gemini API: Getting started with Gemini 2.0",
+    "section": "Serialize and deserialize a chat",
+    "text": "Serialize and deserialize a chat\nIn the above example we just saved the chat history in a variable and reused it. But that’s not very practical, is it? To overcome this we can serialize and deserialize the chat history. This way we can save it to a file or a database and load it later. Unfortunately, the SDK doesn’t provide a method to do this yet, but we can do it manually.\n\nimport { Content } from \"@google/genai\";\n\nconst serialized_chat = JSON.stringify(chat_history, null, 2);\nfs.writeFileSync(path.join(\"../assets\", \"chat_history.json\"), serialized_chat);\n\nconst chat_history_file = fs.readFileSync(path.join(\"../assets\", \"chat_history.json\"), \"utf-8\");\nconst chat_history_data = JSON.parse(chat_history_file) as Content[];\nconst new_chat_from_file = ai.chats.create({\n  model: MODEL_ID,\n  config: {\n    systemInstruction: system_prompt,\n  },\n  history: chat_history_data,\n});\nconst chat_response_4 = await new_chat_from_file.sendMessage({\n  message: \"What was the name of the function again?\",\n});\ntslab.display.markdown(chat_response_4.text ?? \"\");\n\nThe name of the function is is_leap.",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Getting started with Gemini 2.0"
     ]
   },
   {
@@ -24,17 +168,5 @@
     "title": "docs",
     "section": "",
     "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
-  },
-  {
-    "objectID": "quickstarts/Get_Started.html",
-    "href": "quickstarts/Get_Started.html",
-    "title": "Getting Started",
-    "section": "",
-    "text": "Getting Started\n.ipynb files and preview using typescript kernel (tslab) and quarto!\n\nconsole.log(\"Hello World!\");\n\nHello World!\n\n\n\nfunction fib(n: number): number {\n  if (n &lt;= 1) return n;\n  return fib(n - 1) + fib(n - 2);\n}\n\nconsole.log(fib(10)); // Output: 55\n\n55\n\n\n\nconst foo = { class: \"CS 101\" };\nconst x = foo.class;\nconsole.log(x);\n\nCS 101\n\n\n\nconst foo2 = { class: \"CS 101\" };\nconst x2 = foo2.class;\n\n42\n\n\n\n\n\n\n Back to top",
-    "crumbs": [
-      "Home",
-      "Quickstarts",
-      "Getting Started"
-    ]
   }
 ]

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>get_started – Gemini Cookbook</title>
+<title>Gemini API: Getting started with Gemini 2.0 – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../quickstarts/Text_Generation.html" rel="next">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -330,7 +329,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Get_Started.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Get_Started.html">Getting Started</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Get_Started.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Get_Started.html">Gemini API: Getting started with Gemini 2.0</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -354,13 +353,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../quickstarts/Get_Started.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Getting Started</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Text_Generation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Text Generation</span></a>
+ <span class="menu-text">Gemini API: Getting started with Gemini 2.0</span></a>
   </div>
 </li>
       </ul>
@@ -375,50 +368,592 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">Getting Started</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
+  <ul class="collapse">
+  <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
+  <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
+  <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
+  </ul></li>
+  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
+  <li><a href="#choose-a-model" id="toc-choose-a-model" class="nav-link" data-scroll-target="#choose-a-model">Choose a model</a></li>
+  <li><a href="#send-text-prompts" id="toc-send-text-prompts" class="nav-link" data-scroll-target="#send-text-prompts">Send text prompts</a></li>
+  <li><a href="#count-tokens" id="toc-count-tokens" class="nav-link" data-scroll-target="#count-tokens">Count tokens</a></li>
+  <li><a href="#send-multimodal-prompts" id="toc-send-multimodal-prompts" class="nav-link" data-scroll-target="#send-multimodal-prompts">Send multimodal prompts</a></li>
+  <li><a href="#configure-model-parameters" id="toc-configure-model-parameters" class="nav-link" data-scroll-target="#configure-model-parameters">Configure model parameters</a></li>
+  <li><a href="#configure-safety-filters" id="toc-configure-safety-filters" class="nav-link" data-scroll-target="#configure-safety-filters">Configure safety filters</a></li>
+  <li><a href="#start-a-multi-turn-chat" id="toc-start-a-multi-turn-chat" class="nav-link" data-scroll-target="#start-a-multi-turn-chat">Start a multi-turn chat</a></li>
+  <li><a href="#save-and-resume-a-chat" id="toc-save-and-resume-a-chat" class="nav-link" data-scroll-target="#save-and-resume-a-chat">Save and resume a chat</a></li>
+  <li><a href="#serialize-and-deserialize-a-chat" id="toc-serialize-and-deserialize-a-chat" class="nav-link" data-scroll-target="#serialize-and-deserialize-a-chat">Serialize and deserialize a chat</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Get_Started.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Get_Started.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Get_Started.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Get_Started.html">Getting Started</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Get_Started.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Get_Started.html">Gemini API: Getting started with Gemini 2.0</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Gemini API: Getting started with Gemini 2.0</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
-<section id="getting-started" class="level1">
-<h1>Getting Started</h1>
-<p><code>.ipynb</code> files and preview using typescript kernel (tslab) and quarto!</p>
-<div id="cell-1" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb1-1"><a href="#cb1-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Hello World!"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</header>
+
+
+<p>The new <a href="https://github.com/googleapis/js-genai">Google Gen AI SDK</a> provides a unified interface to <a href="https://ai.google.dev/gemini-api/docs/models">Gemini models</a> through both the <a href="https://ai.google.dev/gemini-api/docs">Gemini Developer API</a> and the Gemini API on Vertex AI. With a few exceptions, code that runs on one platform will run on both. This notebook uses the Developer API.</p>
+<p>This notebook will walk you through:</p>
+<ul>
+<li>Installing and setting-up the Google GenAI SDK</li>
+<li>Text and multimodal prompting</li>
+<li>Counting tokens</li>
+<li>Setting system instructions</li>
+<li>Configuring safety filters</li>
+<li>Initiating a multi-turn chat</li>
+<li>Controlling generated output</li>
+<li>Using function calling</li>
+<li>Generating a content stream and sending asynchronous requests</li>
+<li>Using file uploads</li>
+<li>Using context caching</li>
+<li>Generating text embeddings</li>
+</ul>
+<p>More details about this new SDK on the <a href="https://ai.google.dev/gemini-api/docs/sdks">documentation</a>.</p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="install-the-google-genai-sdk" class="level3">
+<h3 class="anchored" data-anchor-id="install-the-google-genai-sdk">Install the Google GenAI SDK</h3>
+<p>Install the Google GenAI SDK from <a href="https://www.npmjs.com/package/@google/genai">npm</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install @google/genai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="setup-your-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="setup-your-api-key">Setup your API key</h3>
+<p>You can <a href="https://aistudio.google.com/app/apikey">create</a> your API key using Google AI Studio with a single click.</p>
+<p>Remember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a <code>.env</code> file. You can also set it as an environment variable or use a secret manager.</p>
+<p>Here’s how to set it up in a <code>.env</code> file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch .env</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;"</span> <span class="op">&gt;&gt;</span> .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another option is to set the API key as an environment variable. You can do this in your terminal with the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export GEMINI_API_KEY=<span class="st">"&lt;YOUR_API_KEY&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="load-the-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-api-key">Load the API key</h3>
+<p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, we can load the API key in our code:</p>
+<div id="cell-4" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../.env"</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GEMINI_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">GEMINI_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>GEMINI_API_KEY) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"GEMINI_API_KEY is not set in the environment variables"</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"GEMINI_API_KEY is set in the environment variables"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Hello World!</code></pre>
+<pre><code>GEMINI_API_KEY is set in the environment variables</code></pre>
 </div>
 </div>
-<div id="cell-2" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">function</span> <span class="fu">fib</span>(n<span class="op">:</span> <span class="dt">number</span>)<span class="op">:</span> <span class="dt">number</span> {</span>
-<span id="cb3-2"><a href="#cb3-2"></a>  <span class="cf">if</span> (n <span class="op">&lt;=</span> <span class="dv">1</span>) <span class="cf">return</span> n<span class="op">;</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>  <span class="cf">return</span> <span class="fu">fib</span>(n <span class="op">-</span> <span class="dv">1</span>) <span class="op">+</span> <span class="fu">fib</span>(n <span class="op">-</span> <span class="dv">2</span>)<span class="op">;</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>}</span>
-<span id="cb3-5"><a href="#cb3-5"></a></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="fu">fib</span>(<span class="dv">10</span>))<span class="op">;</span> <span class="co">// Output: 55</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
+<pre><code>│
+├── .env
+└── quickstarts
+    └── Get_Started.ipynb</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="initialize-sdk-client" class="level2">
+<h2 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h2>
+<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
+<div id="cell-7" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="choose-a-model" class="level2">
+<h2 class="anchored" data-anchor-id="choose-a-model">Choose a model</h2>
+<p>Select the model you want to use in this guide. You can either select one from the list or enter a model name manually. Keep in mind that some models, such as the 2.5 ones are thinking models and thus take slightly more time to respond.</p>
+<p>For a full overview of all Gemini models, check the <a href="https://ai.google.dev/gemini-api/docs/models/gemini">documentation</a>.</p>
+<div id="cell-9" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-04-17"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="send-text-prompts" class="level2">
+<h2 class="anchored" data-anchor-id="send-text-prompts">Send text prompts</h2>
+<p>Use the <code>models.generateContent</code> method to generate responses to your prompts. You can pass text directly to <code>models.generateContent</code> and use the <code>.text</code> property to get the text content of the response. Note that the <code>.text</code> field will work when there’s only one part in the output.</p>
+<div id="cell-11" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="st">"What's the largest planet in our solar system?"</span><span class="op">,</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>The largest planet in our solar system is <strong>Jupiter</strong>.</p>
+</div>
+</div>
+</section>
+<section id="count-tokens" class="level2">
+<h2 class="anchored" data-anchor-id="count-tokens">Count tokens</h2>
+<p>Tokens are the basic inputs to the Gemini models. You can use the <code>models.countTokens</code> method to calculate the number of input tokens before sending a request to the Gemini API.</p>
+<div id="cell-13" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> count <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="st">"What's the highest mountain in Africa?"</span><span class="op">,</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(count<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>55</code></pre>
+<pre><code>{
+  "totalTokens": 10
+}</code></pre>
 </div>
 </div>
-<div id="cell-3" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">const</span> foo <span class="op">=</span> { class<span class="op">:</span> <span class="st">"CS 101"</span> }<span class="op">;</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">const</span> x <span class="op">=</span> foo<span class="op">.</span><span class="at">class</span><span class="op">;</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(x)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="send-multimodal-prompts" class="level2">
+<h2 class="anchored" data-anchor-id="send-multimodal-prompts">Send multimodal prompts</h2>
+<p>Use Gemini 2.0 model (<code>gemini-2.0-flash-exp</code>), a multimodal model that supports multimodal prompts. You can include text, PDF documents, images, audio and video in your prompt requests and get text or code responses.</p>
+<p>In this first example, you’ll download an image from a specified URL, save it as a byte stream and then write those bytes to a local file named <code>jetpack.png</code>.</p>
+<div id="cell-15" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> IMG_URL <span class="op">=</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/data/jetpack.png"</span><span class="op">;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> downloadImage <span class="op">=</span> <span class="kw">async</span> (url<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> filePath<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to download image: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">blob</span>()<span class="op">;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> bufferData <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> buffer<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">;</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(filePath<span class="op">,</span> bufferData)<span class="op">;</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> filePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets"</span><span class="op">,</span> <span class="st">"jetpack.png"</span>)<span class="op">;</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadImage</span>(IMG_URL<span class="op">,</span> filePath)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In this second example, you’ll open a previously saved image, create a thumbnail of it and then generate a short blog post based on the thumbnail, displaying both the thumbnail and the generated blog post. The <code>deferredFileUpload</code> is a helper function that waits for the model to finish processing the file before returning the response. This is useful when you want to upload a file and then immediately use it in the same request.</p>
+<div id="cell-17" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { <span class="bu">File</span><span class="op">,</span> FileState } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(<span class="st">"../assets/jetpack.png"</span>))<span class="op">;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">deferredFileUpload</span>(filePath<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> config<span class="op">:</span> { displayName<span class="op">:</span> <span class="dt">string</span> })<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="bu">File</span><span class="op">&gt;</span> {</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> file <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    file<span class="op">:</span> filePath<span class="op">,</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    config<span class="op">,</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> getFile <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">get</span>({ name<span class="op">:</span> file<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span> })<span class="op">;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (getFile<span class="op">.</span><span class="at">state</span> <span class="op">===</span> FileState<span class="op">.</span><span class="at">PROCESSING</span>) {</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    getFile <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">get</span>({ name<span class="op">:</span> file<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span> })<span class="op">;</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`current file status: </span><span class="sc">${</span>getFile<span class="op">.</span><span class="at">state</span> <span class="op">??</span> <span class="st">"unknown"</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"File is still processing, retrying in 5 seconds"</span>)<span class="op">;</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve) <span class="kw">=&gt;</span> {</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>      <span class="pp">setTimeout</span>(resolve<span class="op">,</span> <span class="dv">1000</span>)<span class="op">;</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (file<span class="op">.</span><span class="at">state</span> <span class="op">===</span> FileState<span class="op">.</span><span class="at">FAILED</span>) {</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"File processing failed."</span>)<span class="op">;</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> file<span class="op">;</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> {</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> file <span class="op">=</span> <span class="cf">await</span> <span class="fu">deferredFileUpload</span>(filePath<span class="op">,</span> {</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    displayName<span class="op">:</span> <span class="st">"jetpack.png"</span><span class="op">,</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"File uploaded successfully"</span><span class="op">,</span> file<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>file<span class="op">.</span><span class="at">uri</span> <span class="op">||</span> <span class="op">!</span>file<span class="op">.</span><span class="at">mimeType</span>) {</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"File URI or MIME type is missing"</span>)<span class="op">;</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> blog <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> [</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Write a short and engaging blog post based on this picture."</span><span class="op">,</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>      google<span class="op">.</span><span class="fu">createPartFromUri</span>(file<span class="op">.</span><span class="at">uri</span><span class="op">,</span> file<span class="op">.</span><span class="at">mimeType</span>)<span class="op">,</span></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>  tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(blog<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>} <span class="cf">catch</span> (error) {</span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">"Error uploading file:"</span><span class="op">,</span> error)<span class="op">;</span></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> error<span class="op">;</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Get_Started_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
 <div class="cell-output cell-output-stdout">
-<pre><code>CS 101</code></pre>
+<pre><code>File uploaded successfully files/lqnru1a65qjn</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Here’s a short, engaging blog post based on the sketch:</p>
+<hr>
+<section id="the-jetpack-backpack-concept-is-this-the-future-of-your-commute" class="level2">
+<h2 class="anchored" data-anchor-id="the-jetpack-backpack-concept-is-this-the-future-of-your-commute">The Jetpack Backpack Concept: Is This the Future of Your Commute?</h2>
+<p>Stuck in traffic? Tired of lugging a heavy backpack across campus or the city? What if your backpack could give you a little… boost?</p>
+<p>Check out this cool concept sketch we stumbled upon: The <strong>Jetpack Backpack</strong>!</p>
+<p>From the looks of it, someone’s been dreaming up a truly futuristic way to carry your gear. On the surface, it’s a functional backpack – described as lightweight, with padded strap support, and even spacious enough to fit an 18-inch laptop. It’s designed to <em>look like a normal backpack</em>, so maybe you won’t get <em>too</em> many stares before lift-off.</p>
+<p>But the real magic happens when those <strong>retractable boosters</strong> kick in! Powered by <strong>steam</strong> (hello, surprisingly green and clean tech!), this concept promises a new dimension to personal transport. Charging is even a modern <strong>USB-C</strong> affair.</p>
+<p>Now, the sketch notes a <strong>15-minute battery life</strong>. So maybe it’s not for your cross-country road trip replacement just yet! But imagine skipping that final mile of gridlock, hopping over stairs, or just making a truly epic entrance.</p>
+<p>This sketch reminds us that innovation often starts with a wild idea and a pen on paper. While this might be firmly in the concept realm for now, it’s fun to imagine the possibilities!</p>
+<p><strong>What do you think? Would you strap into a Jetpack Backpack? Let us know in the comments!</strong></p>
+</section>
 </div>
 </div>
-<div id="cell-4" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">const</span> foo2 <span class="op">=</span> { class<span class="op">:</span> <span class="st">"CS 101"</span> }<span class="op">;</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">const</span> x2 <span class="op">=</span> foo2<span class="op">.</span><span class="at">class</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="configure-model-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="configure-model-parameters">Configure model parameters</h2>
+<p>You can include parameter values in each call that you send to a model to control how the model generates a response. Learn more about <a href="https://ai.google.dev/gemini-api/docs/text-generation?lang=node#configure">experimenting with parameter values</a>.</p>
+<div id="cell-19" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> varied_params_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="st">"Tell me how the internet works, but pretend I'm a puppy who only understands squeaky toys."</span><span class="op">,</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    temperature<span class="op">:</span> <span class="fl">0.4</span><span class="op">,</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    topP<span class="op">:</span> <span class="fl">0.95</span><span class="op">,</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    topK<span class="op">:</span> <span class="dv">20</span><span class="op">,</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    candidateCount<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    stopSequences<span class="op">:</span> [<span class="st">"STOP!"</span>]<span class="op">,</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    presencePenalty<span class="op">:</span> <span class="fl">0.0</span><span class="op">,</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    frequencyPenalty<span class="op">:</span> <span class="fl">0.0</span><span class="op">,</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(varied_params_response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Okay, listen up, little fluff-ball! <em>Squeak!</em></p>
+<p>You know how you love a good <em>squeak</em>? <em>Squeak squeak!</em> What if the <em>best</em> squeak is <em>way over there</em>? <em>Points vaguely</em> Like, across the room, or even outside?</p>
+<p>You want that squeak! So, your brain goes <em>whirr</em> and makes a <em>request</em> for the squeak. But you can’t just send one giant <em>WOOF</em> of squeak-wanting. It gets broken into tiny, tiny little <em>squeaky bits</em>! <em>Imagine tiny squeaks floating!</em></p>
+<p>And each little squeaky bit needs a <em>special smell</em> attached, like a ‘Go to the Red Ball’ smell, so it knows <em>where</em> to go. That’s the <em>address</em>! <em>Sniff sniff!</em></p>
+<p>These little squeaky bits, with their special smells, run out into the world! <em>Waggy tail zoom!</em> But the world is big! They need help.</p>
+<p>That’s where the <em>Sniffy Guides</em> come in! <em>Imagine little noses pointing!</em> These Sniffy Guides (like magic noses!) sniff the special smell on each squeaky bit and say, ‘Oh, <em>this</em> one goes <em>that</em> way!’ and point it along the path. <em>Point point!</em> They send the squeaky bits from one Sniffy Guide to the next, all over the house and yard!</p>
+<p>Finally, all the little squeaky bits, following their special smell and the Sniffy Guides, arrive at the <em>Big Squeaky Toy Box</em>! <em>Imagine a giant box full of squeaks!</em> This is where the <em>real</em> squeak lives!</p>
+<p>The Big Squeaky Toy Box sees all your little squeaky bits asking for <em>the</em> squeak. So, it gets the <em>actual</em> squeak ready! <em>SQUEAK!</em></p>
+<p>And guess what? It breaks <em>that</em> big squeak into little squeaky bits too! <em>More tiny squeaks!</em> And puts <em>your</em> special smell (or maybe a ‘Come Back Home’ smell) on them. <em>Sniff sniff!</em></p>
+<p>These new squeaky bits, carrying the <em>real</em> squeak, follow the Sniffy Guides <em>all the way back to you</em>! <em>Zoom zoom!</em> They sniff their way through the house, guided by the magic noses.</p>
+<p>When all the little squeaky bits arrive back at your ears, they put themselves back together! <em>Click!</em> And <em>POP!</em> You hear the wonderful <em>SQUEAK</em> you asked for! <em>Happy tail wag!</em></p>
+<p>And there are special <em>Squeaky Rules</em> for how the squeaky bits travel and how the Sniffy Guides work, so everyone gets their squeaks without bumping into each other! <em>Good puppy!</em></p>
+<p>So, the internet is just a super-duper, giant network of Sniffy Guides and Big Squeaky Toy Boxes, sending little squeaky bits with special smells back and forth so puppies (and humans!) can get the squeaks they want, no matter how far away!</p>
+<p><em>SQUEAK!</em> Good boy/girl! Now go chase that tail!</p>
+</div>
+</div>
+</section>
+<section id="configure-safety-filters" class="level2">
+<h2 class="anchored" data-anchor-id="configure-safety-filters">Configure safety filters</h2>
+<p>The Gemini API provides safety filters that you can adjust across multiple filter categories to restrict or allow certain types of content. You can use these filters to adjust what is appropriate for your use case. See the <a href="https://ai.google.dev/gemini-api/docs/safety-settings">Configure safety filters</a> page for details.</p>
+<p>In this example, you’ll use a safety filter to only block highly dangerous content, when requesting the generation of potentially disrespectful phrases.</p>
+<div id="cell-21" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> filtered_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Write a list of 2 disrespectful things that I might say to the universe after stubbing my toe in the dark."</span><span class="op">,</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    safetySettings<span class="op">:</span> [</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_DANGEROUS_CONTENT</span><span class="op">,</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_NONE</span><span class="op">,</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(filtered_response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Here are 2 disrespectful things you might say to the universe after stubbing your toe in the dark:</p>
+<ol type="1">
+<li>“Seriously, universe?! Did you <em>plan</em> that?!”</li>
+<li>“Oh, thanks, universe. Really needed <em>that</em>.” (Said with heavy sarcasm)</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="start-a-multi-turn-chat" class="level2">
+<h2 class="anchored" data-anchor-id="start-a-multi-turn-chat">Start a multi-turn chat</h2>
+<p>The Gemini API enables you to have freeform conversations across multiple turns.</p>
+<p>Next you’ll set up a helpful coding assistant:</p>
+<div id="cell-23" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> system_prompt <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="vs">You are an expert software developer and a helpful coding assistant.</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="vs">You are able to generate high-quality code in any programming language.</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat <span class="op">=</span> ai<span class="op">.</span><span class="at">chats</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> system_prompt<span class="op">,</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use <code>chat.sendMessage</code> to pass a message back and receive a response.</p>
+<div id="cell-25" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat_response_1 <span class="op">=</span> <span class="cf">await</span> chat<span class="op">.</span><span class="fu">sendMessage</span>({</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> <span class="st">"Write a function that checks if a year is a leap year."</span><span class="op">,</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(chat_response_1<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Okay, here’s a function in Python that checks if a year is a leap year based on the standard Gregorian calendar rules.</p>
+<p><strong>Leap Year Rules:</strong></p>
+<ol type="1">
+<li>A year is a leap year if it is divisible by 4.</li>
+<li>However, if the year is divisible by 100, it is NOT a leap year.</li>
+<li>But, if the year is divisible by 400, it IS a leap year.</li>
+</ol>
+<p>Let’s translate these rules into code.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_leap(year):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">  Checks if a given year is a leap year according to the Gregorian calendar rules.</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">  Args:</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">    year: An integer representing the year.</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">  Returns:</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">    True if the year is a leap year, False otherwise.</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">  """</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Rule 1: Check if divisible by 4</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> year <span class="op">%</span> <span class="dv">4</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Rule 2: Check if divisible by 100</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> year <span class="op">%</span> <span class="dv">100</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Rule 3: Check if divisible by 400 (exception to rule 2)</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> year <span class="op">%</span> <span class="dv">400</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">True</span>  <span class="co"># Divisible by 400, so it's a leap year</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span>:</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">False</span> <span class="co"># Divisible by 100 but not 400, so not a leap year</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="va">True</span>  <span class="co"># Divisible by 4 but not 100, so it's a leap year</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>:</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">False</span>   <span class="co"># Not divisible by 4, so not a leap year</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Example Usage ---</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Is 2000 a leap year? </span><span class="sc">{</span>is_leap(<span class="dv">2000</span>)<span class="sc">}</span><span class="ss">"</span>) <span class="co"># Expected: True (Divisible by 400)</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Is 1900 a leap year? </span><span class="sc">{</span>is_leap(<span class="dv">1900</span>)<span class="sc">}</span><span class="ss">"</span>) <span class="co"># Expected: False (Divisible by 100 but not 400)</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Is 2024 a leap year? </span><span class="sc">{</span>is_leap(<span class="dv">2024</span>)<span class="sc">}</span><span class="ss">"</span>) <span class="co"># Expected: True (Divisible by 4 but not 100)</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Is 2023 a leap year? </span><span class="sc">{</span>is_leap(<span class="dv">2023</span>)<span class="sc">}</span><span class="ss">"</span>) <span class="co"># Expected: False (Not divisible by 4)</span></span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Is 1600 a leap year? </span><span class="sc">{</span>is_leap(<span class="dv">1600</span>)<span class="sc">}</span><span class="ss">"</span>) <span class="co"># Expected: True (Divisible by 400)</span></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Is 2100 a leap year? </span><span class="sc">{</span>is_leap(<span class="dv">2100</span>)<span class="sc">}</span><span class="ss">"</span>) <span class="co"># Expected: False (Divisible by 100 but not 400)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>More Concise Version (using boolean logic):</strong></p>
+<p>You can also combine the conditions into a single boolean expression:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_leap_concise(year):</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">  Checks if a given year is a leap year using a concise boolean expression.</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">  Args:</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">    year: An integer representing the year.</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co">  Returns:</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co">    True if the year is a leap year, False otherwise.</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co">  """</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (year <span class="op">%</span> <span class="dv">4</span> <span class="op">==</span> <span class="dv">0</span> <span class="kw">and</span> year <span class="op">%</span> <span class="dv">100</span> <span class="op">!=</span> <span class="dv">0</span>) <span class="kw">or</span> (year <span class="op">%</span> <span class="dv">400</span> <span class="op">==</span> <span class="dv">0</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Example Usage (using the concise version) ---</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Using concise version:"</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Is 2000 a leap year? </span><span class="sc">{</span>is_leap_concise(<span class="dv">2000</span>)<span class="sc">}</span><span class="ss">"</span>) <span class="co"># Expected: True</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Is 1900 a leap year? </span><span class="sc">{</span>is_leap_concise(<span class="dv">1900</span>)<span class="sc">}</span><span class="ss">"</span>) <span class="co"># Expected: False</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Is 2024 a leap year? </span><span class="sc">{</span>is_leap_concise(<span class="dv">2024</span>)<span class="sc">}</span><span class="ss">"</span>) <span class="co"># Expected: True</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Is 2023 a leap year? </span><span class="sc">{</span>is_leap_concise(<span class="dv">2023</span>)<span class="sc">}</span><span class="ss">"</span>) <span class="co"># Expected: False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Both functions implement the same logic and produce the correct results. The first version using nested <code>if/else</code> might be slightly easier to read for beginners, while the second version is more compact.</p>
+</div>
+</div>
+<div id="cell-26" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat_response_2 <span class="op">=</span> <span class="cf">await</span> chat<span class="op">.</span><span class="fu">sendMessage</span>({</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> <span class="st">"Okay, write a unit test of the generated function."</span><span class="op">,</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(chat_response_2<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Okay, let’s write a unit test for the <code>is_leap</code> function using Python’s built-in <code>unittest</code> framework.</p>
+<p>First, make sure you have the <code>is_leap</code> function available. You can either put the function in the same file as the tests or import it from another file. For this example, we’ll assume it’s in the same file.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> unittest</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Assume the function you want to test is defined here (or imported)</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_leap(year):</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">  Checks if a given year is a leap year according to the Gregorian calendar rules.</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">  Args:</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">    year: An integer representing the year.</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">  Returns:</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">    True if the year is a leap year, False otherwise.</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co">  """</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Rule 1: Check if divisible by 4</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> year <span class="op">%</span> <span class="dv">4</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Rule 2: Check if divisible by 100</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> year <span class="op">%</span> <span class="dv">100</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Rule 3: Check if divisible by 400 (exception to rule 2)</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> year <span class="op">%</span> <span class="dv">400</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">True</span>  <span class="co"># Divisible by 400, so it's a leap year</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span>:</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">False</span> <span class="co"># Divisible by 100 but not 400, so not a leap year</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="va">True</span>  <span class="co"># Divisible by 4 but not 100, so it's a leap year</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>:</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">False</span>   <span class="co"># Not divisible by 4, so not a leap year</span></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------------------------------------------------------------------</span></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Unit Tests</span></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------------------------------------------------------------------</span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TestIsLeapYear(unittest.TestCase):</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a><span class="co">    Test cases for the is_leap function.</span></span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> test_divisible_by_4_not_by_100(<span class="va">self</span>):</span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Years divisible by 4 but not by 100 should be leap years."""</span></span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertTrue(is_leap(<span class="dv">2024</span>))</span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertTrue(is_leap(<span class="dv">2020</span>))</span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertTrue(is_leap(<span class="dv">1996</span>))</span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertTrue(is_leap(<span class="dv">4</span>)) <span class="co"># Test a small year</span></span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> test_divisible_by_100_not_by_400(<span class="va">self</span>):</span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Years divisible by 100 but not by 400 should NOT be leap years."""</span></span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertFalse(is_leap(<span class="dv">1900</span>))</span>
+<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertFalse(is_leap(<span class="dv">2100</span>))</span>
+<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertFalse(is_leap(<span class="dv">1800</span>))</span>
+<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertFalse(is_leap(<span class="dv">100</span>)) <span class="co"># Test a small year</span></span>
+<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-51"><a href="#cb23-51" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> test_divisible_by_400(<span class="va">self</span>):</span>
+<span id="cb23-52"><a href="#cb23-52" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Years divisible by 400 should be leap years."""</span></span>
+<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertTrue(is_leap(<span class="dv">2000</span>))</span>
+<span id="cb23-54"><a href="#cb23-54" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertTrue(is_leap(<span class="dv">1600</span>))</span>
+<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertTrue(is_leap(<span class="dv">2400</span>))</span>
+<span id="cb23-56"><a href="#cb23-56" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertTrue(is_leap(<span class="dv">400</span>)) <span class="co"># Test a small year</span></span>
+<span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-58"><a href="#cb23-58" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> test_not_divisible_by_4(<span class="va">self</span>):</span>
+<span id="cb23-59"><a href="#cb23-59" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Years not divisible by 4 should NOT be leap years."""</span></span>
+<span id="cb23-60"><a href="#cb23-60" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertFalse(is_leap(<span class="dv">2023</span>))</span>
+<span id="cb23-61"><a href="#cb23-61" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertFalse(is_leap(<span class="dv">2025</span>))</span>
+<span id="cb23-62"><a href="#cb23-62" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertFalse(is_leap(<span class="dv">1999</span>))</span>
+<span id="cb23-63"><a href="#cb23-63" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertFalse(is_leap(<span class="dv">1</span>)) <span class="co"># Test a small year</span></span>
+<span id="cb23-64"><a href="#cb23-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-65"><a href="#cb23-65" aria-hidden="true" tabindex="-1"></a><span class="co"># This allows running the tests directly from the command line</span></span>
+<span id="cb23-66"><a href="#cb23-66" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">'__main__'</span>:</span>
+<span id="cb23-67"><a href="#cb23-67" aria-hidden="true" tabindex="-1"></a>    unittest.main(argv<span class="op">=</span>[<span class="st">'first-arg-is-ignored'</span>], exit<span class="op">=</span><span class="va">False</span>) <span class="co"># Added argv/exit for compatibility in some environments like notebooks</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation:</strong></p>
+<ol type="1">
+<li><strong><code>import unittest</code></strong>: Imports the necessary testing framework.</li>
+<li><strong><code>import is_leap</code></strong>: (If <code>is_leap</code> is in a separate file, e.g., <code>my_module.py</code>, you would use <code>from my_module import is_leap</code>).</li>
+<li><strong><code>class TestIsLeapYear(unittest.TestCase):</code></strong>: Creates a test class that inherits from <code>unittest.TestCase</code>. This class will contain the individual test methods.</li>
+<li><strong><code>test_...</code> methods</strong>: Each method starting with <code>test_</code> is automatically recognized by <code>unittest</code> as a test case.</li>
+<li><strong>Docstrings</strong>: The docstrings within the test methods explain what scenario each test is covering, which is good practice.</li>
+<li><strong>Assertions</strong>: Inside each test method, we use assertion methods provided by <code>unittest.TestCase</code>:
+<ul>
+<li><code>self.assertTrue(expression)</code>: Asserts that the <code>expression</code> evaluates to <code>True</code>.</li>
+<li><code>self.assertFalse(expression)</code>: Asserts that the <code>expression</code> evaluates to <code>False</code>.</li>
+<li>We call <code>is_leap()</code> with specific years that represent each rule of the leap year logic and assert the expected boolean result.</li>
+</ul></li>
+<li><strong><code>if __name__ == '__main__':</code></strong>: This block ensures that the <code>unittest.main()</code> function is called only when the script is executed directly (not when imported as a module).</li>
+<li><strong><code>unittest.main()</code></strong>: This function discovers and runs the tests defined in classes inheriting from <code>unittest.TestCase</code> within the script.</li>
+</ol>
+<p><strong>How to Run the Tests:</strong></p>
+<ol type="1">
+<li>Save the code above as a Python file (e.g., <code>test_leap_year.py</code>).</li>
+<li>Open a terminal or command prompt.</li>
+<li>Navigate to the directory where you saved the file.</li>
+<li>Run the command: <code>python test_leap_year.py</code></li>
+</ol>
+<p>You will see output indicating how many tests ran and whether they passed or failed. If all tests pass, it means your <code>is_leap</code> function is correctly implementing the standard Gregorian leap year rules for the test cases provided.</p>
+</div>
+</div>
+</section>
+<section id="save-and-resume-a-chat" class="level2">
+<h2 class="anchored" data-anchor-id="save-and-resume-a-chat">Save and resume a chat</h2>
+<p>You can use the <code>chat.getHistory</code> method to get the history of the chat. This will return an array of <code>Content[]</code> objects, which you can use to resume the chat later.</p>
+<div id="cell-28" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat_history <span class="op">=</span> chat<span class="op">.</span><span class="fu">getHistory</span>()<span class="op">;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(chat_history[<span class="dv">0</span>]<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> new_chat <span class="op">=</span> ai<span class="op">.</span><span class="at">chats</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> system_prompt<span class="op">,</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  history<span class="op">:</span> chat_history<span class="op">,</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat_response_3 <span class="op">=</span> <span class="cf">await</span> new_chat<span class="op">.</span><span class="fu">sendMessage</span>({</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> <span class="st">"What was the name of the function again?"</span><span class="op">,</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(chat_response_3<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>42</code></pre>
+<pre><code>{
+  "role": "user",
+  "parts": [
+    {
+      "text": "Write a function that checks if a year is a leap year."
+    }
+  ]
+}</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>The name of the function is <code>is_leap</code>.</p>
+</div>
+</div>
+</section>
+<section id="serialize-and-deserialize-a-chat" class="level2">
+<h2 class="anchored" data-anchor-id="serialize-and-deserialize-a-chat">Serialize and deserialize a chat</h2>
+<p>In the above example we just saved the chat history in a variable and reused it. But that’s not very practical, is it? To overcome this we can serialize and deserialize the chat history. This way we can save it to a file or a database and load it later. Unfortunately, the SDK doesn’t provide a method to do this yet, but we can do it manually.</p>
+<div id="cell-30" class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Content } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> serialized_chat <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(chat_history<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>fs<span class="op">.</span><span class="fu">writeFileSync</span>(path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets"</span><span class="op">,</span> <span class="st">"chat_history.json"</span>)<span class="op">,</span> serialized_chat)<span class="op">;</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat_history_file <span class="op">=</span> fs<span class="op">.</span><span class="fu">readFileSync</span>(path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets"</span><span class="op">,</span> <span class="st">"chat_history.json"</span>)<span class="op">,</span> <span class="st">"utf-8"</span>)<span class="op">;</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat_history_data <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(chat_history_file) <span class="im">as</span> Content[]<span class="op">;</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> new_chat_from_file <span class="op">=</span> ai<span class="op">.</span><span class="at">chats</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> system_prompt<span class="op">,</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  history<span class="op">:</span> chat_history_data<span class="op">,</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat_response_4 <span class="op">=</span> <span class="cf">await</span> new_chat_from_file<span class="op">.</span><span class="fu">sendMessage</span>({</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> <span class="st">"What was the name of the function again?"</span><span class="op">,</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(chat_response_4<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>The name of the function is <code>is_leap</code>.</p>
 </div>
 </div>
 
@@ -838,15 +1373,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
   });
   </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../quickstarts/Text_Generation.html" class="pagination-link" aria-label="Text Generation">
-        <span class="nav-page-text">Text Generation</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 
 
