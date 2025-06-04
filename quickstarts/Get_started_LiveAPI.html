@@ -674,7 +674,7 @@ Close: </code></pre>
 <h2 class="anchored" data-anchor-id="working-with-resumable-sessions">Working with resumable sessions</h2>
 <p>Session resumption allows you to return to a previous interaction with the Live API by sending the last session handle you got from the previous session.</p>
 <p>When you set your session to be resumable, the session information keeps stored on the Live API for up to 24 hours. In this time window, you can resume the conversation and refer to previous information you have shared with the model.</p>
-<div id="cell-20" class="cell" data-execution_count="38">
+<div id="cell-19" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">// @ts-expect-error duplicate identifier</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { LiveServerMessage<span class="op">,</span> Modality } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -771,14 +771,14 @@ Close: </code></pre>
 </div>
 </div>
 <p>With the session resumption you have the session handle to refer to your previous sessions. In this example, the handle is saved at the <code>handle</code> variable as below:</p>
-<div id="cell-22" class="cell" data-execution_count="43">
+<div id="cell-21" class="cell" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">debug</span>(<span class="st">"Session handle:"</span><span class="op">,</span> HANDLE)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Session handle: CihrNGZyMjh4dXY3cXFkYzVmMjR5cnlmZ2w5bnBvNTRhcmoxNW1lN2Fi</code></pre>
 </div>
 </div>
 <p>Now you can start a new Live API session, but this time pointing to a handle from a previous session. Also, to test you could gather information from the previous session, you will ask the model what was the second question you asked before (in this example, it was “what is the capital of Brazil?”). You can see the Live API recovering that information:</p>
-<div id="cell-24" class="cell" data-execution_count="40">
+<div id="cell-23" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">resumable_session</span>(HANDLE<span class="op">,</span> [<span class="st">"what was the last question I asked?"</span>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Connecting to the service with handle CihrNGZyMjh4dXY3cXFkYzVmMjR5cnlmZ2w5bnBvNTRhcmoxNW1lN2Fi...
