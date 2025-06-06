@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_LiveAPI_tools.html</loc>
+    <lastmod>2025-06-06T04:18:31.891Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started.html</loc>
+    <lastmod>2025-06-06T04:18:31.891Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/index.html</loc>
+    <lastmod>2025-06-06T04:18:31.873Z</lastmod>
+  </url>
+  <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_LiveAPI.html</loc>
-    <lastmod>2025-06-04T16:46:43.845Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fallendeity.github.io/deepmind-starter/docs/index.html</loc>
-    <lastmod>2025-06-04T16:46:43.827Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_Started.html</loc>
-    <lastmod>2025-06-04T16:46:43.845Z</lastmod>
+    <lastmod>2025-06-06T04:18:31.891Z</lastmod>
   </url>
 </urlset>
