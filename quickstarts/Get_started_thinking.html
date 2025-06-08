@@ -1,0 +1,2402 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Use Gemini thinking – Gemini Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../quickstarts/Get_started_TTS.html" rel="next">
+<link href="../quickstarts/Get_started_LyriaRealtime.html" rel="prev">
+<link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-64b8bb3f99dd2cc6988639f32c34bd6c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Use Gemini thinking – Gemini Cookbook">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_thinking_files/figure-html/cell-13-output-1.png">
+<meta property="og:site_name" content="Gemini Cookbook">
+<meta property="og:image:height" content="906">
+<meta property="og:image:width" content="936">
+<meta name="twitter:title" content="Use Gemini thinking – Gemini Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_thinking_files/figure-html/cell-13-output-1.png">
+<meta name="twitter:image-height" content="906">
+<meta name="twitter:image-width" content="936">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Gemini Cookbook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../quickstarts/Get_started.html" aria-current="page"> 
+<span class="menu-text">Quickstarts</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://github.com/FallenDeity/deepmind-starter/">
+            Source Code
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Get_started.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Get_started_thinking.html">Use Gemini thinking</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Quickstarts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multimodal Live API - Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Use Gemini thinking</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#understanding-the-thinking-models" id="toc-understanding-the-thinking-models" class="nav-link active" data-scroll-target="#understanding-the-thinking-models">Understanding the thinking models</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a>
+  <ul class="collapse">
+  <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
+  <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
+  <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
+  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
+  <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
+  </ul></li>
+  <li><a href="#using-the-thinking-models" id="toc-using-the-thinking-models" class="nav-link" data-scroll-target="#using-the-thinking-models">Using the thinking models</a>
+  <ul class="collapse">
+  <li><a href="#using-adaptive-thinking" id="toc-using-adaptive-thinking" class="nav-link" data-scroll-target="#using-adaptive-thinking">Using adaptive thinking</a></li>
+  <li><a href="#disabling-the-thinking-steps" id="toc-disabling-the-thinking-steps" class="nav-link" data-scroll-target="#disabling-the-thinking-steps">Disabling the thinking steps</a></li>
+  <li><a href="#solving-a-physics-problem" id="toc-solving-a-physics-problem" class="nav-link" data-scroll-target="#solving-a-physics-problem">Solving a physics problem</a></li>
+  <li><a href="#working-with-multimodal-problems" id="toc-working-with-multimodal-problems" class="nav-link" data-scroll-target="#working-with-multimodal-problems">Working with multimodal problems</a></li>
+  <li><a href="#solving-brain-teasers" id="toc-solving-brain-teasers" class="nav-link" data-scroll-target="#solving-brain-teasers">Solving brain teasers</a></li>
+  <li><a href="#solving-a-math-puzzle-with-the-maximum-thinkingbudget" id="toc-solving-a-math-puzzle-with-the-maximum-thinkingbudget" class="nav-link" data-scroll-target="#solving-a-math-puzzle-with-the-maximum-thinkingbudget">Solving a math puzzle with the maximum <code>thinkingBudget</code></a></li>
+  <li><a href="#working-thoughts-summaries" id="toc-working-thoughts-summaries" class="nav-link" data-scroll-target="#working-thoughts-summaries">Working thoughts summaries</a></li>
+  </ul></li>
+  <li><a href="#working-with-gemini-thinking-models-and-tools" id="toc-working-with-gemini-thinking-models-and-tools" class="nav-link" data-scroll-target="#working-with-gemini-thinking-models-and-tools">Working with Gemini thinking models and tools</a>
+  <ul class="collapse">
+  <li><a href="#solving-a-problem-using-the-code-execution-tool" id="toc-solving-a-problem-using-the-code-execution-tool" class="nav-link" data-scroll-target="#solving-a-problem-using-the-code-execution-tool">Solving a problem using the code execution tool</a></li>
+  <li><a href="#thinking-with-search-tool" id="toc-thinking-with-search-tool" class="nav-link" data-scroll-target="#thinking-with-search-tool">Thinking with search tool</a></li>
+  </ul></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Get_started_thinking.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Get_started_thinking.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Get_started.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Get_started_thinking.html">Use Gemini thinking</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Use Gemini thinking</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="https://ai.google.dev/gemini-api/docs/models#gemini-2.5-flash-preview-04-17">Gemini 2.5 Flash</a>, <a href="https://ai.google.dev/gemini-api/docs/models#gemini-2.5-pro-preview-03-25">Gemini 2.5 Pro</a> and <a href="">Gemini Flash 2.0 Thinking</a> are models that are trained to do a <a href="https://ai.google.dev/gemini-api/docs/thinking-mode">thinking process</a> (or reasoning) before getting to a final answer. As a result, those models are capable of stronger reasoning capabilities in its responses than previous models.</p>
+<p>You’ll see examples of those reasoning capabilities with <a href="#scrollTo=GAa7sCD7tuMW">code understanding</a>, <a href="#scrollTo=ADiJV-fFyjRe">geometry</a> and <a href="#scrollTo=EXPPWpt6ttJZ">math</a> problems.</p>
+<p>As you will see, the model is exposing its thoughts so you can have a look at its reasoning and how it did reach its conclusions.</p>
+<section id="understanding-the-thinking-models" class="level2">
+<h2 class="anchored" data-anchor-id="understanding-the-thinking-models">Understanding the thinking models</h2>
+<p><a href="https://ai.google.dev/gemini-api/docs/thinking">Gemini 2.5 models</a> are optimized for complex tasks that need multiple rounds of strategyzing and iteratively solving.</p>
+<p><a href="https://ai.google.dev/gemini-api/docs/models#gemini-2.5-flash-preview-04-17">Gemini 2.5 Flash</a> in particular, brings the flexibility of using <code>thinking_budget</code> - a parameter that offers fine-grained control over the maximum number of tokens a model can generate while thinking. Alternatively, you can designate a precise token allowance for the “thinking” stage through the adjusment of the <code>thinking_budget</code> parameter. This allowance can vary between 0 and 24576 tokens for 2.5 Flash.</p>
+<p>For more information about all Gemini models, check the <a href="https://ai.google.dev/gemini-api/docs/models/gemini">documentation</a> for extended information on each of them.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>On this notebook all examples are using Gemini 2.5 Flash and the new <code>thinking_budget</code> parameter. The <code>thinking_budget</code> parameter is not available for Gemini 2.5 Pro for now - If you want to use Gemini 2.5 Pro, you can remove the <code>thinking_budget</code> parameter from the code.</p>
+</div>
+</div>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="install-the-google-genai-sdk" class="level3">
+<h3 class="anchored" data-anchor-id="install-the-google-genai-sdk">Install the Google GenAI SDK</h3>
+<p>Install the Google GenAI SDK from <a href="https://www.npmjs.com/package/@google/genai">npm</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install @google/genai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="setup-your-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="setup-your-api-key">Setup your API key</h3>
+<p>You can <a href="https://aistudio.google.com/app/apikey">create</a> your API key using Google AI Studio with a single click.</p>
+<p>Remember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a <code>.env</code> file. You can also set it as an environment variable or use a secret manager.</p>
+<p>Here’s how to set it up in a <code>.env</code> file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch .env</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;"</span> <span class="op">&gt;&gt;</span> .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another option is to set the API key as an environment variable. You can do this in your terminal with the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export GEMINI_API_KEY=<span class="st">"&lt;YOUR_API_KEY&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="load-the-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-api-key">Load the API key</h3>
+<p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, we can load the API key in our code:</p>
+<div id="cell-5" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../.env"</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GEMINI_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">GEMINI_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>GEMINI_API_KEY) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"GEMINI_API_KEY is not set in the environment variables"</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"GEMINI_API_KEY is set in the environment variables"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEMINI_API_KEY is set in the environment variables</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
+<pre><code>│
+├── .env
+└── quickstarts
+    └── Get_started_thinking.ipynb</code></pre>
+</div>
+</div>
+</section>
+<section id="initialize-sdk-client" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
+<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
+<div id="cell-8" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="select-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
+<div id="cell-10" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="using-the-thinking-models" class="level2">
+<h2 class="anchored" data-anchor-id="using-the-thinking-models">Using the thinking models</h2>
+<p>Here are some quite complex examples of what Gemini thinking models can solve.</p>
+<p>In each of them you can select different models to see how this new model compares to its predecesors.</p>
+<p>In some cases, you’ll still get the good answer from the other models, in that case, re-run it a couple of times and you’ll see that Gemini thinking models are more consistent thanks to their thinking step.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For now, thinking budget is a feature available for Gemini 2.5 Flash model only.</p>
+</div>
+</div>
+<section id="using-adaptive-thinking" class="level3">
+<h3 class="anchored" data-anchor-id="using-adaptive-thinking">Using adaptive thinking</h3>
+<p>You can start by asking the model to explain a concept and see how it does reasoning before answering.</p>
+<p>Starting with the adaptive <code>thinkingBudget</code> - which is the default when you don’t specify a budget - the model will dynamically adjust the budget based on the complexity of the request.</p>
+<div id="cell-13" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> adaptive_thinking_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    You are playing the 20 question game. You know that what you are looking for</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="vs">    is a aquatic mammal that doesn't live in the sea, and that's smaller than a</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    cat. What could that be and how could you make sure?</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">,</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(adaptive_thinking_response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Given your criteria, here are the most likely candidates for an aquatic mammal that doesn’t live in the sea and is smaller than a cat:</p>
+<ol type="1">
+<li><strong>Water Shrew (e.g., Common Water Shrew, American Water Shrew, Eurasian Water Shrew):</strong>
+<ul>
+<li><strong>Aquatic Mammal:</strong> Yes, they are true mammals that are highly adapted to aquatic life, often hunting insects and small fish in streams and ponds.</li>
+<li><strong>Doesn’t live in the sea:</strong> Correct, they are freshwater dwellers.</li>
+<li><strong>Smaller than a cat:</strong> Absolutely, they are tiny, only a few inches long, resembling a mouse with a pointed snout.</li>
+</ul></li>
+<li><strong>Desman (e.g., Pyrenean Desman, Russian Desman):</strong>
+<ul>
+<li><strong>Aquatic Mammal:</strong> Yes, they are semi-aquatic insectivorous mammals related to moles, living in freshwater rivers and lakes.</li>
+<li><strong>Doesn’t live in the sea:</strong> Correct, exclusively freshwater.</li>
+<li><strong>Smaller than a cat:</strong> Yes, their body length is usually around 4-8 inches, not including their tail, making them significantly smaller than a cat.</li>
+</ul></li>
+<li><strong>Water Vole:</strong>
+<ul>
+<li><strong>Aquatic Mammal:</strong> Yes, these rodents are semi-aquatic, living along the banks of rivers, streams, and ditches, feeding on vegetation.</li>
+<li><strong>Doesn’t live in the sea:</strong> Correct, they are freshwater animals.</li>
+<li><strong>Smaller than a cat:</strong> Yes, generally smaller than a cat, though some larger individuals might approach the size of a very small kitten.</li>
+</ul></li>
+<li><strong>Platypus:</strong>
+<ul>
+<li><strong>Aquatic Mammal:</strong> Yes, it’s one of only two monotremes (egg-laying mammals) and is highly aquatic.</li>
+<li><strong>Doesn’t live in the sea:</strong> Correct, found in freshwater rivers and lakes in Australia.</li>
+<li><strong>Smaller than a cat:</strong> Yes, typically about 12-15 inches long, body-wise, which is smaller than most domestic cats.</li>
+</ul></li>
+</ol>
+<hr>
+<section id="how-to-make-sure-using-20-questions-style" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-make-sure-using-20-questions-style">How to make sure (using 20 Questions style):</h3>
+<p>To narrow it down and confirm, you’d ask questions that target the specific characteristics and differences between these potential answers.</p>
+<p><strong>General Confirming Questions:</strong></p>
+<ol type="1">
+<li><strong>Is it typically found in freshwater environments like rivers, streams, or ponds?</strong> (Confirms “doesn’t live in the sea”)</li>
+<li><strong>Is its primary diet composed of insects or small aquatic invertebrates?</strong> (Helps differentiate shrews/desmans/platypus from voles)</li>
+<li><strong>Does it have webbed feet?</strong> (Most candidates have some webbing, but it’s more pronounced in desmans and platypus)</li>
+<li><strong>Is it native to North America, Europe, Asia, or Australia?</strong> (Geographic location can help narrow it down significantly)</li>
+</ol>
+<p><strong>Differentiating Questions:</strong></p>
+<ol start="5" type="1">
+<li><strong>Does it lay eggs?</strong>
+<ul>
+<li>If <strong>YES</strong>: It’s almost certainly a <strong>Platypus</strong>. (This is a huge differentiator for mammals)</li>
+<li>If <strong>NO</strong>: It’s a placental mammal (shrew, desman, vole).</li>
+</ul></li>
+<li><strong>Does it have a very long, pointed snout, almost like a trunk?</strong>
+<ul>
+<li>If <strong>YES</strong>: Likely a <strong>Desman</strong>. (Very distinctive feature)</li>
+<li>If <strong>NO</strong>: Could be a shrew or vole.</li>
+</ul></li>
+<li><strong>Is it known for building elaborate burrows along riverbanks?</strong>
+<ul>
+<li>If <strong>YES</strong>: Could be a <strong>Water Vole</strong> or a <strong>Platypus</strong>. (Platypus builds extensive burrows; water voles are also strong burrowers).</li>
+</ul></li>
+<li><strong>Is it considered a rodent?</strong>
+<ul>
+<li>If <strong>YES</strong>: It’s a <strong>Water Vole</strong>. (This would rule out shrews, desmans, and platypus as they are not rodents).</li>
+</ul></li>
+<li><strong>Does it have extremely small eyes and ears, often hidden in its fur?</strong>
+<ul>
+<li>If <strong>YES</strong>: Consistent with <strong>Water Shrews</strong> and <strong>Desmans</strong>, which rely more on touch and smell.</li>
+</ul></li>
+</ol>
+<p>By asking a series of these specific questions, you can logically eliminate options and pinpoint the correct aquatic mammal.</p>
+</section>
+</div>
+</div>
+<p>Looking to the response metadata, you can see not only the amount of tokens on your input and the amount of tokens used for the response, but also the amount of tokens used for the thinking step - As you can see here, the model used around 1500 tokens in the thinking steps:</p>
+<div id="cell-15" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(adaptive_thinking_response<span class="op">.</span><span class="at">usageMetadata</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{
+  "promptTokenCount": 60,
+  "candidatesTokenCount": 939,
+  "totalTokenCount": 2494,
+  "promptTokensDetails": [
+    {
+      "modality": "TEXT",
+      "tokenCount": 60
+    }
+  ],
+  "thoughtsTokenCount": 1495
+}</code></pre>
+</div>
+</div>
+</section>
+<section id="disabling-the-thinking-steps" class="level3">
+<h3 class="anchored" data-anchor-id="disabling-the-thinking-steps">Disabling the thinking steps</h3>
+<p>You can also disable the thinking steps by setting the <code>thinkingBudget</code> to 0. You’ll see that in this case, the model doesn’t think of the platipus as a possible answer.</p>
+<div id="cell-17" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> adaptive_thinking_response_2 <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="vs">      You are playing the 20 question game. You know that what you are looking for</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="vs">      is a aquatic mammal that doesn't live in the sea, and that's smaller than a</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="vs">      cat. What could that be and how could you make sure?</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="vs">      `</span><span class="op">,</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    thinkingConfig<span class="op">:</span> {</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>      thinkingBudget<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(adaptive_thinking_response_2<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>This is a fun one! Let’s break it down.</p>
+<p><strong>The Answer:</strong></p>
+<p>Based on your criteria, the most likely aquatic mammal that doesn’t live in the sea and is smaller than a cat is a <strong>Pygmy Shrew (genus <em>Sorex</em> or <em>Suncus</em>)</strong> – specifically, some species are semi-aquatic.</p>
+<p><strong>Why?</strong></p>
+<ul>
+<li><strong>Aquatic Mammal:</strong> While many people think of shrews as terrestrial, several species are highly adapted to a semi-aquatic lifestyle, often found near streams, ponds, and wetlands. They are excellent swimmers and divers.</li>
+<li><strong>Doesn’t Live in the Sea:</strong> They are exclusively freshwater or terrestrial/wetland creatures.</li>
+<li><strong>Smaller Than a Cat:</strong> Absolutely! Pygmy shrews are among the smallest mammals in the world, often weighing only a few grams and measuring just a few centimeters long, excluding the tail. They are significantly smaller than a cat.</li>
+</ul>
+<p><strong>How could you make sure (in a 20 questions game context)?</strong></p>
+<p>Here’s how you could use your 20 questions to narrow it down and confirm, leading to Pygmy Shrew:</p>
+<p><strong>Initial Questions to Confirm Categories:</strong></p>
+<ol type="1">
+<li><strong>“Is it a mammal?”</strong> (You already know this, but it’s good to confirm the broader category for the game.)</li>
+<li><strong>“Does it live in water for a significant part of its life?”</strong> (Confirming “aquatic.”)</li>
+<li><strong>“Is its primary habitat freshwater?”</strong> (Confirming “doesn’t live in the sea.”)</li>
+<li><strong>“Is it smaller than a typical house cat?”</strong> (Confirming “smaller than a cat.”)</li>
+</ol>
+<p><strong>Narrowing Down Questions (if the opponent keeps saying “yes”):</strong></p>
+<ol start="5" type="1">
+<li><strong>“Does it primarily eat fish or other vertebrates?”</strong> (No - shrews primarily eat invertebrates)</li>
+<li><strong>“Does it have webbed feet?”</strong> (Some semi-aquatic shrews do have fringe-like hairs that aid in swimming, but not true webbing like a duck or otter.)</li>
+<li><strong>“Does it lay eggs?”</strong> (No - mammal)</li>
+<li><strong>“Is it a rodent?”</strong> (No - shrews are in the order Eulipotyphla, not Rodentia)</li>
+<li><strong>“Does it have long, prominent whiskers?”</strong> (Yes - shrews have very sensitive whiskers)</li>
+<li><strong>“Is it blind or have very poor eyesight?”</strong> (Yes - shrews rely more on hearing and smell)</li>
+<li><strong>“Does it have a very high metabolism and need to eat constantly?”</strong> (Yes - a key characteristic of shrews)</li>
+<li><strong>“Does it typically live underground or in dense vegetation near water?”</strong> (Yes)</li>
+<li><strong>“Is it known for being extremely small, possibly one of the smallest mammals?”</strong> (Yes!)</li>
+</ol>
+<p><strong>Closer to the Reveal:</strong></p>
+<ol start="14" type="1">
+<li><strong>“Is it often mistaken for a mouse?”</strong> (Yes, due to size and general appearance, but they are very different animals)</li>
+<li><strong>“Does it have a long, pointed snout?”</strong> (Yes! A defining feature of shrews.)</li>
+</ol>
+<p><strong>Confirmation Question:</strong></p>
+<ol start="16" type="1">
+<li><strong>“Is it a type of shrew?”</strong> (Hopefully “Yes!”)</li>
+<li><strong>“More specifically, is it a Pygmy Shrew or a similar very small semi-aquatic shrew?”</strong> (This is where you’d confirm your hypothesis.)</li>
+</ol>
+<p>By asking these types of questions, you’d eliminate other possibilities (like very small rodents that aren’t aquatic, or larger aquatic mammals) and hone in on the unique characteristics of a Pygmy Shrew.</p>
+</div>
+</div>
+<p>Now you can see that the response is faster as the model didn’t perform any thinking step. Also you can see that no tokens were used for the thinking step:</p>
+<div id="cell-19" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(adaptive_thinking_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{
+  "promptTokenCount": 60,
+  "candidatesTokenCount": 805,
+  "totalTokenCount": 865,
+  "promptTokensDetails": [
+    {
+      "modality": "TEXT",
+      "tokenCount": 60
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+</section>
+<section id="solving-a-physics-problem" class="level3">
+<h3 class="anchored" data-anchor-id="solving-a-physics-problem">Solving a physics problem</h3>
+<p>Now, try with a simple physics comprehension example. First you can disable the <code>thinkingBudget</code> to see how the model performs:</p>
+<div id="cell-21" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> physics_problem_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    A cantilever beam of length L=3m has a rectangular cross-section (width b=0.1m, height h=0.2m) and is made of steel (E=200 GPa).</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="vs">    It is subjected to a uniformly distributed load w=5 kN/m along its entire length and a point load P=10 kN at its free end.</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    Calculate the maximum bending stress (σ_max).</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">,</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    thinkingConfig<span class="op">:</span> {</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>      thinkingBudget<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(physics_problem_response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Here’s a step-by-step calculation of the maximum bending stress in the cantilever beam:</p>
+<p><strong>1. Define Given Parameters:</strong></p>
+<ul>
+<li>Length of beam (L) = 3 m</li>
+<li>Width of cross-section (b) = 0.1 m</li>
+<li>Height of cross-section (h) = 0.2 m</li>
+<li>Modulus of Elasticity (E) = 200 GPa = 200 x 10^9 N/m^2 (Note: E is not directly used for stress calculation but is usually given in beam problems)</li>
+<li>Uniformly distributed load (w) = 5 kN/m = 5000 N/m</li>
+<li>Point load (P) = 10 kN = 10000 N</li>
+</ul>
+<p><strong>2. Calculate the Area Moment of Inertia (I):</strong></p>
+<p>For a rectangular cross-section, the area moment of inertia about the neutral axis is: I = (b * h^3) / 12</p>
+<p>I = (0.1 m * (0.2 m)^3) / 12 I = (0.1 m * 0.008 m^3) / 12 I = 0.0008 m^4 / 12 I = 6.6667 x 10^-5 m^4</p>
+<p><strong>3. Determine the Maximum Bending Moment (M_max):</strong></p>
+<p>For a cantilever beam, the maximum bending moment occurs at the fixed support. It’s the sum of the moments due to the distributed load and the point load.</p>
+<ul>
+<li><p><strong>Moment due to uniformly distributed load (M_w):</strong> M_w = w * L^2 / 2 M_w = (5000 N/m) * (3 m)^2 / 2 M_w = 5000 N/m * 9 m^2 / 2 M_w = 45000 Nm / 2 M_w = 22500 Nm</p></li>
+<li><p><strong>Moment due to point load (M_P):</strong> M_P = P * L M_P = (10000 N) * (3 m) M_P = 30000 Nm</p></li>
+<li><p><strong>Total Maximum Bending Moment (M_max):</strong> M_max = M_w + M_P M_max = 22500 Nm + 30000 Nm M_max = 52500 Nm</p></li>
+</ul>
+<p><strong>4. Determine the Distance to the Extreme Fiber (y_max):</strong></p>
+<p>For a rectangular cross-section, the neutral axis is at the geometric center. The maximum stress occurs at the top or bottom surface. y_max = h / 2</p>
+<p>y_max = 0.2 m / 2 y_max = 0.1 m</p>
+<p><strong>5. Calculate the Maximum Bending Stress (σ_max):</strong></p>
+<p>The bending stress formula is: σ_max = (M_max * y_max) / I</p>
+<p>σ_max = (52500 Nm * 0.1 m) / (6.6667 x 10^-5 m^4) σ_max = 5250 Nm^2 / (6.6667 x 10^-5 m^4) σ_max = 78749439.06 N/m^2</p>
+<p>Convert to Pascals (Pa) or MegaPascals (MPa): σ_max = 78,749,439.06 Pa σ_max ≈ 78.75 x 10^6 Pa σ_max ≈ 78.75 MPa</p>
+<p><strong>Conclusion:</strong></p>
+<p>The maximum bending stress in the cantilever beam is approximately <strong>78.75 MPa</strong>.</p>
+</div>
+</div>
+<p>You can see that the model used no tokens for the thinking step:</p>
+<div id="cell-23" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(physics_problem_response<span class="op">.</span><span class="at">usageMetadata</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{
+  "promptTokenCount": 97,
+  "candidatesTokenCount": 871,
+  "totalTokenCount": 968,
+  "promptTokensDetails": [
+    {
+      "modality": "TEXT",
+      "tokenCount": 97
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+<p>Then you can set a fixed maximum budget (<code>thinkingBudget=4096</code>, or 4096 tokens) for the thinking step to see how the model performs.</p>
+<p>You can see that, even producing a similar result for the same prompt, the amount of details shared in the answer makes it deeper and more consistent.</p>
+<div id="cell-25" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> physics_problem_response_2 <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="vs">      A cantilever beam of length L=3m has a rectangular cross-section (width b=0.1m, height h=0.2m) and is made of steel (E=200 GPa).</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="vs">      It is subjected to a uniformly distributed load w=5 kN/m along its entire length and a point load P=10 kN at its free end.</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="vs">      Calculate the maximum bending stress (σ_max).</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="vs">      `</span><span class="op">,</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    thinkingConfig<span class="op">:</span> {</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>      thinkingBudget<span class="op">:</span> <span class="dv">4096</span><span class="op">,</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(physics_problem_response_2<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>To calculate the maximum bending stress (σ_max) in the cantilever beam, we need to follow these steps:</p>
+<ol type="1">
+<li><strong>Calculate the moment of inertia (I) of the cross-section.</strong></li>
+<li><strong>Determine the maximum bending moment (M_max) acting on the beam.</strong></li>
+<li><strong>Calculate the maximum distance (y_max) from the neutral axis to the extreme fiber.</strong></li>
+<li><strong>Apply the bending stress formula: σ_max = (M_max * y_max) / I.</strong></li>
+</ol>
+<p>Let’s break down each step:</p>
+<p><strong>Given Data:</strong> * Length L = 3 m * Width b = 0.1 m * Height h = 0.2 m * Young’s Modulus E = 200 GPa = 200 × 10^9 Pa (or N/m²) - <em>Note: E is not needed for stress calculation directly, only for deflection.</em> * Uniformly distributed load w = 5 kN/m = 5 × 10^3 N/m * Point load P = 10 kN = 10 × 10^3 N</p>
+<hr>
+<p><strong>1. Calculate the Moment of Inertia (I) for a rectangular cross-section:</strong> The formula for the moment of inertia of a rectangle about its centroidal axis is: I = (b * h^3) / 12</p>
+<p>I = (0.1 m * (0.2 m)^3) / 12 I = (0.1 * 0.008) / 12 I = 0.0008 / 12 I = 6.6667 × 10^-5 m^4</p>
+<hr>
+<p><strong>2. Determine the Maximum Bending Moment (M_max):</strong> For a cantilever beam, the maximum bending moment occurs at the fixed support (where it connects to the wall). We need to sum the moments caused by each load at this point.</p>
+<ul>
+<li><p><strong>Moment due to the point load P at the free end (M_P):</strong> M_P = P * L M_P = (10 × 10^3 N) * (3 m) M_P = 30 × 10^3 N·m = 30 kN·m</p></li>
+<li><p><strong>Moment due to the uniformly distributed load w along the entire length (M_w):</strong> This can be thought of as a concentrated load (w * L) acting at the centroid of the distributed load, which is L/2 from the fixed support. M_w = (w * L) * (L/2) M_w = w * L^2 / 2 M_w = (5 × 10^3 N/m) * (3 m)^2 / 2 M_w = (5 × 10^3 * 9) / 2 M_w = 45 × 10^3 / 2 M_w = 22.5 × 10^3 N·m = 22.5 kN·m</p></li>
+<li><p><strong>Total Maximum Bending Moment (M_max):</strong> M_max = M_P + M_w M_max = 30 × 10^3 N·m + 22.5 × 10^3 N·m M_max = 52.5 × 10^3 N·m = 52.5 kN·m</p></li>
+</ul>
+<hr>
+<p><strong>3. Calculate the Maximum Distance (y_max) from the neutral axis:</strong> For a rectangular cross-section, the neutral axis is at the geometric center, and the maximum distance to the extreme fibers (top or bottom surface) is half the height. y_max = h / 2 y_max = 0.2 m / 2 y_max = 0.1 m</p>
+<hr>
+<p><strong>4. Apply the Bending Stress Formula (σ_max):</strong> The maximum bending stress occurs at the location of M_max (fixed support) and at y_max (top/bottom surface). σ_max = (M_max * y_max) / I</p>
+<p>σ_max = ( (52.5 × 10^3 N·m) * (0.1 m) ) / (6.6667 × 10^-5 m^4) σ_max = (5.25 × 10^3 N·m²) / (6.6667 × 10^-5 m^4) σ_max = 78,750,000 N/m²</p>
+<p>Convert to Megapascals (MPa), where 1 MPa = 10^6 Pa: σ_max = 78.75 × 10^6 Pa σ_max = 78.75 MPa</p>
+<hr>
+<p><strong>Final Answer:</strong> The maximum bending stress (σ_max) in the cantilever beam is <strong>78.75 MPa</strong>.</p>
+</div>
+</div>
+<p>Now you can see that the model used around 1300 tokens for the thinking step (not necessarily using the full budget you set):</p>
+<div id="cell-27" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(physics_problem_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{
+  "promptTokenCount": 97,
+  "candidatesTokenCount": 1125,
+  "totalTokenCount": 2564,
+  "promptTokensDetails": [
+    {
+      "modality": "TEXT",
+      "tokenCount": 97
+    }
+  ],
+  "thoughtsTokenCount": 1342
+}</code></pre>
+</div>
+</div>
+</section>
+<section id="working-with-multimodal-problems" class="level3">
+<h3 class="anchored" data-anchor-id="working-with-multimodal-problems">Working with multimodal problems</h3>
+<p>This geometry problem requires complex reasoning and is also using Gemini multimodal abilities to read the image. In this case, you are fixing a value to the <code>thinkingBudget</code> so the model will use up to 8196 tokens for the thinking step.</p>
+<div id="cell-29" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> IMG_URL <span class="op">=</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/geometry.png"</span><span class="op">;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> downloadFile <span class="op">=</span> <span class="kw">async</span> (url<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> filePath<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>fs<span class="op">.</span><span class="fu">existsSync</span>(path<span class="op">.</span><span class="fu">dirname</span>(filePath))) {</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    fs<span class="op">.</span><span class="fu">mkdirSync</span>(path<span class="op">.</span><span class="fu">dirname</span>(filePath)<span class="op">,</span> { recursive<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to download image: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">blob</span>()<span class="op">;</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> bufferData <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> buffer<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">;</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(filePath<span class="op">,</span> bufferData)<span class="op">;</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> geometry_img_path <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/thinking"</span><span class="op">,</span> <span class="st">"geometry.png"</span>)<span class="op">;</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(IMG_URL<span class="op">,</span> geometry_img_path)<span class="op">;</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(geometry_img_path))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Get_started_thinking_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-30" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> image_file <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  file<span class="op">:</span> geometry_img_path<span class="op">,</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    mimeType<span class="op">:</span> <span class="st">"image/png"</span><span class="op">,</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    displayName<span class="op">:</span> <span class="st">"geometry.png"</span><span class="op">,</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> geometry_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(image_file<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> image_file<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">"image/png"</span>)<span class="op">,</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"What's the area of the overlapping region?"</span><span class="op">,</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    thinkingConfig<span class="op">:</span> {</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>      thinkingBudget<span class="op">:</span> <span class="dv">8192</span><span class="op">,</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(geometry_response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Let’s break down the problem by identifying the shapes and their dimensions from the given image.</p>
+<ol type="1">
+<li><strong>The Circle:</strong>
+<ul>
+<li>The numbers ‘3’ within the blue circle clearly indicate that the radius of the circle, <code>r</code>, is 3.</li>
+<li>The green lines originating from the center of the circle (which is also the right-angle vertex of the triangle) extend along the axes. These lines form a right angle (90 degrees), indicating that the portion of the circle relevant to the overlap is a quarter circle.</li>
+<li>The area of a full circle is <code>πr²</code>. The area of this quarter circle is <code>(1/4)πr² = (1/4)π(3)² = 9π/4</code>.</li>
+</ul></li>
+<li><strong>The Triangle:</strong>
+<ul>
+<li>It’s a right-angled triangle, with its right angle coinciding with the center of the circle. Let’s place this vertex at the origin (0,0) of a coordinate system.</li>
+<li>The vertical leg has a ‘3’ next to it, indicating its length is 3. So, this leg extends from (0,0) to (0,3).</li>
+<li>The horizontal leg has two ’3’s next to it. This means its total length is <code>3 + 3 = 6</code>. So, this leg extends from (0,0) to (6,0).</li>
+<li>The vertices of the triangle are (0,0), (6,0), and (0,3).</li>
+<li>The hypotenuse connects (0,3) and (6,0). The equation of the line passing through these points can be found: Slope <code>m = (0 - 3) / (6 - 0) = -3/6 = -1/2</code>. Using the point-slope form <code>y - y1 = m(x - x1)</code> with (6,0): <code>y - 0 = (-1/2)(x - 6)</code>, so <code>y = -1/2 x + 3</code>.</li>
+</ul></li>
+<li><strong>The Overlapping Region:</strong>
+<ul>
+<li><p>The green-shaded area represents the overlapping region between the circle and the triangle.</p></li>
+<li><p>This region is bounded by the x-axis, the y-axis, the hypotenuse of the triangle, and the arc of the circle.</p></li>
+<li><p>We need to determine which boundary is “inner” in the first quadrant.</p></li>
+<li><p>The hypotenuse <code>y = -1/2 x + 3</code> intersects the circle <code>x² + y² = 3²</code> at two points. Let’s find them: Substitute <code>y</code> from the line equation into the circle equation: <code>x² + (-1/2 x + 3)² = 9</code> <code>x² + (1/4 x² - 3x + 9) = 9</code> <code>5/4 x² - 3x = 0</code> Factor out <code>x</code>: <code>x(5/4 x - 3) = 0</code> This gives two solutions for <code>x</code>:</p>
+<ul>
+<li><code>x = 0</code>: If <code>x=0</code>, then <code>y = -1/2(0) + 3 = 3</code>. This is the point (0,3). This point is a vertex of the triangle and also on the circle (0² + 3² = 9).</li>
+<li><code>5/4 x - 3 = 0</code>: <code>5/4 x = 3</code> =&gt; <code>x = 12/5 = 2.4</code>. If <code>x=2.4</code>, then <code>y = -1/2(2.4) + 3 = -1.2 + 3 = 1.8</code>. This is the point (2.4, 1.8). Let’s call this point <code>P = (2.4, 1.8)</code>. We check if it’s on the circle: <code>2.4² + 1.8² = 5.76 + 3.24 = 9</code>. Yes, it is.</li>
+</ul></li>
+<li><p>Now we understand the boundaries of the overlapping region:</p>
+<ul>
+<li>It starts at the origin (0,0).</li>
+<li>It goes up along the y-axis to (0,3).</li>
+<li>Then it follows the hypotenuse (line segment from (0,3) to (2.4, 1.8)).</li>
+<li>From (2.4, 1.8), it follows the arc of the circle to (3,0) (the point where the circle intersects the positive x-axis).</li>
+<li>Finally, it goes along the x-axis back to the origin (0,0).</li>
+</ul></li>
+<li><p>We can calculate this area by splitting it into two parts:</p>
+<ol type="1">
+<li>A polygon (a trapezoid or a triangle + rectangle)</li>
+<li>A circular sector.</li>
+</ol></li>
+<li><p><strong>Method 1: Decomposition</strong> Let O = (0,0), A = (0,3), P = (2.4, 1.8), B = (3,0). The overlapping region is the area of quadrilateral OAPB. We can split it into:</p>
+<ul>
+<li><p><strong>Triangle OAP’</strong>: A triangle with vertices O=(0,0), A=(0,3), and P=(2.4, 1.8). The area of a triangle given coordinates (0,0), (x1, y1), (x2, y2) is <code>1/2 |x1*y2 - x2*y1|</code>. This is simpler. Using the base along y-axis, (0,3) as vertex A, and (0,0) as vertex O, and the x-coordinate of P as height: <code>Area(OAP) = (1/2) * base * height = (1/2) * OA * (x-coordinate of P) = (1/2) * 3 * 2.4 = 3.6</code>.</p></li>
+<li><p><strong>Circular Sector OPB</strong>: A sector of the circle with radius 3, from the x-axis (angle 0) to the angle <code>θ</code> corresponding to point P=(2.4, 1.8). We find <code>cos(θ) = x/r = 2.4/3 = 4/5</code> and <code>sin(θ) = y/r = 1.8/3 = 3/5</code>. So, <code>θ = arcsin(3/5)</code>. The angle for point B=(3,0) is <code>0</code> radians. The angle for point P=(2.4,1.8) is <code>θ = arcsin(3/5)</code>. Area of sector OPB = <code>(1/2)r² * (angle in radians) = (1/2)(3)² * arcsin(3/5) = (9/2)arcsin(3/5)</code>.</p></li>
+<li><p>Total Area = Area(OAP) + Area(Sector OPB) Total Area = <code>3.6 + (9/2)arcsin(3/5)</code>.</p></li>
+</ul></li>
+<li><p><strong>Method 2: Integration</strong> The area can be expressed as the sum of two integrals: <code>Area = ∫[from 0 to 2.4] (-1/2 x + 3) dx + ∫[from 2.4 to 3] sqrt(9 - x²) dx</code> The first integral calculates the area under the hypotenuse from x=0 to x=2.4. This is a trapezoid with vertices (0,0), (2.4,0), (2.4,1.8), (0,3). Its area is <code>(1/2) * (3 + 1.8) * 2.4 = (1/2) * 4.8 * 2.4 = 5.76</code>. The second integral calculates the area under the circle’s arc from x=2.4 to x=3. This is <code>[ (x/2)sqrt(9 - x²) + (9/2)arcsin(x/3) ] from 2.4 to 3</code>. Evaluating at <code>x=3</code>: <code>(3/2)sqrt(0) + (9/2)arcsin(1) = 9π/4</code>. Evaluating at <code>x=2.4</code>: <code>(2.4/2)sqrt(9 - 2.4²) + (9/2)arcsin(2.4/3)</code> <code>= 1.2 * sqrt(9 - 5.76) + (9/2)arcsin(0.8)</code> <code>= 1.2 * sqrt(3.24) + (9/2)arcsin(4/5)</code> <code>= 1.2 * 1.8 + (9/2)arcsin(4/5)</code> <code>= 2.16 + (9/2)arcsin(4/5)</code>. So the second integral’s value is <code>9π/4 - (2.16 + (9/2)arcsin(4/5))</code>. Total Area = <code>5.76 + 9π/4 - 2.16 - (9/2)arcsin(4/5)</code> Total Area = <code>3.6 + 9π/4 - (9/2)arcsin(4/5)</code>.</p>
+<p>We know that <code>arcsin(4/5) = π/2 - arcsin(3/5)</code>. (Since <code>sin(θ) = 3/5</code> means <code>cos(θ) = 4/5</code>, so <code>θ</code> is <code>arcsin(3/5)</code> and <code>π/2 - θ</code> is <code>arccos(3/5)</code> or <code>arcsin(4/5)</code>). Substitute this into the expression: <code>Total Area = 3.6 + 9π/4 - (9/2)(π/2 - arcsin(3/5))</code> <code>= 3.6 + 9π/4 - 9π/4 + (9/2)arcsin(3/5)</code> <code>= 3.6 + (9/2)arcsin(3/5)</code>. Both methods yield the same result.</p></li>
+</ul></li>
+</ol>
+<p>The area of the overlapping region is <code>3.6 + (9/2)arcsin(3/5)</code>.</p>
+<p>The final answer is <span class="math inline">\(\boxed{3.6 + \frac{9}{2}\arcsin\left(\frac{3}{5}\right)}\)</span></p>
+</div>
+</div>
+</section>
+<section id="solving-brain-teasers" class="level3">
+<h3 class="anchored" data-anchor-id="solving-brain-teasers">Solving brain teasers</h3>
+<p>Here’s another brain teaser based on an image, this time it looks like a mathematical problem, but it cannot actually be solved mathematically. If you check the toughts of the model you’ll see that it will realize it and come up with an out-of-the-box solution.</p>
+<p>In this case, you are fixing a value to the <code>thinkingBudget</code> so the model will use up to 24576 tokens for the thinking step</p>
+<div id="cell-32" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> POOL_IMG_URL <span class="op">=</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/pool.png"</span><span class="op">;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> pool_img_path <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/thinking"</span><span class="op">,</span> <span class="st">"pool.png"</span>)<span class="op">;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(POOL_IMG_URL<span class="op">,</span> pool_img_path)<span class="op">;</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(pool_img_path))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Get_started_thinking_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>First you can check how the model performs without reasoning (<code>thinkingBudget=0</code>):</p>
+<div id="cell-34" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> pool_image_file <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  file<span class="op">:</span> pool_img_path<span class="op">,</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    mimeType<span class="op">:</span> <span class="st">"image/png"</span><span class="op">,</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    displayName<span class="op">:</span> <span class="st">"pool.png"</span><span class="op">,</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> pool_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(pool_image_file<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> pool_image_file<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">"image/png"</span>)<span class="op">,</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"How do I use those three pool balls to sum up to 30?"</span><span class="op">,</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    thinkingConfig<span class="op">:</span> {</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>      thinkingBudget<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(pool_response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>This is a classic riddle! Here’s how you can do it:</p>
+<p>You can sum up to 30 using three of the pool balls by <strong>flipping the number “9” upside down to make it a “6”</strong>.</p>
+<p>Then you have: * <strong>7</strong> * <strong>6</strong> (from the flipped 9) * <strong>13</strong></p>
+<p><strong>7 + 6 + 13 = 26</strong></p>
+<p>Ah, I re-read your request and realized you need to <strong>sum to 30, not 26</strong>. My apologies. Let’s try again with the balls available: 7, 9, 11, 13.</p>
+<p>The numbers on the balls are 7, 9, 11, and 13. All of these are odd numbers.</p>
+<p><strong>The sum of any three odd numbers will always be an odd number.</strong></p>
+<p>Since 30 is an even number, it’s <strong>impossible</strong> to sum to 30 using only three of these particular pool balls (7, 9, 11, 13) in their given numerical values.</p>
+<p>Therefore, the only way to solve this riddle is usually by <strong>flipping the 9 to make it a 6</strong>. However, that would only get you to 26, as I demonstrated above.</p>
+<p><strong>If the rule is that you must use <em>only</em> the numbers as they appear on the balls (7, 9, 11, 13) and can’t flip any numbers, then it’s a trick question and it’s impossible.</strong></p>
+</div>
+</div>
+<p>As you can notice, the model struggled to find a way to get to the result - and ended up suggesting to use different pool balls.</p>
+<p>Now you can use the model reasoning to solve the riddle:</p>
+<div id="cell-36" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> pool_response_2 <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(pool_image_file<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> pool_image_file<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">"image/png"</span>)<span class="op">,</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"How do I use those three pool balls to sum up to 30?"</span><span class="op">,</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    thinkingConfig<span class="op">:</span> {</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>      thinkingBudget<span class="op">:</span> <span class="dv">24576</span><span class="op">,</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(pool_response_2<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>This is a classic riddle!</p>
+<p>You need to use the trick of <strong>flipping the 9 ball upside down to make it a 6</strong>.</p>
+<p>Then, you can use these three balls: * <strong>6</strong> (the flipped 9 ball) * <strong>11</strong> * <strong>13</strong></p>
+<p><strong>6 + 11 + 13 = 30</strong></p>
+</div>
+</div>
+</section>
+<section id="solving-a-math-puzzle-with-the-maximum-thinkingbudget" class="level3">
+<h3 class="anchored" data-anchor-id="solving-a-math-puzzle-with-the-maximum-thinkingbudget">Solving a math puzzle with the maximum <code>thinkingBudget</code></h3>
+<p>This is typically a case where you want to fix a budget, as the model can spend a lot of time thinking in all directions before finding the right answer. It should not be too low either as non-thinking models have trouble with such questions.</p>
+<p>Play with the thinking budget and try to find how much it needs to be able to find the right answer most of the time.</p>
+<div id="cell-38" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> math_problem_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    How can you obtain 565 with 10 8 3 7 1 and 5 and the common operations?</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="vs">    You can only use a number once.</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">,</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    thinkingConfig<span class="op">:</span> {</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>      thinkingBudget<span class="op">:</span> <span class="dv">24576</span><span class="op">,</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(math_problem_response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Here’s how you can obtain 565 using the given numbers and common operations:</p>
+<ol type="1">
+<li><p>Multiply 8 by 7: 8 * 7 = 56</p></li>
+<li><p>Multiply the result by 10: 56 * 10 = 560</p></li>
+<li><p>Add 5 to the result: 560 + 5 = 565</p></li>
+</ol>
+<p>So, the full expression is: <strong>(8 * 7 * 10) + 5 = 565</strong></p>
+<p>Numbers used: 8, 7, 10, 5 (each used only once). Numbers not used: 3, 1 (which is allowed).</p>
+</div>
+</div>
+</section>
+<section id="working-thoughts-summaries" class="level3">
+<h3 class="anchored">Working thoughts summaries</h3>
+<p>Summaries of the model’s thinking reveal its internal problem-solving pathway. Users can leverage this feature to check the model’s strategy and remain informed during complex tasks.</p>
+<p>For more details about Gemini 2.5 thinking capabilities, take a look at the <a href="https://googledevai.devsite.corp.google.com/gemini-api/docs/thinking#summaries">Gemini models thinking guide</a>.</p>
+<div id="cell-40" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> thought_experiment_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    Alice, Bob, and Carol each live in a different house on the same street: red, green, and blue.</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="vs">    The person who lives in the red house owns a cat.</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    Bob does not live in the green house.</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    Carol owns a dog.</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="vs">    The green house is to the left of the red house.</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="vs">    Alice does not own a cat.</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="vs">    Who lives in each house, and what pet do they own?</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">,</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    thinkingConfig<span class="op">:</span> {</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>      includeThoughts<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can check both the thought summaries and the final model response:</p>
+<div id="cell-42" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> part <span class="kw">of</span> thought_experiment_response<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">content</span><span class="op">?.</span><span class="at">parts</span> <span class="op">??</span> []) {</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>part<span class="op">.</span><span class="at">text</span>) <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (part<span class="op">.</span><span class="at">thought</span>) {</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`## **Thought Summary**`</span>)<span class="op">;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(part<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`## **Response**`</span>)<span class="op">;</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(part<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="thought-summary" class="level2 cell-output cell-output-display cell-output-markdown">
+<h2 class="anchored" data-anchor-id="thought-summary"><strong>Thought Summary</strong></h2>
+</section>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Initial Thoughts and Problem Decomposition</strong></p>
+<p>Alright, let’s break this down. The goal is to match people to houses and pets. I’m thinking a table or matrix is the best way to keep track of this. I need to list all the entities: people (Alice, Bob, Carol), houses (red, green, blue), and pets (cat, dog, and implicitly a third, or maybe not). I’ll go through the clues one by one and mark my deductions. This is all about finding relationships and cross-references.</p>
+<p><strong>Processing the Clues and Building Deductions</strong></p>
+<p>First clue: Red house = Cat. Easy. Then, Bob doesn’t live in the green house. Noted. Carol owns a dog. Alright, Carol = Dog. The green house is to the left of the red house. Got it, Green &lt; Red. Alice doesn’t own a cat. Now things get interesting!</p>
+<p>I’m starting to see some links here. If the red house has a cat and Alice doesn’t, Alice can’t be in the red house. And since Carol has a dog and the red house has the cat, Carol can’t be in the red house either. That leaves Bob! Bob must be in the Red House with the Cat. Major breakthrough!</p>
+<p><strong>Filling the Gaps and Combining Information</strong></p>
+<p>Now, I know Bob is in the red house. Bob does <em>not</em> live in the green house, that’s already true. I know Carol owns a dog. The houses are arranged Green &lt; Red &lt; Blue. So Green is to the left of Bob. That’s clear.</p>
+<p>So, it’s either Green, Red, Blue OR Blue, Green, Red. Because Bob is in the Red House, it becomes Green, Bob (Red), Blue. Carol owns the dog, Alice is left. I’m at the point now where I’m trying to decide the houses for the dog and Alice!</p>
+<p>Carol must have the dog in Green or Blue house. No direct information!</p>
+<p><strong>Confronting the Ambiguity and Re-Evaluating</strong></p>
+<p>Hmm, this is tricky. No clue is helping me directly match either Carol to Green, or Carol to Blue. I need to rethink the pets. Is there an unstated assumption here? It seems to imply that everyone has a named pet but I’m not seeing how to pair them. I’ve re-read the puzzle and clues many times.</p>
+<p>If Carol owns the dog, and Bob owns the cat, then what about Alice? No specific pet is associated with Alice. This implies Alice has the unnamed pet or none. My working theory is that there’s an ambiguity in the pet assignments.</p>
+<p>The crucial constraint is that the green house is to the left of the red house. In three possible arrangements: Green - Red - Blue, Blue - Green - Red, and Green - Blue - Red. I know Bob lives in the Red House, with the cat, that means it’s Green - Bob (Red) - Blue. Then I need to decide, who lives in which house?</p>
+<p>Carol owns the Dog and must be in either the Green or Blue house! Alice is the remaining house. There’s nothing that helps me, at all, decide which person is in what color house, for green and blue!</p>
+<p><strong>Acknowledging the Underspecification</strong></p>
+<p>There seems to be an ambiguity here. This is a common situation with these puzzles! There might be an unstated assumption that everyone must have a pet in this context. However, I’m stuck with two possible solutions for Alice and Carol, and I don’t see any logic to eliminate either of these solutions.</p>
+<p><strong>Finalized Solution &amp; Acknowledgment of Limitations</strong></p>
+<p>So, the definite part is: Bob lives in the Red House and owns the Cat. The green house is to the left of Bob’s red house.</p>
+<p>There are two possibilities:</p>
+<ul>
+<li>Carol (Dog) is in the Green House, Alice owns the “unspecified” pet, and lives in Blue house</li>
+<li>Carol (Dog) is in the Blue House, Alice owns the “unspecified” pet, and lives in Green house</li>
+</ul>
+<p>I can’t pinpoint a specific pet for Alice. Unless there’s an extremely subtle detail, these are the only two possible consistent solutions.</p>
+</div>
+<section id="response" class="level2 cell-output cell-output-display cell-output-markdown">
+<h2 class="anchored" data-anchor-id="response"><strong>Response</strong></h2>
+</section>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Let’s break this down clue by clue to solve the puzzle:</p>
+<ol type="1">
+<li><p><strong>“The person who lives in the red house owns a cat.”</strong></p>
+<ul>
+<li>Deduction: Red House = Cat Owner.</li>
+</ul></li>
+<li><p><strong>“Carol owns a dog.”</strong></p>
+<ul>
+<li>Deduction: Carol = Dog.</li>
+</ul></li>
+<li><p><strong>“Alice does not own a cat.”</strong></p>
+<ul>
+<li>Deduction: Alice is not the Cat Owner.</li>
+</ul></li>
+<li><p><strong>Combine 1, 2, and 3:</strong></p>
+<ul>
+<li>The Red House owner has a cat.</li>
+<li>Alice does not own a cat, so Alice doesn’t live in the Red House.</li>
+<li>Carol owns a dog, so Carol doesn’t live in the Red House (because the Red House has a cat).</li>
+<li>This leaves only one person for the Red House: <strong>Bob</strong>.</li>
+<li><strong>Deduction:</strong> Bob lives in the <strong>Red House</strong> and owns a <strong>Cat</strong>.</li>
+</ul></li>
+<li><p><strong>“Bob does not live in the green house.”</strong></p>
+<ul>
+<li>This is consistent with our deduction that Bob lives in the Red House. No new information for Bob, but confirms our path.</li>
+</ul></li>
+<li><p><strong>“The green house is to the left of the red house.”</strong></p>
+<ul>
+<li>We have three houses: Red, Green, Blue.</li>
+<li>Since Green is to the left of Red, and Bob lives in the Red house, the houses must be in this order from left to right: <strong>Green, Red, Blue</strong>.</li>
+<li>So:
+<ul>
+<li>Left house: Green</li>
+<li>Middle house: Red (Bob, Cat)</li>
+<li>Right house: Blue</li>
+</ul></li>
+</ul></li>
+<li><p><strong>Final Assignments for Alice and Carol:</strong></p>
+<ul>
+<li>We know Bob lives in the Red House and owns a cat.</li>
+<li>The remaining houses are Green and Blue.</li>
+<li>The remaining people are Alice and Carol.</li>
+<li>We know Carol owns a dog.</li>
+<li>Alice does not own a cat (which is already true, as Bob owns the cat).</li>
+</ul>
+<p>At this point, the puzzle has two possible solutions for Alice and Carol’s locations and pets, as there’s no further information to distinguish between them:</p>
+<p><strong>Possibility 1:</strong></p>
+<ul>
+<li><strong>Green House:</strong> Carol, who owns a dog.</li>
+<li><strong>Red House:</strong> Bob, who owns a cat.</li>
+<li><strong>Blue House:</strong> Alice, whose pet is not specified by the clues (or she owns no pet explicitly mentioned).</li>
+</ul>
+<p><strong>Possibility 2:</strong></p>
+<ul>
+<li><strong>Green House:</strong> Alice, whose pet is not specified by the clues (or she owns no pet explicitly mentioned).</li>
+<li><strong>Red House:</strong> Bob, who owns a cat.</li>
+<li><strong>Blue House:</strong> Carol, who owns a dog.</li>
+</ul></li>
+</ol>
+<p><strong>Summary of the solution:</strong></p>
+<ul>
+<li><strong>Bob:</strong> Lives in the <strong>Red House</strong> and owns a <strong>Cat</strong>.</li>
+</ul>
+<p>And then, there are two possibilities for Alice and Carol:</p>
+<ul>
+<li><strong>Scenario A:</strong>
+<ul>
+<li><strong>Carol:</strong> Lives in the <strong>Green House</strong> and owns a <strong>Dog</strong>.</li>
+<li><strong>Alice:</strong> Lives in the <strong>Blue House</strong> and her pet is not specified (or she owns no pet explicitly mentioned by the clues).</li>
+</ul></li>
+<li><strong>Scenario B:</strong>
+<ul>
+<li><strong>Alice:</strong> Lives in the <strong>Green House</strong> and her pet is not specified (or she owns no pet explicitly mentioned by the clues).</li>
+<li><strong>Carol:</strong> Lives in the <strong>Blue House</strong> and owns a <strong>Dog</strong>.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<p>You can also use see the thought summaries in streaming experiences:</p>
+<div id="cell-44" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> thought_experiment_streaming_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContentStream</span>({</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    Alice, Bob, and Carol each live in a different house on the same street: red, green, and blue.</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="vs">    The person who lives in the red house owns a cat.</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    Bob does not live in the green house.</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    Carol owns a dog.</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="vs">    The green house is to the left of the red house.</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="vs">    Alice does not own a cat.</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="vs">    Who lives in each house, and what pet do they own?</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">,</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    thinkingConfig<span class="op">:</span> {</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>      includeThoughts<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> thoughts <span class="op">=</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> answers <span class="op">=</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="cf">await</span> (<span class="kw">const</span> chunk <span class="kw">of</span> thought_experiment_streaming_response) {</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> part <span class="kw">of</span> chunk<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">content</span><span class="op">?.</span><span class="at">parts</span> <span class="op">??</span> []) {</span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>part<span class="op">.</span><span class="at">text</span>) <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (part<span class="op">.</span><span class="at">thought</span>) {</span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="op">!</span>thoughts) tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`## **Thought Summary**`</span>)<span class="op">;</span></span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>      tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(part<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>      thoughts <span class="op">+=</span> part<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="op">!</span>answers) tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`## **Response**`</span>)<span class="op">;</span></span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>      tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(part<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>      answers <span class="op">+=</span> part<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="thought-summary-1" class="level2 cell-output cell-output-display cell-output-markdown">
+<h2 class="anchored" data-anchor-id="thought-summary-1"><strong>Thought Summary</strong></h2>
+</section>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Unpacking the Clues</strong></p>
+<p>I’ve finally started unpacking the core clues of this riddle. Initially, I felt overwhelmed, but now I’m making progress, mapping the houses and pets. I am focusing on eliminating possibilities based on the given constraints. I’m building a matrix to track the relationships, and I think I’m getting close to a breakthrough.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Deciphering Relationships</strong></p>
+<p>I’m now diving deeper into the relationships, having established my basic grid. The initial structure feels solid, but the spatial aspect is intriguing. I’m focusing on parsing the first clue about the colors and people, attempting to lay out all permutations and how they impact each other. Right now I am focusing on eliminating contradictory arrangements.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Connecting the Dots</strong></p>
+<p>I’ve been meticulously placing clues into the grid, leveraging the established structure. Carol’s dog, and the red house’s cat, are forming key anchors. The spatial clue (“Green to the left of Red”) is proving particularly useful in limiting the possibilities. I’m focusing on the constraints imposed by Bob and Alice to further refine the arrangement.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Constructing the Solution</strong></p>
+<p>The connections are solidifying. I’m now leveraging the logical deductions to finalize the grid, focusing on the house colors. With Bob in Red, and the positional clue about Green, it is starting to become clearer. Determining Alice’s house is key. I’m getting close to the definitive answer.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Unveiling the Arrangement</strong></p>
+<p>I’ve finally pinpointed that Bob lives in the red house and owns the cat. Leveraging the spatial clue, I’m now certain Green is to the left of Red. I am determining who lives in the Green and Blue houses and with what pet. I am now working through the final constraint with a clearer picture of the arrangement.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Solidifying the Grid</strong></p>
+<p>I’m making progress, but still need to determine who owns the third pet, and whose house is blue. The structure feels much more concrete. Carol owns the dog, and Alice does not own the cat. I am refining the arrangement and building a solution that reflects all the constraints.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Mapping the Solution</strong></p>
+<p>The riddle’s framework is solidifying. I’ve placed Bob in the red house with the cat and Carol owning the dog. The positional information about the green house being left of the red is proving key. I’m focusing on Alice’s location and what pet she must have. It’s becoming clearer.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Solving the Riddle</strong></p>
+<p>I’ve been working through the clues, using both spatial and direct-relationship constraints to build the solution. Determining Alice and Carol’s houses and pets is the current focus, after correctly placing Bob in the Red house. I am now working through the final house and pet associations.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Mapping the Final Associations</strong></p>
+<p>I’m zeroing in on the final pieces. Carol and Alice have their houses, the positional clue is helpful. Bob is confirmed in the Red house. The pet situation feels resolved. My primary focus is establishing the definitive house and pet assignments. I’m now certain of the solution.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Solving the Puzzle</strong></p>
+<p>I’ve been meticulously following the clues. After placing Bob in the red house with the cat and Carol with the dog, I realized that the “green to the left of red” clue solidifies the positional layout. Now, I’m focusing on Alice and the unknown pet. I’m getting closer to a complete solution.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Solving the Puzzle</strong></p>
+<p>I’m now integrating the spatial clue with the pet ownership information, focusing on the house colors. I’ve placed Bob in the red house with the cat, confirming the first part of the riddle. Determining Alice’s association with a house and pet will lead to the final answer. I am making rapid progress now.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Revising the Structure</strong></p>
+<p>After evaluating multiple permutations, I’ve confirmed Bob lives in the red house with the cat. Carol and Alice occupy the green and blue houses respectively. I’m building out the final assignments for each person and pet.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Analyzing the Structure</strong></p>
+<p>After assessing multiple structures, I’ve confirmed Bob lives in the red house with the cat, leveraging all available clues. Carol resides in the green house and owns the dog. I am now certain Alice resides in the blue house.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Analyzing the Solution</strong></p>
+<p>The riddle’s central structure is now solid. Bob lives in the red house, and Carol resides in the green house with her dog, while Alice is confirmed to be in the blue house. The association with the unknown pet is no longer an issue, because the prompt never mentioned a specific pet, only that she did not own a cat. The solution’s finality is clear.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Analyzing the Solution Space</strong></p>
+<p>I’m now zeroing in on a critical point. I’ve deduced Bob lives in the red house with the cat, a solid foundation. The challenge is assigning Carol and Alice’s homes and pets. Currently, their assignments are interchangeable, and the current clues don’t break the tie. I’ll re-evaluate the spatial constraints for clarity.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Analyzing the Structure</strong></p>
+<p>It’s clear that Bob lives in the red house with the cat, a solid foundation. While Carol owns the dog, I’m still weighing the possibilities for Alice’s home and pet situation. The green house to the left of the red house gives an additional hint. My focus is finalizing Carol and Alice’s houses.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Analyzing the Structure</strong></p>
+<p>It’s clear Bob lives in the red house with the cat and Carol has the dog. I’ve placed the Green house to the left of Red. The final piece is linking Alice with Green or Blue, which remains flexible. I’m focusing on Alice’s association and which pet she may have.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Re-evaluating the Structure</strong></p>
+<p>After solidifying the core relationships, I am evaluating possible permutations, leveraging the established base. Bob is confirmed in the red house, leaving the assignment of Carol and Alice’s homes open. I am focusing on positional constraints to determine the definitive assignments. The final answer feels close.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Analyzing the Solution Space</strong></p>
+<p>I’m wrestling with the final assignments, as the two remaining arrangements feel equally valid. Bob is definitively in the red house with the cat, and Carol has the dog. My attention is on Alice, the remaining house, and the “not cat” clue. I must ensure I do not over-interpret the final constraints. I’m focusing on the spatial and relational aspects.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Mapping the Final Associations</strong></p>
+<p>The riddle’s structure is clear. Bob is in the red house with the cat, and Carol has the dog. The spatial clue about the green house being left of the red is key. My focus is finalizing Alice’s location and possible pet. It’s becoming clearer.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Re-evaluating the Structure</strong></p>
+<p>The solution feels very clear; however, I am now focused on a possible “no pet” scenario. Alice’s “not cat” clue makes me consider she owns nothing, or, perhaps, a pet we are not privy to. Since there are only two pets, “no pet” seems the implicit rule.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Finalizing the Arrangements</strong></p>
+<p>I am now certain that Bob lives in the red house with the cat, confirming the grid’s structure. By deducing Alice’s and Carol’s possible arrangements, their final assignments should be easier to deduce. However, the constraints are a little tricky. I’m focusing on Alice’s pet status.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Analyzing the Structure</strong></p>
+<p>It’s clear that Bob lives in the red house with the cat and Carol resides in the green house with her dog, while Alice is confirmed to be in the blue house. It is starting to feel conclusive, as the solution now is clear.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Analyzing the Structure</strong></p>
+<p>It’s clear I’m working through the connections between the people, houses, and pets with diligence. Bob in the red house with the cat is now firmly established. Carol and Alice occupy green and blue houses respectively. I’m focusing on the final assignment to make a fully conclusive solution.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Finalizing the Solution</strong></p>
+<p>The connections are established. I’ve placed Bob in the red house with the cat, leveraging all available clues. Carol resides in the green house and owns the dog, while Alice is confirmed in the blue house. The association with the unknown pet is no longer an issue, because the prompt never mentioned a specific pet. The solution’s finality is clear.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Synthesizing the Solution</strong></p>
+<p>The riddle’s structure is clear, and I’ve placed Bob in the red house with the cat, leveraging all of the clues. The spatial clue about the green house being to the left of the red is also key. However, I am still trying to determine the relationship between Alice, Carol, and the other houses, with the riddle’s ambiguity being somewhat challenging to overcome.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Deciphering the Relationships</strong></p>
+<p>My recent focus has been on parsing the clues regarding spatial positioning and direct relationships, having mapped the basic structure. The “Green to the left of Red” clue is critical, but it isn’t definitive on who resides in Green or Blue. Determining the pet for Alice is a key concern.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Revising the Structure</strong></p>
+<p>After reevaluating the constraints, I’m confident in Bob’s red house and cat ownership. The spatial element is clear, green is left of red. Currently, the riddle doesn’t differentiate between the arrangements of Carol and Alice’s homes. I will work further on Carol’s dog.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Analyzing the Structure</strong></p>
+<p>After considering several arrangements, I am convinced that Bob lives in the red house with the cat, a firm starting point. The crucial part, however, is now trying to determine Alice and Carol’s assignments. The green house being to the left of the red house gives an added hint, however, the structure remains ambiguous.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Synthesizing the Structure</strong></p>
+<p>The solution space is clarifying. I’ve placed Bob in the red house with the cat, a firm foundation. Carol owns the dog. The challenge is assigning the final pet and the Green and Blue houses. I’m focusing on the spatial constraint, but can’t distinguish between Alice and Carol.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Deciphering the Relationships</strong></p>
+<p>I’ve been meticulously analyzing the clues, starting to form a clear structure. I’m focusing on Carol’s Dog, Bob in Red, and spatial positions. Alice’s possible pet ownership is now my main priority; I’m building a solution that addresses her specific pet associations and house color.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Analyzing the Structure</strong></p>
+<p>The logical puzzle is now fully parsed. Bob is in the red house with the cat, a firm conclusion. The key constraints about Carol and Alice, the spatial aspect, and the pets require careful consideration, and I will continue to work on it with greater efficiency.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>I’m focusing on <strong>parsing the relationships</strong> within the riddle’s structure, aiming for definitive assignments. Bob is firmly established in the red house with the cat, a crucial starting point. My current focus centers on Alice and Carol, the green and blue houses, and the riddle’s implied “no pet” rule.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Parsing the Clues</strong></p>
+<p>I’ve carefully examined the clues and established the core structure: Bob resides in the red house with the cat, Carol owns the dog, and Alice does not own the cat. The riddle’s focus is to determine the assignment of Green and Blue houses and the association of the remaining two pets and Alice’s assignment. I’m focusing on the spatial relationship.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Revising the Structure</strong></p>
+<p>Having confirmed the basic framework, I’m now focused on the final assignments. Bob resides in the red house with the cat, and Carol has the dog. My attention shifts to Alice’s “not cat” situation and her house assignment. Leveraging the spatial clue, I’m analyzing potential placements to reach a conclusive solution.</p>
+</div>
+<section id="response-1" class="level2 cell-output cell-output-display cell-output-markdown">
+<h2 class="anchored" data-anchor-id="response-1"><strong>Response</strong></h2>
+</section>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Let’s break down the clues to solve this logic puzzle:</p>
+<p><strong>1. Create a Grid to Organize Information:</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th>Person</th>
+<th>House</th>
+<th>Pet</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Alice</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<pre><code> |</code></pre>
+<div class="line-block">Bob | | |<br>
+Carol | | |</div>
+<p><strong>2. Process Each Clue:</strong></p>
+<ul>
+<li>**Clue 1: “Alice, Bob, and Carol each live in a</li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>different house on the same street: red, green, and blue.”** * Confirms a 1:1 mapping of people, houses, and (implicitly) pets.</p>
+<ul>
+<li>**Clue 2: “The person who lives in</li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>the red house owns a cat.”** * (Red House) -&gt; Cat</p>
+<ul>
+<li><strong>Clue 3: “Bob does not live in the green house.”</strong>
+<ul>
+<li>Bob ≠ Green House</li>
+</ul></li>
+<li></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Clue 4: “Carol owns a dog.”</strong> * Add this directly to the grid: Carol -&gt; Dog</p>
+<ul>
+<li>**Clue 5: “The green house is to the left of the red house</li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>.”** * This establishes a spatial relationship: Green &lt; Red</p>
+<ul>
+<li><strong>Clue 6: “Alice does not own a cat.”</strong>
+<ul>
+<li>Alice ≠ Cat</li>
+</ul></li>
+</ul>
+<p><strong>3. Deductions:</strong></p>
+<ul>
+<li></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Deduction 1: Identify the Cat Owner.</strong> * From Clue 4, Carol owns a dog. So Carol is not the cat owner. * From Clue 6, Alice does</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>not own a cat. * Since Alice and Carol don’t own the cat, <strong>Bob must own the cat.</strong></p>
+<ul>
+<li><strong>Deduction 2: Identify Who Lives in the Red House.</strong>
+<ul>
+<li>From Cl</li>
+</ul></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>ue 2, the Red House owner has a cat. * From Deduction 1, Bob owns the cat. * Therefore, <strong>Bob lives in the Red House.</strong></p>
+<ul>
+<li><strong>Update the Grid:</strong></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th>Person</th>
+<th>House</th>
+<th>Pet</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Alice</td>
+<td></td>
+<td>Not Cat</td>
+</tr>
+<tr class="even">
+<td>Bob</td>
+<td>Red</td>
+<td>Cat</td>
+</tr>
+<tr class="odd">
+<td>Carol</td>
+<td></td>
+<td>Dog</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>**Deduction 3</li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>: Assign Remaining People to Houses.** * We know Bob lives in the Red House. * From Clue 6, Alice does not own a cat, so she cannot live in the Red House (where the</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>cat owner lives). * From Clue 4, Carol owns a dog, so she cannot live in the Red House (where the cat owner lives). * This means the **Green House and the Blue House must be</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>occupied by Alice and Carol.**</p>
+<ul>
+<li><strong>Deduction 4: Consider the “to the left” clue.</strong>
+<ul>
+<li>Clue 5 states: “The green house is to the left of the red house.”</li>
+</ul></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li>We know Bob is in the Red House. So the Green house is to the left of Bob’s house.
+<ul>
+<li>This means the street arrangement is either: [Blue] [Green] [Red (Bob)] or [Green]</li>
+</ul></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>[Red (Bob)] [Blue]. * This clue helps establish the relative positions of the <em>houses</em>, but it does <strong>not</strong> provide any information to definitively place Alice or Carol in the Green house versus the Blue house. Both scenarios</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>(Alice in Green, Carol in Blue OR Carol in Green, Alice in Blue) are consistent with all given clues.</p>
+<p><strong>Conclusion:</strong></p>
+<p>Based on the information provided, we can definitively determine Bob’s house and pet, and Carol’s pet.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>However, the clues do not provide enough information to definitively determine whether Alice lives in the Green or Blue house, or Carol lives in the Green or Blue house. The problem implies a unique solution, but the information to distinguish between Alice and Carol’</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>s houses is missing.</p>
+<p>However, if we are to provide a complete answer with the most logical deduction based on the usual structure of these puzzles (where there should be a unique pet for each person): Alice’s pet is not a</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>cat, and Carol has a dog. Bob has the cat. This means Alice must have a third, unnamed pet, or no pet.</p>
+<p>Here’s the most complete and certain answer:</p>
+<ul>
+<li>**Bob lives in the Red House and owns</li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>a cat.<strong> * </strong>Carol owns a dog.<strong> * </strong>Alice does not own a cat.**</p>
+<p>Since Alice and Carol are the only ones left for the Green and Blue houses, and there’s no further distinguishing information</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>:</p>
+<ul>
+<li><strong>The Green House</strong> is occupied by either Alice (who does not own a cat) or Carol (who owns a dog).</li>
+<li><strong>The Blue House</strong> is occupied by the other person (Alice or Carol).</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="working-with-gemini-thinking-models-and-tools" class="level2">
+<h2 class="anchored" data-anchor-id="working-with-gemini-thinking-models-and-tools">Working with Gemini thinking models and tools</h2>
+<p>Gemini thinking models are compatible with the tools and capabilities inherent to the Gemini ecosystem. This compatibility allows them to interface with external environments, execute computational code, or retrieve real-time data, subsequently incorporating such information into their analytical framework and concluding statements.</p>
+<section id="solving-a-problem-using-the-code-execution-tool" class="level3">
+<h3 class="anchored" data-anchor-id="solving-a-problem-using-the-code-execution-tool">Solving a problem using the code execution tool</h3>
+<p>This example shows how to use the <a href="quickstarts/Code_execution.ipynb">code execution</a> tool to solve a problem. The model will generate the code and then execute it to get the final answer.</p>
+<p>In this case, you are using the adaptive thinking_budget so the model will dynamically adjust the budget based on the complexity of the request.</p>
+<p>If you want to experiment with a fixed budget, you can set the <code>thinkingBudget</code> to a specific value (e.g.&nbsp;<code>thinkingBudget=4096</code>).</p>
+<div id="cell-47" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> code_experiment_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    What are the best ways to sort a list of n numbers from 0 to m?</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="vs">    Generate and run Python code for three different sort algorithms.</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    Provide the final comparison between algorithm clearly.</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    Is one of them linear?</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">,</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">:</span> [{ codeExecution<span class="op">:</span> {} }]<span class="op">,</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    thinkingConfig<span class="op">:</span> {</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>      thinkingBudget<span class="op">:</span> <span class="dv">4096</span><span class="op">,</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> part <span class="kw">of</span> code_experiment_response<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">content</span><span class="op">?.</span><span class="at">parts</span> <span class="op">??</span> []) {</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (part<span class="op">.</span><span class="at">text</span>) {</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(part<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (part<span class="op">.</span><span class="at">executableCode</span>) {</span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">html</span>(<span class="vs">`&lt;pre&gt;</span><span class="sc">${</span>part<span class="op">.</span><span class="at">executableCode</span><span class="op">.</span><span class="at">code</span> <span class="op">??</span> <span class="st">""</span><span class="sc">}</span><span class="vs">&lt;/pre&gt;`</span>)<span class="op">;</span></span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (part<span class="op">.</span><span class="at">codeExecutionResult</span>) {</span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`### **Code Execution Result**`</span>)<span class="op">;</span></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(part<span class="op">.</span><span class="at">codeExecutionResult</span><span class="op">.</span><span class="at">output</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>For sorting a list of <code>n</code> numbers ranging from <code>0</code> to <code>m</code>, the “best ways” depend largely on the relationship between <code>n</code> and <code>m</code>.</p>
+<ol type="1">
+<li><strong>Non-Comparison Sorts (e.g., Counting Sort, Radix Sort)</strong>: These are generally the <em>best</em> when the range <code>m</code> is not excessively large compared to <code>n</code>. They can achieve linear time complexity.
+<ul>
+<li><strong>Counting Sort</strong>: Ideal when <code>m</code> is relatively small. It works by counting the occurrences of each distinct element and then using those counts to determine the sorted position of each element.</li>
+<li><strong>Radix Sort</strong>: Efficient when <code>m</code> is very large but the numbers have a limited number of digits or bits. It sorts numbers digit by digit (or bit by bit) using a stable sorting algorithm (often Counting Sort) as a subroutine.</li>
+</ul></li>
+<li><strong>Comparison Sorts (e.g., Merge Sort, Quick Sort, Heap Sort)</strong>: These are general-purpose sorting algorithms that work by comparing elements. Their lower bound for time complexity is O(n log n), regardless of the range of numbers. They are suitable when <code>m</code> is very large, making non-comparison sorts less efficient or impractical due to memory constraints.</li>
+</ol>
+<p>Given the constraint <code>0</code> to <code>m</code>, Counting Sort stands out as a highly relevant and potentially linear-time algorithm.</p>
+<p>Let’s proceed with implementing and running three different sort algorithms: Counting Sort, Merge Sort, and Quick Sort, and then compare them.</p>
+<section id="counting-sort" class="level3">
+<h3 class="anchored" data-anchor-id="counting-sort">1. Counting Sort</h3>
+<p><strong>Time Complexity:</strong> O(n + m) <strong>Space Complexity:</strong> O(m) <strong>Stability:</strong> Yes <strong>In-place:</strong> No</p>
+</section>
+</div>
+<div class="cell-output cell-output-display">
+<pre>import random
+import time
+
+def counting_sort(arr, m):
+    """
+    Sorts an array of integers where elements are in the range [0, m].
+    """
+    n = len(arr)
+    output = [0] * n
+    count = [0] * (m + 1)
+
+    # Store count of each character
+    for i in range(n):
+        count[arr[i]] += 1
+
+    # Change count[i] so that count[i] now contains actual
+    # position of this character in output array
+    for i in range(1, m + 1):
+        count[i] += count[i - 1]
+
+    # Build the output array
+    # Iterate in reverse to maintain stability
+    i = n - 1
+    while i &gt;= 0:
+        output[count[arr[i]] - 1] = arr[i]
+        count[arr[i]] -= 1
+        i -= 1
+
+    # Copy the output array to arr, so that arr now
+    # contains sorted characters
+    for i in range(n):
+        arr[i] = output[i]
+    return arr
+
+# --- Test Setup ---
+n_test = 100000  # Number of elements
+m_test = 50000   # Max value in the list (range 0 to m_test)
+data_counting_sort = [random.randint(0, m_test) for _ in range(n_test)]
+# Create copies for other sorts
+data_merge_sort = list(data_counting_sort)
+data_quick_sort = list(data_counting_sort)
+
+# --- Run Counting Sort ---
+start_time = time.perf_counter()
+sorted_counting = counting_sort(data_counting_sort, m_test)
+end_time = time.perf_counter()
+time_counting = end_time - start_time
+print(f"Counting Sort took: {time_counting:.6f} seconds")
+# print(f"First 10 elements (Counting Sort): {sorted_counting[:10]}")
+# print(f"Last 10 elements (Counting Sort): {sorted_counting[-10:]}")
+</pre>
+</div>
+<section id="code-execution-result" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="code-execution-result"><strong>Code Execution Result</strong></h3>
+</section>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Counting Sort took: 0.066183 seconds</p>
+</div>
+<section id="merge-sort" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="merge-sort">2. Merge Sort</h3>
+<p><strong>Time Complexity:</strong> O(n log n) <strong>Space Complexity:</strong> O(n) <strong>Stability:</strong> Yes <strong>In-place:</strong> No (requires auxiliary space)</p>
+</section>
+<div class="cell-output cell-output-display">
+<pre>import random
+import time
+
+def merge_sort(arr):
+    if len(arr) &lt;= 1:
+        return arr
+
+    mid = len(arr) // 2
+    left_half = arr[:mid]
+    right_half = arr[mid:]
+
+    left_half = merge_sort(left_half)
+    right_half = merge_sort(right_half)
+
+    return merge(left_half, right_half)
+
+def merge(left, right):
+    merged = []
+    left_idx, right_idx = 0, 0
+
+    while left_idx &lt; len(left) and right_idx &lt; len(right):
+        if left[left_idx] &lt;= right[right_idx]:
+            merged.append(left[left_idx])
+            left_idx += 1
+        else:
+            merged.append(right[right_idx])
+            right_idx += 1
+
+    while left_idx &lt; len(left):
+        merged.append(left[left_idx])
+        left_idx += 1
+    while right_idx &lt; len(right):
+        merged.append(right[right_idx])
+        right_idx += 1
+    return merged
+
+# Data already prepared as `data_merge_sort` from previous block
+
+# --- Run Merge Sort ---
+start_time = time.perf_counter()
+sorted_merge = merge_sort(data_merge_sort)
+end_time = time.perf_counter()
+time_merge = end_time - start_time
+print(f"Merge Sort took: {time_merge:.6f} seconds")
+# print(f"First 10 elements (Merge Sort): {sorted_merge[:10]}")
+# print(f"Last 10 elements (Merge Sort): {sorted_merge[-10:]}")
+</pre>
+</div>
+<section id="code-execution-result-1" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="code-execution-result-1"><strong>Code Execution Result</strong></h3>
+</section>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Merge Sort took: 0.449447 seconds</p>
+</div>
+<section id="quick-sort" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="quick-sort">3. Quick Sort</h3>
+<p><strong>Time Complexity:</strong> * <strong>Average:</strong> O(n log n) * <strong>Worst Case:</strong> O(n^2) (can be mitigated with good pivot selection) <strong>Space Complexity:</strong> O(log n) (average for recursion stack), O(n) (worst case) <strong>Stability:</strong> No <strong>In-place:</strong> Yes (mostly, due to recursion stack)</p>
+</section>
+<div class="cell-output cell-output-display">
+<pre>import random
+import time
+
+def quick_sort(arr):
+    if len(arr) &lt;= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x &lt; pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x &gt; pivot]
+    return quick_sort(left) + middle + quick_sort(right)
+
+# Note: This is a simpler, less optimized Quick Sort implementation
+# that uses O(N) space due to list comprehensions. An in-place
+# version would modify the list directly.
+
+# Data already prepared as `data_quick_sort` from previous block
+
+# --- Run Quick Sort ---
+start_time = time.perf_counter()
+sorted_quick = quick_sort(data_quick_sort)
+end_time = time.perf_counter()
+time_quick = end_time - start_time
+print(f"Quick Sort took: {time_quick:.6f} seconds")
+# print(f"First 10 elements (Quick Sort): {sorted_quick[:10]}")
+# print(f"Last 10 elements (Quick Sort): {sorted_quick[-10:]}")
+</pre>
+</div>
+<section id="code-execution-result-2" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="code-execution-result-2"><strong>Code Execution Result</strong></h3>
+</section>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Quick Sort took: 0.291436 seconds</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<section id="final-comparison-of-algorithms" class="level3">
+<h3 class="anchored" data-anchor-id="final-comparison-of-algorithms">Final Comparison of Algorithms</h3>
+<p>Let’s summarize the properties and observed performance for a list of <code>n = 100,000</code> numbers ranging from <code>0</code> to <code>m = 50,000</code>.</p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 20%">
+<col style="width: 21%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Counting Sort</th>
+<th style="text-align: left;">Merge Sort</th>
+<th style="text-align: left;">Quick Sort (Partition-based)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Time Complexity</strong></td>
+<td style="text-align: left;">O(n + m)</td>
+<td style="text-align: left;">O(n log n)</td>
+<td style="text-align: left;">O(n log n) (Avg.), O(n²) (Worst)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Space Complexity</strong></td>
+<td style="text-align: left;">O(m)</td>
+<td style="text-align: left;">O(n)</td>
+<td style="text-align: left;">O(log n) (Avg.), O(n) (Worst) for recursion stack</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Stability</strong></td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>In-place</strong></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes (for optimal implementation)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Observed Time</strong></td>
+<td style="text-align: left;"><strong>0.066 seconds</strong></td>
+<td style="text-align: left;">0.449 seconds</td>
+<td style="text-align: left;">0.291 seconds (using simple Python implementation)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="is-one-of-them-linear" class="level3">
+<h3 class="anchored" data-anchor-id="is-one-of-them-linear">Is one of them linear?</h3>
+<p><strong>Yes, Counting Sort is linear.</strong></p>
+<p>Its time complexity is <strong>O(n + m)</strong>. * If <code>m</code> (the range of values) is proportional to <code>n</code> (the number of elements), i.e., <code>m = c * n</code> for some constant <code>c</code>, then the complexity becomes O(n + c<em>n) which simplifies to O(n). In such cases, Counting Sort is a linear-time sorting algorithm. </em> In our test case, <code>n = 100,000</code> and <code>m = 50,000</code>. Since <code>m</code> is less than <code>n</code> and of the same order of magnitude, Counting Sort performs exceptionally well, significantly faster than the O(n log n) comparison sorts.</p>
+</section>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<p>For sorting <code>n</code> numbers from <code>0</code> to <code>m</code>:</p>
+<ul>
+<li><strong>Counting Sort</strong> is the clear winner when <code>m</code> is not significantly larger than <code>n</code> (e.g., <code>m</code> is comparable to <code>n</code>, or even <code>m &lt; n</code>). It leverages the limited range of values to achieve linear time complexity, making it much faster than comparison-based sorts in such scenarios, as demonstrated by the performance difference (0.066s vs ~0.3-0.4s).</li>
+<li><strong>Merge Sort</strong> is a solid general-purpose choice, always providing O(n log n) performance and stability, but at the cost of O(n) auxiliary space.</li>
+<li><strong>Quick Sort</strong> is generally faster in practice than Merge Sort for average cases due to better cache performance and lower constant factors, despite the theoretical worst-case O(n²) complexity. However, its simple Python implementation used here consumes O(n) space and is not truly in-place.</li>
+</ul>
+<p>Therefore, for the specific problem of sorting numbers from <code>0</code> to <code>m</code>, <strong>Counting Sort is generally the “best” way</strong> if <code>m</code> is within a reasonable range, as it provides linear time complexity.</p>
+</section>
+</div>
+</div>
+</section>
+<section id="thinking-with-search-tool" class="level3">
+<h3 class="anchored">Thinking with search tool</h3>
+<p>Search grounding is a great way to improve the quality of the model responses by giving it the ability to search for the latest information using Google Search. Check the dedicated guide for more details on that feature.</p>
+<p>In this case, you are using the adaptive <code>thinkingBudget</code> so the model will dynamically adjust the budget based on the complexity of the request.</p>
+<p>If you want to experiment with a fixed budget, you can set the <code>thinkingBudget</code> to a specific value (e.g.&nbsp;<code>thinkingBudget=4096</code>).</p>
+<div id="cell-49" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> search_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    What were the major scientific breakthroughs announced last month? Use your</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="vs">    critical thinking and only list what's really incredible and not just an</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    overinfluated title.</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">,</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">:</span> [{ googleSearch<span class="op">:</span> {} }]<span class="op">,</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    thinkingConfig<span class="op">:</span> {</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>      thinkingBudget<span class="op">:</span> <span class="dv">4096</span><span class="op">,</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>      includeThoughts<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> search_thoughts <span class="op">=</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> search_answers <span class="op">=</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> part <span class="kw">of</span> search_response<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">content</span><span class="op">?.</span><span class="at">parts</span> <span class="op">??</span> []) {</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>part<span class="op">.</span><span class="at">text</span>) <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (part<span class="op">.</span><span class="at">thought</span>) {</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>search_thoughts) tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`## **Thought Summary**`</span>)<span class="op">;</span></span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(part<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>    search_thoughts <span class="op">+=</span> part<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>search_answers) tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`## **Response**`</span>)<span class="op">;</span></span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(part<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a>    search_answers <span class="op">+=</span> part<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`## **Search Results**`</span>)<span class="op">;</span></span>
+<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">html</span>(search_response<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">groundingMetadata</span><span class="op">?.</span><span class="at">searchEntryPoint</span><span class="op">?.</span><span class="at">renderedContent</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="thought-summary-2" class="level2 cell-output cell-output-display cell-output-markdown">
+<h2 class="anchored" data-anchor-id="thought-summary-2"><strong>Thought Summary</strong></h2>
+</section>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Clarifying “Last Month”</strong></p>
+<p>I’ve established that “last month” refers to May 2025, given the current date. My next step involves conducting focused Google searches using various relevant terms to unearth noteworthy scientific breakthroughs from that period. I’ll then critically assess these findings. I’m prioritizing reputable sources to identify genuinely impactful advancements.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Narrowing Down Breakthroughs</strong></p>
+<p>I’ve significantly refined the initial list of potential breakthroughs, prioritizing findings that are truly impactful and novel. The “conversion of lead to gold” has been removed due to potential sensationalism, while the impressive count of Saturn’s moons, and the potential impacts of vitamin D have been deprioritized for now. I’m focusing on the record-breaking redshift galaxy, the fusion milestone, the OCD gene discovery, night-vision lenses, green hydrogen, the new material, the solid-tumor CAR-T success, brain cell repair, and the AI co-scientist. I believe that these are solid candidates for “incredible” breakthroughs worthy of further analysis. Also, I’m watching the pancreatic cancer vaccine and AI-powered cancer detection advancements with great interest, as these present huge potential.</p>
+</div>
+<section id="response-2" class="level2 cell-output cell-output-display cell-output-markdown">
+<h2 class="anchored" data-anchor-id="response-2"><strong>Response</strong></h2>
+</section>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Last month, May 2025, saw several significant scientific announcements across various fields, pointing to incredible progress in our understanding of the universe, advancements in medicine, and innovative technological developments.</p>
+<p>In the realm of space and astronomy: * <strong>Most Distant Galaxy Ever Detected:</strong> The James Webb Space Telescope (JWST) confirmed MoM-z14 as the most distant galaxy ever detected, with a redshift of 14.44. This places its formation within 280 million years of the Big Bang, offering unprecedented insights into the early universe. * <strong>New Exoplanets Around Barnard’s Star:</strong> Astronomers confirmed the existence of three new rocky exoplanets, all smaller than Earth, orbiting Barnard’s Star, the closest solitary star to our Sun. This brings the total number of known planets around Barnard’s Star to four, including the previously hinted-at Barnard b.</p>
+<p>In medicine and health: * <strong>Breakthrough in OCD Genetics:</strong> For the first time, researchers identified 250 genes linked to Obsessive-Compulsive Disorder (OCD) through a study involving over 2 million people. This discovery represents a significant step towards understanding the genetic underpinnings of the condition. * <strong>Night-Vision Contact Lenses:</strong> Scientists developed contact lenses that grant “super-vision,” allowing users to perceive beyond the visible light spectrum and detect infrared light even in darkness or with closed eyes. This innovation could potentially replace traditional night-vision goggles. * <strong>Repairing Brain Cells:</strong> New research demonstrated that brain cells can be repaired, with a drug known as antisense oligonucleotide successfully repairing human neurons in individuals with Timothy’s syndrome, a rare genetic disorder. This breakthrough offers hope for treating other genetic conditions affecting the brain, such as schizophrenia, epilepsy, ADHD, and autism spectrum disorder. * <strong>Long-Term Cancer Remission with CAR-T Therapy:</strong> A child who received CAR-T cancer therapy for neuroblastoma 18 years ago remains disease-free, suggesting that this personalized cancer treatment may be effective not only for blood cancers but also for solid tumors.</p>
+<p>In physics and energy: * <strong>New Nuclear Fusion Record:</strong> The WEST tokamak in France set a new world record for nuclear fusion by maintaining plasma for an impressive 1,337 seconds, a 25% increase over the previous record. This is a crucial step forward in the quest for sustainable fusion energy. * <strong>Sunlight-Powered Green Hydrogen Production:</strong> Scientists created a prototype reactor capable of harvesting hydrogen fuel using only sunlight and water. This advancement could revolutionize renewable energy by providing a cost-effective method for producing “green hydrogen.” * <strong>First 2D Mechanically Interlocked Material:</strong> Northwestern University demonstrated the creation of the first two-dimensional (2D) mechanically interlocked material. Described as possessing exceptional flexibility and strength with 100 trillion bonds per square centimeter, this new class of material could have wide-ranging applications.</p>
+<p>In artificial intelligence: * <strong>AI Co-Scientist for Accelerated Discovery:</strong> An “AI Co-Scientist” was developed as a collaborative tool to assist scientists in generating novel hypotheses and research proposals. This AI has shown promise in areas such as drug repurposing and proposing new treatment targets, potentially accelerating the pace of biomedical discoveries.</p>
+</div>
+<section id="search-results" class="level2 cell-output cell-output-display cell-output-markdown">
+<h2 class="anchored" data-anchor-id="search-results"><strong>Search Results</strong></h2>
+</section>
+<div class="cell-output cell-output-display">
+<style>
+.container {
+  align-items: center;
+  border-radius: 8px;
+  display: flex;
+  font-family: Google Sans, Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 8px 12px;
+}
+.chip {
+  display: inline-block;
+  border: solid 1px;
+  border-radius: 16px;
+  min-width: 14px;
+  padding: 5px 16px;
+  text-align: center;
+  user-select: none;
+  margin: 0 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.carousel {
+  overflow: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+  margin-right: -12px;
+}
+.headline {
+  display: flex;
+  margin-right: 4px;
+}
+.gradient-container {
+  position: relative;
+}
+.gradient {
+  position: absolute;
+  transform: translate(3px, -9px);
+  height: 36px;
+  width: 9px;
+}
+@media (prefers-color-scheme: light) {
+  .container {
+    background-color: #fafafa;
+    box-shadow: 0 0 0 1px #0000000f;
+  }
+  .headline-label {
+    color: #1f1f1f;
+  }
+  .chip {
+    background-color: #ffffff;
+    border-color: #d2d2d2;
+    color: #5e5e5e;
+    text-decoration: none;
+  }
+  .chip:hover {
+    background-color: #f2f2f2;
+  }
+  .chip:focus {
+    background-color: #f2f2f2;
+  }
+  .chip:active {
+    background-color: #d8d8d8;
+    border-color: #b6b6b6;
+  }
+  .logo-dark {
+    display: none;
+  }
+  .gradient {
+    background: linear-gradient(90deg, #fafafa 15%, #fafafa00 100%);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: #1f1f1f;
+    box-shadow: 0 0 0 1px #ffffff26;
+  }
+  .headline-label {
+    color: #fff;
+  }
+  .chip {
+    background-color: #2c2c2c;
+    border-color: #3c4043;
+    color: #fff;
+    text-decoration: none;
+  }
+  .chip:hover {
+    background-color: #353536;
+  }
+  .chip:focus {
+    background-color: #353536;
+  }
+  .chip:active {
+    background-color: #464849;
+    border-color: #53575b;
+  }
+  .logo-light {
+    display: none;
+  }
+  .gradient {
+    background: linear-gradient(90deg, #1f1f1f 15%, #1f1f1f00 100%);
+  }
+}
+</style>
+<div class="container">
+  <div class="headline">
+    <svg class="logo-light" width="18" height="18" viewbox="9 9 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M42.8622 27.0064C42.8622 25.7839 42.7525 24.6084 42.5487 23.4799H26.3109V30.1568H35.5897C35.1821 32.3041 33.9596 34.1222 32.1258 35.3448V39.6864H37.7213C40.9814 36.677 42.8622 32.2571 42.8622 27.0064V27.0064Z" fill="#4285F4"></path>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M26.3109 43.8555C30.9659 43.8555 34.8687 42.3195 37.7213 39.6863L32.1258 35.3447C30.5898 36.3792 28.6306 37.0061 26.3109 37.0061C21.8282 37.0061 18.0195 33.9811 16.6559 29.906H10.9194V34.3573C13.7563 39.9841 19.5712 43.8555 26.3109 43.8555V43.8555Z" fill="#34A853"></path>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M16.6559 29.8904C16.3111 28.8559 16.1074 27.7588 16.1074 26.6146C16.1074 25.4704 16.3111 24.3733 16.6559 23.3388V18.8875H10.9194C9.74388 21.2072 9.06992 23.8247 9.06992 26.6146C9.06992 29.4045 9.74388 32.022 10.9194 34.3417L15.3864 30.8621L16.6559 29.8904V29.8904Z" fill="#FBBC05"></path>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M26.3109 16.2386C28.85 16.2386 31.107 17.1164 32.9095 18.8091L37.8466 13.8719C34.853 11.082 30.9659 9.3736 26.3109 9.3736C19.5712 9.3736 13.7563 13.245 10.9194 18.8875L16.6559 23.3388C18.0195 19.2636 21.8282 16.2386 26.3109 16.2386V16.2386Z" fill="#EA4335"></path>
+    </svg>
+    <svg class="logo-dark" width="18" height="18" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="24" cy="23" fill="#FFF" r="22"></circle>
+      <path d="M33.76 34.26c2.75-2.56 4.49-6.37 4.49-11.26 0-.89-.08-1.84-.29-3H24.01v5.99h8.03c-.4 2.02-1.5 3.56-3.07 4.56v.75l3.91 2.97h.88z" fill="#4285F4"></path>
+      <path d="M15.58 25.77A8.845 8.845 0 0 0 24 31.86c1.92 0 3.62-.46 4.97-1.31l4.79 3.71C31.14 36.7 27.65 38 24 38c-5.93 0-11.01-3.4-13.45-8.36l.17-1.01 4.06-2.85h.8z" fill="#34A853"></path>
+      <path d="M15.59 20.21a8.864 8.864 0 0 0 0 5.58l-5.03 3.86c-.98-2-1.53-4.25-1.53-6.64 0-2.39.55-4.64 1.53-6.64l1-.22 3.81 2.98.22 1.08z" fill="#FBBC05"></path>
+      <path d="M24 14.14c2.11 0 4.02.75 5.52 1.98l4.36-4.36C31.22 9.43 27.81 8 24 8c-5.93 0-11.01 3.4-13.45 8.36l5.03 3.85A8.86 8.86 0 0 1 24 14.14z" fill="#EA4335"></path>
+    </svg>
+    <div class="gradient-container"><div class="gradient"></div></div>
+  </div>
+  <div class="carousel">
+    <a class="chip" href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AbF9wXGpZFW8Np_inshn44f-EbhlQ2QQqXJseQlcZLFZ9tvMwP6iheoVZX2pXx3TU7U0fyQadSACTrgscR3pN7v0dlcE2BJZw66oBvKPwO5r-2hWGVsRZpuRcVy8P4p9BlG9t4z5YxjimPH_sEmhfvjWavwyHD87oOBHpn59xHYA26XDQIIYT3WRPcQuaPnIPhF7N4DdKT_DNEnpet8BjkkGqfnLBK0o4FXr">top research announcements May 2025</a>
+    <a class="chip" href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AbF9wXEV7ktntNnd0kJwUVojaWK4bn6cBjXnHrAYJGuSbX_FotKoUhXNiaCHVigCn9L9z8M8iCmFedTOgrjmbPBpvgtG6yIgjtwP1Z75mYJuyTaAXaCnmYTGbJop8pNb0Q4tUkC6seKMCYiJ3p_Zmt2BajO94--nhU0Ha8tlSmOnWUtYmC17jQhNsZTUV14l9XSlsN2Epgq1DGd5pGS6bSVbnbPcXpRcMlulCAXOfA==">major scientific breakthroughs May 2025</a>
+    <a class="chip" href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AbF9wXH6jjVZ4FvNmRKR39oqMi6rAy65Y0UDPA9i0NPcZhCdBM4AbvNgfgJIuKICE303sGVxl6p4IIZpiQ5_-7cpUohCt0Sj_lva9jjnmj5EclLu2E94fBBdlhjeIY_3jzNzVy4GamhdBLZQ_FFqnZ06lINY6VGmoi5Jd5azZtJ6WPZooJ2LTsvGNKXhh84rT3cZFY_Lr1uVlX_IBE_y1VGXLAd52SmG_uQcK2GykAk=">significant science discoveries May 2025</a>
+  </div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
+<p>Try Gemini 2.5 Pro Experimental in <a href="https://aistudio.google.com/prompts/new_chat?model=gemini-2.5-pro-exp-03-25">Google AI Studio</a>, and learn more about <a href="https://ai.google.dev/gemini-api/docs/prompting-with-thinking">Prompting for thinking models</a>.</p>
+<p>For more examples of the Gemini capabilities, check the other Cookbook examples. You’ll learn how to use the <a href="quickstarts/Get_started_LiveAPI.ipynb">Live API</a>, juggle with <a href="examples/LiveAPI_plotting_and_mapping.ipynb">multiple tools</a> or use Gemini <a href="quickstarts/Spatial_understanding.ipynb">spatial understanding</a> abilities.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fallendeity\.github\.io\/deepmind-starter");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../quickstarts/Get_started_LyriaRealtime.html" class="pagination-link" aria-label="Get started with Music generation using Lyria RealTime">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Get started with Music generation using Lyria RealTime</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../quickstarts/Get_started_TTS.html" class="pagination-link" aria-label="Gemini API: Gemini Text-to-speech">
+        <span class="nav-page-text">Gemini API: Gemini Text-to-speech</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Get_started_thinking.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Get_started_thinking.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
