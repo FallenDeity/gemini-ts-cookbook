@@ -5,3 +5,14 @@ assets/2403.05530.pdf filter=lfs diff=lfs merge=lfs -text
 assets/article.pdf filter=lfs diff=lfs merge=lfs -text
 assets/audio.mp3 filter=lfs diff=lfs merge=lfs -text
 assets/chat_history.json filter=lfs diff=lfs merge=lfs -text
+assets/live filter=lfs diff=lfs merge=lfs -text
+assets/live/audio_response_1.wav filter=lfs diff=lfs merge=lfs -text
+assets/live/audio_response_2.wav filter=lfs diff=lfs merge=lfs -text
+assets/live/lyria_realtime_0.wav filter=lfs diff=lfs merge=lfs -text
+assets/live/text_to_audio_response.wav filter=lfs diff=lfs merge=lfs -text
+assets/docs/gemini-icon.png filter=lfs diff=lfs merge=lfs -text
+assets/docs filter=lfs diff=lfs merge=lfs -text
+assets/docs/gemini-icon.svg filter=lfs diff=lfs merge=lfs -text
+assets/live/audio_response_0.wav filter=lfs diff=lfs merge=lfs -text
+assets/live/lyria_realtime_1.wav filter=lfs diff=lfs merge=lfs -text
+assets/a11.txt filter=lfs diff=lfs merge=lfs -text
