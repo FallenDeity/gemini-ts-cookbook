@@ -20,7 +20,7 @@ website:
     search: true
     left:
       - text: "Home"
-        file: docs/index.qmd
+        file: index.qmd
       - text: "Quickstarts"
         file: quickstarts/Get_started.ipynb
     tools:
