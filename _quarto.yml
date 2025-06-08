@@ -2,6 +2,8 @@ project:
   type: website
   title: "deepmind-starter"
   output-dir: build
+  resources:
+    - "assets/*"
 
 toc: true
 
