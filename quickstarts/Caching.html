@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../quickstarts/Get_started.html" rel="next">
+<link href="../quickstarts/Code_Execution.html" rel="next">
 <link href="../quickstarts/Audio.html" rel="prev">
 <link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -197,6 +197,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../quickstarts/Caching.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Code Execution</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -402,7 +408,7 @@ Note
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> textFilePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets"</span><span class="op">,</span> <span class="st">"a11.txt"</span>)<span class="op">;</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co">// await downloadFile(TEXT_FILE_URL, textFilePath);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(TEXT_FILE_URL<span class="op">,</span> textFilePath)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now upload the transcript using the <a href="quickstarts/File_API.ipynb">File API</a>.</p>
 <div id="cell-13" class="cell" data-execution_count="47">
@@ -420,16 +426,14 @@ Note
 <p>Next create a <code>CachedContent</code> object specifying the prompt you want to use, including the file and other fields you wish to cache. In this example the <code>systemInstruction</code> has been set, and the document was provided in the prompt.</p>
 <p>Note that caches are model specific. You cannot use a cache made with a different model as their tokenization might be slightly different.</p>
 <div id="cell-15" class="cell" data-execution_count="48">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">// console.log(JSON.stringify(await ai.models.list(), null, 2));</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> apollo_cache <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">caches</span><span class="op">.</span><span class="fu">create</span>({</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">,</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> [google<span class="op">.</span><span class="fu">createPartFromUri</span>(text_file<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> text_file<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">"text/plain"</span>)]<span class="op">,</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> <span class="st">"You are an expert at analyzing transcripts."</span><span class="op">,</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(apollo_cache<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> apollo_cache <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">caches</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">,</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> [google<span class="op">.</span><span class="fu">createPartFromUri</span>(text_file<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> text_file<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">"text/plain"</span>)]<span class="op">,</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> <span class="st">"You are an expert at analyzing transcripts."</span><span class="op">,</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(apollo_cache<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>{
   "name": "cachedContents/or2aw5wd2llyqw6dwjebcx3jugv0dl85rir0zfsh",
@@ -558,13 +562,20 @@ Note
 <div id="cell-23" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="vs">  As you can see in the </span><span class="sc">\`</span><span class="vs">usageMetadata</span><span class="sc">\`</span><span class="vs">, the token usage is split between:</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>transcript_response<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">cachedContentTokenCount</span><span class="sc">}</span><span class="vs"> tokens for the cache,</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>transcript_response<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">promptTokenCount</span><span class="sc">}</span><span class="vs"> tokens for the input (including the cache, so </span><span class="sc">${</span>(transcript_response<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">promptTokenCount</span> <span class="op">??</span> <span class="dv">0</span>) <span class="op">-</span> (transcript_response<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">cachedContentTokenCount</span> <span class="op">??</span> <span class="dv">0</span>)<span class="sc">}</span><span class="vs"> for the actual prompt),</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>transcript_response<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">candidatesTokenCount</span><span class="sc">}</span><span class="vs"> tokens for the output,</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>transcript_response<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">totalTokenCount</span><span class="sc">}</span><span class="vs"> tokens in total.</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>transcript_response<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">cachedContentTokenCount</span><span class="sc">}</span><span class="vs"> tokens for the cache,</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>transcript_response<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">promptTokenCount</span><span class="sc">}</span><span class="vs"> tokens for the input (including the cache, so </span><span class="sc">${</span>(transcript_response<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">promptTokenCount</span> <span class="op">??</span> <span class="dv">0</span>) <span class="op">-</span> (transcript_response<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">cachedContentTokenCount</span> <span class="op">??</span> <span class="dv">0</span>)<span class="sc">}</span><span class="vs"> for the actual prompt),</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>transcript_response<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">candidatesTokenCount</span><span class="sc">}</span><span class="vs"> tokens for the output,</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>transcript_response<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">totalTokenCount</span><span class="sc">}</span><span class="vs"> tokens in total.</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
-<p>As you can see in the <code>usageMetadata</code>, the token usage is split between: * 323384 tokens for the cache, * 323392 tokens for the input (including the cache, so 8 for the actual prompt), * 423 tokens for the output, * 323815 tokens in total.</p>
+<p>As you can see in the <code>usageMetadata</code>, the token usage is split between:</p>
+<ul>
+<li>323384 tokens for the cache,</li>
+<li>323392 tokens for the input (including the cache, so 8 for the actual prompt),</li>
+<li>423 tokens for the output,</li>
+<li>323815 tokens in total.</li>
+</ul>
 </div>
 </div>
 <p>You can ask new questions of the model, and the cache is reused.</p>
@@ -641,13 +652,20 @@ Note
 <div id="cell-28" class="cell" data-execution_count="59">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="vs">  As you can see in the </span><span class="sc">\`</span><span class="vs">usageMetadata</span><span class="sc">\`</span><span class="vs">, the token usage is split between:</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>chat_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">cachedContentTokenCount</span><span class="sc">}</span><span class="vs"> tokens for the cache,</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>chat_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">promptTokenCount</span><span class="sc">}</span><span class="vs"> tokens for the input (including the cache, so </span><span class="sc">${</span>(chat_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">promptTokenCount</span> <span class="op">??</span> <span class="dv">0</span>) <span class="op">-</span> (chat_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">cachedContentTokenCount</span> <span class="op">??</span> <span class="dv">0</span>)<span class="sc">}</span><span class="vs"> for the actual prompt),</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>chat_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">candidatesTokenCount</span><span class="sc">}</span><span class="vs"> tokens for the output,</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>chat_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">totalTokenCount</span><span class="sc">}</span><span class="vs"> tokens in total.</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>chat_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">cachedContentTokenCount</span><span class="sc">}</span><span class="vs"> tokens for the cache,</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>chat_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">promptTokenCount</span><span class="sc">}</span><span class="vs"> tokens for the input (including the cache, so </span><span class="sc">${</span>(chat_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">promptTokenCount</span> <span class="op">??</span> <span class="dv">0</span>) <span class="op">-</span> (chat_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">cachedContentTokenCount</span> <span class="op">??</span> <span class="dv">0</span>)<span class="sc">}</span><span class="vs"> for the actual prompt),</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>chat_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">candidatesTokenCount</span><span class="sc">}</span><span class="vs"> tokens for the output,</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="vs">  *  </span><span class="sc">${</span>chat_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">totalTokenCount</span><span class="sc">}</span><span class="vs"> tokens in total.</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
-<p>As you can see in the <code>usageMetadata</code>, the token usage is split between: * 323384 tokens for the cache, * 323439 tokens for the input (including the cache, so 55 for the actual prompt), * 287 tokens for the output, * 323726 tokens in total.</p>
+<p>As you can see in the <code>usageMetadata</code>, the token usage is split between:</p>
+<ul>
+<li>323384 tokens for the cache,</li>
+<li>323439 tokens for the input (including the cache, so 55 for the actual prompt),</li>
+<li>287 tokens for the output,</li>
+<li>323726 tokens in total.</li>
+</ul>
 </div>
 </div>
 <p>Since the cached tokens are cheaper than the normal ones, it means this prompt was much cheaper that if you had not used caching. Check the <a href="https://ai.google.dev/pricing">pricing here</a> for the up-to-date discount on cached tokens.</p>
@@ -1092,8 +1110,8 @@ Note
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../quickstarts/Get_started.html" class="pagination-link" aria-label="Gemini API: Getting started with Gemini models">
-        <span class="nav-page-text">Gemini API: Getting started with Gemini models</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../quickstarts/Code_Execution.html" class="pagination-link" aria-label="Gemini API: Code Execution">
+        <span class="nav-page-text">Gemini API: Code Execution</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

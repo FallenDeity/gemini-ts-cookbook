@@ -200,6 +200,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Code Execution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
   </div>
@@ -559,7 +565,7 @@ Note
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="vs">        Analyze the following YouTube video content. Provide a concise summary covering:</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    Analyze the following YouTube video content. Provide a concise summary covering:</span></span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="vs">    1.  **Main Thesis/Claim:** What is the central point the creator is making?</span></span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="vs">    2.  **Key Topics:** List the main subjects discussed, referencing specific examples or technologies mentioned (e.g., AI models, programming languages, projects).</span></span>
@@ -567,32 +573,37 @@ Note
 <span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="vs">    4.  **Summary:** Provide a concise summary of the video content.</span></span>
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="vs">    Use the provided title, chapter timestamps/descriptions, and description text for your analysis.</span></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="vs">        `</span><span class="op">,</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">,</span></span>
 <span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(YOUTUBE_URL<span class="op">,</span> <span class="st">"video/x-youtube"</span>)<span class="op">,</span></span>
 <span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
 <span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
 <span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(youtube_response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>Here’s an analysis of the YouTube video content:</p>
-<pre><code>1.  **Main Thesis/Claim:** Google's newly released Gemini 2.5 Pro is a highly capable AI for coding, demonstrating impressive abilities in code generation and refactoring across various programming languages, often outperforming or competing strongly with other leading AI models. While it excels at functional code, it still faces challenges in accurately translating complex visual mockups into fully functional and aesthetically precise UIs.
-
-2.  **Key Topics:**
-    *   **Gemini 2.5 Pro Capabilities:** Highlighted for its large 1M token context window and overall performance as a coding AI.
-    *   **Code Generation:**
-        *   Successfully generated an "Ultimate Tic-Tac-Toe" game in Java (Swing) in a single attempt ("one-shot").
-        *   Created a "Kitten Cannon" style game using P5.js, requiring minor error corrections (fixed with two additional prompts, making it a "three-shot" overall).
-        *   Recreated a static HTML/CSS layout of the X (Twitter) website, demonstrating visual accuracy but no dynamic functionality.
-    *   **Code Refactoring:** Showcased a significant improvement in refactoring complex Rust code, converting traditional loops to more idiomatic iterators and generally cleaning up the codebase, surpassing other models in this task.
-    *   **UI Generation Limitations:** Demonstrated struggles with building a precise landing page using Vite, React, and Tailwind CSS from a visual mockup, indicating difficulties with complex visual translation and asset integration.
-    *   **Benchmarking and Performance:** Compared Gemini 2.5 Pro's performance against other prominent AI models (OpenAI's GPT-4/o3-mini, Claude 3, DeepSeek, Grok) across reasoning, science, mathematics, code generation, and long context. Gemini showed strong leads in reasoning, science, and mathematics, and competitive performance in code generation and editing.
-    *   **Information Currentness (Grounding):** Noted Gemini's training data extends to March 2025 and its ability to "ground" responses with Google Search for real-time information (e.g., current React.js version).
-
-3.  **Call to Action:**
-    *   Encourages viewers to share their experiences with Gemini 2.5 Pro in the comments.
-    *   Asks Rust developers for their opinion on the refactored Rust code.
-    *   Requests viewers to subscribe, like the video, and enable notifications.
-
-4.  **Summary:** The video showcases the impressive coding prowess of Google's new Gemini 2.5 Pro AI model, emphasizing its large context window and strong capabilities in generating and refactoring code. The creator successfully uses Gemini to build a Java Tic-Tac-Toe game in one attempt, a P5.js game with minor fixes, and a static Twitter UI. A key highlight is Gemini's superior ability to refactor complex Rust code into cleaner, more idiomatic forms. While the model excels in functional coding, it encounters limitations when tasked with generating complex, pixel-perfect user interfaces directly from visual mockups. The creator also presents benchmark comparisons, demonstrating Gemini's competitive edge over other leading AI models in various domains, including its up-to-date knowledge base. The video concludes by recommending Gemini 2.5 Pro as a powerful and potentially cost-effective tool for developers.</code></pre>
+<ol type="1">
+<li><p><strong>Main Thesis/Claim:</strong> Google’s newly released Gemini 2.5 Pro is a highly capable AI for coding, demonstrating impressive abilities in code generation and refactoring across various programming languages, often outperforming or competing strongly with other leading AI models. While it excels at functional code, it still faces challenges in accurately translating complex visual mockups into fully functional and aesthetically precise UIs.</p></li>
+<li><p><strong>Key Topics:</strong></p>
+<ul>
+<li><strong>Gemini 2.5 Pro Capabilities:</strong> Highlighted for its large 1M token context window and overall performance as a coding AI.</li>
+<li><strong>Code Generation:</strong>
+<ul>
+<li>Successfully generated an “Ultimate Tic-Tac-Toe” game in Java (Swing) in a single attempt (“one-shot”).</li>
+<li>Created a “Kitten Cannon” style game using P5.js, requiring minor error corrections (fixed with two additional prompts, making it a “three-shot” overall).</li>
+<li>Recreated a static HTML/CSS layout of the X (Twitter) website, demonstrating visual accuracy but no dynamic functionality.</li>
+</ul></li>
+<li><strong>Code Refactoring:</strong> Showcased a significant improvement in refactoring complex Rust code, converting traditional loops to more idiomatic iterators and generally cleaning up the codebase, surpassing other models in this task.</li>
+<li><strong>UI Generation Limitations:</strong> Demonstrated struggles with building a precise landing page using Vite, React, and Tailwind CSS from a visual mockup, indicating difficulties with complex visual translation and asset integration.</li>
+<li><strong>Benchmarking and Performance:</strong> Compared Gemini 2.5 Pro’s performance against other prominent AI models (OpenAI’s GPT-4/o3-mini, Claude 3, DeepSeek, Grok) across reasoning, science, mathematics, code generation, and long context. Gemini showed strong leads in reasoning, science, and mathematics, and competitive performance in code generation and editing.</li>
+<li><strong>Information Currentness (Grounding):</strong> Noted Gemini’s training data extends to March 2025 and its ability to “ground” responses with Google Search for real-time information (e.g., current React.js version).</li>
+</ul></li>
+<li><p><strong>Call to Action:</strong></p>
+<ul>
+<li>Encourages viewers to share their experiences with Gemini 2.5 Pro in the comments.</li>
+<li>Asks Rust developers for their opinion on the refactored Rust code.</li>
+<li>Requests viewers to subscribe, like the video, and enable notifications.</li>
+</ul></li>
+<li><p><strong>Summary:</strong> The video showcases the impressive coding prowess of Google’s new Gemini 2.5 Pro AI model, emphasizing its large context window and strong capabilities in generating and refactoring code. The creator successfully uses Gemini to build a Java Tic-Tac-Toe game in one attempt, a P5.js game with minor fixes, and a static Twitter UI. A key highlight is Gemini’s superior ability to refactor complex Rust code into cleaner, more idiomatic forms. While the model excels in functional coding, it encounters limitations when tasked with generating complex, pixel-perfect user interfaces directly from visual mockups. The creator also presents benchmark comparisons, demonstrating Gemini’s competitive edge over other leading AI models in various domains, including its up-to-date knowledge base. The video concludes by recommending Gemini 2.5 Pro as a powerful and potentially cost-effective tool for developers.</p></li>
+</ol>
 </div>
 </div>
 </section>
@@ -601,11 +612,11 @@ Note
 <p>You can count the number of tokens in your audio file using the <a href="https://googleapis.github.io/js-genai/release_docs/classes/models.Models.html#counttokens">countTokens</a> method.</p>
 <p>Audio files have a fixed per second token rate (more details in the dedicated <a href="quickstarts/Counting_Tokens.ipynb">count token quickstart</a>.)</p>
 <div id="cell-26" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> count_tokens_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [google<span class="op">.</span><span class="fu">createPartFromUri</span>(audio_file<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> audio_file<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)]<span class="op">,</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`Token count for the audio file: </span><span class="sc">\`${</span>count_tokens_response<span class="op">.</span><span class="at">totalTokens</span><span class="sc">}\`</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> count_tokens_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [google<span class="op">.</span><span class="fu">createPartFromUri</span>(audio_file<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> audio_file<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)]<span class="op">,</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`Token count for the audio file: </span><span class="sc">\`${</span>count_tokens_response<span class="op">.</span><span class="at">totalTokens</span><span class="sc">}\`</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>Token count for the audio file: <code>83528</code></p>
 </div>
