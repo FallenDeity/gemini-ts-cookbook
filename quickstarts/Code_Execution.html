@@ -523,14 +523,13 @@ Note
 </div>
 <div id="cell-15" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> danfojs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"danfojs-node"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"danfojs-node"</span>)<span class="op">;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> scikitjs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"scikitjs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"scikitjs"</span>)<span class="op">;</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> DATASET_URL <span class="op">=</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/javascriptdata/scikit.js/refs/heads/main/docs/static/data/california_housing.csv"</span><span class="op">;</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Loading California housing dataset from:"</span><span class="op">,</span> DATASET_URL)<span class="op">;</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> california_housing <span class="op">=</span> <span class="cf">await</span> danfojs<span class="op">.</span><span class="fu">readCSV</span>(DATASET_URL)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> DATASET_URL <span class="op">=</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/javascriptdata/scikit.js/refs/heads/main/docs/static/data/california_housing.csv"</span><span class="op">;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Loading California housing dataset from:"</span><span class="op">,</span> DATASET_URL)<span class="op">;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> california_housing <span class="op">=</span> <span class="cf">await</span> danfojs<span class="op">.</span><span class="fu">readCSV</span>(DATASET_URL)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Loading California housing dataset from: https://raw.githubusercontent.com/javascriptdata/scikit.js/refs/heads/main/docs/static/data/california_housing.csv</code></pre>
 </div>
@@ -1059,25 +1058,19 @@ Bogo-sort completed in 112 shuffles!
 </ol>
 </div>
 <div class="cell-output cell-output-display cell-output-markdown">
-<pre><code>    Stopped after 5 shuffles for demonstration. List not sorted yet.
-    ```
-:::
-
-::: {.cell-output .cell-output-display .cell-output-markdown}
-
-    So, it performed **5 iterations (shuffles)** but **did not sort** the list.
-
-2.  **This Time (Second Try - Alternate Implementation):**
-    In the most recent run with the alternate implementation, the algorithm continued shuffling until it found the sorted order. The output was:
-    
-:::
-
-::: {.cell-output .cell-output-display .cell-output-markdown}</code></pre>
-<pre><code>Bogo-sort completed in 112 shuffles!
-```</code></pre>
+<pre><code>Stopped after 5 shuffles for demonstration. List not sorted yet.</code></pre>
 </div>
 <div class="cell-output cell-output-display cell-output-markdown">
-<pre><code>This time, it took **112 iterations (shuffles)** to successfully sort the list `[2,34,1,65,4]` into `[1,2,4,34,65]`.</code></pre>
+<p>So, it performed <strong>5 iterations (shuffles)</strong> but <strong>did not sort</strong> the list.</p>
+<ol start="2" type="1">
+<li><strong>This Time (Second Try - Alternate Implementation):</strong> In the most recent run with the alternate implementation, the algorithm continued shuffling until it found the sorted order. The output was:</li>
+</ol>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<pre><code>Bogo-sort completed in 112 shuffles!</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>This time, it took <strong>112 iterations (shuffles)</strong> to successfully sort the list <code>[2,34,1,65,4]</code> into <code>[1,2,4,34,65]</code>.</p>
 <p><strong>Comparison:</strong></p>
 <ul>
 <li>The <strong>first try</strong> ran for only <strong>5 shuffles</strong> and <strong>did not succeed</strong> in sorting the list, as it was intentionally stopped early for demonstration.</li>
@@ -1091,24 +1084,24 @@ Bogo-sort completed in 112 shuffles!
 <p>You can pass media objects as part of the prompt, the model can look at these objects but it can’t use them in the code.</p>
 <p>In this example, you will interact with Gemini API, using code execution, to run simulations of the <a href="https://en.wikipedia.org/wiki/Monty_Hall_problem">Monty Hall Problem</a>.</p>
 <div id="cell-30" class="cell" data-execution_count="40">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MONTY_HALL_IMG <span class="op">=</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Monty_open_door.svg/640px-Monty_open_door.svg.png"</span><span class="op">;</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> downloadFile <span class="op">=</span> <span class="kw">async</span> (url<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> filePath<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> {</span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to download image: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">blob</span>()<span class="op">;</span></span>
-<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> bufferData <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> buffer<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">;</span></span>
-<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(filePath<span class="op">,</span> bufferData)<span class="op">;</span></span>
-<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
-<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> filePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets"</span><span class="op">,</span> <span class="st">"monty_hall.png"</span>)<span class="op">;</span></span>
-<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(MONTY_HALL_IMG<span class="op">,</span> filePath)<span class="op">;</span></span>
-<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(filePath))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MONTY_HALL_IMG <span class="op">=</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Monty_open_door.svg/640px-Monty_open_door.svg.png"</span><span class="op">;</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> downloadFile <span class="op">=</span> <span class="kw">async</span> (url<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> filePath<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to download image: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">blob</span>()<span class="op">;</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> bufferData <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> buffer<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">;</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(filePath<span class="op">,</span> bufferData)<span class="op">;</span></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> filePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets"</span><span class="op">,</span> <span class="st">"monty_hall.png"</span>)<span class="op">;</span></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(MONTY_HALL_IMG<span class="op">,</span> filePath)<span class="op">;</span></span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(filePath))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1118,77 +1111,83 @@ Bogo-sort completed in 112 shuffles!
 </div>
 </div>
 <div id="cell-31" class="cell" data-execution_count="63">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> image_file <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  file<span class="op">:</span> filePath<span class="op">,</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    displayName<span class="op">:</span> <span class="st">"monty_hall.png"</span><span class="op">,</span></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    mimeType<span class="op">:</span> <span class="st">"image/png"</span><span class="op">,</span></span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> image_file <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  file<span class="op">:</span> filePath<span class="op">,</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    displayName<span class="op">:</span> <span class="st">"monty_hall.png"</span><span class="op">,</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    mimeType<span class="op">:</span> <span class="st">"image/png"</span><span class="op">,</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-32" class="cell" data-execution_count="64">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> monty_hall_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`</span></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    Run a simulation of the Monty Hall Problem with 1,000 trials.</span></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    The answer has always been a little difficult for me to understand when people</span></span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    solve it with math - so run a simulation with Python to show me what the</span></span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="vs">    best strategy is.</span></span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">,</span></span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(image_file<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> image_file<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
-<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">:</span> [{ codeExecution<span class="op">:</span> {} }]<span class="op">,</span></span>
-<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a><span class="fu">displayCodeExecutionResult</span>(monty_hall_response)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> monty_hall_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    Run a simulation of the Monty Hall Problem with 1,000 trials.</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    The answer has always been a little difficult for me to understand when people</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    solve it with math - so run a simulation with Python to show me what the</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="vs">    best strategy is.</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">,</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(image_file<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> image_file<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">:</span> [{ codeExecution<span class="op">:</span> {} }]<span class="op">,</span></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a><span class="fu">displayCodeExecutionResult</span>(monty_hall_response)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>The Monty Hall Problem is a famous probability puzzle. I can simulate this problem in Python to show you why switching doors is the better strategy.</p>
-<p>Here’s how the simulation will work for 1,000 trials: 1. We’ll have three doors. One will hide a car (the prize), and the other two will hide goats. 2. The contestant picks a door. 3. The host, who knows where the car is, opens one of the unchosen doors that contains a goat. 4. The contestant then has the option to either stick with their original choice or switch to the remaining closed door.</p>
+<p>Here’s how the simulation will work for 1,000 trials:</p>
+<ol type="1">
+<li>We’ll have three doors. One will hide a car (the prize), and the other two will hide goats.</li>
+<li>The contestant picks a door.</li>
+<li>The host, who knows where the car is, opens one of the unchosen doors that contains a goat.</li>
+<li>The contestant then has the option to either stick with their original choice or switch to the remaining closed door.</li>
+</ol>
 <p>I will track the number of wins for both scenarios (sticking and switching) over 1,000 trials.</p>
 </div>
 <div class="cell-output cell-output-display cell-output-markdown">
-<div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_monty_hall_simulation(num_trials):</span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    stick_wins <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    switch_wins <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(num_trials):</span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 1. Place the car behind a random door (0, 1, or 2)</span></span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>        car_door <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="dv">2</span>)</span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2. Contestant makes an initial choice</span></span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>        initial_choice <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="dv">2</span>)</span>
-<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 3. Host opens a door with a goat</span></span>
-<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># The host must open a door that is not the car_door and not the initial_choice</span></span>
-<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>        available_host_choices <span class="op">=</span> [d <span class="cf">for</span> d <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>) <span class="cf">if</span> d <span class="op">!=</span> car_door <span class="kw">and</span> d <span class="op">!=</span> initial_choice]</span>
-<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>        host_opened_door <span class="op">=</span> random.choice(available_host_choices)</span>
-<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 4. Determine outcome for "stick" strategy</span></span>
-<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> initial_choice <span class="op">==</span> car_door:</span>
-<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>            stick_wins <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 5. Determine outcome for "switch" strategy</span></span>
-<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># The remaining door is the one not initially chosen and not opened by the host</span></span>
-<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>        remaining_doors <span class="op">=</span> [d <span class="cf">for</span> d <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>) <span class="cf">if</span> d <span class="op">!=</span> initial_choice <span class="kw">and</span> d <span class="op">!=</span> host_opened_door]</span>
-<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># There should only be one remaining door to switch to</span></span>
-<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>        switched_choice <span class="op">=</span> remaining_doors[<span class="dv">0</span>]</span>
-<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> switched_choice <span class="op">==</span> car_door:</span>
-<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>            switch_wins <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> stick_wins, switch_wins</span>
-<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a>num_trials <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a>stick_wins, switch_wins <span class="op">=</span> run_monty_hall_simulation(num_trials)</span>
-<span id="cb45-36"><a href="#cb45-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-37"><a href="#cb45-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Simulation of Monty Hall Problem with </span><span class="sc">{</span>num_trials<span class="sc">}</span><span class="ss"> trials:"</span>)</span>
-<span id="cb45-38"><a href="#cb45-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wins by sticking with initial choice: </span><span class="sc">{</span>stick_wins<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>stick_wins <span class="op">/</span> num_trials<span class="sc">:.2%}</span><span class="ss">)"</span>)</span>
-<span id="cb45-39"><a href="#cb45-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wins by switching to the other door: </span><span class="sc">{</span>switch_wins<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>switch_wins <span class="op">/</span> num_trials<span class="sc">:.2%}</span><span class="ss">)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_monty_hall_simulation(num_trials):</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    stick_wins <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    switch_wins <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(num_trials):</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 1. Place the car behind a random door (0, 1, or 2)</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>        car_door <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="dv">2</span>)</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2. Contestant makes an initial choice</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>        initial_choice <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="dv">2</span>)</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 3. Host opens a door with a goat</span></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># The host must open a door that is not the car_door and not the initial_choice</span></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>        available_host_choices <span class="op">=</span> [d <span class="cf">for</span> d <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>) <span class="cf">if</span> d <span class="op">!=</span> car_door <span class="kw">and</span> d <span class="op">!=</span> initial_choice]</span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>        host_opened_door <span class="op">=</span> random.choice(available_host_choices)</span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 4. Determine outcome for "stick" strategy</span></span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> initial_choice <span class="op">==</span> car_door:</span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>            stick_wins <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 5. Determine outcome for "switch" strategy</span></span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># The remaining door is the one not initially chosen and not opened by the host</span></span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>        remaining_doors <span class="op">=</span> [d <span class="cf">for</span> d <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>) <span class="cf">if</span> d <span class="op">!=</span> initial_choice <span class="kw">and</span> d <span class="op">!=</span> host_opened_door]</span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># There should only be one remaining door to switch to</span></span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>        switched_choice <span class="op">=</span> remaining_doors[<span class="dv">0</span>]</span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> switched_choice <span class="op">==</span> car_door:</span>
+<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a>            switch_wins <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> stick_wins, switch_wins</span>
+<span id="cb44-33"><a href="#cb44-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-34"><a href="#cb44-34" aria-hidden="true" tabindex="-1"></a>num_trials <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb44-35"><a href="#cb44-35" aria-hidden="true" tabindex="-1"></a>stick_wins, switch_wins <span class="op">=</span> run_monty_hall_simulation(num_trials)</span>
+<span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Simulation of Monty Hall Problem with </span><span class="sc">{</span>num_trials<span class="sc">}</span><span class="ss"> trials:"</span>)</span>
+<span id="cb44-38"><a href="#cb44-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wins by sticking with initial choice: </span><span class="sc">{</span>stick_wins<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>stick_wins <span class="op">/</span> num_trials<span class="sc">:.2%}</span><span class="ss">)"</span>)</span>
+<span id="cb44-39"><a href="#cb44-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wins by switching to the other door: </span><span class="sc">{</span>switch_wins<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>switch_wins <span class="op">/</span> num_trials<span class="sc">:.2%}</span><span class="ss">)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <pre><code>Simulation of Monty Hall Problem with 1000 trials:
@@ -1212,93 +1211,94 @@ Wins by switching to the other door: 680 (68.00%)
 <h2 class="anchored" data-anchor-id="streaming">Streaming</h2>
 <p>Streaming is compatible with code execution, and you can use it to deliver a response in real time as it gets generated. Just note that successive parts of the same type (<code>text</code>, <code>executableCode</code> or <code>executionResult</code>) are meant to be joined together, and you have to stitch the output together yourself:</p>
 <div id="cell-34" class="cell" data-execution_count="67">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> monty_hall_stream <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContentStream</span>({</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`</span></span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    Run a simulation of the Monty Hall Problem with 1,000 trials.</span></span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    The answer has always been a little difficult for me to understand when people</span></span>
-<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    solve it with math - so run a simulation with Python to show me what the</span></span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="vs">    best strategy is.</span></span>
-<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">,</span></span>
-<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(image_file<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> image_file<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
-<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
-<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">:</span> [{ codeExecution<span class="op">:</span> {} }]<span class="op">,</span></span>
-<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="cf">await</span> (<span class="kw">const</span> chunk <span class="kw">of</span> monty_hall_stream) {</span>
-<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">displayCodeExecutionResult</span>(chunk)<span class="op">;</span></span>
-<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> monty_hall_stream <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContentStream</span>({</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    Run a simulation of the Monty Hall Problem with 1,000 trials.</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    The answer has always been a little difficult for me to understand when people</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    solve it with math - so run a simulation with Python to show me what the</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="vs">    best strategy is.</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">,</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(image_file<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> image_file<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">:</span> [{ codeExecution<span class="op">:</span> {} }]<span class="op">,</span></span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="cf">await</span> (<span class="kw">const</span> chunk <span class="kw">of</span> monty_hall_stream) {</span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">displayCodeExecutionResult</span>(chunk)<span class="op">;</span></span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>To demonstrate the best strategy in the Monty Hall Problem, I will run a simulation with 1,000 trials. The simulation will compare two</p>
 </div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>strategies: “staying with your initial choice” and “switching your choice” after the host reveals a goat.</p>
-<p>Here’s how the simulation will work for each trial: 1. <strong>Car Placement:</strong> A car is randomly</p>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>placed behind one of three doors. 2. <strong>Player’s Initial Choice:</strong> The player randomly picks one of the three doors. 3. <strong>Host Opens a Door:</strong> The host, who knows where the car is,</p>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>opens one of the <em>other</em> two doors that <em>always</em> has a goat behind it. If the player initially picked the car door, the host randomly opens one of the two goat doors. If the player initially picked a goat door, the host</p>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>opens the <em>other</em> goat door. 4. <strong>Evaluate Strategies:</strong> * <strong>Stay Strategy:</strong> The player wins if their initial choice was the car door. * <strong>Switch Strategy:</strong> The player switches to</p>
+<p>Here’s how the simulation will work for each trial:</p>
+<ol type="1">
+<li><strong>Car Placement:</strong> A car is randomly placed behind one of three doors.</li>
+<li><strong>Player’s Initial Choice:</strong> The player randomly picks one of the three doors.</li>
+<li><strong>Host Opens a Door:</strong> The host, who knows where the car is, opens one of the <em>other</em> two doors that <em>always</em> has a goat behind it. If the player initially picked the car door, the host randomly opens one of the two goat doors. If the player initially picked a goat door, the host opens the <em>other</em> goat door.</li>
+<li><strong>Evaluate Strategies:</strong>
+<ul>
+<li><strong>Stay Strategy:</strong> The player wins if their initial choice was the car door.</li>
+<li><strong>Switch Strategy:</strong> The player switches to</li>
+</ul></li>
+</ol>
 </div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>the remaining unopened door. The player wins if this new door has the car.</p>
 <p>Let’s run the simulation.</p>
 </div>
 <div class="cell-output cell-output-display cell-output-markdown">
-<div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> monty_hall_simulation(num_trials):</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    stay_wins <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    switch_wins <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(num_trials):</span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 1. Car placement (0, 1, or 2)</span></span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>        car_door <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="dv">2</span>)</span>
-<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2. Player's initial choice</span></span>
-<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>        player_choice <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="dv">2</span>)</span>
-<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 3. Host opens a goat door</span></span>
-<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create a list of available doors for the host to open (not player's choice, not car door)</span></span>
-<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>        available_host_doors <span class="op">=</span> [i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>) <span class="cf">if</span> i <span class="op">!=</span> player_choice <span class="kw">and</span> i <span class="op">!=</span> car_door]</span>
-<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># If player chose the car door, host can open either of the other two doors (both have goats)</span></span>
-<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> player_choice <span class="op">==</span> car_door:</span>
-<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>            door_opened_by_host <span class="op">=</span> random.choice(available_host_doors)</span>
-<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># If player chose a goat door, host must open the *other* goat door</span></span>
-<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>            <span class="co"># There will be only one option in available_host_doors</span></span>
-<span id="cb48-24"><a href="#cb48-24" aria-hidden="true" tabindex="-1"></a>            door_opened_by_host <span class="op">=</span> available_host_doors[<span class="dv">0</span>]</span>
-<span id="cb48-25"><a href="#cb48-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-26"><a href="#cb48-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 4. Evaluate strategies</span></span>
-<span id="cb48-27"><a href="#cb48-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Stay strategy</span></span>
-<span id="cb48-28"><a href="#cb48-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> player_choice <span class="op">==</span> car_door:</span>
-<span id="cb48-29"><a href="#cb48-29" aria-hidden="true" tabindex="-1"></a>            stay_wins <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb48-30"><a href="#cb48-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-31"><a href="#cb48-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Switch strategy</span></span>
-<span id="cb48-32"><a href="#cb48-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># The remaining door (not player_choice and not door_opened_by_host)</span></span>
-<span id="cb48-33"><a href="#cb48-33" aria-hidden="true" tabindex="-1"></a>        remaining_doors <span class="op">=</span> [i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>) <span class="cf">if</span> i <span class="op">!=</span> player_choice <span class="kw">and</span> i <span class="op">!=</span> door_opened_by_host]</span>
-<span id="cb48-34"><a href="#cb48-34" aria-hidden="true" tabindex="-1"></a>        switched_choice <span class="op">=</span> remaining_doors[<span class="dv">0</span>]</span>
-<span id="cb48-35"><a href="#cb48-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-36"><a href="#cb48-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> switched_choice <span class="op">==</span> car_door:</span>
-<span id="cb48-37"><a href="#cb48-37" aria-hidden="true" tabindex="-1"></a>            switch_wins <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb48-38"><a href="#cb48-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-39"><a href="#cb48-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> stay_wins, switch_wins</span>
-<span id="cb48-40"><a href="#cb48-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-41"><a href="#cb48-41" aria-hidden="true" tabindex="-1"></a>num_trials <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb48-42"><a href="#cb48-42" aria-hidden="true" tabindex="-1"></a>stay_wins, switch_wins <span class="op">=</span> monty_hall_simulation(num_trials)</span>
-<span id="cb48-43"><a href="#cb48-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-44"><a href="#cb48-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of trials: </span><span class="sc">{</span>num_trials<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb48-45"><a href="#cb48-45" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wins by staying: </span><span class="sc">{</span>stay_wins<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>stay_wins <span class="op">/</span> num_trials<span class="sc">:.2%}</span><span class="ss">)"</span>)</span>
-<span id="cb48-46"><a href="#cb48-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wins by switching: </span><span class="sc">{</span>switch_wins<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>switch_wins <span class="op">/</span> num_trials<span class="sc">:.2%}</span><span class="ss">)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> monty_hall_simulation(num_trials):</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    stay_wins <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    switch_wins <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(num_trials):</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 1. Car placement (0, 1, or 2)</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>        car_door <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="dv">2</span>)</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2. Player's initial choice</span></span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>        player_choice <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="dv">2</span>)</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 3. Host opens a goat door</span></span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create a list of available doors for the host to open (not player's choice, not car door)</span></span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>        available_host_doors <span class="op">=</span> [i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>) <span class="cf">if</span> i <span class="op">!=</span> player_choice <span class="kw">and</span> i <span class="op">!=</span> car_door]</span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># If player chose the car door, host can open either of the other two doors (both have goats)</span></span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> player_choice <span class="op">==</span> car_door:</span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>            door_opened_by_host <span class="op">=</span> random.choice(available_host_doors)</span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># If player chose a goat door, host must open the *other* goat door</span></span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a>            <span class="co"># There will be only one option in available_host_doors</span></span>
+<span id="cb47-24"><a href="#cb47-24" aria-hidden="true" tabindex="-1"></a>            door_opened_by_host <span class="op">=</span> available_host_doors[<span class="dv">0</span>]</span>
+<span id="cb47-25"><a href="#cb47-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-26"><a href="#cb47-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 4. Evaluate strategies</span></span>
+<span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Stay strategy</span></span>
+<span id="cb47-28"><a href="#cb47-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> player_choice <span class="op">==</span> car_door:</span>
+<span id="cb47-29"><a href="#cb47-29" aria-hidden="true" tabindex="-1"></a>            stay_wins <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb47-30"><a href="#cb47-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-31"><a href="#cb47-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Switch strategy</span></span>
+<span id="cb47-32"><a href="#cb47-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># The remaining door (not player_choice and not door_opened_by_host)</span></span>
+<span id="cb47-33"><a href="#cb47-33" aria-hidden="true" tabindex="-1"></a>        remaining_doors <span class="op">=</span> [i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>) <span class="cf">if</span> i <span class="op">!=</span> player_choice <span class="kw">and</span> i <span class="op">!=</span> door_opened_by_host]</span>
+<span id="cb47-34"><a href="#cb47-34" aria-hidden="true" tabindex="-1"></a>        switched_choice <span class="op">=</span> remaining_doors[<span class="dv">0</span>]</span>
+<span id="cb47-35"><a href="#cb47-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-36"><a href="#cb47-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> switched_choice <span class="op">==</span> car_door:</span>
+<span id="cb47-37"><a href="#cb47-37" aria-hidden="true" tabindex="-1"></a>            switch_wins <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb47-38"><a href="#cb47-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-39"><a href="#cb47-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> stay_wins, switch_wins</span>
+<span id="cb47-40"><a href="#cb47-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-41"><a href="#cb47-41" aria-hidden="true" tabindex="-1"></a>num_trials <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb47-42"><a href="#cb47-42" aria-hidden="true" tabindex="-1"></a>stay_wins, switch_wins <span class="op">=</span> monty_hall_simulation(num_trials)</span>
+<span id="cb47-43"><a href="#cb47-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-44"><a href="#cb47-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of trials: </span><span class="sc">{</span>num_trials<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb47-45"><a href="#cb47-45" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wins by staying: </span><span class="sc">{</span>stay_wins<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>stay_wins <span class="op">/</span> num_trials<span class="sc">:.2%}</span><span class="ss">)"</span>)</span>
+<span id="cb47-46"><a href="#cb47-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wins by switching: </span><span class="sc">{</span>switch_wins<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>switch_wins <span class="op">/</span> num_trials<span class="sc">:.2%}</span><span class="ss">)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <pre><code>Number of trials: 1000
@@ -1313,25 +1313,18 @@ Wins by switching: 675 (67.50%)
 <p>advantage of switching doors.</p>
 <p><strong>Findings:</strong></p>
 <ul>
-<li><strong>Staying Strategy:</strong> Out</li>
+<li><strong>Staying Strategy:</strong> Out of 1,000 trials, the “stay” strategy resulted in <strong>325 wins (32.50%)</strong>. This is approximately 1/3 of the trials, which aligns with the initial probability of pickingthe correct door.</li>
 </ul>
 </div>
 <div class="cell-output cell-output-display cell-output-markdown">
-<p>of 1,000 trials, the “stay” strategy resulted in <strong>325 wins (32.50%)</strong>. This is approximately 1/3 of the trials, which aligns with the initial probability of picking</p>
+<ul>
+<li><strong>Switching Strategy:</strong> Out of 1,000 trials, the “switch” strategy resulted in <strong>675 wins (67.50%)</strong>. This is approximately 2/3 of the trials, which is significantly higher than staying.</li>
+</ul>
 </div>
 <div class="cell-output cell-output-display cell-output-markdown">
-<p>the correct door. * <strong>Switching Strategy:</strong> Out of 1,000 trials, the “switch” strategy resulted in <strong>675 wins (67.50%)</strong>. This is approximately 2/3 of</p>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>the trials, which is significantly higher than staying.</p>
 <p><strong>Conclusion:</strong></p>
-<p>The simulation demonstrates that <strong>switching your choice significantly increases your chances of winning</strong> in the Monty Hall Problem. While it might seem counterintuitive at first, the act of the host revealing</p>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>a goat behind one of the unchosen doors provides crucial information that changes the probabilities. When you initially pick a door, you have a 1/3 chance of being right and a 2/3 chance of being wrong. When the host opens a goat</p>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>door from the remaining two, the entire 2/3 probability of being wrong gets concentrated onto the single remaining unopened door. Therefore, switching allows you to effectively take advantage of that concentrated probability.</p>
+<p>The simulation demonstrates that <strong>switching your choice significantly increases your chances of winning</strong> in the Monty Hall Problem. While it might seem counterintuitive at first, the act of the host revealing a goat behind one of the unchosen doors provides crucial information that changes the probabilities.</p>
+<p>When you initially pick a door, you have a 1/3 chance of being right and a 2/3 chance of being wrong. When the host opens a goat door from the remaining two, the entire 2/3 probability of being wrong gets concentrated onto the single remaining unopened door. Therefore, switching allows you to effectively take advantage of that concentrated probability.</p>
 </div>
 </div>
 </section>
