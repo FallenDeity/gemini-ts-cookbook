@@ -336,88 +336,201 @@
     ]
   },
   {
-    "objectID": "quickstarts/Embeddings.html",
-    "href": "quickstarts/Embeddings.html",
-    "title": "Gemini API: Embeddings Quickstart",
+    "objectID": "quickstarts/Enum.html",
+    "href": "quickstarts/Enum.html",
+    "title": "Gemini API: Enum Quickstart",
     "section": "",
-    "text": "The Gemini API generates state-of-the-art text embeddings. An embedding is a list of floating point numbers that represent the meaning of a word, sentence, or paragraph. You can use embeddings in many downstream applications like document search.\nThis notebook provides quick code examples that show you how to get started generating embeddings.",
+    "text": "The Gemini API allows you to supply a schema to define function arguments (for function calling), or to constrain its output in JSON or using an Enum. This tutorial gives some examples using enums.",
     "crumbs": [
       "Home",
       "Quickstarts",
-      "Gemini API: Embeddings Quickstart"
+      "Gemini API: Enum Quickstart"
     ]
   },
   {
-    "objectID": "quickstarts/Embeddings.html#setup",
-    "href": "quickstarts/Embeddings.html#setup",
-    "title": "Gemini API: Embeddings Quickstart",
+    "objectID": "quickstarts/Enum.html#setup",
+    "href": "quickstarts/Enum.html#setup",
+    "title": "Gemini API: Enum Quickstart",
     "section": "Setup",
-    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is one directory up from the notebook, hence we need to use ../ to go up one directory. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── quickstarts\n    └── Embeddings.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, since this an embeddings quickstart, we will use the text-embeddings-004 model. Text embeddings are used to measure the relatedness of strings and are widely used in many AI applications.\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"text-embedding-004\";",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is one directory up from the notebook, hence we need to use ../ to go up one directory. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── quickstarts\n    └── Get_started_TTS.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\nFor more information about all Gemini models, check the documentation for extended information on each of them.\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
     "crumbs": [
       "Home",
       "Quickstarts",
-      "Gemini API: Embeddings Quickstart"
+      "Gemini API: Enum Quickstart"
     ]
   },
   {
-    "objectID": "quickstarts/Embeddings.html#embed-content",
-    "href": "quickstarts/Embeddings.html#embed-content",
-    "title": "Gemini API: Embeddings Quickstart",
-    "section": "Embed content",
-    "text": "Embed content\nCall the embedContent method with the models/text-embedding-004 model to generate text embeddings.\n\nconst text_embeddings = await ai.models.embedContent({\n  model: MODEL_ID,\n  contents: [\"Hello world\"],\n});\nconsole.log(\"Text Embeddings:\", text_embeddings.embeddings?.[0].values?.slice(0, 50), \"...TRIMMED\");\n\nText Embeddings: [\n    0.013168517,   -0.00871193,  -0.046782672,\n  0.00069969177,  -0.009518872,  -0.008720178,\n     0.06010358,   0.024755737,   0.026053527,\n    0.054356426,   -0.03793384, -0.0014235445,\n    0.030605137,  -0.015512642,  -0.012904964,\n    -0.02880739,  -0.007819577,   0.012152762,\n     -0.1139952,   0.010654231,   0.005365246,\n   -0.001178891,  -0.029781109,  -0.060107403,\n   -0.015272871, -0.0036046242,   0.006147686,\n    0.031175768,   0.021421982,    0.03710434,\n   -0.037202735,   0.046146937,   0.002196372,\n   -0.031793054,   0.009660255,   0.012500477,\n     -0.0509635,     0.0211728,   0.014332891,\n   -0.057802226,  -0.027034516,    0.03680537,\n   0.0016361808,     0.0085209,    0.04331588,\n   -0.032519087,   0.018076202, -0.0031592466,\n   0.0045996527, -0.0063372543\n] ...TRIMMED\n\n\n\nconsole.log(\"Text Embeddings Length:\", text_embeddings.embeddings?.[0].values?.length);\n\nText Embeddings Length: 768",
+    "objectID": "quickstarts/Enum.html#enums",
+    "href": "quickstarts/Enum.html#enums",
+    "title": "Gemini API: Enum Quickstart",
+    "section": "Enums",
+    "text": "Enums\nIn the simplest case is you need the model to choose one option from a list of choices, use an enum class to define the schema. Ask it to identify this instrument:\n\nconst fs = require(\"fs\") as typeof import(\"fs\");\nconst path = require(\"path\") as typeof import(\"path\");\n\nconst IMG_URL = \"https://goo.gle/instrument-img\";\n\nconst downloadFile = async (url: string, filePath: string) =&gt; {\n  const response = await fetch(url);\n  if (!response.ok) {\n    throw new Error(`Failed to download image: ${response.statusText}`);\n  }\n  const buffer = await response.blob();\n  const bufferData = Buffer.from(await buffer.arrayBuffer());\n  fs.writeFileSync(filePath, bufferData);\n};\n\nconst filePath = path.join(\"../assets\", \"organ.jpg\");\nawait downloadFile(IMG_URL, filePath);\n\n\ntslab.display.jpeg(fs.readFileSync(filePath));\n\n\n\n\n\n\n\n\nThe response should be one of the following options:\n\nimport { Schema, Type } from \"@google/genai\";\n\nenum Instrument {\n  PERCUSSION = \"Percussion\",\n  STRING = \"String\",\n  WOODWIND = \"Woodwind\",\n  BRASS = \"Brass\",\n  KEYBOARD = \"Keyboard\",\n}\n\nconst InstrumentSchema: Schema = {\n  type: Type.STRING,\n  description: \"The category of musical instrument\",\n  enum: Object.values(Instrument),\n};\n\nPass the enum class as the responseSchema, and for this simplest case you can use the responseMimeType = \"text/x.enum\" option to get one of those enum members as the response.\n\nconst instrument_file = await ai.files.upload({\n  file: filePath,\n  config: {\n    displayName: \"instrument.jpg\",\n    mimeType: \"image/jpeg\",\n  },\n});\n\nconst instrument_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: [\n    google.createPartFromUri(instrument_file.uri ?? \"\", instrument_file.mimeType ?? \"\"),\n    \"what is the category of this instrument?\",\n  ],\n  config: {\n    responseMimeType: \"text/x.enum\",\n    responseSchema: InstrumentSchema,\n  },\n});\nconsole.log(\"Instrument category:\", instrument_response.text);\n\nInstrument category: Keyboard\n\n\nYou can also use enums with responseMimeType = \"application/json\". In this simple case the response will be identical but in quotes.\n\nconst instrument_json_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: [\n    google.createPartFromUri(instrument_file.uri ?? \"\", instrument_file.mimeType ?? \"\"),\n    \"what is the category of this instrument?\",\n  ],\n  config: {\n    responseMimeType: \"application/json\",\n    responseSchema: InstrumentSchema,\n  },\n});\nconsole.log(\"Instrument category (JSON):\", instrument_json_response.text);\n\nInstrument category (JSON): \"Keyboard\"\n\n\nOutside of simple multiple choice problems, an enum can be used anywhere in the schema for JSON or function calling. For example, ask it for a list of recipe titles, and use a Grade enum to give each one a popularity-grade:\n\nimport { Schema, Type } from \"@google/genai\";\n\nenum Grade {\n  A_PLUS = \"A+\",\n  A = \"A\",\n  B = \"B\",\n  C = \"C\",\n  D = \"D\",\n  F = \"F\",\n}\n\nconst RecipeSchema: Schema = {\n  type: Type.OBJECT,\n  description: \"A recipe for a dish\",\n  properties: {\n    recipeName: {\n      type: Type.STRING,\n      description: \"The name of the recipe\",\n    },\n    grade: {\n      type: Type.STRING,\n      description: \"The grade of the recipe\",\n      enum: Object.values(Grade),\n    },\n  },\n  required: [\"recipeName\", \"grade\"],\n};\n\nconst RecipeListSchema: Schema = {\n  type: Type.ARRAY,\n  description: \"A list of recipes with their grades\",\n  items: RecipeSchema,\n};\n\nconst recipe_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: [\"List about 10 cookie recipes, grade them based on popularity\"],\n  config: {\n    responseMimeType: \"application/json\",\n    responseSchema: RecipeListSchema,\n  },\n});\nconsole.log(\"Recipe response:\");\nconsole.log(JSON.stringify(JSON.parse(recipe_response.text ?? \"\"), null, 2));\n\nRecipe response:\n[\n  {\n    \"grade\": \"A+\",\n    \"recipeName\": \"Classic Chocolate Chip Cookies\"\n  },\n  {\n    \"grade\": \"A\",\n    \"recipeName\": \"Peanut Butter Cookies\"\n  },\n  {\n    \"grade\": \"A\",\n    \"recipeName\": \"Oatmeal Raisin Cookies\"\n  },\n  {\n    \"grade\": \"B\",\n    \"recipeName\": \"Sugar Cookies (Cut-Out)\"\n  },\n  {\n    \"grade\": \"B\",\n    \"recipeName\": \"Snickerdoodle Cookies\"\n  },\n  {\n    \"grade\": \"B\",\n    \"recipeName\": \"Gingerbread Cookies\"\n  },\n  {\n    \"grade\": \"C\",\n    \"recipeName\": \"Shortbread Cookies\"\n  },\n  {\n    \"grade\": \"C\",\n    \"recipeName\": \"Macadamia Nut White Chocolate Chip Cookies\"\n  },\n  {\n    \"grade\": \"D\",\n    \"recipeName\": \"No-Bake Cookies\"\n  },\n  {\n    \"grade\": \"D\",\n    \"recipeName\": \"Lemon Crinkle Cookies\"\n  }\n]",
     "crumbs": [
       "Home",
       "Quickstarts",
-      "Gemini API: Embeddings Quickstart"
+      "Gemini API: Enum Quickstart"
     ]
   },
   {
-    "objectID": "quickstarts/Embeddings.html#batch-embed-content",
-    "href": "quickstarts/Embeddings.html#batch-embed-content",
-    "title": "Gemini API: Embeddings Quickstart",
-    "section": "Batch embed content",
-    "text": "Batch embed content\nYou can embed a list of multiple prompts with one API call for efficiency.\n\nconst batch_embeddings = await ai.models.embedContent({\n  model: MODEL_ID,\n  contents: [\"What is the meaning of life?\", \"How much wood would a woodchuck chuck?\", \"How does the brain work?\"],\n});\nconsole.log(\n  \"Batch Text Embeddings:\",\n  batch_embeddings.embeddings?.map((e) =&gt; e.values?.slice(0, 50)),\n  \"...TRIMMED\"\n);\n\nBatch Text Embeddings: [\n  [\n     -0.010632273,  0.019375853,    0.020965198,\n     0.0007706437, -0.061464068,    0.014739741,\n    -0.0022759985,  0.013184195,    0.014464715,\n      0.022593116,   0.02184836,   -0.059616957,\n       0.06032222, -0.047657482,    0.017848385,\n      -0.10987464,   -0.0598155,    -0.00479664,\n     -0.043298274,  -0.05090505,    0.029398112,\n      0.011642447,   0.04183789,   -0.017999396,\n      0.011026355,  0.049722955,    0.012025892,\n      0.007331535,   0.01967245,  -0.0025621902,\n      0.028765293, 0.0068937168,   0.0029231338,\n    -0.0002095079,  0.032031864,     0.02518659,\n     -0.032855466,   0.00758291, -0.00011585959,\n     -0.034515556, -0.066151336,     0.03191643,\n     -0.026680378,  0.017334407,   -0.025778342,\n     -0.008119435, -0.002431255,   -0.009850676,\n     -0.030725427,   0.08225489\n  ],\n  [\n     0.018468002,  0.0054281265,  -0.017658807,\n     0.013859263,    0.05341865,   0.041700866,\n     0.031085702,   -0.06442814,   0.010460507,\n     0.006893959,  -0.049074043,   0.015438477,\n      0.02833025,   0.041007824,  0.0016454521,\n     -0.07597325,   0.019856492, -0.0065018134,\n     -0.04790915,   0.007798852,  0.0059981374,\n     0.007498053, -0.0077681113, 0.00089508423,\n      0.02067591,   0.014558769,   0.048106413,\n    -0.035838168, -0.0076576024,  -0.025036177,\n     0.038854446,   0.040672384,   0.018866174,\n     -0.09118198,   0.043987993,    0.09125325,\n    -0.019055402,   0.058025226,     0.0337241,\n    -0.007700461,  -0.051549293,   0.033333547,\n     -0.04249377,   0.036880627,   0.030723767,\n    -0.010024755,  -0.039599802,    0.04335347,\n    -0.013405023,   0.027561612\n  ],\n  [\n     0.058089074,   0.020941732,   -0.10872878,\n     -0.04039259,  -0.044404425,   0.008074058,\n     0.029530387,    0.06106795,  -0.040581264,\n    0.0076176887,  -0.052324653, -0.0017251427,\n     0.011229625,  -0.022567088,  -0.039304733,\n     -0.06767425,   0.050662234,  -0.043872133,\n     -0.06564835, -0.0030828284,   0.031009678,\n     -0.06744081,   -0.02735545,   -0.04357851,\n    -0.015614915,   0.021484021,    0.02469868,\n    -0.022331946,  -0.027676083,   0.000084142,\n     0.033065446,   0.008663191,   0.010000569,\n     -0.03285902,   0.025153043,   -0.07011023,\n    -0.021991147,   -0.05085551,   0.033521175,\n     -0.06584735,  -0.045584362,  -0.027165776,\n    -0.025329018,    0.03824336,  -0.036927626,\n     0.062992625,   0.004152124,   0.049990047,\n    -0.016771948,    0.02209841\n  ]\n] ...TRIMMED",
+    "objectID": "quickstarts/Enum.html#next-steps",
+    "href": "quickstarts/Enum.html#next-steps",
+    "title": "Gemini API: Enum Quickstart",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nUseful API references:\nCheck the structured ouput documentation or the GenerationConfig API reference for more details.\n\n\nRelated examples\n\nThe constrained output is used in the Text summarization example to provide the model a format to summarize a story (genre, characters, etc…)\nThe Object detection examples are using the JSON constrained output to uniiformize the output of the detection.\n\n\n\nContinue your discovery of the Gemini API\nAn Enum is not the only way to constrain the output of the model, you can also use an JSON schema. Function calling and Code execution are other ways to enhance your model by either let him use your own functions or by letting it write and run them.",
     "crumbs": [
       "Home",
       "Quickstarts",
-      "Gemini API: Embeddings Quickstart"
+      "Gemini API: Enum Quickstart"
     ]
   },
   {
-    "objectID": "quickstarts/Embeddings.html#truncating-embeddings",
-    "href": "quickstarts/Embeddings.html#truncating-embeddings",
-    "title": "Gemini API: Embeddings Quickstart",
-    "section": "Truncating embeddings",
-    "text": "Truncating embeddings\nThe text-embedding-004 model also supports lower embedding dimensions. Specify outputDimensionality to truncate the output.\n\nconst trucated_embeddings = await ai.models.embedContent({\n  model: MODEL_ID,\n  contents: [\"Hello world\"],\n  config: {\n    outputDimensionality: 10,\n  },\n});\nconsole.log(\"Truncated Text Embeddings:\", trucated_embeddings.embeddings?.[0].values);\nconsole.log(\"Truncated Text Embeddings Length:\", trucated_embeddings.embeddings?.[0].values?.length);\n\nTruncated Text Embeddings: [\n   0.013168517,   -0.00871193,\n  -0.046782672, 0.00069969177,\n  -0.009518872,  -0.008720178,\n    0.06010358,   0.024755737,\n   0.026053527,   0.054356426\n]\nTruncated Text Embeddings Length: 10",
+    "objectID": "quickstarts/Get_started_LyriaRealtime.html",
+    "href": "quickstarts/Get_started_LyriaRealtime.html",
+    "title": "Get started with Music generation using Lyria RealTime",
+    "section": "",
+    "text": "Lyria RealTime, provides access to a state-of-the-art, real-time, streaming music generation model. It allows developers to build applications where users can interactively create, continuously steer, and perform instrumental music using text prompts.\nLyria RealTime main characteristics are:\nCheck Lyria RealTime’s documentation for more details.\nAlso note that due to Colab limitation, you won’t be able to experience the real time capabilities of Lyria RealTime but only limited audio output. Use the AI studio’s apps, Prompt DJ and MIDI DJ to fully experience Lyria RealTime",
     "crumbs": [
       "Home",
       "Quickstarts",
-      "Gemini API: Embeddings Quickstart"
+      "Get started with Music generation using Lyria RealTime"
     ]
   },
   {
-    "objectID": "quickstarts/Embeddings.html#specify-tasktype",
-    "href": "quickstarts/Embeddings.html#specify-tasktype",
-    "title": "Gemini API: Embeddings Quickstart",
-    "section": "Specify taskType",
-    "text": "Specify taskType\nFor details on how to call embedContent, check out the Embeddings API reference, including the section on taskType.\n\nconst with_no_task_type = await ai.models.embedContent({\n  model: MODEL_ID,\n  contents: [\"Hello world\"],\n});\nconsole.log(\"With No Task Type Text Embeddings:\", with_no_task_type.embeddings?.[0].values?.slice(0, 50), \"...TRIMMED\");\n\nconst with_task_type = await ai.models.embedContent({\n  model: MODEL_ID,\n  contents: [\"Hello world\"],\n  config: {\n    taskType: \"retrieval_document\",\n  },\n});\nconsole.log(\"With Task Type Text Embeddings:\", with_task_type.embeddings?.[0].values?.slice(0, 50), \"...TRIMMED\");\n\nWith No Task Type Text Embeddings: [\n    0.013168517,   -0.00871193,  -0.046782672,\n  0.00069969177,  -0.009518872,  -0.008720178,\n     0.06010358,   0.024755737,   0.026053527,\n    0.054356426,   -0.03793384, -0.0014235445,\n    0.030605137,  -0.015512642,  -0.012904964,\n    -0.02880739,  -0.007819577,   0.012152762,\n     -0.1139952,   0.010654231,   0.005365246,\n   -0.001178891,  -0.029781109,  -0.060107403,\n   -0.015272871, -0.0036046242,   0.006147686,\n    0.031175768,   0.021421982,    0.03710434,\n   -0.037202735,   0.046146937,   0.002196372,\n   -0.031793054,   0.009660255,   0.012500477,\n     -0.0509635,     0.0211728,   0.014332891,\n   -0.057802226,  -0.027034516,    0.03680537,\n   0.0016361808,     0.0085209,    0.04331588,\n   -0.032519087,   0.018076202, -0.0031592466,\n   0.0045996527, -0.0063372543\n] ...TRIMMED\nWith Task Type Text Embeddings: [\n   0.023399517,  -0.008547142, -0.052534223,\n  -0.012143115,  0.0055042417, -0.001007702,\n   0.028462889,   0.037563253, -0.023794618,\n   0.045095872,  -0.014744246, 0.0034827266,\n    0.07847462, -0.0088950405, -0.008143913,\n  -0.045579128,   0.017674835,  0.010504201,\n   -0.11951811,   0.025116991,   0.02234638,\n  -0.031670354,   0.009702842, -0.011191917,\n  -0.020584144,   -0.01684894, -0.000543171,\n   0.003336858, -0.0024763693,  0.018954858,\n    0.03398058,    0.07639708, 0.0037753258,\n  -0.055841617,    0.01699452,  0.011088602,\n  -0.016603941,    0.03163179,  0.039773043,\n   -0.04514968,   -0.07688451,  0.030634686,\n  -0.003726261,   0.042314958,  0.014746045,\n   -0.03570954,  -0.008157468,  0.026814101,\n  -0.031223731,   0.022471815\n] ...TRIMMED",
+    "objectID": "quickstarts/Get_started_LyriaRealtime.html#setup",
+    "href": "quickstarts/Get_started_LyriaRealtime.html#setup",
+    "title": "Get started with Music generation using Lyria RealTime",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is one directory up from the notebook, hence we need to use ../ to go up one directory. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── quickstarts\n    └── Get_started_LyriaRealTime.ipynb\n\n\n\n\nInitialize SDK Client\nLyria RealTime API is a new capability introduced with the Lyria RealTime model so only works with the lyria-realtime-exp model. As it’s an experimental feature, you also need to use the v1alpha client version.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY, httpOptions: { apiVersion: \"v1alpha\" } });\n\n\n\nSelect a model\nMultimodal Live API are a new capability introduced with the Gemini 2.0 model. It won’t work with previous generation models.\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"models/lyria-realtime-exp\";\n\n\n\nUtilites\nYou’re going to use the Lyria Realtime’s audio output, the easiest way hear it in Colab is to write the PCM data out as a WAV file:\n\nconst fs = require(\"fs\") as typeof import(\"fs\");\nconst path = require(\"path\") as typeof import(\"path\");\nconst wave = require(\"wavefile\") as typeof import(\"wavefile\");\n\nfunction saveAudioToFile(audioData: Int16Array, filePath: string) {\n  fs.mkdirSync(path.dirname(filePath), { recursive: true });\n  const wav = new wave.WaveFile();\n  wav.fromScratch(2, 48000, \"16\", audioData);\n  fs.writeFileSync(filePath, wav.toBuffer());\n  console.debug(`Audio saved to ${filePath}`);\n}",
     "crumbs": [
       "Home",
       "Quickstarts",
-      "Gemini API: Embeddings Quickstart"
+      "Get started with Music generation using Lyria RealTime"
     ]
   },
   {
-    "objectID": "quickstarts/Embeddings.html#learning-more",
-    "href": "quickstarts/Embeddings.html#learning-more",
-    "title": "Gemini API: Embeddings Quickstart",
-    "section": "Learning more",
-    "text": "Learning more\nCheck out these examples in the Cookbook to learn more about what you can do with embeddings:\n\nSearch Reranking: Use embeddings from the Gemini API to rerank search results from Wikipedia.\nAnomaly detection with embeddings: Use embeddings from the Gemini API to detect potential outliers in your dataset.\nTrain a text classifier: Use embeddings from the Gemini API to train a model that can classify different types of newsgroup posts based on the topic.\nEmbeddings have many applications in Vector Databases, too. Check out this example with Chroma DB.\n\nYou can learn more about embeddings in general on ai.google.dev in the embeddings guide\n\nYou can find additional code examples with the JS SDK here.\nYou can also find more details in the API Reference for embedContent and batchEmbedContents.",
+    "objectID": "quickstarts/Get_started_LyriaRealtime.html#generate-music",
+    "href": "quickstarts/Get_started_LyriaRealtime.html#generate-music",
+    "title": "Get started with Music generation using Lyria RealTime",
+    "section": "Generate music",
+    "text": "Generate music\nThe Lyria Realtime model utilizes websockets to stream audio data in real time. The model can be prompted with text descriptions of the desired music, and it will generate audio that matches the description and stream it in chunks. It takes 2 different configuration parameters as input:\n\nWeightedPrompt: A list of text prompts that describe the desired music. Each prompt can have a weight that indicates its influence on the generated music. The prompts can be sent while the session is active, allowing for continuous steering of the music generation.\nLiveMusicGenerationConfig: A configuration object that specifies the desired characteristics of the generated music, such as bpm, density, brightness, scale, and guidance. These parameters can be adjusted in real time to influence the music generation.\n\n\n\n\n\n\n\nImportant\n\n\n\nYou can’t just update a single parameter in the LiveMusicGenerationConfig object. You need to send the entire object with all the parameters each time you want to update it, otherwise the other parameters will be reset to their default values.\nAny updates to bpm or scale need to be followed by a resetContext call to reset the context of the music generation. This is because these parameters affect the musical structure and need to be applied from the beginning of the generation.\n\n\n\nimport { LiveMusicGenerationConfig, LiveMusicSession, LiveMusicServerMessage, WeightedPrompt } from \"@google/genai\";\n\nlet n_index = 0;\nconst MAX_CHUNKS = 10; // Maximum number of audio chunks to process\nconst responseQueue: LiveMusicServerMessage[] = [];\n\nasync function receive() {\n  console.debug(\"Receiving audio chunks...\");\n  let done = false;\n  let chunk_count = 0;\n  const audioChunks: number[][] = [];\n  while (!done) {\n    if (responseQueue.length &gt; 0) {\n      const response = responseQueue.shift();\n      if (response?.audioChunk?.data) {\n        const audioBuffer = Buffer.from(response.audioChunk.data, \"base64\");\n        const intArray = new Int16Array(\n          audioBuffer.buffer,\n          audioBuffer.byteOffset,\n          audioBuffer.length / Int16Array.BYTES_PER_ELEMENT\n        );\n        audioChunks.push(Array.from(intArray));\n        chunk_count++;\n      }\n      if (chunk_count &gt;= MAX_CHUNKS) {\n        done = true;\n        console.debug(\"Received complete response\");\n      }\n    } else {\n      await new Promise((resolve) =&gt; setTimeout(resolve, 100));\n    }\n  }\n  const audioFilePath = path.join(\"../assets/live\", `lyria_realtime_${n_index}.wav`);\n  saveAudioToFile(new Int16Array(audioChunks.flat()), audioFilePath);\n  tslab.display.html(`\n    &lt;h3&gt;Audio Response Lyria&lt;/h3&gt;\n    &lt;audio controls&gt;\n        &lt;source src=\"../assets/live/lyria_realtime_${n_index}.wav\" type=\"audio/wav\"&gt;\n        Your browser does not support the audio element.\n    &lt;/audio&gt;\n  `);\n  n_index++;\n}\n\nasync function generateMusic(prompts: WeightedPrompt[], config: LiveMusicGenerationConfig) {\n  const session: LiveMusicSession = await ai.live.music.connect({\n    model: MODEL_ID,\n    callbacks: {\n      onmessage: (message) =&gt; {\n        responseQueue.push(message);\n      },\n      onerror: (error) =&gt; {\n        console.error(\"music session error:\", error);\n      },\n      onclose: () =&gt; {\n        console.log(\"Lyria RealTime stream closed.\");\n      },\n    },\n  });\n\n  await session.setWeightedPrompts({\n    weightedPrompts: prompts,\n  });\n  await session.setMusicGenerationConfig({\n    musicGenerationConfig: config,\n  });\n\n  console.debug(\"Lyria Realtime session started\");\n  session.play();\n  await receive();\n  session.close();\n  console.debug(\"Lyria Realtime session closed\");\n}",
     "crumbs": [
       "Home",
       "Quickstarts",
-      "Gemini API: Embeddings Quickstart"
+      "Get started with Music generation using Lyria RealTime"
     ]
+  },
+  {
+    "objectID": "quickstarts/Get_started_LyriaRealtime.html#audio-generation-function",
+    "href": "quickstarts/Get_started_LyriaRealtime.html#audio-generation-function",
+    "title": "Get started with Music generation using Lyria RealTime",
+    "section": "Audio Generation Function",
+    "text": "Audio Generation Function\nThe above code sample shows how to generate music using the Lyria Realtime model. There are two methods worth noting:\n\ngenerateMusic - Driver method\nThis method is used to start the music generation process. It takes an array of WeightedPrompt objects and a LiveMusicGenerationConfig object as input. It returns a LiveMusicGenerationSession object that can be used to interact with the music generation session.\nThis method: - Opens a websocket connection to the Lyria Realtime model. - Sends the initial prompts to the model using setWeightedPrompts, which sets the initial musical influences. - Sends the initial configuration using setLiveMusicGenerationConfig, which sets the desired characteristics of the generated music. - Sets up event listeners to handle incoming audio data and errors and start the audio playback.\n\n\nreceive - Audio data handler\nThis methods is used to handle incoming audio data from the Lyria Realtime model. It monitors the responseQueue for incoming audio data and collects it in a buffer. When the buffer reaches a certain size, it writes the audio data to a WAV file and plays it back using the saveAudioToFile utility function.\n\n\n\n\n\n\nNote\n\n\n\nCurrently once the receive method is called, it blocks further function execution till required number of chunks are met. This means that you won’t be able to send new prompts or configuration updates while the receive method is running. Ideally, in a real-time application, you would want to run the receive method in a separate thread while also having a send method to send new prompts and configuration updates.",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Get started with Music generation using Lyria RealTime"
+    ]
+  },
+  {
+    "objectID": "quickstarts/Get_started_LyriaRealtime.html#try-lyria-realtime",
+    "href": "quickstarts/Get_started_LyriaRealtime.html#try-lyria-realtime",
+    "title": "Get started with Music generation using Lyria RealTime",
+    "section": "Try Lyria Realtime",
+    "text": "Try Lyria Realtime\nBecause of Colab limitation you won’t be able to experience the “real time” part of Lyria RealTime, so all those examples are going to be one-offs prompt to get an audio file.\nOne thing to note is that the audio will only be played at the end of the session when all would have been written in the wav file. When using the API for real you’ll be able to start plyaing as soon as the first chunk arrives. So the longer the duration (using the dedicated parameter) you set, the longer you’ll have to wait until you hear something.\n\nSimple Lyria RealTime example\nHere’s first a simple example:\n\nawait generateMusic(\n  [\n    {\n      text: \"piano\",\n      weight: 1.0,\n    },\n  ],\n  { bpm: 120, density: 1.0 }\n);\n\nLive music generation is experimental and may change in future versions.\n\n\nLyria Realtime session started\nReceiving audio chunks...\nReceived complete response\nAudio saved to ../assets/live/lyria_realtime_0.wav\n\n\n\n    Audio Response Lyria\n    \n        \n        Your browser does not support the audio element.\n    \n  \n\n\nLyria Realtime session closed\n\n\n\n\nTry Lyria RealTime by yourself\nNow you can try mixing multiple prompts, and tinkering with the music configuration.\nThe prompts needs to follow their specific format which is a list of prompts with weights (which can be any values, including negative, except 0) like this:\n{\n    \"text\": \"Text of the prompt\",\n    \"weight\": 1.0\n}\nYou should try to stay simple (unlike when you’re using image-out) as the model will better understand things like “meditation”, “eerie”, “harp” than “An eerie and relaxing music illustrating the verdoyant forests of Scotland using string instruments”.\nThe music configuration options available to you are:\n\nbpm: beats per minute\nguidance: how strictly the model follows the prompts\ndensity: density of musical notes/sounds\nbrightness: tonal quality\nscale: musical scale (key and mode)\n\nOther options are available (mute_bass for ex.). Check the documentation for the full list.\nSelect one of the sample prompts (genres, instruments and mood), or write your owns. Check the documentation for more details and prompt examples.\n\nawait generateMusic(\n  [\n    {\n      text: \"Indie Pop\",\n      weight: 0.6,\n    },\n    {\n      text: \"Sitar\",\n      weight: 2,\n    },\n    {\n      text: \"Danceable\",\n      weight: 1.4,\n    },\n  ],\n  {\n    bpm: 140,\n    scale: google.Scale.F_MAJOR_D_MINOR,\n    density: 0.2,\n    brightness: 0.7,\n    guidance: 4.0,\n  }\n);\n\nLive music generation is experimental and may change in future versions.\n\n\nLyria RealTime stream closed.\nLyria Realtime session started\nReceiving audio chunks...\nReceived complete response\nAudio saved to ../assets/live/lyria_realtime_1.wav\n\n\n\n    Audio Response Lyria\n    \n        \n        Your browser does not support the audio element.\n    \n  \n\n\nLyria Realtime session closed\nLyria RealTime stream closed.",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Get started with Music generation using Lyria RealTime"
+    ]
+  },
+  {
+    "objectID": "quickstarts/Get_started_LyriaRealtime.html#whats-next",
+    "href": "quickstarts/Get_started_LyriaRealtime.html#whats-next",
+    "title": "Get started with Music generation using Lyria RealTime",
+    "section": "What’s next?",
+    "text": "What’s next?\nNow that you know how to generate music, here are other cool things to try:\n\nInstead of music, learn how to generate multi-speakers conversation using the TTS models.\nDiscover how to generate images or videos.\nInstead of generation music or audio, find out how to Gemini can understand Audio files.\nHave a real-time conversation with Gemini using the Live API.",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Get started with Music generation using Lyria RealTime"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "This cookbook provides a structured learning path for using the Gemini API, focusing on hands-on tutorials and practical examples.\nFor comprehensive API documentation, visit ai.google.dev.\n\n\nThis cookbook is organized into two main categories:\n\nQuick Starts: Step-by-step guides covering both introductory topics (“Get Started”) and specific API features.\nExamples: Practical use cases demonstrating how to combine multiple features.\n\nWe also showcase Demos in separate repositories, illustrating end-to-end applications of the Gemini API.\n\n\n\nHere are the recent additions and updates to the Gemini API and the Cookbook:\n\nGemini 2.5 models: Explore the capabilities of the latest Gemini 2.5 models (Flash and Pro)! See the Get Started Guide and the thinking guide as they’ll all be thinking ones.\nImagen and Veo: Get started with our media generation model with this brand new Veo guide and Imagen guide!\nLyria and TTS: Get started with podcast and music generation with the TTS and Lyria RealTime models.\nLiveAPI: Get started with the multimodal Live API and unlock new interactivity with Gemini.\nRecently Added Guides:\n\nBrowser as a tool: Use a web browser for live and internal (intranet) web interactions\nGrounding: Discover different ways to ground Gemini’s answer using different tools, from Google Search to Youtube and the new url context tool.\n\n\n\n\n\nThe quickstarts section contains step-by-step tutorials to get you started with Gemini and learn about its specific features.\nTo begin, you’ll need:\n\nA Google account.\nAn API key (create one in Google AI Studio).\n\nWe recommend starting with the following:\n\nAuthentication: Set up your API key for access.\nGet started: Get started with Gemini models and the Gemini API, covering basic prompting and multimodal input.\n\nThen, explore the other quickstarts tutorials to learn about individual features:\n\nGet started with Live API: Get started with the live API with this comprehensive overview of its capabilities\nGet started with Veo: Get started with our video generation capabilities\nGet started with Imagen and Image-out: Get started with our image generation capabilities\nGrounding: use Google Search for grounded responses\nCode execution: Generating and running Python code to solve complex tasks and even ouput graphs\nAnd many more\n\n\n\n\nThese examples demonstrate how to combine multiple Gemini API features or 3rd-party tools to build more complex applications. - Illustrate a book: Use Gemini and Imagen to create illustration for an open-source book - Animated Story Generation: Create animated videos by combining Gemini’s story generation, Imagen, and audio synthesis - Plotting and mapping Live: Mix Live API and Code execution to solve complex tasks live - 3D Spatial understanding: Use Gemini 3D spatial abilities to understand 3D scenes - Gradio and live API: Use gradio to deploy your own instance of the Live API - And many many more\n\n\n\nThese fully functional, end-to-end applications showcase the power of Gemini in real-world scenarios.\n\nGemini API quickstart: Python Flask App running with the Google AI Gemini API, designed to get you started building with Gemini’s multi-modal capabilities\nMultimodal Live API Web Console: React-based starter app for using the Multimodal Live API over a websocket\nGoogle AI Studio Starter Applets: A collection of small apps that demonstrate how Gemini can be used to create interactive experiences\n\n\n\n\nThe Gemini API is a REST API. You can call it directly using tools like curl (see REST examples or the great Postman workspace), or use one of our official SDKs:\n\nPython\nGo\nNode.js\nDart (Flutter)\nAndroid\nSwift\n\n\n\n\nWith Gemini 2 we are offering a new SDK (@google/genai, v1.0). The updated SDK is fully compatible with all Gemini API models and features, including recent additions like the live API (audio + video streaming), improved tool usage ( code execution, function calling and integrated Google search grounding), and media generation (Imagen and Veo). This SDK allows you to connect to the Gemini API through either Google AI Studio or Vertex AI.\nThe generative-ai-js package will continue to support the original Gemini models. It can also be used with Gemini 2 models, just with a limited feature set. All new features will be developed in the new Google GenAI SDK.\nSee the migration guide for details.\n\n\n\nAsk a question on the Google AI Developer Forum.\n\n\n\nFor enterprise developers, the Gemini API is also available on Google Cloud Vertex AI. See this repo for examples.\n\n\n\nContributions are welcome! See CONTRIBUTING.md for details.\nThank you for developing with the Gemini API! We’re excited to see what you create."
+  },
+  {
+    "objectID": "index.html#navigating-the-cookbook",
+    "href": "index.html#navigating-the-cookbook",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "This cookbook is organized into two main categories:\n\nQuick Starts: Step-by-step guides covering both introductory topics (“Get Started”) and specific API features.\nExamples: Practical use cases demonstrating how to combine multiple features.\n\nWe also showcase Demos in separate repositories, illustrating end-to-end applications of the Gemini API."
+  },
+  {
+    "objectID": "index.html#whats-new",
+    "href": "index.html#whats-new",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "Here are the recent additions and updates to the Gemini API and the Cookbook:\n\nGemini 2.5 models: Explore the capabilities of the latest Gemini 2.5 models (Flash and Pro)! See the Get Started Guide and the thinking guide as they’ll all be thinking ones.\nImagen and Veo: Get started with our media generation model with this brand new Veo guide and Imagen guide!\nLyria and TTS: Get started with podcast and music generation with the TTS and Lyria RealTime models.\nLiveAPI: Get started with the multimodal Live API and unlock new interactivity with Gemini.\nRecently Added Guides:\n\nBrowser as a tool: Use a web browser for live and internal (intranet) web interactions\nGrounding: Discover different ways to ground Gemini’s answer using different tools, from Google Search to Youtube and the new url context tool."
+  },
+  {
+    "objectID": "index.html#quick-starts",
+    "href": "index.html#quick-starts",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "The quickstarts section contains step-by-step tutorials to get you started with Gemini and learn about its specific features.\nTo begin, you’ll need:\n\nA Google account.\nAn API key (create one in Google AI Studio).\n\nWe recommend starting with the following:\n\nAuthentication: Set up your API key for access.\nGet started: Get started with Gemini models and the Gemini API, covering basic prompting and multimodal input.\n\nThen, explore the other quickstarts tutorials to learn about individual features:\n\nGet started with Live API: Get started with the live API with this comprehensive overview of its capabilities\nGet started with Veo: Get started with our video generation capabilities\nGet started with Imagen and Image-out: Get started with our image generation capabilities\nGrounding: use Google Search for grounded responses\nCode execution: Generating and running Python code to solve complex tasks and even ouput graphs\nAnd many more"
+  },
+  {
+    "objectID": "index.html#examples-practical-use-cases",
+    "href": "index.html#examples-practical-use-cases",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "These examples demonstrate how to combine multiple Gemini API features or 3rd-party tools to build more complex applications. - Illustrate a book: Use Gemini and Imagen to create illustration for an open-source book - Animated Story Generation: Create animated videos by combining Gemini’s story generation, Imagen, and audio synthesis - Plotting and mapping Live: Mix Live API and Code execution to solve complex tasks live - 3D Spatial understanding: Use Gemini 3D spatial abilities to understand 3D scenes - Gradio and live API: Use gradio to deploy your own instance of the Live API - And many many more"
+  },
+  {
+    "objectID": "index.html#demos-end-to-end-applications",
+    "href": "index.html#demos-end-to-end-applications",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "These fully functional, end-to-end applications showcase the power of Gemini in real-world scenarios.\n\nGemini API quickstart: Python Flask App running with the Google AI Gemini API, designed to get you started building with Gemini’s multi-modal capabilities\nMultimodal Live API Web Console: React-based starter app for using the Multimodal Live API over a websocket\nGoogle AI Studio Starter Applets: A collection of small apps that demonstrate how Gemini can be used to create interactive experiences"
+  },
+  {
+    "objectID": "index.html#official-sdks",
+    "href": "index.html#official-sdks",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "The Gemini API is a REST API. You can call it directly using tools like curl (see REST examples or the great Postman workspace), or use one of our official SDKs:\n\nPython\nGo\nNode.js\nDart (Flutter)\nAndroid\nSwift"
+  },
+  {
+    "objectID": "index.html#important-migration",
+    "href": "index.html#important-migration",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "With Gemini 2 we are offering a new SDK (@google/genai, v1.0). The updated SDK is fully compatible with all Gemini API models and features, including recent additions like the live API (audio + video streaming), improved tool usage ( code execution, function calling and integrated Google search grounding), and media generation (Imagen and Veo). This SDK allows you to connect to the Gemini API through either Google AI Studio or Vertex AI.\nThe generative-ai-js package will continue to support the original Gemini models. It can also be used with Gemini 2 models, just with a limited feature set. All new features will be developed in the new Google GenAI SDK.\nSee the migration guide for details."
+  },
+  {
+    "objectID": "index.html#get-help",
+    "href": "index.html#get-help",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "Ask a question on the Google AI Developer Forum."
+  },
+  {
+    "objectID": "index.html#the-gemini-api-on-google-cloud-vertex-ai",
+    "href": "index.html#the-gemini-api-on-google-cloud-vertex-ai",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "For enterprise developers, the Gemini API is also available on Google Cloud Vertex AI. See this repo for examples."
+  },
+  {
+    "objectID": "index.html#contributing",
+    "href": "index.html#contributing",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "Contributions are welcome! See CONTRIBUTING.md for details.\nThank you for developing with the Gemini API! We’re excited to see what you create."
   },
   {
     "objectID": "quickstarts/Get_started_thinking.html",
@@ -576,152 +689,87 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Gemini API Cookbook",
+    "objectID": "quickstarts/Embeddings.html",
+    "href": "quickstarts/Embeddings.html",
+    "title": "Gemini API: Embeddings Quickstart",
     "section": "",
-    "text": "This cookbook provides a structured learning path for using the Gemini API, focusing on hands-on tutorials and practical examples.\nFor comprehensive API documentation, visit ai.google.dev.\n\n\nThis cookbook is organized into two main categories:\n\nQuick Starts: Step-by-step guides covering both introductory topics (“Get Started”) and specific API features.\nExamples: Practical use cases demonstrating how to combine multiple features.\n\nWe also showcase Demos in separate repositories, illustrating end-to-end applications of the Gemini API.\n\n\n\nHere are the recent additions and updates to the Gemini API and the Cookbook:\n\nGemini 2.5 models: Explore the capabilities of the latest Gemini 2.5 models (Flash and Pro)! See the Get Started Guide and the thinking guide as they’ll all be thinking ones.\nImagen and Veo: Get started with our media generation model with this brand new Veo guide and Imagen guide!\nLyria and TTS: Get started with podcast and music generation with the TTS and Lyria RealTime models.\nLiveAPI: Get started with the multimodal Live API and unlock new interactivity with Gemini.\nRecently Added Guides:\n\nBrowser as a tool: Use a web browser for live and internal (intranet) web interactions\nGrounding: Discover different ways to ground Gemini’s answer using different tools, from Google Search to Youtube and the new url context tool.\n\n\n\n\n\nThe quickstarts section contains step-by-step tutorials to get you started with Gemini and learn about its specific features.\nTo begin, you’ll need:\n\nA Google account.\nAn API key (create one in Google AI Studio).\n\nWe recommend starting with the following:\n\nAuthentication: Set up your API key for access.\nGet started: Get started with Gemini models and the Gemini API, covering basic prompting and multimodal input.\n\nThen, explore the other quickstarts tutorials to learn about individual features:\n\nGet started with Live API: Get started with the live API with this comprehensive overview of its capabilities\nGet started with Veo: Get started with our video generation capabilities\nGet started with Imagen and Image-out: Get started with our image generation capabilities\nGrounding: use Google Search for grounded responses\nCode execution: Generating and running Python code to solve complex tasks and even ouput graphs\nAnd many more\n\n\n\n\nThese examples demonstrate how to combine multiple Gemini API features or 3rd-party tools to build more complex applications. - Illustrate a book: Use Gemini and Imagen to create illustration for an open-source book - Animated Story Generation: Create animated videos by combining Gemini’s story generation, Imagen, and audio synthesis - Plotting and mapping Live: Mix Live API and Code execution to solve complex tasks live - 3D Spatial understanding: Use Gemini 3D spatial abilities to understand 3D scenes - Gradio and live API: Use gradio to deploy your own instance of the Live API - And many many more\n\n\n\nThese fully functional, end-to-end applications showcase the power of Gemini in real-world scenarios.\n\nGemini API quickstart: Python Flask App running with the Google AI Gemini API, designed to get you started building with Gemini’s multi-modal capabilities\nMultimodal Live API Web Console: React-based starter app for using the Multimodal Live API over a websocket\nGoogle AI Studio Starter Applets: A collection of small apps that demonstrate how Gemini can be used to create interactive experiences\n\n\n\n\nThe Gemini API is a REST API. You can call it directly using tools like curl (see REST examples or the great Postman workspace), or use one of our official SDKs:\n\nPython\nGo\nNode.js\nDart (Flutter)\nAndroid\nSwift\n\n\n\n\nWith Gemini 2 we are offering a new SDK (@google/genai, v1.0). The updated SDK is fully compatible with all Gemini API models and features, including recent additions like the live API (audio + video streaming), improved tool usage ( code execution, function calling and integrated Google search grounding), and media generation (Imagen and Veo). This SDK allows you to connect to the Gemini API through either Google AI Studio or Vertex AI.\nThe generative-ai-js package will continue to support the original Gemini models. It can also be used with Gemini 2 models, just with a limited feature set. All new features will be developed in the new Google GenAI SDK.\nSee the migration guide for details.\n\n\n\nAsk a question on the Google AI Developer Forum.\n\n\n\nFor enterprise developers, the Gemini API is also available on Google Cloud Vertex AI. See this repo for examples.\n\n\n\nContributions are welcome! See CONTRIBUTING.md for details.\nThank you for developing with the Gemini API! We’re excited to see what you create."
-  },
-  {
-    "objectID": "index.html#navigating-the-cookbook",
-    "href": "index.html#navigating-the-cookbook",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "This cookbook is organized into two main categories:\n\nQuick Starts: Step-by-step guides covering both introductory topics (“Get Started”) and specific API features.\nExamples: Practical use cases demonstrating how to combine multiple features.\n\nWe also showcase Demos in separate repositories, illustrating end-to-end applications of the Gemini API."
-  },
-  {
-    "objectID": "index.html#whats-new",
-    "href": "index.html#whats-new",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "Here are the recent additions and updates to the Gemini API and the Cookbook:\n\nGemini 2.5 models: Explore the capabilities of the latest Gemini 2.5 models (Flash and Pro)! See the Get Started Guide and the thinking guide as they’ll all be thinking ones.\nImagen and Veo: Get started with our media generation model with this brand new Veo guide and Imagen guide!\nLyria and TTS: Get started with podcast and music generation with the TTS and Lyria RealTime models.\nLiveAPI: Get started with the multimodal Live API and unlock new interactivity with Gemini.\nRecently Added Guides:\n\nBrowser as a tool: Use a web browser for live and internal (intranet) web interactions\nGrounding: Discover different ways to ground Gemini’s answer using different tools, from Google Search to Youtube and the new url context tool."
-  },
-  {
-    "objectID": "index.html#quick-starts",
-    "href": "index.html#quick-starts",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "The quickstarts section contains step-by-step tutorials to get you started with Gemini and learn about its specific features.\nTo begin, you’ll need:\n\nA Google account.\nAn API key (create one in Google AI Studio).\n\nWe recommend starting with the following:\n\nAuthentication: Set up your API key for access.\nGet started: Get started with Gemini models and the Gemini API, covering basic prompting and multimodal input.\n\nThen, explore the other quickstarts tutorials to learn about individual features:\n\nGet started with Live API: Get started with the live API with this comprehensive overview of its capabilities\nGet started with Veo: Get started with our video generation capabilities\nGet started with Imagen and Image-out: Get started with our image generation capabilities\nGrounding: use Google Search for grounded responses\nCode execution: Generating and running Python code to solve complex tasks and even ouput graphs\nAnd many more"
-  },
-  {
-    "objectID": "index.html#examples-practical-use-cases",
-    "href": "index.html#examples-practical-use-cases",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "These examples demonstrate how to combine multiple Gemini API features or 3rd-party tools to build more complex applications. - Illustrate a book: Use Gemini and Imagen to create illustration for an open-source book - Animated Story Generation: Create animated videos by combining Gemini’s story generation, Imagen, and audio synthesis - Plotting and mapping Live: Mix Live API and Code execution to solve complex tasks live - 3D Spatial understanding: Use Gemini 3D spatial abilities to understand 3D scenes - Gradio and live API: Use gradio to deploy your own instance of the Live API - And many many more"
-  },
-  {
-    "objectID": "index.html#demos-end-to-end-applications",
-    "href": "index.html#demos-end-to-end-applications",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "These fully functional, end-to-end applications showcase the power of Gemini in real-world scenarios.\n\nGemini API quickstart: Python Flask App running with the Google AI Gemini API, designed to get you started building with Gemini’s multi-modal capabilities\nMultimodal Live API Web Console: React-based starter app for using the Multimodal Live API over a websocket\nGoogle AI Studio Starter Applets: A collection of small apps that demonstrate how Gemini can be used to create interactive experiences"
-  },
-  {
-    "objectID": "index.html#official-sdks",
-    "href": "index.html#official-sdks",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "The Gemini API is a REST API. You can call it directly using tools like curl (see REST examples or the great Postman workspace), or use one of our official SDKs:\n\nPython\nGo\nNode.js\nDart (Flutter)\nAndroid\nSwift"
-  },
-  {
-    "objectID": "index.html#important-migration",
-    "href": "index.html#important-migration",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "With Gemini 2 we are offering a new SDK (@google/genai, v1.0). The updated SDK is fully compatible with all Gemini API models and features, including recent additions like the live API (audio + video streaming), improved tool usage ( code execution, function calling and integrated Google search grounding), and media generation (Imagen and Veo). This SDK allows you to connect to the Gemini API through either Google AI Studio or Vertex AI.\nThe generative-ai-js package will continue to support the original Gemini models. It can also be used with Gemini 2 models, just with a limited feature set. All new features will be developed in the new Google GenAI SDK.\nSee the migration guide for details."
-  },
-  {
-    "objectID": "index.html#get-help",
-    "href": "index.html#get-help",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "Ask a question on the Google AI Developer Forum."
-  },
-  {
-    "objectID": "index.html#the-gemini-api-on-google-cloud-vertex-ai",
-    "href": "index.html#the-gemini-api-on-google-cloud-vertex-ai",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "For enterprise developers, the Gemini API is also available on Google Cloud Vertex AI. See this repo for examples."
-  },
-  {
-    "objectID": "index.html#contributing",
-    "href": "index.html#contributing",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "Contributions are welcome! See CONTRIBUTING.md for details.\nThank you for developing with the Gemini API! We’re excited to see what you create."
-  },
-  {
-    "objectID": "quickstarts/Get_started_LyriaRealtime.html",
-    "href": "quickstarts/Get_started_LyriaRealtime.html",
-    "title": "Get started with Music generation using Lyria RealTime",
-    "section": "",
-    "text": "Lyria RealTime, provides access to a state-of-the-art, real-time, streaming music generation model. It allows developers to build applications where users can interactively create, continuously steer, and perform instrumental music using text prompts.\nLyria RealTime main characteristics are:\nCheck Lyria RealTime’s documentation for more details.\nAlso note that due to Colab limitation, you won’t be able to experience the real time capabilities of Lyria RealTime but only limited audio output. Use the AI studio’s apps, Prompt DJ and MIDI DJ to fully experience Lyria RealTime",
+    "text": "The Gemini API generates state-of-the-art text embeddings. An embedding is a list of floating point numbers that represent the meaning of a word, sentence, or paragraph. You can use embeddings in many downstream applications like document search.\nThis notebook provides quick code examples that show you how to get started generating embeddings.",
     "crumbs": [
       "Home",
       "Quickstarts",
-      "Get started with Music generation using Lyria RealTime"
+      "Gemini API: Embeddings Quickstart"
     ]
   },
   {
-    "objectID": "quickstarts/Get_started_LyriaRealtime.html#setup",
-    "href": "quickstarts/Get_started_LyriaRealtime.html#setup",
-    "title": "Get started with Music generation using Lyria RealTime",
+    "objectID": "quickstarts/Embeddings.html#setup",
+    "href": "quickstarts/Embeddings.html#setup",
+    "title": "Gemini API: Embeddings Quickstart",
     "section": "Setup",
-    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is one directory up from the notebook, hence we need to use ../ to go up one directory. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── quickstarts\n    └── Get_started_LyriaRealTime.ipynb\n\n\n\n\nInitialize SDK Client\nLyria RealTime API is a new capability introduced with the Lyria RealTime model so only works with the lyria-realtime-exp model. As it’s an experimental feature, you also need to use the v1alpha client version.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY, httpOptions: { apiVersion: \"v1alpha\" } });\n\n\n\nSelect a model\nMultimodal Live API are a new capability introduced with the Gemini 2.0 model. It won’t work with previous generation models.\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"models/lyria-realtime-exp\";\n\n\n\nUtilites\nYou’re going to use the Lyria Realtime’s audio output, the easiest way hear it in Colab is to write the PCM data out as a WAV file:\n\nconst fs = require(\"fs\") as typeof import(\"fs\");\nconst path = require(\"path\") as typeof import(\"path\");\nconst wave = require(\"wavefile\") as typeof import(\"wavefile\");\n\nfunction saveAudioToFile(audioData: Int16Array, filePath: string) {\n  fs.mkdirSync(path.dirname(filePath), { recursive: true });\n  const wav = new wave.WaveFile();\n  wav.fromScratch(2, 48000, \"16\", audioData);\n  fs.writeFileSync(filePath, wav.toBuffer());\n  console.debug(`Audio saved to ${filePath}`);\n}",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is one directory up from the notebook, hence we need to use ../ to go up one directory. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── quickstarts\n    └── Embeddings.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, since this an embeddings quickstart, we will use the text-embeddings-004 model. Text embeddings are used to measure the relatedness of strings and are widely used in many AI applications.\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"text-embedding-004\";",
     "crumbs": [
       "Home",
       "Quickstarts",
-      "Get started with Music generation using Lyria RealTime"
+      "Gemini API: Embeddings Quickstart"
     ]
   },
   {
-    "objectID": "quickstarts/Get_started_LyriaRealtime.html#generate-music",
-    "href": "quickstarts/Get_started_LyriaRealtime.html#generate-music",
-    "title": "Get started with Music generation using Lyria RealTime",
-    "section": "Generate music",
-    "text": "Generate music\nThe Lyria Realtime model utilizes websockets to stream audio data in real time. The model can be prompted with text descriptions of the desired music, and it will generate audio that matches the description and stream it in chunks. It takes 2 different configuration parameters as input:\n\nWeightedPrompt: A list of text prompts that describe the desired music. Each prompt can have a weight that indicates its influence on the generated music. The prompts can be sent while the session is active, allowing for continuous steering of the music generation.\nLiveMusicGenerationConfig: A configuration object that specifies the desired characteristics of the generated music, such as bpm, density, brightness, scale, and guidance. These parameters can be adjusted in real time to influence the music generation.\n\n\n\n\n\n\n\nImportant\n\n\n\nYou can’t just update a single parameter in the LiveMusicGenerationConfig object. You need to send the entire object with all the parameters each time you want to update it, otherwise the other parameters will be reset to their default values.\nAny updates to bpm or scale need to be followed by a resetContext call to reset the context of the music generation. This is because these parameters affect the musical structure and need to be applied from the beginning of the generation.\n\n\n\nimport { LiveMusicGenerationConfig, LiveMusicSession, LiveMusicServerMessage, WeightedPrompt } from \"@google/genai\";\n\nlet n_index = 0;\nconst MAX_CHUNKS = 10; // Maximum number of audio chunks to process\nconst responseQueue: LiveMusicServerMessage[] = [];\n\nasync function receive() {\n  console.debug(\"Receiving audio chunks...\");\n  let done = false;\n  let chunk_count = 0;\n  const audioChunks: number[][] = [];\n  while (!done) {\n    if (responseQueue.length &gt; 0) {\n      const response = responseQueue.shift();\n      if (response?.audioChunk?.data) {\n        const audioBuffer = Buffer.from(response.audioChunk.data, \"base64\");\n        const intArray = new Int16Array(\n          audioBuffer.buffer,\n          audioBuffer.byteOffset,\n          audioBuffer.length / Int16Array.BYTES_PER_ELEMENT\n        );\n        audioChunks.push(Array.from(intArray));\n        chunk_count++;\n      }\n      if (chunk_count &gt;= MAX_CHUNKS) {\n        done = true;\n        console.debug(\"Received complete response\");\n      }\n    } else {\n      await new Promise((resolve) =&gt; setTimeout(resolve, 100));\n    }\n  }\n  const audioFilePath = path.join(\"../assets/live\", `lyria_realtime_${n_index}.wav`);\n  saveAudioToFile(new Int16Array(audioChunks.flat()), audioFilePath);\n  tslab.display.html(`\n    &lt;h3&gt;Audio Response Lyria&lt;/h3&gt;\n    &lt;audio controls&gt;\n        &lt;source src=\"../assets/live/lyria_realtime_${n_index}.wav\" type=\"audio/wav\"&gt;\n        Your browser does not support the audio element.\n    &lt;/audio&gt;\n  `);\n  n_index++;\n}\n\nasync function generateMusic(prompts: WeightedPrompt[], config: LiveMusicGenerationConfig) {\n  const session: LiveMusicSession = await ai.live.music.connect({\n    model: MODEL_ID,\n    callbacks: {\n      onmessage: (message) =&gt; {\n        responseQueue.push(message);\n      },\n      onerror: (error) =&gt; {\n        console.error(\"music session error:\", error);\n      },\n      onclose: () =&gt; {\n        console.log(\"Lyria RealTime stream closed.\");\n      },\n    },\n  });\n\n  await session.setWeightedPrompts({\n    weightedPrompts: prompts,\n  });\n  await session.setMusicGenerationConfig({\n    musicGenerationConfig: config,\n  });\n\n  console.debug(\"Lyria Realtime session started\");\n  session.play();\n  await receive();\n  session.close();\n  console.debug(\"Lyria Realtime session closed\");\n}",
+    "objectID": "quickstarts/Embeddings.html#embed-content",
+    "href": "quickstarts/Embeddings.html#embed-content",
+    "title": "Gemini API: Embeddings Quickstart",
+    "section": "Embed content",
+    "text": "Embed content\nCall the embedContent method with the models/text-embedding-004 model to generate text embeddings.\n\nconst text_embeddings = await ai.models.embedContent({\n  model: MODEL_ID,\n  contents: [\"Hello world\"],\n});\nconsole.log(\"Text Embeddings:\", text_embeddings.embeddings?.[0].values?.slice(0, 50), \"...TRIMMED\");\n\nText Embeddings: [\n    0.013168517,   -0.00871193,  -0.046782672,\n  0.00069969177,  -0.009518872,  -0.008720178,\n     0.06010358,   0.024755737,   0.026053527,\n    0.054356426,   -0.03793384, -0.0014235445,\n    0.030605137,  -0.015512642,  -0.012904964,\n    -0.02880739,  -0.007819577,   0.012152762,\n     -0.1139952,   0.010654231,   0.005365246,\n   -0.001178891,  -0.029781109,  -0.060107403,\n   -0.015272871, -0.0036046242,   0.006147686,\n    0.031175768,   0.021421982,    0.03710434,\n   -0.037202735,   0.046146937,   0.002196372,\n   -0.031793054,   0.009660255,   0.012500477,\n     -0.0509635,     0.0211728,   0.014332891,\n   -0.057802226,  -0.027034516,    0.03680537,\n   0.0016361808,     0.0085209,    0.04331588,\n   -0.032519087,   0.018076202, -0.0031592466,\n   0.0045996527, -0.0063372543\n] ...TRIMMED\n\n\n\nconsole.log(\"Text Embeddings Length:\", text_embeddings.embeddings?.[0].values?.length);\n\nText Embeddings Length: 768",
     "crumbs": [
       "Home",
       "Quickstarts",
-      "Get started with Music generation using Lyria RealTime"
+      "Gemini API: Embeddings Quickstart"
     ]
   },
   {
-    "objectID": "quickstarts/Get_started_LyriaRealtime.html#audio-generation-function",
-    "href": "quickstarts/Get_started_LyriaRealtime.html#audio-generation-function",
-    "title": "Get started with Music generation using Lyria RealTime",
-    "section": "Audio Generation Function",
-    "text": "Audio Generation Function\nThe above code sample shows how to generate music using the Lyria Realtime model. There are two methods worth noting:\n\ngenerateMusic - Driver method\nThis method is used to start the music generation process. It takes an array of WeightedPrompt objects and a LiveMusicGenerationConfig object as input. It returns a LiveMusicGenerationSession object that can be used to interact with the music generation session.\nThis method: - Opens a websocket connection to the Lyria Realtime model. - Sends the initial prompts to the model using setWeightedPrompts, which sets the initial musical influences. - Sends the initial configuration using setLiveMusicGenerationConfig, which sets the desired characteristics of the generated music. - Sets up event listeners to handle incoming audio data and errors and start the audio playback.\n\n\nreceive - Audio data handler\nThis methods is used to handle incoming audio data from the Lyria Realtime model. It monitors the responseQueue for incoming audio data and collects it in a buffer. When the buffer reaches a certain size, it writes the audio data to a WAV file and plays it back using the saveAudioToFile utility function.\n\n\n\n\n\n\nNote\n\n\n\nCurrently once the receive method is called, it blocks further function execution till required number of chunks are met. This means that you won’t be able to send new prompts or configuration updates while the receive method is running. Ideally, in a real-time application, you would want to run the receive method in a separate thread while also having a send method to send new prompts and configuration updates.",
+    "objectID": "quickstarts/Embeddings.html#batch-embed-content",
+    "href": "quickstarts/Embeddings.html#batch-embed-content",
+    "title": "Gemini API: Embeddings Quickstart",
+    "section": "Batch embed content",
+    "text": "Batch embed content\nYou can embed a list of multiple prompts with one API call for efficiency.\n\nconst batch_embeddings = await ai.models.embedContent({\n  model: MODEL_ID,\n  contents: [\"What is the meaning of life?\", \"How much wood would a woodchuck chuck?\", \"How does the brain work?\"],\n});\nconsole.log(\n  \"Batch Text Embeddings:\",\n  batch_embeddings.embeddings?.map((e) =&gt; e.values?.slice(0, 50)),\n  \"...TRIMMED\"\n);\n\nBatch Text Embeddings: [\n  [\n     -0.010632273,  0.019375853,    0.020965198,\n     0.0007706437, -0.061464068,    0.014739741,\n    -0.0022759985,  0.013184195,    0.014464715,\n      0.022593116,   0.02184836,   -0.059616957,\n       0.06032222, -0.047657482,    0.017848385,\n      -0.10987464,   -0.0598155,    -0.00479664,\n     -0.043298274,  -0.05090505,    0.029398112,\n      0.011642447,   0.04183789,   -0.017999396,\n      0.011026355,  0.049722955,    0.012025892,\n      0.007331535,   0.01967245,  -0.0025621902,\n      0.028765293, 0.0068937168,   0.0029231338,\n    -0.0002095079,  0.032031864,     0.02518659,\n     -0.032855466,   0.00758291, -0.00011585959,\n     -0.034515556, -0.066151336,     0.03191643,\n     -0.026680378,  0.017334407,   -0.025778342,\n     -0.008119435, -0.002431255,   -0.009850676,\n     -0.030725427,   0.08225489\n  ],\n  [\n     0.018468002,  0.0054281265,  -0.017658807,\n     0.013859263,    0.05341865,   0.041700866,\n     0.031085702,   -0.06442814,   0.010460507,\n     0.006893959,  -0.049074043,   0.015438477,\n      0.02833025,   0.041007824,  0.0016454521,\n     -0.07597325,   0.019856492, -0.0065018134,\n     -0.04790915,   0.007798852,  0.0059981374,\n     0.007498053, -0.0077681113, 0.00089508423,\n      0.02067591,   0.014558769,   0.048106413,\n    -0.035838168, -0.0076576024,  -0.025036177,\n     0.038854446,   0.040672384,   0.018866174,\n     -0.09118198,   0.043987993,    0.09125325,\n    -0.019055402,   0.058025226,     0.0337241,\n    -0.007700461,  -0.051549293,   0.033333547,\n     -0.04249377,   0.036880627,   0.030723767,\n    -0.010024755,  -0.039599802,    0.04335347,\n    -0.013405023,   0.027561612\n  ],\n  [\n     0.058089074,   0.020941732,   -0.10872878,\n     -0.04039259,  -0.044404425,   0.008074058,\n     0.029530387,    0.06106795,  -0.040581264,\n    0.0076176887,  -0.052324653, -0.0017251427,\n     0.011229625,  -0.022567088,  -0.039304733,\n     -0.06767425,   0.050662234,  -0.043872133,\n     -0.06564835, -0.0030828284,   0.031009678,\n     -0.06744081,   -0.02735545,   -0.04357851,\n    -0.015614915,   0.021484021,    0.02469868,\n    -0.022331946,  -0.027676083,   0.000084142,\n     0.033065446,   0.008663191,   0.010000569,\n     -0.03285902,   0.025153043,   -0.07011023,\n    -0.021991147,   -0.05085551,   0.033521175,\n     -0.06584735,  -0.045584362,  -0.027165776,\n    -0.025329018,    0.03824336,  -0.036927626,\n     0.062992625,   0.004152124,   0.049990047,\n    -0.016771948,    0.02209841\n  ]\n] ...TRIMMED",
     "crumbs": [
       "Home",
       "Quickstarts",
-      "Get started with Music generation using Lyria RealTime"
+      "Gemini API: Embeddings Quickstart"
     ]
   },
   {
-    "objectID": "quickstarts/Get_started_LyriaRealtime.html#try-lyria-realtime",
-    "href": "quickstarts/Get_started_LyriaRealtime.html#try-lyria-realtime",
-    "title": "Get started with Music generation using Lyria RealTime",
-    "section": "Try Lyria Realtime",
-    "text": "Try Lyria Realtime\nBecause of Colab limitation you won’t be able to experience the “real time” part of Lyria RealTime, so all those examples are going to be one-offs prompt to get an audio file.\nOne thing to note is that the audio will only be played at the end of the session when all would have been written in the wav file. When using the API for real you’ll be able to start plyaing as soon as the first chunk arrives. So the longer the duration (using the dedicated parameter) you set, the longer you’ll have to wait until you hear something.\n\nSimple Lyria RealTime example\nHere’s first a simple example:\n\nawait generateMusic(\n  [\n    {\n      text: \"piano\",\n      weight: 1.0,\n    },\n  ],\n  { bpm: 120, density: 1.0 }\n);\n\nLive music generation is experimental and may change in future versions.\n\n\nLyria Realtime session started\nReceiving audio chunks...\nReceived complete response\nAudio saved to ../assets/live/lyria_realtime_0.wav\n\n\n\n    Audio Response Lyria\n    \n        \n        Your browser does not support the audio element.\n    \n  \n\n\nLyria Realtime session closed\n\n\n\n\nTry Lyria RealTime by yourself\nNow you can try mixing multiple prompts, and tinkering with the music configuration.\nThe prompts needs to follow their specific format which is a list of prompts with weights (which can be any values, including negative, except 0) like this:\n{\n    \"text\": \"Text of the prompt\",\n    \"weight\": 1.0\n}\nYou should try to stay simple (unlike when you’re using image-out) as the model will better understand things like “meditation”, “eerie”, “harp” than “An eerie and relaxing music illustrating the verdoyant forests of Scotland using string instruments”.\nThe music configuration options available to you are:\n\nbpm: beats per minute\nguidance: how strictly the model follows the prompts\ndensity: density of musical notes/sounds\nbrightness: tonal quality\nscale: musical scale (key and mode)\n\nOther options are available (mute_bass for ex.). Check the documentation for the full list.\nSelect one of the sample prompts (genres, instruments and mood), or write your owns. Check the documentation for more details and prompt examples.\n\nawait generateMusic(\n  [\n    {\n      text: \"Indie Pop\",\n      weight: 0.6,\n    },\n    {\n      text: \"Sitar\",\n      weight: 2,\n    },\n    {\n      text: \"Danceable\",\n      weight: 1.4,\n    },\n  ],\n  {\n    bpm: 140,\n    scale: google.Scale.F_MAJOR_D_MINOR,\n    density: 0.2,\n    brightness: 0.7,\n    guidance: 4.0,\n  }\n);\n\nLive music generation is experimental and may change in future versions.\n\n\nLyria RealTime stream closed.\nLyria Realtime session started\nReceiving audio chunks...\nReceived complete response\nAudio saved to ../assets/live/lyria_realtime_1.wav\n\n\n\n    Audio Response Lyria\n    \n        \n        Your browser does not support the audio element.\n    \n  \n\n\nLyria Realtime session closed\nLyria RealTime stream closed.",
+    "objectID": "quickstarts/Embeddings.html#truncating-embeddings",
+    "href": "quickstarts/Embeddings.html#truncating-embeddings",
+    "title": "Gemini API: Embeddings Quickstart",
+    "section": "Truncating embeddings",
+    "text": "Truncating embeddings\nThe text-embedding-004 model also supports lower embedding dimensions. Specify outputDimensionality to truncate the output.\n\nconst trucated_embeddings = await ai.models.embedContent({\n  model: MODEL_ID,\n  contents: [\"Hello world\"],\n  config: {\n    outputDimensionality: 10,\n  },\n});\nconsole.log(\"Truncated Text Embeddings:\", trucated_embeddings.embeddings?.[0].values);\nconsole.log(\"Truncated Text Embeddings Length:\", trucated_embeddings.embeddings?.[0].values?.length);\n\nTruncated Text Embeddings: [\n   0.013168517,   -0.00871193,\n  -0.046782672, 0.00069969177,\n  -0.009518872,  -0.008720178,\n    0.06010358,   0.024755737,\n   0.026053527,   0.054356426\n]\nTruncated Text Embeddings Length: 10",
     "crumbs": [
       "Home",
       "Quickstarts",
-      "Get started with Music generation using Lyria RealTime"
+      "Gemini API: Embeddings Quickstart"
     ]
   },
   {
-    "objectID": "quickstarts/Get_started_LyriaRealtime.html#whats-next",
-    "href": "quickstarts/Get_started_LyriaRealtime.html#whats-next",
-    "title": "Get started with Music generation using Lyria RealTime",
-    "section": "What’s next?",
-    "text": "What’s next?\nNow that you know how to generate music, here are other cool things to try:\n\nInstead of music, learn how to generate multi-speakers conversation using the TTS models.\nDiscover how to generate images or videos.\nInstead of generation music or audio, find out how to Gemini can understand Audio files.\nHave a real-time conversation with Gemini using the Live API.",
+    "objectID": "quickstarts/Embeddings.html#specify-tasktype",
+    "href": "quickstarts/Embeddings.html#specify-tasktype",
+    "title": "Gemini API: Embeddings Quickstart",
+    "section": "Specify taskType",
+    "text": "Specify taskType\nFor details on how to call embedContent, check out the Embeddings API reference, including the section on taskType.\n\nconst with_no_task_type = await ai.models.embedContent({\n  model: MODEL_ID,\n  contents: [\"Hello world\"],\n});\nconsole.log(\"With No Task Type Text Embeddings:\", with_no_task_type.embeddings?.[0].values?.slice(0, 50), \"...TRIMMED\");\n\nconst with_task_type = await ai.models.embedContent({\n  model: MODEL_ID,\n  contents: [\"Hello world\"],\n  config: {\n    taskType: \"retrieval_document\",\n  },\n});\nconsole.log(\"With Task Type Text Embeddings:\", with_task_type.embeddings?.[0].values?.slice(0, 50), \"...TRIMMED\");\n\nWith No Task Type Text Embeddings: [\n    0.013168517,   -0.00871193,  -0.046782672,\n  0.00069969177,  -0.009518872,  -0.008720178,\n     0.06010358,   0.024755737,   0.026053527,\n    0.054356426,   -0.03793384, -0.0014235445,\n    0.030605137,  -0.015512642,  -0.012904964,\n    -0.02880739,  -0.007819577,   0.012152762,\n     -0.1139952,   0.010654231,   0.005365246,\n   -0.001178891,  -0.029781109,  -0.060107403,\n   -0.015272871, -0.0036046242,   0.006147686,\n    0.031175768,   0.021421982,    0.03710434,\n   -0.037202735,   0.046146937,   0.002196372,\n   -0.031793054,   0.009660255,   0.012500477,\n     -0.0509635,     0.0211728,   0.014332891,\n   -0.057802226,  -0.027034516,    0.03680537,\n   0.0016361808,     0.0085209,    0.04331588,\n   -0.032519087,   0.018076202, -0.0031592466,\n   0.0045996527, -0.0063372543\n] ...TRIMMED\nWith Task Type Text Embeddings: [\n   0.023399517,  -0.008547142, -0.052534223,\n  -0.012143115,  0.0055042417, -0.001007702,\n   0.028462889,   0.037563253, -0.023794618,\n   0.045095872,  -0.014744246, 0.0034827266,\n    0.07847462, -0.0088950405, -0.008143913,\n  -0.045579128,   0.017674835,  0.010504201,\n   -0.11951811,   0.025116991,   0.02234638,\n  -0.031670354,   0.009702842, -0.011191917,\n  -0.020584144,   -0.01684894, -0.000543171,\n   0.003336858, -0.0024763693,  0.018954858,\n    0.03398058,    0.07639708, 0.0037753258,\n  -0.055841617,    0.01699452,  0.011088602,\n  -0.016603941,    0.03163179,  0.039773043,\n   -0.04514968,   -0.07688451,  0.030634686,\n  -0.003726261,   0.042314958,  0.014746045,\n   -0.03570954,  -0.008157468,  0.026814101,\n  -0.031223731,   0.022471815\n] ...TRIMMED",
     "crumbs": [
       "Home",
       "Quickstarts",
-      "Get started with Music generation using Lyria RealTime"
+      "Gemini API: Embeddings Quickstart"
+    ]
+  },
+  {
+    "objectID": "quickstarts/Embeddings.html#learning-more",
+    "href": "quickstarts/Embeddings.html#learning-more",
+    "title": "Gemini API: Embeddings Quickstart",
+    "section": "Learning more",
+    "text": "Learning more\nCheck out these examples in the Cookbook to learn more about what you can do with embeddings:\n\nSearch Reranking: Use embeddings from the Gemini API to rerank search results from Wikipedia.\nAnomaly detection with embeddings: Use embeddings from the Gemini API to detect potential outliers in your dataset.\nTrain a text classifier: Use embeddings from the Gemini API to train a model that can classify different types of newsgroup posts based on the topic.\nEmbeddings have many applications in Vector Databases, too. Check out this example with Chroma DB.\n\nYou can learn more about embeddings in general on ai.google.dev in the embeddings guide\n\nYou can find additional code examples with the JS SDK here.\nYou can also find more details in the API Reference for embedContent and batchEmbedContents.",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Embeddings Quickstart"
     ]
   },
   {
