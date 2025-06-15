@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API Cookbook – Gemini Cookbook</title>
+<title>contrib – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,27 +20,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ea566745f0d2a752ad1774cffeebdeb0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ea566745f0d2a752ad1774cffeebdeb0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,10 +105,10 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta property="og:title" content="Gemini API Cookbook – Gemini Cookbook">
+<meta property="og:title" content="Gemini Cookbook">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta name="twitter:title" content="Gemini API Cookbook – Gemini Cookbook">
+<meta name="twitter:title" content="Gemini Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -85,7 +120,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Gemini Cookbook</span>
     </a>
   </div>
@@ -96,11 +131,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./quickstarts/Get_started.html"> 
+    <a class="nav-link active" href="../quickstarts/Get_started.html" aria-current="page"> 
 <span class="menu-text">Quickstarts</span></a>
   </li>  
 </ul>
@@ -129,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Gemini API Cookbook</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -152,79 +187,79 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Audio Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Code Execution</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: All about tokens</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Embeddings Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Enum Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: File API Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multimodal Live API - Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Use Gemini thinking</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
   </div>
 </li>
@@ -240,138 +275,197 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#welcome-to-the-gemini-api-cookbook" id="toc-welcome-to-the-gemini-api-cookbook" class="nav-link active" data-scroll-target="#welcome-to-the-gemini-api-cookbook">Welcome to the Gemini API Cookbook</a>
+  <li><a href="#contributing-to-the-gemini-api-cookbook" id="toc-contributing-to-the-gemini-api-cookbook" class="nav-link active" data-scroll-target="#contributing-to-the-gemini-api-cookbook">Contributing to the Gemini API Cookbook</a></li>
+  <li><a href="#before-you-send-anything" id="toc-before-you-send-anything" class="nav-link" data-scroll-target="#before-you-send-anything">Before you send anything</a>
   <ul class="collapse">
-  <li><a href="#navigating-the-cookbook" id="toc-navigating-the-cookbook" class="nav-link" data-scroll-target="#navigating-the-cookbook">Navigating the Cookbook</a></li>
-  <li><a href="#whats-new" id="toc-whats-new" class="nav-link" data-scroll-target="#whats-new">What’s New?</a></li>
-  <li><a href="#quick-starts" id="toc-quick-starts" class="nav-link" data-scroll-target="#quick-starts">1. Quick Starts</a></li>
-  <li><a href="#examples-practical-use-cases" id="toc-examples-practical-use-cases" class="nav-link" data-scroll-target="#examples-practical-use-cases">2. Examples (Practical Use Cases)</a></li>
-  <li><a href="#demos-end-to-end-applications" id="toc-demos-end-to-end-applications" class="nav-link" data-scroll-target="#demos-end-to-end-applications">3. Demos (End-to-End Applications)</a></li>
-  <li><a href="#official-sdks" id="toc-official-sdks" class="nav-link" data-scroll-target="#official-sdks">Official SDKs</a></li>
-  <li><a href="#important-migration" id="toc-important-migration" class="nav-link" data-scroll-target="#important-migration">Important: Migration</a></li>
-  <li><a href="#get-help" id="toc-get-help" class="nav-link" data-scroll-target="#get-help">Get Help</a></li>
-  <li><a href="#the-gemini-api-on-google-cloud-vertex-ai" id="toc-the-gemini-api-on-google-cloud-vertex-ai" class="nav-link" data-scroll-target="#the-gemini-api-on-google-cloud-vertex-ai">The Gemini API on Google Cloud Vertex AI</a></li>
-  <li><a href="#contributing" id="toc-contributing" class="nav-link" data-scroll-target="#contributing">Contributing</a></li>
+  <li><a href="#sign-our-contributor-agreement" id="toc-sign-our-contributor-agreement" class="nav-link" data-scroll-target="#sign-our-contributor-agreement">Sign our contributor agreement</a></li>
+  <li><a href="#style-guides" id="toc-style-guides" class="nav-link" data-scroll-target="#style-guides">Style guides</a></li>
+  </ul></li>
+  <li><a href="#making-changes" id="toc-making-changes" class="nav-link" data-scroll-target="#making-changes">Making changes</a>
+  <ul class="collapse">
+  <li><a href="#small-fixes" id="toc-small-fixes" class="nav-link" data-scroll-target="#small-fixes">Small fixes</a></li>
+  <li><a href="#content-submission" id="toc-content-submission" class="nav-link" data-scroll-target="#content-submission">Content submission</a></li>
+  <li><a href="#things-we-consider" id="toc-things-we-consider" class="nav-link" data-scroll-target="#things-we-consider">Things we consider</a></li>
+  <li><a href="#attribution" id="toc-attribution" class="nav-link" data-scroll-target="#attribution">Attribution</a></li>
+  </ul></li>
+  <li><a href="#detailed-coding-and-notebook-guidelines" id="toc-detailed-coding-and-notebook-guidelines" class="nav-link" data-scroll-target="#detailed-coding-and-notebook-guidelines">Detailed Coding and Notebook Guidelines</a>
+  <ul class="collapse">
+  <li><a href="#notebook-style" id="toc-notebook-style" class="nav-link" data-scroll-target="#notebook-style">Notebook Style</a></li>
+  <li><a href="#code-style" id="toc-code-style" class="nav-link" data-scroll-target="#code-style">Code Style</a></li>
+  <li><a href="#naming-conventions" id="toc-naming-conventions" class="nav-link" data-scroll-target="#naming-conventions">Naming Conventions</a></li>
+  <li><a href="#comments" id="toc-comments" class="nav-link" data-scroll-target="#comments">Comments</a></li>
+  <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
+  <li><a href="#text" id="toc-text" class="nav-link" data-scroll-target="#text">Text</a></li>
+  <li><a href="#github-workflow" id="toc-github-workflow" class="nav-link" data-scroll-target="#github-workflow">GitHub Workflow</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/FallenDeity/deepmind-starter/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/FallenDeity/deepmind-starter/edit/main/assets/contrib.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/assets/contrib.md" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Gemini API Cookbook</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="welcome-to-the-gemini-api-cookbook" class="level1">
-<h1>Welcome to the Gemini API Cookbook</h1>
-<p>This cookbook provides a structured learning path for using the Gemini API, focusing on hands-on tutorials and practical examples.</p>
-<p><strong>For comprehensive API documentation, visit <a href="https://ai.google.dev/gemini-api/docs#javascript">ai.google.dev</a>.</strong></p>
-<section id="navigating-the-cookbook" class="level2">
-<h2 class="anchored" data-anchor-id="navigating-the-cookbook">Navigating the Cookbook</h2>
-<p>This cookbook is organized into two main categories:</p>
-<ol type="1">
-<li><strong><a href="https://github.com/FallenDeity/deepmind-starter/tree/main/quickstarts">Quick Starts</a>:</strong> Step-by-step guides covering both introductory topics (“<a href="./quickstarts/Get_started.html">Get Started</a>”) and specific API features.</li>
-<li><strong><a href="https://github.com/FallenDeity/deepmind-starter/tree/main/examples">Examples</a>:</strong> Practical use cases demonstrating how to combine multiple features.</li>
-</ol>
-<p>We also showcase <strong>Demos</strong> in separate repositories, illustrating end-to-end applications of the Gemini API.</p>
+<section id="contributing-to-the-gemini-api-cookbook" class="level1">
+<h1>Contributing to the Gemini API Cookbook</h1>
+<p>We would love to accept your patches and contributions to the Gemini API Cookbook. We are excited that you are considering donating some of your time, and this guide will help us be respectful of that time.</p>
 </section>
-<section id="whats-new" class="level2">
-<h2 class="anchored" data-anchor-id="whats-new">What’s New?</h2>
-<p>Here are the recent additions and updates to the Gemini API and the Cookbook:</p>
+<section id="before-you-send-anything" class="level1">
+<h1>Before you send anything</h1>
+<section id="sign-our-contributor-agreement" class="level2">
+<h2 class="anchored" data-anchor-id="sign-our-contributor-agreement">Sign our contributor agreement</h2>
+<p>All contributions to this project must be accompanied by a <a href="https://cla.developers.google.com/about">Contributor License Agreement</a> (CLA). You (or your employer) retain the copyright to your contribution; this simply gives us permission to use and redistribute your contributions as part of the project.</p>
+<p>If you or your current employer have already signed the Google CLA (even if it was for a different project), you probably don’t need to do it again.</p>
+<p>Visit <a href="https://cla.developers.google.com/">https://cla.developers.google.com/</a> to see your current agreements or to sign a new one.</p>
+</section>
+<section id="style-guides" class="level2">
+<h2 class="anchored" data-anchor-id="style-guides">Style guides</h2>
+<p>Before you start writing, take a look at the <a href="https://developers.google.com/style">technical writing style guide</a>. You don’t need to fully digest the whole document, but do read the <a href="https://developers.google.com/style/highlights">highlights</a> so you can anticipate the most common feedback.</p>
+<p>Also check out the relevant <a href="https://google.github.io/styleguide/">style guide</a> for the language you will be using. These apply strictly to raw code files (e.g.&nbsp;<em>.py, </em>.js), though code fragments in documentation (such as markdown files or notebooks) tend to favor readability over strict adherence.</p>
+<p>For Python notebooks (*.ipynb files), consider running <code>pyink</code> over your notebook. It is not required, but it will avoid style-related nits.</p>
+<p>See below for more detailed guidelines specific to writing notebooks and guides.</p>
+</section>
+</section>
+<section id="making-changes" class="level1">
+<h1>Making changes</h1>
+<section id="small-fixes" class="level2">
+<h2 class="anchored" data-anchor-id="small-fixes">Small fixes</h2>
+<p>Small fixes, such as typos or bug fixes, can be submitted directly via a pull request.</p>
+</section>
+<section id="content-submission" class="level2">
+<h2 class="anchored" data-anchor-id="content-submission">Content submission</h2>
+<p>Before you send a PR, or even write a single line, please file an <a href="https://github.com/google-gemini/cookbook/issues">issue</a>. There we can discuss the request and provide guidance about how to structure any content you write.</p>
+<p>Adding a new guide often involves lots of detailed reviews and we want to make sure that your idea is fully formed and has full support before you start writing anything. If you want to port an existing guide across (e.g.&nbsp;if you have a guide for Gemini on your own GitHub), feel free to link to it in the issue.</p>
+<p>When you’re ready, start by using the <a href="./quickstarts/Template.ipynb">notebook template</a> and following the guidance within.</p>
+<p>Before submitting your notebook, it’s recommended to run linting and formatting tools locally to ensure consistency and adherence to style guidelines.</p>
+<ol type="1">
+<li>Install Dependencies:</li>
+</ol>
+<p>First, install the necessary packages using pip:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-U</span> tensorflow-docs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>Format the Notebook:</li>
+</ol>
+<p>Use the nbfmt tool from tensorflow-docs to automatically format your notebook:</p>
+<pre><code>python -m tensorflow_docs.tools.nbfmt path/to/notebook</code></pre>
+<p>Replace <code>path/to/notebook</code> with the actual path to your notebook file.</p>
+<ol start="3" type="1">
+<li>Lint the Notebook:</li>
+</ol>
+<p>Use the nblint tool to check for style and consistency issues:</p>
+<pre><code>python -m tensorflow_docs.tools.nblint \
+            --styles=google,tensorflow \
+            --arg=repo:google-gemini/cookbook \
+            --arg=branch:main \
+            --exclude_lint=tensorflow::button_download \
+            --exclude_lint=tensorflow::button_website \
+            --arg=base_url:https://ai.google.dev/ \
+            --exclude_lint=tensorflow::button_github \
+            path/to/notebook</code></pre>
+<p>Replace <code>path/to/notebook</code> with the actual path to your notebook file.</p>
+</section>
+<section id="things-we-consider" class="level2">
+<h2 class="anchored" data-anchor-id="things-we-consider">Things we consider</h2>
+<p>When accepting a new guide, we want to balance a few aspects. * Originality - e.g.&nbsp;Is there another guide that does the same thing? * Pedagogy - e.g.&nbsp;Does this guide teach something useful? Specifically for a Gemini API feature? * Quality - e.g.&nbsp;Does this guide contain clear, descriptive prose? Is the code easy to understand?</p>
+<p>It is not crucial for a submission to be strong along all of these dimensions, but the stronger the better. Old submissions may be replaced in favor of newer submissions that exceed these properties.</p>
+</section>
+<section id="attribution" class="level2">
+<h2 class="anchored" data-anchor-id="attribution">Attribution</h2>
+<p>If you have authored a new guide from scratch, you are welcome to include a byline at the top of the document with your name and GitHub username.</p>
+</section>
+</section>
+<section id="detailed-coding-and-notebook-guidelines" class="level1">
+<h1>Detailed Coding and Notebook Guidelines</h1>
+<section id="notebook-style" class="level2">
+<h2 class="anchored" data-anchor-id="notebook-style">Notebook Style</h2>
 <ul>
-<li><strong>Gemini 2.5 models:</strong> Explore the capabilities of the latest Gemini 2.5 models (Flash and Pro)! See the <a href="./quickstarts/Get_started.html">Get Started Guide</a> and the <a href="./quickstarts/Get_started_thinking.html">thinking guide</a> as they’ll all be thinking ones.</li>
-<li><strong>Imagen and Veo</strong>: Get started with our media generation model with this brand new <a href="./quickstarts/Get_started_Veo.ipynb">Veo guide</a> and <a href="./quickstarts/Get_started_imagen.ipynb">Imagen guide</a>!</li>
-<li><strong>Lyria and TTS</strong>: Get started with podcast and music generation with the <a href="./quickstarts/Get_started_TTS.html">TTS</a> and <a href="./quickstarts/Get_started_LyriaRealTime.ipynb">Lyria RealTime</a> models.</li>
-<li><strong>LiveAPI</strong>: Get started with the <a href="./quickstarts/Get_started_LiveAPI.html">multimodal Live API</a> and unlock new interactivity with Gemini.</li>
-<li><strong>Recently Added Guides:</strong>
+<li>Include the collapsed license at the top (uses the Colab “Form” mode to hide the cells).</li>
+<li>Save the notebook with the table of contents open.</li>
+<li>Use one <code>H1</code> header (<code>#</code> in Markdown) for the title.</li>
+<li>Include the “Open in Colab” button immediately after the <code>H1</code>. It should look like: <code>html     &lt;a target="_blank" href="URL"&gt;&lt;img src="[https://colab.research.google.com/assets/colab-badge.svg](https://colab.research.google.com/assets/colab-badge.svg)" height=30/&gt;&lt;/a&gt;</code> where <code>URL</code> should be <code>https://colab.research.google.com/github/google-gemini/cookbook/blob/main/</code> followed by the notebook location in the cookbook.</li>
+<li>Include an overview section before any code.</li>
+<li>Put all your installs (using <code>%pip</code> instead of <code>!pip</code>) and imports in a dedicated setup section near the beginning.</li>
+<li>Keep code and text cells as brief as possible.</li>
+<li>Break text cells at headings.</li>
+<li>Break code cells between distinct logical steps, such as “building” and “running”, or between processing/printing different results.</li>
+<li>Necessary but uninteresting code (like helper functions) should be hidden in a toggleable code cell by putting <code># @title</code> as the first line.</li>
+</ul>
+</section>
+<section id="code-style" class="level2">
+<h2 class="anchored" data-anchor-id="code-style">Code Style</h2>
 <ul>
-<li><a href="./examples/Browser_as_a_tool.ipynb">Browser as a tool</a>: Use a web browser for live and internal (intranet) web interactions</li>
-<li><a href="./quickstarts/Grounding.ipynb">Grounding</a>: Discover different ways to ground Gemini’s answer using different tools, from Google Search to Youtube and the new url context tool.</li>
+<li><p>Notebooks are for people. Write code optimized for clarity.</p></li>
+<li><p>Use the <a href="http://google.github.io/styleguide/pyguide.html">Google Python Style Guide</a>, where applicable. Code formatted by <a href="https://github.com/google/pyink"><code>pyink</code></a> will always be accepted.</p></li>
+<li><p><strong>Use 4 spaces per indentation level.</strong> (PEP 8 recommendation)</p></li>
+<li><p>In particular, defining functions and variables takes extra spaces around the <code>=</code> sign, while function parameters don’t: ```python var = value</p>
+<p>function( parameter=value ) ```</p></li>
+<li><p>When a function has multiple parameters, expand it onto multiple lines with proper indentation for better readability: <code>python     response = client.models.generate_content(         model=MODEL_ID,         contents="Here's my prompt",         config={             "response_mime_type": "application/json",             "response_schema": Schema         }     )</code> <em>Notice the line break after the opening parenthesis and before the closing parenthesis.</em></p></li>
+<li><p>Long text variables should use triple double quotes and proper indentation for better readability: <code>python     long_prompt = """         Cupcake ipsum dolor. Sit amet marshmallow topping cheesecake muffin.         Halvah croissant candy canes bonbon candy. Apple pie jelly beans topping carrot cake danish tart cake cheesecake.         Muffin danish chocolate soufflé pastry icing bonbon oat cake. Powder cake jujubes oat cake.         Lemon drops tootsie roll marshmallow halvah carrot cake.     """</code> <em>Notice the line break after the opening triple quotes and before the closing triple quotes.</em></p></li>
+<li><p>Demonstrate small parts before combining them into something more complex.</p></li>
+<li><p>If you define a function, ideally run it and show its output immediately before using it in another function or a more complex block.</p></li>
+<li><p>Only use helper functions when necessary (e.g., for code reuse or complexity management). If a piece of logic is only a couple of lines and used once, it’s often clearer to write it inline so readers don’t have to look up the function definition. Hide helper function definitions using <code># @title</code>.</p></li>
+<li><p>Keep examples quick and concise. Do not add extra options or parameters (like <code>temperature</code>) without explaining them; focus on what you want to showcase.</p></li>
+<li><p>If you <em>must</em> use extra parameters, explain <em>why</em> they are needed and the reasoning behind the specific value the first time you use them.</p></li>
+<li><p>When selecting a model, use a Colab form selector for easier maintainability: <code>python     MODEL_ID="gemini-1.5-flash" # @param ["gemini-1.0-pro", "gemini-1.5-flash", "gemini-1.5-pro"] {"allow-input":true, isTemplate: true}</code></p></li>
+<li><p>Some notebooks can benefit from having a form to update the prompt: <code>python     prompt = "Detect the 2d bounding boxes of the cupcakes (with 'label' as topping description')"  # @param {type:"string"}</code> or a list of prompts: <code>python     prompt = "Draw a square around the fox' shadow"  # @param ["Find the two origami animals.", "Where are the origamis' shadows?","Draw a square around the fox' shadow"] {"allow-input":true}</code></p></li>
+<li><p>To ensure notebook text remains accurate, present model metadata (like context window size) by executing code, not by hardcoding it in Markdown.</p>
+<ul>
+<li>Example: Instead of writing “This model has a 1M token context window”, display the output of <code>genai.get_model('models/gemini-1.5-pro-latest').input_token_limit</code>.</li>
 </ul></li>
 </ul>
 </section>
-<section id="quick-starts" class="level2">
-<h2 class="anchored" data-anchor-id="quick-starts">1. Quick Starts</h2>
-<p>The <a href="https://github.com/FallenDeity/deepmind-starter/tree/main/quickstarts">quickstarts section</a> contains step-by-step tutorials to get you started with Gemini and learn about its specific features.</p>
-<p><strong>To begin, you’ll need:</strong></p>
+<section id="naming-conventions" class="level2">
+<h2 class="anchored" data-anchor-id="naming-conventions">Naming Conventions</h2>
+<ul>
+<li><strong>Variables:</strong> Use lowercase with underscores (snake_case): <code>user_name</code>, <code>total_count</code></li>
+<li><strong>Constants:</strong> Use uppercase with underscores: <code>MAX_VALUE</code>, <code>DATABASE_NAME</code></li>
+<li><strong>Functions:</strong> Use lowercase with underscores (snake_case): <code>calculate_total()</code>, <code>process_data()</code></li>
+<li><strong>Classes:</strong> Use CapWords (CamelCase): <code>UserManager</code>, <code>PaymentProcessor</code></li>
+<li><strong>Modules:</strong> Use lowercase with underscores (snake_case): <code>user_utils</code>, <code>payment_gateway</code></li>
+</ul>
+</section>
+<section id="comments" class="level2">
+<h2 class="anchored" data-anchor-id="comments">Comments</h2>
+<ul>
+<li>Write clear and concise comments: Explain the “why” behind the code, not just the “what”.</li>
+<li>Comment sparingly: Well-written code should be self-documenting where possible.</li>
+<li>Use complete sentences: Start comments with a capital letter and use proper punctuation.</li>
+</ul>
+</section>
+<section id="outputs" class="level2">
+<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
+<ul>
+<li>Whenever possible, simply use <code>print()</code> for basic output.</li>
+<li>When needed, use <code>display(Markdown())</code> for formatted Markdown text, <code>print(json.dumps(json_string, indent=4))</code> for readable JSON, or <code>display(Image())</code> for images.</li>
+</ul>
+</section>
+<section id="text" class="level2">
+<h2 class="anchored" data-anchor-id="text">Text</h2>
+<ul>
+<li>Use an imperative style: “Run a prompt using the API.”</li>
+<li>Use sentence case in titles/headings: “Download the data”, “Call the API”, “Process the results”.</li>
+<li>Use short titles/headings.</li>
+<li>Use the <a href="https://developers.google.com/style/highlights">Google developer documentation style guide</a>.</li>
+<li>Use <a href="https://developers.google.com/style/person">second person</a>: “you” rather than “we”. (You will fail the lint check otherwise).</li>
+<li>Explain what you are doing and the features you are using. Link to relevant documentation or other notebooks for more details where appropriate.</li>
+</ul>
+</section>
+<section id="github-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="github-workflow">GitHub Workflow</h2>
+<ul>
+<li>Be consistent about how you save your notebooks (e.g., with ToC open, potentially omitting outputs) to keep JSON diffs manageable. Tools like <a href="https://github.com/tensorflow/docs/blob/master/tools/tensorflow_docs/tools/README.md"><code>nbfmt</code> and <code>nblint</code></a> can help enforce consistency.</li>
+<li>Consider setting the “Omit code cell output when saving this notebook” option if outputs (like inline images) make diffs too large for GitHub.</li>
+<li><a href="http://reviewnb.com">ReviewNB.com</a> can assist with reviewing notebook diffs in pull requests.</li>
+<li>Use the <a href="https://chrome.google.com/webstore/detail/open-in-colab/iogfkhleblhcpcekbiedikdehleodpjo">Open in Colab</a> browser extension to easily open GitHub notebooks in Colab.</li>
+<li>The easiest way to edit a notebook tracked in GitHub is often:
 <ol type="1">
-<li>A Google account.</li>
-<li>An API key (create one in <a href="https://aistudio.google.com/app/apikey">Google AI Studio</a>).</li>
-</ol>
-<p>We recommend starting with the following:</p>
-<ul>
-<li><a href="./quickstarts/Authentication.ipynb">Authentication</a>: Set up your API key for access.</li>
-<li><a href="./quickstarts/Get_started.html"><strong>Get started</strong></a>: Get started with Gemini models and the Gemini API, covering basic prompting and multimodal input.</li>
+<li>Open the notebook in Colab directly from the GitHub branch you intend to edit.</li>
+<li>Make your changes in Colab.</li>
+<li>Use Colab’s “File” -&gt; “Save a copy in GitHub” menu option to save it back to the same branch.</li>
+</ol></li>
+<li>For Pull Requests (PRs), it’s helpful to include a direct Colab link to the notebook version in the PR head for easier review: <code>https://colab.research.google.com/github/{USER}/{REPO}/blob/{BRANCH}/{PATH}.ipynb</code></li>
 </ul>
-<p>Then, explore the other quickstarts tutorials to learn about individual features:</p>
-<ul>
-<li><a href="./quickstarts/Get_started_LiveAPI.html">Get started with Live API</a>: Get started with the live API with this comprehensive overview of its capabilities</li>
-<li><a href="./quickstarts/Get_started_Veo.ipynb">Get started with Veo</a>: Get started with our video generation capabilities</li>
-<li><a href="./quickstarts/Get_started_imagen.ipynb">Get started with Imagen</a> and <a href="./quickstarts/Image_out.ipynb">Image-out</a>: Get started with our image generation capabilities</li>
-<li><a href="./quickstarts/Search_Grounding.ipynb">Grounding</a>: use Google Search for grounded responses</li>
-<li><a href="./quickstarts/Code_Execution.html">Code execution</a>: Generating and running Python code to solve complex tasks and even ouput graphs</li>
-<li>And <a href="https://github.com/FallenDeity/deepmind-starter/tree/main/quickstarts">many more</a></li>
-</ul>
-</section>
-<section id="examples-practical-use-cases" class="level2">
-<h2 class="anchored" data-anchor-id="examples-practical-use-cases">2. Examples (Practical Use Cases)</h2>
-<p>These examples demonstrate how to combine multiple Gemini API features or 3rd-party tools to build more complex applications. - <a href="./examples/Book_illustration.ipynb">Illustrate a book</a>: Use Gemini and Imagen to create illustration for an open-source book - <a href="./examples/Animated_Story_Video_Generation_gemini.ipynb">Animated Story Generation</a>: Create animated videos by combining Gemini’s story generation, Imagen, and audio synthesis - <a href="./examples/LiveAPI_plotting_and_mapping.ipynb">Plotting and mapping Live</a>: Mix <em>Live API</em> and <em>Code execution</em> to solve complex tasks live - <a href="./examples/Spatial_understanding_3d.ipynb">3D Spatial understanding</a>: Use Gemini <em>3D spatial</em> abilities to understand 3D scenes - <a href="./examples/gradio_audio.py">Gradio and live API</a>: Use gradio to deploy your own instance of the <em>Live API</em> - And <a href="https://github.com/FallenDeity/deepmind-starter/tree/main/examples">many many more</a></p>
-</section>
-<section id="demos-end-to-end-applications" class="level2">
-<h2 class="anchored" data-anchor-id="demos-end-to-end-applications">3. Demos (End-to-End Applications)</h2>
-<p>These fully functional, end-to-end applications showcase the power of Gemini in real-world scenarios.</p>
-<ul>
-<li><a href="https://github.com/google-gemini/gemini-api-quickstart">Gemini API quickstart</a>: Python Flask App running with the Google AI Gemini API, designed to get you started building with Gemini’s multi-modal capabilities</li>
-<li><a href="https://github.com/google-gemini/multimodal-live-api-web-console">Multimodal Live API Web Console</a>: React-based starter app for using the Multimodal Live API over a websocket</li>
-<li><a href="https://github.com/google-gemini/starter-applets">Google AI Studio Starter Applets</a>: A collection of small apps that demonstrate how Gemini can be used to create interactive experiences</li>
-</ul>
-</section>
-<section id="official-sdks" class="level2">
-<h2 class="anchored" data-anchor-id="official-sdks">Official SDKs</h2>
-<p>The Gemini API is a REST API. You can call it directly using tools like <code>curl</code> (see <a href="https://github.com/FallenDeity/deepmind-starter/tree/main/quickstarts/rest/">REST examples</a> or the great <a href="https://www.postman.com/ai-on-postman/google-gemini-apis/overview">Postman workspace</a>), or use one of our official SDKs:</p>
-<ul>
-<li><a href="https://github.com/googleapis/python-genai">Python</a></li>
-<li><a href="https://github.com/google/generative-ai-go">Go</a></li>
-<li><a href="https://github.com/googleapis/js-genai">Node.js</a></li>
-<li><a href="https://github.com/google/generative-ai-dart">Dart (Flutter)</a></li>
-<li><a href="https://github.com/google/generative-ai-android">Android</a></li>
-<li><a href="https://github.com/google/generative-ai-swift">Swift</a></li>
-</ul>
-</section>
-<section id="important-migration" class="level2">
-<h2 class="anchored" data-anchor-id="important-migration">Important: Migration</h2>
-<p>With Gemini 2 we are offering a <a href="https://github.com/googleapis/js-genai">new SDK</a> (<code><a href="https://www.npmjs.com/package/@google/genai"><span class="citation" data-cites="google/genai">@google/genai</span></a></code>, <code>v1.0</code>). The updated SDK is fully compatible with all Gemini API models and features, including recent additions like the <a href="https://aistudio.google.com/live">live API</a> (audio + video streaming), improved tool usage ( <a href="https://ai.google.dev/gemini-api/docs/code-execution?lang=javascript">code execution</a>, <a href="https://ai.google.dev/gemini-api/docs/function-calling/tutorial?lang=javascript">function calling</a> and integrated <a href="https://ai.google.dev/gemini-api/docs/grounding?lang=javascript">Google search grounding</a>), and media generation (<a href="https://ai.google.dev/gemini-api/docs/imagen">Imagen</a> and <a href="https://ai.google.dev/gemini-api/docs/video">Veo</a>). This SDK allows you to connect to the Gemini API through either <a href="https://aistudio.google.com/prompts/new_chat?model=gemini-2.0-flash-exp">Google AI Studio</a> or <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/gemini-v2">Vertex AI</a>.</p>
-<p>The <code><a href="https://www.npmjs.com/package/@google/generative-ai">generative-ai-js</a></code> package will continue to support the original Gemini models. It <em>can</em> also be used with Gemini 2 models, just with a limited feature set. All new features will be developed in the new Google GenAI SDK.</p>
-<p>See the <a href="https://ai.google.dev/gemini-api/docs/migrate">migration guide</a> for details.</p>
-</section>
-<section id="get-help" class="level2">
-<h2 class="anchored" data-anchor-id="get-help">Get Help</h2>
-<p>Ask a question on the <a href="https://discuss.ai.google.dev/">Google AI Developer Forum</a>.</p>
-</section>
-<section id="the-gemini-api-on-google-cloud-vertex-ai" class="level2">
-<h2 class="anchored" data-anchor-id="the-gemini-api-on-google-cloud-vertex-ai">The Gemini API on Google Cloud Vertex AI</h2>
-<p>For enterprise developers, the Gemini API is also available on Google Cloud Vertex AI. See <a href="https://github.com/GoogleCloudPlatform/generative-ai">this repo</a> for examples.</p>
-</section>
-<section id="contributing" class="level2">
-<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
-<p>Contributions are welcome! See <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> for details.</p>
-<p>Thank you for developing with the Gemini API! We’re excited to see what you create.</p>
 
 
 </section>
@@ -782,4 +876,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/FallenDeity/deepmind-starter/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/FallenDeity/deepmind-starter/edit/main/assets/contrib.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/assets/contrib.md" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
