@@ -744,81 +744,100 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Gemini API Cookbook",
+    "objectID": "quickstarts/Image_out.html",
+    "href": "quickstarts/Image_out.html",
+    "title": "Gemini API: Gemini 2.0 Image output",
     "section": "",
-    "text": "This cookbook provides a structured learning path for using the Gemini API, focusing on hands-on tutorials and practical examples.\nFor comprehensive API documentation, visit ai.google.dev.\n\n\nThis cookbook is organized into two main categories:\n\nQuick Starts: Step-by-step guides covering both introductory topics (“Get Started”) and specific API features.\nExamples: Practical use cases demonstrating how to combine multiple features.\n\nWe also showcase Demos in separate repositories, illustrating end-to-end applications of the Gemini API.\n\n\n\nHere are the recent additions and updates to the Gemini API and the Cookbook:\n\nGemini 2.5 models: Explore the capabilities of the latest Gemini 2.5 models (Flash and Pro)! See the Get Started Guide and the thinking guide as they’ll all be thinking ones.\nImagen and Veo: Get started with our media generation model with this brand new Veo guide and Imagen guide!\nLyria and TTS: Get started with podcast and music generation with the TTS and Lyria RealTime models.\nLiveAPI: Get started with the multimodal Live API and unlock new interactivity with Gemini.\nRecently Added Guides:\n\nBrowser as a tool: Use a web browser for live and internal (intranet) web interactions\nGrounding: Discover different ways to ground Gemini’s answer using different tools, from Google Search to Youtube and the new url context tool.\n\n\n\n\n\nThe quickstarts section contains step-by-step tutorials to get you started with Gemini and learn about its specific features.\nTo begin, you’ll need:\n\nA Google account.\nAn API key (create one in Google AI Studio).\n\nWe recommend starting with the following:\n\nAuthentication: Set up your API key for access.\nGet started: Get started with Gemini models and the Gemini API, covering basic prompting and multimodal input.\n\nThen, explore the other quickstarts tutorials to learn about individual features:\n\nGet started with Live API: Get started with the live API with this comprehensive overview of its capabilities\nGet started with Veo: Get started with our video generation capabilities\nGet started with Imagen and Image-out: Get started with our image generation capabilities\nGrounding: use Google Search for grounded responses\nCode execution: Generating and running Python code to solve complex tasks and even ouput graphs\nAnd many more\n\n\n\n\nThese examples demonstrate how to combine multiple Gemini API features or 3rd-party tools to build more complex applications. - Illustrate a book: Use Gemini and Imagen to create illustration for an open-source book - Animated Story Generation: Create animated videos by combining Gemini’s story generation, Imagen, and audio synthesis - Plotting and mapping Live: Mix Live API and Code execution to solve complex tasks live - 3D Spatial understanding: Use Gemini 3D spatial abilities to understand 3D scenes - Gradio and live API: Use gradio to deploy your own instance of the Live API - And many many more\n\n\n\nThese fully functional, end-to-end applications showcase the power of Gemini in real-world scenarios.\n\nGemini API quickstart: Python Flask App running with the Google AI Gemini API, designed to get you started building with Gemini’s multi-modal capabilities\nMultimodal Live API Web Console: React-based starter app for using the Multimodal Live API over a websocket\nGoogle AI Studio Starter Applets: A collection of small apps that demonstrate how Gemini can be used to create interactive experiences\n\n\n\n\nThe Gemini API is a REST API. You can call it directly using tools like curl (see REST examples or the great Postman workspace), or use one of our official SDKs:\n\nPython\nGo\nNode.js\nDart (Flutter)\nAndroid\nSwift\n\n\n\n\nWith Gemini 2 we are offering a new SDK (@google/genai, v1.0). The updated SDK is fully compatible with all Gemini API models and features, including recent additions like the live API (audio + video streaming), improved tool usage ( code execution, function calling and integrated Google search grounding), and media generation (Imagen and Veo). This SDK allows you to connect to the Gemini API through either Google AI Studio or Vertex AI.\nThe generative-ai-js package will continue to support the original Gemini models. It can also be used with Gemini 2 models, just with a limited feature set. All new features will be developed in the new Google GenAI SDK.\nSee the migration guide for details.\n\n\n\nAsk a question on the Google AI Developer Forum.\n\n\n\nFor enterprise developers, the Gemini API is also available on Google Cloud Vertex AI. See this repo for examples.\n\n\n\nContributions are welcome! See CONTRIBUTING.md for details.\nThank you for developing with the Gemini API! We’re excited to see what you create."
+    "text": "This notebook will show you how to use the Image-out feature of Gemini, using the model multimodal capabilities to output both images and texts, and iterate on an image through a discussion.\nThis feature is very close to what Imagen offers but in a slightly different way as the Image-out feature has been developed to work iteratively so if you want to make sure certain details are clearly followed, and you are ready to iterate on the image until it’s exactly what you envision, Image-out is for you.\nCheck the documentation for more details on both features and some more advice on when to use each one.",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Gemini 2.0 Image output"
+    ]
   },
   {
-    "objectID": "index.html#navigating-the-cookbook",
-    "href": "index.html#navigating-the-cookbook",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "This cookbook is organized into two main categories:\n\nQuick Starts: Step-by-step guides covering both introductory topics (“Get Started”) and specific API features.\nExamples: Practical use cases demonstrating how to combine multiple features.\n\nWe also showcase Demos in separate repositories, illustrating end-to-end applications of the Gemini API."
+    "objectID": "quickstarts/Image_out.html#setup",
+    "href": "quickstarts/Image_out.html#setup",
+    "title": "Gemini API: Gemini 2.0 Image output",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is one directory up from the notebook, hence we need to use ../ to go up one directory. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── quickstarts\n    └── Image_out.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nImage-out is available through the gemini-2.0-flash-preview-image-generation model.\nFor more information about all Gemini models, check the documentation for extended information.\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.0-flash-preview-image-generation\";",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Gemini 2.0 Image output"
+    ]
   },
   {
-    "objectID": "index.html#whats-new",
-    "href": "index.html#whats-new",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "Here are the recent additions and updates to the Gemini API and the Cookbook:\n\nGemini 2.5 models: Explore the capabilities of the latest Gemini 2.5 models (Flash and Pro)! See the Get Started Guide and the thinking guide as they’ll all be thinking ones.\nImagen and Veo: Get started with our media generation model with this brand new Veo guide and Imagen guide!\nLyria and TTS: Get started with podcast and music generation with the TTS and Lyria RealTime models.\nLiveAPI: Get started with the multimodal Live API and unlock new interactivity with Gemini.\nRecently Added Guides:\n\nBrowser as a tool: Use a web browser for live and internal (intranet) web interactions\nGrounding: Discover different ways to ground Gemini’s answer using different tools, from Google Search to Youtube and the new url context tool."
+    "objectID": "quickstarts/Image_out.html#utils",
+    "href": "quickstarts/Image_out.html#utils",
+    "title": "Gemini API: Gemini 2.0 Image output",
+    "section": "Utils",
+    "text": "Utils\nDefine helper functions for visualizing model responses.\n\nimport { GenerateContentResponse } from \"@google/genai\";\n\nconst fs = require(\"fs\") as typeof import(\"fs\");\nconst path = require(\"path\") as typeof import(\"path\");\n\nfunction displayResponse(response: GenerateContentResponse) {\n  for (const part of response.candidates?.[0]?.content?.parts ?? []) {\n    if (part.text) {\n      tslab.display.markdown(part.text);\n    } else if (part.inlineData) {\n      const imageData = part.inlineData.data!;\n      const buffer = Buffer.from(imageData, \"base64\");\n      tslab.display.png(buffer);\n    }\n  }\n}\n\nfunction saveImage(response: GenerateContentResponse, fileName: string) {\n  const imagePath = path.join(\"../assets\", fileName);\n  for (const part of response.candidates?.[0]?.content?.parts ?? []) {\n    if (part.inlineData) {\n      const imageData = part.inlineData.data!;\n      const buffer = Buffer.from(imageData, \"base64\");\n      fs.writeFileSync(imagePath, buffer);\n    }\n  }\n  console.log(`Image saved to ${imagePath}`);\n}",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Gemini 2.0 Image output"
+    ]
   },
   {
-    "objectID": "index.html#quick-starts",
-    "href": "index.html#quick-starts",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "The quickstarts section contains step-by-step tutorials to get you started with Gemini and learn about its specific features.\nTo begin, you’ll need:\n\nA Google account.\nAn API key (create one in Google AI Studio).\n\nWe recommend starting with the following:\n\nAuthentication: Set up your API key for access.\nGet started: Get started with Gemini models and the Gemini API, covering basic prompting and multimodal input.\n\nThen, explore the other quickstarts tutorials to learn about individual features:\n\nGet started with Live API: Get started with the live API with this comprehensive overview of its capabilities\nGet started with Veo: Get started with our video generation capabilities\nGet started with Imagen and Image-out: Get started with our image generation capabilities\nGrounding: use Google Search for grounded responses\nCode execution: Generating and running Python code to solve complex tasks and even ouput graphs\nAnd many more"
+    "objectID": "quickstarts/Image_out.html#generate-images",
+    "href": "quickstarts/Image_out.html#generate-images",
+    "title": "Gemini API: Gemini 2.0 Image output",
+    "section": "Generate images",
+    "text": "Generate images\nUse responseModalities to indicate to the model that you are expecting an image in the output. You’ll need to specify both \"text\" and \"image\" in your generation configuration. If you set only \"image\" in response_modalities, you’ll get an error.\nIf you want to generate image only outputs, you can use Imagen.\nRemember that generating people is not allowed at the moment.\n\nconst generate_image_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents:\n    \"create a 3d rendered image of a pig with wings and a top hat flying over a happy futuristic scifi city with lots of greenery\",\n  config: {\n    responseModalities: [google.Modality.TEXT, google.Modality.IMAGE],\n  },\n});\ndisplayResponse(generate_image_response);\nsaveImage(generate_image_response, \"pig_with_wings_and_top_hat.png\");\n\nI will create a 3D rendered image showing a whimsical scene: a pink pig wearing a distinguished grey top hat and a pair of small, delicate white wings soaring through the air. Below, a vibrant, futuristic cityscape unfolds with sleek, modern buildings interspersed with abundant lush greenery, suggesting a harmonious blend of nature and technology, all under a bright, cheerful sky.\n\n\n\n\n\n\n\n\n\nImage saved to ../assets/pig_with_wings_and_top_hat.png",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Gemini 2.0 Image output"
+    ]
   },
   {
-    "objectID": "index.html#examples-practical-use-cases",
-    "href": "index.html#examples-practical-use-cases",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "These examples demonstrate how to combine multiple Gemini API features or 3rd-party tools to build more complex applications. - Illustrate a book: Use Gemini and Imagen to create illustration for an open-source book - Animated Story Generation: Create animated videos by combining Gemini’s story generation, Imagen, and audio synthesis - Plotting and mapping Live: Mix Live API and Code execution to solve complex tasks live - 3D Spatial understanding: Use Gemini 3D spatial abilities to understand 3D scenes - Gradio and live API: Use gradio to deploy your own instance of the Live API - And many many more"
+    "objectID": "quickstarts/Image_out.html#edit-images",
+    "href": "quickstarts/Image_out.html#edit-images",
+    "title": "Gemini API: Gemini 2.0 Image output",
+    "section": "Edit images",
+    "text": "Edit images\nYou can also do image editing, simply pass the original image as part of the prompt.\n\nconst edit_image_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: [\n    \"could you edit this image to make it look like a cat instead of a pig?\",\n    google.createPartFromBase64(fs.readFileSync(\"../assets/pig_with_wings_and_top_hat.png\", \"base64\"), \"image/png\"),\n  ],\n  config: {\n    responseModalities: [google.Modality.TEXT, google.Modality.IMAGE],\n  },\n});\ndisplayResponse(edit_image_response);\nsaveImage(edit_image_response, \"cat_with_wings_and_top_hat.png\");\n\nOkay, I will transform the flying pig into a flying cat while keeping the hat, wings, and the futuristic city background consistent. The new image will feature a fluffy cat with feline features, similar wings, and the same top hat, soaring over the cityscape.\n\n\n\n\n\n\n\n\n\nImage saved to ../assets/cat_with_wings_and_top_hat.png",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Gemini 2.0 Image output"
+    ]
   },
   {
-    "objectID": "index.html#demos-end-to-end-applications",
-    "href": "index.html#demos-end-to-end-applications",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "These fully functional, end-to-end applications showcase the power of Gemini in real-world scenarios.\n\nGemini API quickstart: Python Flask App running with the Google AI Gemini API, designed to get you started building with Gemini’s multi-modal capabilities\nMultimodal Live API Web Console: React-based starter app for using the Multimodal Live API over a websocket\nGoogle AI Studio Starter Applets: A collection of small apps that demonstrate how Gemini can be used to create interactive experiences"
+    "objectID": "quickstarts/Image_out.html#get-multiple-images",
+    "href": "quickstarts/Image_out.html#get-multiple-images",
+    "title": "Gemini API: Gemini 2.0 Image output",
+    "section": "Get multiple images",
+    "text": "Get multiple images\nSo far you’ve only generated one image per call, but you can request way more than that! Let’s try a baking receipe.\n\nconst multi_image_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: \"Show me how to bake a macaron with images.\",\n  config: {\n    responseModalities: [google.Modality.TEXT, google.Modality.IMAGE],\n  },\n});\ndisplayResponse(multi_image_response);\n\nOkay, here are the steps to bake macarons, with an image for each step.\nStep 1: Prepare the ingredients.\nGather your ingredients: almond flour, powdered sugar, granulated sugar, egg whites (aged), and food coloring (optional). Have your piping bag fitted with a round tip and parchment paper ready.\n\n\n\n\n\n\n\n\n\nStep 2: Sift the dry ingredients.\nThoroughly whisk together the almond flour and powdered sugar. Then, sift the mixture through a fine-mesh sieve into a large bowl to remove any lumps. This step is crucial for smooth macaron shells.\n\n\n\n\n\n\n\n\n\nStep 3: Make the meringue.\nIn a clean, grease-free bowl of a stand mixer fitted with the whisk attachment, beat the aged egg whites on medium-low speed until foamy. Gradually add the granulated sugar while continuing to beat on medium-high speed until stiff, glossy peaks form. The meringue should hold its shape when the whisk is lifted. If using, gently fold in the food coloring at the end.\n\n\n\n\n\n\n\n\n\nStep 4: Macaronage.\nPour the sifted dry ingredients into the meringue. Using a spatula, gently fold the mixture together using a circular motion, scraping down the sides of the bowl. Continue folding until the batter flows off your spatula in a thick ribbon and slowly melts back into the mixture in about 10-20 seconds. This is the macaronage stage, and it’s crucial not to overmix or undermix.\n\n\n\n\n\n\n\n\n\nStep 5: Pipe the macarons.\nTransfer the macaron batter into the prepared piping bag. Pipe small, even circles onto the parchment-lined baking sheets. Aim for consistent sizes, about 1.5 inches in diameter.\n\n\n\n\n\n\n\n\n\nStep 6: Tap the trays.\nFirmly tap the baking sheets several times on the counter to release any trapped air bubbles. Use a toothpick to pop any visible bubbles on the surface of the macarons.\n\n\n\n\n\n\n\n\n\nStep 7: Rest the macarons.\nLet the piped macaron shells sit at room temperature for 30-60 minutes, or until a skin forms on the surface. You should be able to gently touch them without the batter sticking to your finger. This step is crucial for developing the “feet.”\n\n\n\n\n\n\n\n\n\nStep 8: Bake the macarons.\nPreheat your oven to the correct temperature (usually between 285-325°F or 140-160°C, depending on your oven). Bake one tray at a time for 12-18 minutes, or until the “feet” have formed and the shells don’t wiggle when gently touched.\n\n\n\n\n\n\n\n\n\nStep 9: Cool and fill.\nLet the baked macaron shells cool completely on the baking sheets before attempting to remove them. Once cooled, match the shells by size and pipe your desired filling (like buttercream, ganache, or jam) onto the flat side of one shell. Gently sandwich it with another shell.\n\n\n\n\n\n\n\n\n\nStep 10: Mature (optional but recommended).\nFor the best flavor and texture, place the filled macarons in an airtight container and refrigerate them for at least 12-24 hours. This allows the flavors to meld and the filling to soften the shells slightly.\n\n\n\n\n\n\n\n\n\nEnjoy your homemade macarons! They are delicate and can be tricky, so don’t be discouraged if your first attempt isn’t perfect. Practice makes perfect!",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Gemini 2.0 Image output"
+    ]
   },
   {
-    "objectID": "index.html#official-sdks",
-    "href": "index.html#official-sdks",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "The Gemini API is a REST API. You can call it directly using tools like curl (see REST examples or the great Postman workspace), or use one of our official SDKs:\n\nPython\nGo\nNode.js\nDart (Flutter)\nAndroid\nSwift"
+    "objectID": "quickstarts/Image_out.html#chat-recommended",
+    "href": "quickstarts/Image_out.html#chat-recommended",
+    "title": "Gemini API: Gemini 2.0 Image output",
+    "section": "Chat (recommended)",
+    "text": "Chat (recommended)\nSo far you’ve used unary calls, but Image-out is actually made to work better with chat mode as it’s easier to iterate on an image turn after turn.\n\nconst chat = ai.chats.create({\n  model: MODEL_ID,\n  config: {\n    responseModalities: [google.Modality.TEXT, google.Modality.IMAGE],\n  },\n});\n\n\nconst chat_response_1 = await chat.sendMessage({\n  message: \"create a photorealistic image of a giraffe with a tiny bird on its head\",\n});\ndisplayResponse(chat_response_1);\n\nI will generate a photorealistic image of a majestic giraffe in its natural habitat, perhaps near some acacia trees, with a tiny, colorful bird with blue and red plumage resting on its head, seemingly unfazed by the height.\n\n\n\n\n\n\n\n\n\n\nconst chat_response_2 = await chat.sendMessage({\n  message: \"use a cartoon style instead of photorealistic\",\n});\ndisplayResponse(chat_response_2);\n\nI will create a cartoon-style image of a friendly-looking giraffe with large, expressive eyes, and a small, round, blue cartoon bird cheerfully perched on its head. The style will be bright and colorful.\n\n\n\n\n\n\n\n\n\n\nconst chat_response_3 = await chat.sendMessage({\n  message: \"add a rainbow and some colorful birds\",\n});\ndisplayResponse(chat_response_3);\n\nI will generate a cheerful cartoon image of the same friendly giraffe with the blue bird on its head, now with a bright, curved rainbow arcing across a sunny sky in the background. Several other small, colorful cartoon birds of different shapes and sizes will be flying around the giraffe and the rainbow.",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Gemini 2.0 Image output"
+    ]
   },
   {
-    "objectID": "index.html#important-migration",
-    "href": "index.html#important-migration",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "With Gemini 2 we are offering a new SDK (@google/genai, v1.0). The updated SDK is fully compatible with all Gemini API models and features, including recent additions like the live API (audio + video streaming), improved tool usage ( code execution, function calling and integrated Google search grounding), and media generation (Imagen and Veo). This SDK allows you to connect to the Gemini API through either Google AI Studio or Vertex AI.\nThe generative-ai-js package will continue to support the original Gemini models. It can also be used with Gemini 2 models, just with a limited feature set. All new features will be developed in the new Google GenAI SDK.\nSee the migration guide for details."
-  },
-  {
-    "objectID": "index.html#get-help",
-    "href": "index.html#get-help",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "Ask a question on the Google AI Developer Forum."
-  },
-  {
-    "objectID": "index.html#the-gemini-api-on-google-cloud-vertex-ai",
-    "href": "index.html#the-gemini-api-on-google-cloud-vertex-ai",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "For enterprise developers, the Gemini API is also available on Google Cloud Vertex AI. See this repo for examples."
-  },
-  {
-    "objectID": "index.html#contributing",
-    "href": "index.html#contributing",
-    "title": "Gemini API Cookbook",
-    "section": "",
-    "text": "Contributions are welcome! See CONTRIBUTING.md for details.\nThank you for developing with the Gemini API! We’re excited to see what you create."
+    "objectID": "quickstarts/Image_out.html#next-steps",
+    "href": "quickstarts/Image_out.html#next-steps",
+    "title": "Gemini API: Gemini 2.0 Image output",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nUseful documentation references:\nCheck the documentation for more details about the image generation capabilities of the model. To improve your prompting skills, check out the Imagen prompt guide for great advices on creating your prompts.\n\n\nCheck-out Imagen as well:\nThe Imagen model is another way to generate images. Check out the Get Started with Imagen notebook to start playing with it too.\nHere are some Imagen examples to get your imagination started on how to use it in creative ways:\n\nIllustrate a book: Use Gemini and Imagen to create illustration for an open-source book\n\n\n\nContinue your discovery of the Gemini API\nGemini is not only good at generating images, but also at understanding them. Check the Spatial understanding guide for an introduction on those capabilities, and the Video understanding one for video examples.",
+    "crumbs": [
+      "Home",
+      "Quickstarts",
+      "Gemini API: Gemini 2.0 Image output"
+    ]
   },
   {
     "objectID": "assets/contrib.html",
@@ -917,6 +936,83 @@
     "title": "Contributing to the Gemini API Cookbook",
     "section": "GitHub Workflow",
     "text": "GitHub Workflow\n\nBe consistent about how you save your notebooks (e.g., with ToC open, potentially omitting outputs) to keep JSON diffs manageable. Tools like nbfmt and nblint can help enforce consistency.\nConsider setting the “Omit code cell output when saving this notebook” option if outputs (like inline images) make diffs too large for GitHub.\nReviewNB.com can assist with reviewing notebook diffs in pull requests.\nUse the Open in Colab browser extension to easily open GitHub notebooks in Colab.\nThe easiest way to edit a notebook tracked in GitHub is often:\n\nOpen the notebook in Colab directly from the GitHub branch you intend to edit.\nMake your changes in Colab.\nUse Colab’s “File” -&gt; “Save a copy in GitHub” menu option to save it back to the same branch.\n\nFor Pull Requests (PRs), it’s helpful to include a direct Colab link to the notebook version in the PR head for easier review: https://colab.research.google.com/github/{USER}/{REPO}/blob/{BRANCH}/{PATH}.ipynb"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "This cookbook provides a structured learning path for using the Gemini API, focusing on hands-on tutorials and practical examples.\nFor comprehensive API documentation, visit ai.google.dev.\n\n\nThis cookbook is organized into two main categories:\n\nQuick Starts: Step-by-step guides covering both introductory topics (“Get Started”) and specific API features.\nExamples: Practical use cases demonstrating how to combine multiple features.\n\nWe also showcase Demos in separate repositories, illustrating end-to-end applications of the Gemini API.\n\n\n\nHere are the recent additions and updates to the Gemini API and the Cookbook:\n\nGemini 2.5 models: Explore the capabilities of the latest Gemini 2.5 models (Flash and Pro)! See the Get Started Guide and the thinking guide as they’ll all be thinking ones.\nImagen and Veo: Get started with our media generation model with this brand new Veo guide and Imagen guide!\nLyria and TTS: Get started with podcast and music generation with the TTS and Lyria RealTime models.\nLiveAPI: Get started with the multimodal Live API and unlock new interactivity with Gemini.\nRecently Added Guides:\n\nBrowser as a tool: Use a web browser for live and internal (intranet) web interactions\nGrounding: Discover different ways to ground Gemini’s answer using different tools, from Google Search to Youtube and the new url context tool.\n\n\n\n\n\nThe quickstarts section contains step-by-step tutorials to get you started with Gemini and learn about its specific features.\nTo begin, you’ll need:\n\nA Google account.\nAn API key (create one in Google AI Studio).\n\nWe recommend starting with the following:\n\nAuthentication: Set up your API key for access.\nGet started: Get started with Gemini models and the Gemini API, covering basic prompting and multimodal input.\n\nThen, explore the other quickstarts tutorials to learn about individual features:\n\nGet started with Live API: Get started with the live API with this comprehensive overview of its capabilities\nGet started with Veo: Get started with our video generation capabilities\nGet started with Imagen and Image-out: Get started with our image generation capabilities\nGrounding: use Google Search for grounded responses\nCode execution: Generating and running Python code to solve complex tasks and even ouput graphs\nAnd many more\n\n\n\n\nThese examples demonstrate how to combine multiple Gemini API features or 3rd-party tools to build more complex applications. - Illustrate a book: Use Gemini and Imagen to create illustration for an open-source book - Animated Story Generation: Create animated videos by combining Gemini’s story generation, Imagen, and audio synthesis - Plotting and mapping Live: Mix Live API and Code execution to solve complex tasks live - 3D Spatial understanding: Use Gemini 3D spatial abilities to understand 3D scenes - Gradio and live API: Use gradio to deploy your own instance of the Live API - And many many more\n\n\n\nThese fully functional, end-to-end applications showcase the power of Gemini in real-world scenarios.\n\nGemini API quickstart: Python Flask App running with the Google AI Gemini API, designed to get you started building with Gemini’s multi-modal capabilities\nMultimodal Live API Web Console: React-based starter app for using the Multimodal Live API over a websocket\nGoogle AI Studio Starter Applets: A collection of small apps that demonstrate how Gemini can be used to create interactive experiences\n\n\n\n\nThe Gemini API is a REST API. You can call it directly using tools like curl (see REST examples or the great Postman workspace), or use one of our official SDKs:\n\nPython\nGo\nNode.js\nDart (Flutter)\nAndroid\nSwift\n\n\n\n\nWith Gemini 2 we are offering a new SDK (@google/genai, v1.0). The updated SDK is fully compatible with all Gemini API models and features, including recent additions like the live API (audio + video streaming), improved tool usage ( code execution, function calling and integrated Google search grounding), and media generation (Imagen and Veo). This SDK allows you to connect to the Gemini API through either Google AI Studio or Vertex AI.\nThe generative-ai-js package will continue to support the original Gemini models. It can also be used with Gemini 2 models, just with a limited feature set. All new features will be developed in the new Google GenAI SDK.\nSee the migration guide for details.\n\n\n\nAsk a question on the Google AI Developer Forum.\n\n\n\nFor enterprise developers, the Gemini API is also available on Google Cloud Vertex AI. See this repo for examples.\n\n\n\nContributions are welcome! See CONTRIBUTING.md for details.\nThank you for developing with the Gemini API! We’re excited to see what you create."
+  },
+  {
+    "objectID": "index.html#navigating-the-cookbook",
+    "href": "index.html#navigating-the-cookbook",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "This cookbook is organized into two main categories:\n\nQuick Starts: Step-by-step guides covering both introductory topics (“Get Started”) and specific API features.\nExamples: Practical use cases demonstrating how to combine multiple features.\n\nWe also showcase Demos in separate repositories, illustrating end-to-end applications of the Gemini API."
+  },
+  {
+    "objectID": "index.html#whats-new",
+    "href": "index.html#whats-new",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "Here are the recent additions and updates to the Gemini API and the Cookbook:\n\nGemini 2.5 models: Explore the capabilities of the latest Gemini 2.5 models (Flash and Pro)! See the Get Started Guide and the thinking guide as they’ll all be thinking ones.\nImagen and Veo: Get started with our media generation model with this brand new Veo guide and Imagen guide!\nLyria and TTS: Get started with podcast and music generation with the TTS and Lyria RealTime models.\nLiveAPI: Get started with the multimodal Live API and unlock new interactivity with Gemini.\nRecently Added Guides:\n\nBrowser as a tool: Use a web browser for live and internal (intranet) web interactions\nGrounding: Discover different ways to ground Gemini’s answer using different tools, from Google Search to Youtube and the new url context tool."
+  },
+  {
+    "objectID": "index.html#quick-starts",
+    "href": "index.html#quick-starts",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "The quickstarts section contains step-by-step tutorials to get you started with Gemini and learn about its specific features.\nTo begin, you’ll need:\n\nA Google account.\nAn API key (create one in Google AI Studio).\n\nWe recommend starting with the following:\n\nAuthentication: Set up your API key for access.\nGet started: Get started with Gemini models and the Gemini API, covering basic prompting and multimodal input.\n\nThen, explore the other quickstarts tutorials to learn about individual features:\n\nGet started with Live API: Get started with the live API with this comprehensive overview of its capabilities\nGet started with Veo: Get started with our video generation capabilities\nGet started with Imagen and Image-out: Get started with our image generation capabilities\nGrounding: use Google Search for grounded responses\nCode execution: Generating and running Python code to solve complex tasks and even ouput graphs\nAnd many more"
+  },
+  {
+    "objectID": "index.html#examples-practical-use-cases",
+    "href": "index.html#examples-practical-use-cases",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "These examples demonstrate how to combine multiple Gemini API features or 3rd-party tools to build more complex applications. - Illustrate a book: Use Gemini and Imagen to create illustration for an open-source book - Animated Story Generation: Create animated videos by combining Gemini’s story generation, Imagen, and audio synthesis - Plotting and mapping Live: Mix Live API and Code execution to solve complex tasks live - 3D Spatial understanding: Use Gemini 3D spatial abilities to understand 3D scenes - Gradio and live API: Use gradio to deploy your own instance of the Live API - And many many more"
+  },
+  {
+    "objectID": "index.html#demos-end-to-end-applications",
+    "href": "index.html#demos-end-to-end-applications",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "These fully functional, end-to-end applications showcase the power of Gemini in real-world scenarios.\n\nGemini API quickstart: Python Flask App running with the Google AI Gemini API, designed to get you started building with Gemini’s multi-modal capabilities\nMultimodal Live API Web Console: React-based starter app for using the Multimodal Live API over a websocket\nGoogle AI Studio Starter Applets: A collection of small apps that demonstrate how Gemini can be used to create interactive experiences"
+  },
+  {
+    "objectID": "index.html#official-sdks",
+    "href": "index.html#official-sdks",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "The Gemini API is a REST API. You can call it directly using tools like curl (see REST examples or the great Postman workspace), or use one of our official SDKs:\n\nPython\nGo\nNode.js\nDart (Flutter)\nAndroid\nSwift"
+  },
+  {
+    "objectID": "index.html#important-migration",
+    "href": "index.html#important-migration",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "With Gemini 2 we are offering a new SDK (@google/genai, v1.0). The updated SDK is fully compatible with all Gemini API models and features, including recent additions like the live API (audio + video streaming), improved tool usage ( code execution, function calling and integrated Google search grounding), and media generation (Imagen and Veo). This SDK allows you to connect to the Gemini API through either Google AI Studio or Vertex AI.\nThe generative-ai-js package will continue to support the original Gemini models. It can also be used with Gemini 2 models, just with a limited feature set. All new features will be developed in the new Google GenAI SDK.\nSee the migration guide for details."
+  },
+  {
+    "objectID": "index.html#get-help",
+    "href": "index.html#get-help",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "Ask a question on the Google AI Developer Forum."
+  },
+  {
+    "objectID": "index.html#the-gemini-api-on-google-cloud-vertex-ai",
+    "href": "index.html#the-gemini-api-on-google-cloud-vertex-ai",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "For enterprise developers, the Gemini API is also available on Google Cloud Vertex AI. See this repo for examples."
+  },
+  {
+    "objectID": "index.html#contributing",
+    "href": "index.html#contributing",
+    "title": "Gemini API Cookbook",
+    "section": "",
+    "text": "Contributions are welcome! See CONTRIBUTING.md for details.\nThank you for developing with the Gemini API! We’re excited to see what you create."
   },
   {
     "objectID": "quickstarts/Get_started_thinking.html",
