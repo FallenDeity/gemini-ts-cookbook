@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API: All about tokens – Gemini Cookbook</title>
+<title>Gemini API: JSON Mode Quickstart – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../quickstarts/Embeddings.html" rel="next">
-<link href="../quickstarts/Code_Execution.html" rel="prev">
+<link href="../quickstarts/Image_out.html" rel="prev">
 <link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -107,14 +106,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<meta property="og:title" content="Gemini API: All about tokens – Gemini Cookbook">
+<meta property="og:title" content="Gemini API: JSON Mode Quickstart – Gemini Cookbook">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://fallendeity.github.io/deepmind-starter/quickstarts/Counting_Tokens_files/figure-html/cell-10-output-1.jpeg">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta name="twitter:title" content="Gemini API: All about tokens – Gemini Cookbook">
+<meta name="twitter:title" content="Gemini API: JSON Mode Quickstart – Gemini Cookbook">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://fallendeity.github.io/deepmind-starter/quickstarts/Counting_Tokens_files/figure-html/cell-10-output-1.jpeg">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-sidebar floating nav-fixed quarto-light">
@@ -168,7 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Counting_Tokens.html">Gemini API: All about tokens</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/JSON_mode.html">Gemini API: JSON Mode Quickstart</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -209,7 +206,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link active">
+  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: All about tokens</span></a>
   </div>
 </li>
@@ -281,7 +278,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
   </div>
 </li>
@@ -297,35 +294,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#about-tokens" id="toc-about-tokens" class="nav-link active" data-scroll-target="#about-tokens">About tokens</a></li>
-  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
   <ul class="collapse">
   <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
   <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
   <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
   <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
+  <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
   </ul></li>
-  <li><a href="#tokens-in-the-gemini-api" id="toc-tokens-in-the-gemini-api" class="nav-link" data-scroll-target="#tokens-in-the-gemini-api">Tokens in the Gemini API</a>
+  <li><a href="#set-your-constrained-output-in-the-prompt" id="toc-set-your-constrained-output-in-the-prompt" class="nav-link" data-scroll-target="#set-your-constrained-output-in-the-prompt">Set your constrained output in the prompt</a></li>
+  <li><a href="#supply-the-schema-to-the-model-directly" id="toc-supply-the-schema-to-the-model-directly" class="nav-link" data-scroll-target="#supply-the-schema-to-the-model-directly">Supply the schema to the model directly</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a>
   <ul class="collapse">
-  <li><a href="#context-windows" id="toc-context-windows" class="nav-link" data-scroll-target="#context-windows">Context windows</a></li>
-  <li><a href="#counting-tokens" id="toc-counting-tokens" class="nav-link" data-scroll-target="#counting-tokens">Counting tokens</a></li>
-  <li><a href="#choose-a-model" id="toc-choose-a-model" class="nav-link" data-scroll-target="#choose-a-model">Choose a model</a></li>
-  <li><a href="#text-tokens" id="toc-text-tokens" class="nav-link" data-scroll-target="#text-tokens">Text tokens</a></li>
-  <li><a href="#multi-modal-tokens" id="toc-multi-modal-tokens" class="nav-link" data-scroll-target="#multi-modal-tokens">Multi-modal tokens</a></li>
-  <li><a href="#inline-content" id="toc-inline-content" class="nav-link" data-scroll-target="#inline-content">Inline content</a></li>
-  <li><a href="#files-api" id="toc-files-api" class="nav-link" data-scroll-target="#files-api">Files API</a></li>
-  <li><a href="#chat-tools-and-cache" id="toc-chat-tools-and-cache" class="nav-link" data-scroll-target="#chat-tools-and-cache">Chat, tools and cache</a></li>
+  <li><a href="#useful-api-references" id="toc-useful-api-references" class="nav-link" data-scroll-target="#useful-api-references">Useful API references:</a></li>
+  <li><a href="#related-examples" id="toc-related-examples" class="nav-link" data-scroll-target="#related-examples">Related examples</a></li>
+  <li><a href="#continue-your-discovery-of-the-gemini-api" id="toc-continue-your-discovery-of-the-gemini-api" class="nav-link" data-scroll-target="#continue-your-discovery-of-the-gemini-api">Continue your discovery of the Gemini API</a></li>
   </ul></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Counting_Tokens.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Counting_Tokens.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/JSON_mode.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/JSON_mode.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Counting_Tokens.html">Gemini API: All about tokens</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/JSON_mode.html">Gemini API: JSON Mode Quickstart</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Gemini API: All about tokens</h1>
+<h1 class="title">Gemini API: JSON Mode Quickstart</h1>
 </div>
 
 
@@ -342,14 +335,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>An understanding of tokens is central to using the Gemini API. This guide will provide a interactive introduction to what tokens are and how they are used in the Gemini API.</p>
-<section id="about-tokens" class="level2">
-<h2 class="anchored" data-anchor-id="about-tokens">About tokens</h2>
-<p>LLMs break up their input and produce their output at a granularity that is smaller than a word, but larger than a single character or code-point.</p>
-<p>These tokens can be single characters, like <code>z</code>, or whole words, like <code>the</code>. Long words may be broken up into several tokens. The set of all tokens used by the model is called the vocabulary, and the process of breaking down text into tokens is called tokenization.</p>
-<p>For Gemini models, a token is equivalent to about 4 characters. <strong>100 tokens are about 60-80 English words</strong>.</p>
-<p>When billing is enabled, the price of a paid request is controlled by the <a href="https://ai.google.dev/pricing">number of input and output tokens</a>, so knowing how to count your tokens is important.</p>
-</section>
+<p>The Gemini API can be used to generate a JSON output if you set the schema that you would like to use.</p>
+<p>Two methods are available. You can either set the desired output in the prompt or supply a schema to the model separately.</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -414,7 +401,7 @@ Note
 <pre><code>│
 ├── .env
 └── quickstarts
-    └── Counting_Tokens.ipynb</code></pre>
+    └── JSON_mode.ipynb</code></pre>
 </div>
 </div>
 </section>
@@ -427,220 +414,161 @@ Note
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-</section>
-<section id="tokens-in-the-gemini-api" class="level2">
-<h2 class="anchored" data-anchor-id="tokens-in-the-gemini-api">Tokens in the Gemini API</h2>
-<section id="context-windows" class="level3">
-<h3 class="anchored" data-anchor-id="context-windows">Context windows</h3>
-<p>The models available through the Gemini API have context windows that are measured in tokens. These define how much input you can provide, and how much output the model can generate, and combined are referred to as the “context window”. This information is available directly through <a href="https://ai.google.dev/api/rest/v1/models/get">the API</a> and in the <a href="https://ai.google.dev/models/gemini">models</a> documentation.</p>
-<p>In this example you can see the <code>gemini-2.5-flash-preview-05-20</code> model has an 1M tokens context window. If you need more, Pro models have an even bigger 2M tokens context window.</p>
-<div id="cell-9" class="cell" data-execution_count="4">
+<section id="select-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="quickstarts/Get_started_thinking.ipynb">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<div id="cell-9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> model_info_2_5_flash_preview_05_20 <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">get</span>({</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">,</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(model_info_2_5_flash_preview_05_20<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="set-your-constrained-output-in-the-prompt" class="level2">
+<h2 class="anchored" data-anchor-id="set-your-constrained-output-in-the-prompt">Set your constrained output in the prompt</h2>
+<p>For this first example just describe the schema you want back in the prompt:</p>
+<div id="cell-11" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> json_prompt <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="vs">  List a few popular cookie recipes using this JSON schema:</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  Recipe = {'recipe_name': str}</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  Return: list[Recipe]</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then activate JSON mode by specifying <code>resposeMimeType</code> in the config parameter:</p>
+<div id="cell-13" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> json_prompt_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> json_prompt<span class="op">,</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">// Parse the JSON response</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"JSON Response"</span>)<span class="op">;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(json_prompt_response<span class="op">.</span><span class="at">text</span><span class="op">!</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>{
-  "name": "models/gemini-2.5-flash-preview-05-20",
-  "displayName": "Gemini 2.5 Flash Preview 05-20",
-  "description": "Preview release (April 17th, 2025) of Gemini 2.5 Flash",
-  "version": "2.5-preview-05-20",
-  "tunedModelInfo": {},
-  "inputTokenLimit": 1048576,
-  "outputTokenLimit": 65536,
-  "supportedActions": [
-    "generateContent",
-    "countTokens",
-    "createCachedContent",
-    "batchGenerateContent"
-  ]
-}</code></pre>
+<pre><code>JSON Response
+[
+  { recipe_name: 'Chocolate Chip Cookies' },
+  { recipe_name: 'Oatmeal Raisin Cookies' },
+  { recipe_name: 'Peanut Butter Cookies' },
+  { recipe_name: 'Sugar Cookies' },
+  { recipe_name: 'Snickerdoodles' }
+]</code></pre>
 </div>
 </div>
 </section>
-<section id="counting-tokens" class="level3">
-<h3 class="anchored" data-anchor-id="counting-tokens">Counting tokens</h3>
-<p>The API provides an endpoint for counting the number of tokens in a request: <code>client.models.countTokens</code>. You pass the same arguments as you would to <code>client.models.generateContent</code> and the service will return the number of tokens in that request.</p>
-</section>
-<section id="choose-a-model" class="level3">
-<h3 class="anchored" data-anchor-id="choose-a-model">Choose a model</h3>
-<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="quickstarts/Get_started_thinking.ipynb">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
-<p>The tokenization should be more or less the same for each of the Gemini models, but you can still switch between the different ones to double-check.</p>
-<p>For more information about all Gemini models, check the <a href="https://ai.google.dev/gemini-api/docs/models/gemini">documentation</a> for extended information on each of them.</p>
-<div id="cell-12" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="text-tokens" class="level3">
-<h3 class="anchored" data-anchor-id="text-tokens">Text tokens</h3>
-<div id="cell-14" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> text_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="st">"What's the highest mountain in Africa?"</span><span class="op">,</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Prompt Tokens: </span><span class="sc">${</span>text_response<span class="op">.</span><span class="at">totalTokens</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="supply-the-schema-to-the-model-directly" class="level2">
+<h2 class="anchored" data-anchor-id="supply-the-schema-to-the-model-directly">Supply the schema to the model directly</h2>
+<p>The newest models (1.5 and beyond) allow you to pass a <code>Schema</code> object directly and the output will strictly follow that schema.</p>
+<p>Following the same example as the previous section, here’s that recipe type:</p>
+<div id="cell-15" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Schema<span class="op">,</span> Type } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> recipeSchema<span class="op">:</span> Schema <span class="op">=</span> {</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  type<span class="op">:</span> Type<span class="op">.</span><span class="at">OBJECT</span><span class="op">,</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"A recipe object"</span><span class="op">,</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  properties<span class="op">:</span> {</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    recipeName<span class="op">:</span> {</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>      description<span class="op">:</span> <span class="st">"The name of the recipe"</span><span class="op">,</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    recipeDescription<span class="op">:</span> {</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>      type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>      description<span class="op">:</span> <span class="st">"A brief description of the recipe"</span><span class="op">,</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    recipeIngredients<span class="op">:</span> {</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>      type<span class="op">:</span> Type<span class="op">.</span><span class="at">ARRAY</span><span class="op">,</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>      description<span class="op">:</span> <span class="st">"A list of ingredients for the recipe"</span><span class="op">,</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>      items<span class="op">:</span> {</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>        type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        description<span class="op">:</span> <span class="st">"An ingredient for the recipe"</span><span class="op">,</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  required<span class="op">:</span> [<span class="st">"recipeName"</span><span class="op">,</span> <span class="st">"recipeDescription"</span><span class="op">,</span> <span class="st">"recipeIngredients"</span>]<span class="op">,</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> listRecipesSchema<span class="op">:</span> Schema <span class="op">=</span> {</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  type<span class="op">:</span> Type<span class="op">.</span><span class="at">ARRAY</span><span class="op">,</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"A list of recipes"</span><span class="op">,</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>  items<span class="op">:</span> recipeSchema<span class="op">,</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> json_schema_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"List a few imaginative cookie recipes along with a one-sentence description as if you were a gourmet restaurant and their main ingredients"</span><span class="op">,</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    responseSchema<span class="op">:</span> listRecipesSchema<span class="op">,</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"JSON Schema Response"</span>)<span class="op">;</span></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(json_schema_response<span class="op">.</span><span class="at">text</span><span class="op">!</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Prompt Tokens: 10</code></pre>
-</div>
-</div>
-<p>When you call <code>client.models.generateContent</code> (or <code>chat.sendMessage</code>) the response object has a <code>usageMetadata</code> attribute containing both the input and output token counts (<code>promptTokenCount</code> and <code>candidatesTokenCount</code>):</p>
-<div id="cell-16" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> text_response_2 <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="st">"The quick brown fox jumps over the lazy dog."</span><span class="op">,</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(text_response_2<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>Yes, that’s a classic and very well-known <strong>pangram</strong>!</p>
-<p>It’s famous because it contains every letter of the English alphabet, which makes it useful for testing typewriters, keyboards, and font displays.</p>
-</div>
-</div>
-<div id="cell-17" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Prompt Tokens: </span><span class="sc">${</span>text_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">promptTokenCount</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Output Tokens: </span><span class="sc">${</span>text_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">candidatesTokenCount</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Total Tokens: </span><span class="sc">${</span>text_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">totalTokenCount</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Prompt Tokens: 11
-Output Tokens: 47
-Total Tokens: 881</code></pre>
-</div>
-</div>
-</section>
-<section id="multi-modal-tokens" class="level3">
-<h3 class="anchored" data-anchor-id="multi-modal-tokens">Multi-modal tokens</h3>
-<p>All input to the API is tokenized, including images or other non-text modalities.</p>
-<p>Images are considered to be a fixed size, so they consume a fixed number of tokens, regardless of their display or file size.</p>
-<p>Video and audio files are converted to tokens at a fixed per second rate.</p>
-<p>The current rates and token sizes can be found on the <a href="https://ai.google.dev/gemini-api/docs/tokens?lang=python#multimodal-tokens">documentation</a>.</p>
-<div id="cell-19" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> IMG_URL <span class="op">=</span> <span class="st">"https://goo.gle/instrument-img"</span><span class="op">;</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> downloadFile <span class="op">=</span> <span class="kw">async</span> (url<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> filePath<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> {</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to download image: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">blob</span>()<span class="op">;</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> bufferData <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> buffer<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">;</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(filePath<span class="op">,</span> bufferData)<span class="op">;</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> filePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets"</span><span class="op">,</span> <span class="st">"organ.jpg"</span>)<span class="op">;</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(IMG_URL<span class="op">,</span> filePath)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-20" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">jpeg</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(filePath))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Counting_Tokens_files/figure-html/cell-10-output-1.jpeg" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<pre><code>JSON Schema Response
+[
+  {
+    recipeDescription: 'A celestial delight, these cookies shimmer with edible glitter and a hint of lavender, promising an otherworldly experience with every ethereal bite.',
+    recipeIngredients: [
+      'All-purpose flour',
+      'Unsalted butter',
+      'Granulated sugar',
+      'Edible glitter',
+      'Culinary lavender',
+      'Eggs'
+    ],
+    recipeName: 'Stardust Serenade Cookies'
+  },
+  {
+    recipeDescription: 'Indulge in the opulent depth of these intensely dark chocolate cookies, encasing a molten truffle heart that melts sensuously on the palate.',
+    recipeIngredients: [
+      'Dark cocoa powder',
+      'Unsalted butter',
+      'Brown sugar',
+      'Granulated sugar',
+      'Chocolate truffles',
+      'Sea salt'
+    ],
+    recipeName: 'Velvet Midnight Truffle Cookies'
+  },
+  {
+    recipeDescription: 'These exquisite biscuits offer a harmonious blend of warm spices and tart dried cranberries, evoking a vibrant tapestry of autumnal flavors.',
+    recipeIngredients: [
+      'All-purpose flour',
+      'Unsalted butter',
+      'Brown sugar',
+      'Cinnamon',
+      'Dried cranberries',
+      'Orange zest'
+    ],
+    recipeName: 'Spiced Ruby Blossom Biscuits'
+  }
+]</code></pre>
 </div>
 </div>
 </section>
-<section id="inline-content" class="level3">
-<h3 class="anchored" data-anchor-id="inline-content">Inline content</h3>
-<p>Media objects can be sent to the API inline with the request:</p>
-<div id="cell-22" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> inline_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [google<span class="op">.</span><span class="fu">createPartFromBase64</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(filePath)<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/jpeg"</span>)]<span class="op">,</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Image Tokens: </span><span class="sc">${</span>inline_response<span class="op">.</span><span class="at">totalTokens</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Image Tokens: 259</code></pre>
-</div>
-</div>
-<p>You can try with different images and should always get the same number of tokens, that is independent of their display or file size. Note that an extra token seems to be added, representing the empty prompt.</p>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
+<section id="useful-api-references" class="level3">
+<h3 class="anchored" data-anchor-id="useful-api-references">Useful API references:</h3>
+<p>Check the <a href="https://ai.google.dev/gemini-api/docs/structured-output">structured ouput</a> documentation or the <a href="https://ai.google.dev/api/generate-content#generationconfig"><code>GenerationConfig</code></a> API reference for more details</p>
 </section>
-<section id="files-api" class="level3">
-<h3 class="anchored" data-anchor-id="files-api">Files API</h3>
-<p>The model sees identical tokens if you upload parts of the prompt through the files API instead:</p>
-<div id="cell-25" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> file_upload_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  file<span class="op">:</span> filePath<span class="op">,</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    displayName<span class="op">:</span> <span class="st">"organ.jpg"</span><span class="op">,</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    mimeType<span class="op">:</span> <span class="st">"image/jpeg"</span><span class="op">,</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> file_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [google<span class="op">.</span><span class="fu">createPartFromUri</span>(file_upload_response<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> file_upload_response<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)]<span class="op">,</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`File Tokens: </span><span class="sc">${</span>file_response<span class="op">.</span><span class="at">totalTokens</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>File Tokens: 259</code></pre>
-</div>
-</div>
-<p>Audio and video are each converted to tokens at a fixed rate of tokens per minute.</p>
-<div id="cell-27" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> AUDIO_URL <span class="op">=</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://storage.googleapis.com/generativeai-downloads/data/State_of_the_Union_Address_30_January_1961.mp3"</span><span class="op">;</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> audioPath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets"</span><span class="op">,</span> <span class="st">"audio.mp3"</span>)<span class="op">;</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(AUDIO_URL<span class="op">,</span> audioPath)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-28" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { ffprobe<span class="op">,</span> FfprobeData } <span class="im">from</span> <span class="st">"fluent-ffmpeg"</span><span class="op">;</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">// eslint-disable-next-line @typescript-eslint/no-explicit-any</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ffprobe</span>(audioPath<span class="op">,</span> (err<span class="op">:</span> <span class="dt">any</span><span class="op">,</span> metadata<span class="op">:</span> FfprobeData) <span class="kw">=&gt;</span> {</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (err) {</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">"Error getting audio metadata:"</span><span class="op">,</span> err)<span class="op">;</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span><span class="op">;</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> { duration } <span class="op">=</span> metadata<span class="op">.</span><span class="at">format</span><span class="op">;</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Audio Duration: </span><span class="sc">${</span>duration<span class="sc">}</span><span class="vs"> seconds`</span>)<span class="op">;</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Audio Duration: 2610.128938 seconds</code></pre>
-</div>
-</div>
-<p>As you can see, this audio file is 2610s long.</p>
-<div id="cell-30" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> audio_file_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  file<span class="op">:</span> audioPath<span class="op">,</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    displayName<span class="op">:</span> <span class="st">"audio.mp3"</span><span class="op">,</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    mimeType<span class="op">:</span> <span class="st">"audio/mpeg"</span><span class="op">,</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> audio_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [google<span class="op">.</span><span class="fu">createPartFromUri</span>(audio_file_response<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> audio_file_response<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)]<span class="op">,</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Audio Tokens: </span><span class="sc">${</span>audio_response<span class="op">.</span><span class="at">totalTokens</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Tokens per second: </span><span class="sc">${</span>audio_response<span class="op">.</span><span class="at">totalTokens</span> <span class="op">/</span> <span class="dv">2610</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Audio Tokens: 83528
-Tokens per second: 32.003065134099614</code></pre>
-</div>
-</div>
-</section>
-<section id="chat-tools-and-cache" class="level3">
-<h3 class="anchored" data-anchor-id="chat-tools-and-cache">Chat, tools and cache</h3>
-<p>Chat, tools and cache are currently not supported by the unified SDK <code>countTokens</code> method. This notebook will be updated when that will be the case.</p>
-<p>In the meantime you can still check the token used after the call using the <code>usageMetadata</code> from the response. Check the <a href="quickstarts/Caching.ipynb">caching notebook</a> for more details.</p>
-</section>
-</section>
-<section id="further-reading" class="level2">
-<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
-<p>For more on token counting, check out the <a href="https://ai.google.dev/gemini-api/docs/tokens?lang=python#multimodal-tokens">documentation</a> or the API reference:</p>
+<section id="related-examples" class="level3">
+<h3 class="anchored" data-anchor-id="related-examples">Related examples</h3>
 <ul>
-<li><a href="https://ai.google.dev/api/rest/v1/models/countTokens"><code>countTokens</code></a> REST API reference</li>
-<li><a href="https://googleapis.github.io/js-genai/release_docs/classes/models.Models.html#counttokens"><code>models.countTokens</code></a> JS SDK reference</li>
+<li>The constrained output is used in the <a href="examples/json_capabilities/Text_Summarization.ipynb">Text summarization</a> example to provide the model a format to summarize a story (genre, characters, etc…)</li>
+<li>The <a href="examples/Object_detection.ipynb">Object detection</a> examples are using the JSON constrained output to uniiformize the output of the detection.</li>
 </ul>
+</section>
+<section id="continue-your-discovery-of-the-gemini-api" class="level3">
+<h3 class="anchored" data-anchor-id="continue-your-discovery-of-the-gemini-api">Continue your discovery of the Gemini API</h3>
+<p>JSON is not the only way to constrain the output of the model, you can also use an <a href="quickstarts/Enum.ipynb">Enum</a>, <a href="quickstarts/Function_calling.ipynb">Function calling</a> and <a href="quickstarts/Code_Execution.ipynb">Code execution</a> are other ways to enhance your model by either using your own functions or by letting the model write and run them.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1045,14 +973,11 @@ Tokens per second: 32.003065134099614</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../quickstarts/Code_Execution.html" class="pagination-link" aria-label="Gemini API: Code Execution">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Code Execution</span>
+      <a href="../quickstarts/Image_out.html" class="pagination-link" aria-label="Gemini API: Gemini 2.0 Image output">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Gemini 2.0 Image output</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../quickstarts/Embeddings.html" class="pagination-link" aria-label="Gemini API: Embeddings Quickstart">
-        <span class="nav-page-text">Gemini API: Embeddings Quickstart</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -1060,4 +985,4 @@ Tokens per second: 32.003065134099614</code></pre>
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Counting_Tokens.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Counting_Tokens.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/JSON_mode.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/JSON_mode.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
