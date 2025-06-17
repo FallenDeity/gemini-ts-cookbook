@@ -291,6 +291,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Gemini API: List models</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -343,7 +355,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>The Gemini API allows you to supply a schema to define function arguments (for <a href="quickstarts/Function_calling.ipynb">function calling</a>), or to constrain its output in <a href="quickstarts/JSON_mode.ipynb">JSON</a> or using an Enum. This tutorial gives some examples using enums.</p>
+<p>The Gemini API allows you to supply a schema to define function arguments (for <a href="Function_calling.ipynb">function calling</a>), or to constrain its output in <a href="../quickstarts/JSON_mode.html">JSON</a> or using an Enum. This tutorial gives some examples using enums.</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -423,7 +435,7 @@ Note
 </section>
 <section id="select-a-model" class="level3">
 <h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
-<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="quickstarts/Get_started_thinking.ipynb">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
 <p>For more information about all Gemini models, check the <a href="https://ai.google.dev/gemini-api/docs/models/gemini">documentation</a> for extended information on each of them.</p>
 <div id="cell-9" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
@@ -526,7 +538,7 @@ Note
 <pre><code>Instrument category (JSON): "Keyboard"</code></pre>
 </div>
 </div>
-<p>Outside of simple multiple choice problems, an enum can be used anywhere in the schema for <a href="quickstarts/JSON_mode.ipynb">JSON</a> or <a href="quickstarts/Function_calling.ipynb">function calling</a>. For example, ask it for a list of recipe titles, and use a Grade enum to give each one a popularity-grade:</p>
+<p>Outside of simple multiple choice problems, an enum can be used anywhere in the schema for <a href="../quickstarts/JSON_mode.html">JSON</a> or <a href="Function_calling.ipynb">function calling</a>. For example, ask it for a list of recipe titles, and use a Grade enum to give each one a popularity-grade:</p>
 <div id="cell-20" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Schema<span class="op">,</span> Type } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -628,13 +640,13 @@ Note
 <section id="related-examples" class="level3">
 <h3 class="anchored" data-anchor-id="related-examples">Related examples</h3>
 <ul>
-<li>The constrained output is used in the <a href="examples/json_capabilities/Text_Summarization.ipynb">Text summarization</a> example to provide the model a format to summarize a story (genre, characters, etc…)</li>
-<li>The <a href="examples/Object_detection.ipynb">Object detection</a> examples are using the JSON constrained output to uniiformize the output of the detection.</li>
+<li>The constrained output is used in the <a href="../examples/json_capabilities/Text_Summarization.ipynb">Text summarization</a> example to provide the model a format to summarize a story (genre, characters, etc…)</li>
+<li>The <a href="../examples/Object_detection.ipynb">Object detection</a> examples are using the JSON constrained output to uniiformize the output of the detection.</li>
 </ul>
 </section>
 <section id="continue-your-discovery-of-the-gemini-api" class="level3">
 <h3 class="anchored" data-anchor-id="continue-your-discovery-of-the-gemini-api">Continue your discovery of the Gemini API</h3>
-<p>An Enum is not the only way to constrain the output of the model, you can also use an <a href="quickstarts/JSON_mode.ipynb">JSON</a> schema. <a href="quickstarts/Function_calling.ipynb">Function calling</a> and <a href="quickstarts/Code_execution.ipynb">Code execution</a> are other ways to enhance your model by either let him use your own functions or by letting it write and run them.</p>
+<p>An Enum is not the only way to constrain the output of the model, you can also use an <a href="../quickstarts/JSON_mode.html">JSON</a> schema. <a href="Function_calling.ipynb">Function calling</a> and <a href="Code_execution.ipynb">Code execution</a> are other ways to enhance your model by either let him use your own functions or by letting it write and run them.</p>
 
 
 </section>

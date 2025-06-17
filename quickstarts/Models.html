@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../quickstarts/New_in_002.html" rel="next">
 <link href="../quickstarts/JSON_mode.html" rel="prev">
 <link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -288,6 +289,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Gemini API: List models</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -419,7 +432,7 @@ Note
 <p>Use <code>models.list()</code> to see what models are available. These models support <code>generateContent</code>, the main method used for prompting.</p>
 <div id="cell-9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> models <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">list</span>()<span class="op">;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> {page} <span class="op">=</span> models<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> { page } <span class="op">=</span> models<span class="op">;</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (page<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> model <span class="kw">of</span> page) {</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`- </span><span class="sc">${</span>model<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs"> (</span><span class="sc">${</span>model<span class="op">.</span><span class="at">displayName</span><span class="sc">}</span><span class="vs">) | [Actions: </span><span class="sc">${</span>model<span class="op">.</span><span class="at">supportedActions</span><span class="op">?.</span><span class="fu">join</span>(<span class="st">", "</span>)<span class="sc">}</span><span class="vs">]`</span>)<span class="op">;</span></span>
@@ -538,8 +551,8 @@ Note
 <section id="learning-more" class="level2">
 <h2 class="anchored" data-anchor-id="learning-more">Learning more</h2>
 <ul>
-<li>To learn how use a model for prompting, see the <a href="quickstarts/Prompting.ipynb">Prompting</a> quickstart.</li>
-<li>To learn how use a model for embedding, see the <a href="quickstarts/Embeddings.ipynb">Embedding</a> quickstart.</li>
+<li>To learn how use a model for prompting, see the <a href="Prompting.ipynb">Prompting</a> quickstart.</li>
+<li>To learn how use a model for embedding, see the <a href="../quickstarts/Embeddings.html">Embedding</a> quickstart.</li>
 <li>For more information on models, visit the <a href="https://ai.google.dev/models/gemini">Gemini models</a> documentation.</li>
 </ul>
 
@@ -953,6 +966,9 @@ Note
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../quickstarts/New_in_002.html" class="pagination-link" aria-label="What's new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002">
+        <span class="nav-page-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

@@ -292,6 +292,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Gemini API: List models</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -344,12 +356,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Preview</strong>: The Live API is in preview.</p>
 <p>This notebook demonstrates simple usage of the Gemini Multimodal Live API. For an overview of new capabilities refer to the <a href="https://ai.google.dev/gemini-api/docs/live">Gemini Live API docs</a>.</p>
 <p>This notebook implements a simple turn-based chat where you send messages as text, and the model replies with audio. The API is capable of much more than that. The goal here is to demonstrate with <strong>simple code</strong>.</p>
-<p>Some features of the API are not working in Colab, to try them it is recommended to have a look at this <a href="./Get_started_LiveAPI.py">Python script</a> and run it locally.</p>
 <p>If you aren’t looking for code, and just want to try multimedia streaming use <a href="https://aistudio.google.com/app/live">Live API in Google AI Studio</a>.</p>
 <p>The <a href="#next_steps">Next steps</a> section at the end of this tutorial provides links to additional resources.</p>
 <section id="native-audio-output" class="level4">
 <h4 class="anchored" data-anchor-id="native-audio-output">Native audio output</h4>
-<p><strong>Info</strong>: Gemini 2.5 introduces <a href="https://ai.google.dev/gemini-api/docs/live#native-audio-output">native audio generation</a>, which directly generates audio output, providing a more natural sounding audio, more expressive voices, more awareness of additional context, e.g., tone, and more proactive responses. You can try a native audio example in this <a href="./Get_started_LiveAPI_NativeAudio.py">script</a>.</p>
+<p><strong>Info</strong>: Gemini 2.5 introduces <a href="https://ai.google.dev/gemini-api/docs/live#native-audio-output">native audio generation</a>, which directly generates audio output, providing a more natural sounding audio, more expressive voices, more awareness of additional context, e.g., tone, and more proactive responses.</p>
 </section>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
@@ -895,11 +906,10 @@ Close: </code></pre>
 <p>This tutorial just shows basic usage of the Live API, using the Python GenAI SDK.</p>
 <ul>
 <li>If you aren’t looking for code, and just want to try multimedia streaming use <a href="https://aistudio.google.com/app/live">Live API in Google AI Studio</a>.</li>
-<li>If you want to see how to setup streaming interruptible audio and video using the Live API see the <a href="../quickstarts/Get_started_LiveAPI.py">Audio and Video input Tutorial</a>.</li>
-<li>If you’re interested in the low level details of using the websockets directly, see the <a href="../quickstarts/websockets/Get_started_LiveAPI.ipynb">websocket version of this tutorial</a>.</li>
+<li>If you’re interested in the low level details of using the websockets directly, see the <a href="websockets/Get_started_LiveAPI.ipynb">websocket version of this tutorial</a>.</li>
 <li>Try the <a href="../quickstarts/Get_started_LiveAPI_tools.html">Tool use in the live API tutorial</a> for an walkthrough of Gemini-2’s new tool use capabilities.</li>
-<li>There is a <a href="../quickstarts/websockets/LiveAPI_streaming_in_colab.ipynb">Streaming audio in Colab example</a>, but this is more of a <strong>demo</strong>, it’s <strong>not optimized for readability</strong>.</li>
-<li>Other nice Gemini 2.0 examples can also be found in the <a href="https://github.com/google-gemini/cookbook/tree/main/gemini-2/">Cookbook’s 2.0 directory</a>, in particular the <a href="../quickstarts/Video_understanding.ipynb">video understanding</a> and the <a href="../quickstarts/Spatial_understanding.ipynb">spatial understanding</a> ones.</li>
+<li>There is a <a href="websockets/LiveAPI_streaming_in_colab.ipynb">Streaming audio in Colab example</a>, but this is more of a <strong>demo</strong>, it’s <strong>not optimized for readability</strong>.</li>
+<li>Other nice Gemini 2.0 examples can also be found in the <a href="https://github.com/google-gemini/cookbook/tree/main/gemini-2/">Cookbook’s 2.0 directory</a>, in particular the <a href="Video_understanding.ipynb">video understanding</a> and the <a href="Spatial_understanding.ipynb">spatial understanding</a> ones.</li>
 </ul>
 
 

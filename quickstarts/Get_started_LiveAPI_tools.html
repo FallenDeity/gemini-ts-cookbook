@@ -292,6 +292,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Gemini API: List models</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -454,7 +466,7 @@ Note
 </section>
 <section id="get-started" class="level2">
 <h2 class="anchored" data-anchor-id="get-started">Get Started</h2>
-<p>Most of the Live API setup will be similar to the <a href="quickstarts/Get_started_LiveAPI.ipynb">starter tutorial</a>. Since this tutorial doesn’t focus on the realtime interactivity of the API, the code has been simplified: This code uses the Live API, but it only sends a single text prompt, and listens for a single turn of replies.</p>
+<p>Most of the Live API setup will be similar to the <a href="../quickstarts/Get_started_LiveAPI.html">starter tutorial</a>. Since this tutorial doesn’t focus on the realtime interactivity of the API, the code has been simplified: This code uses the Live API, but it only sends a single text prompt, and listens for a single turn of replies.</p>
 <p>You can set modality=“AUDIO” on any of the examples to get the spoken version of the output.</p>
 <div id="cell-13" class="cell" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { FunctionResponse<span class="op">,</span> LiveServerContent<span class="op">,</span> LiveServerToolCall<span class="op">,</span> Modality<span class="op">,</span> Session<span class="op">,</span> Tool } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
@@ -1212,10 +1224,10 @@ Connection closed</code></pre>
 <h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
 <ul>
 <li>For more information about the SDK see the <a href="https://googleapis.github.io/js-genai/">SDK docs</a></li>
-<li>This tutorial uses the high level SDK, if you’re interested in the lower-level details, try the <a href="quickstarts/websockets/Get_started_LiveAPI_tools.ipynb">Websocket version of this tutorial</a></li>
-<li>This tutorial only covers <em>basic</em> usage of these tools for deeper (and more fun) example see the <a href="quickstarts/Search_Grounding.ipynb">Search tool tutorial</a></li>
+<li>This tutorial uses the high level SDK, if you’re interested in the lower-level details, try the <a href="websockets/Get_started_LiveAPI_tools.ipynb">Websocket version of this tutorial</a></li>
+<li>This tutorial only covers <em>basic</em> usage of these tools for deeper (and more fun) example see the <a href="Search_Grounding.ipynb">Search tool tutorial</a></li>
 </ul>
-<p>Or check the other Gemini 2.0 capabilities from the Cookbook, in particular this other <a href="examples/LiveAPI_plotting_and_mapping.ipynb">multi-tool</a> example and the one about Gemini <a href="quickstarts/Spatial_understanding.ipynb">spatial capabilities</a>.</p>
+<p>Or check the other Gemini 2.0 capabilities from the Cookbook, in particular this other <a href="../examples/LiveAPI_plotting_and_mapping.ipynb">multi-tool</a> example and the one about Gemini <a href="Spatial_understanding.ipynb">spatial capabilities</a>.</p>
 
 
 </section>

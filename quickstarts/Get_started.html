@@ -298,6 +298,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Gemini API: List models</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -474,7 +486,7 @@ Note
 </section>
 <section id="choose-a-model" class="level2">
 <h2 class="anchored" data-anchor-id="choose-a-model">Choose a model</h2>
-<p>Select the model you want to use in this guide. You can either select one from the list or enter a model name manually. Keep in mind that some models, such as the 2.5 ones are thinking models and thus take slightly more time to respond. For more details, you can see <a href="quickstarts/Get_started_thinking.ipynb">thinking notebook</a> to learn how to switch the thinking off.</p>
+<p>Select the model you want to use in this guide. You can either select one from the list or enter a model name manually. Keep in mind that some models, such as the 2.5 ones are thinking models and thus take slightly more time to respond. For more details, you can see <a href="../quickstarts/Get_started_thinking.html">thinking notebook</a> to learn how to switch the thinking off.</p>
 <p>For a full overview of all Gemini models, check the <a href="https://ai.google.dev/gemini-api/docs/models/gemini">documentation</a>.</p>
 <div id="cell-9" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -516,7 +528,7 @@ Note
 </section>
 <section id="send-multimodal-prompts" class="level2">
 <h2 class="anchored" data-anchor-id="send-multimodal-prompts">Send multimodal prompts</h2>
-<p>Use Gemini 2.0 model (<code>gemini-2.0-flash</code>), a multimodal model that supports multimodal prompts. You can include text, <a href="quickstarts/PDF_Files.ipynb">PDF documents</a>, images, <a href="quickstarts/Audio.ipynb">audio</a> and <a href="quickstarts/Video.ipynb">video</a> in your prompt requests and get text or code responses.</p>
+<p>Use Gemini 2.0 model (<code>gemini-2.0-flash</code>), a multimodal model that supports multimodal prompts. You can include text, <a href="../quickstarts/PDF_Files.html">PDF documents</a>, images, <a href="../quickstarts/Audio.html">audio</a> and <a href="Video.ipynb">video</a> in your prompt requests and get text or code responses.</p>
 <p>In this first example, you’ll download an image from a specified URL, save it as a byte stream and then write those bytes to a local file named <code>jetpack.png</code>.</p>
 <div id="cell-15" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
@@ -1151,7 +1163,7 @@ Function call arguments: {
 </section>
 <section id="code-execution" class="level2">
 <h2 class="anchored" data-anchor-id="code-execution">Code execution</h2>
-<p><a href="https://ai.google.dev/gemini-api/docs/code-execution#javascript">Code execution</a> lets the model generate and execute Python code to answer complex questions. You can find more examples in the <a href="quickstarts/Code_Execution.ipynb">Code execution quickstart guide</a>.</p>
+<p><a href="https://ai.google.dev/gemini-api/docs/code-execution#javascript">Code execution</a> lets the model generate and execute Python code to answer complex questions. You can find more examples in the <a href="../quickstarts/Code_Execution.html">Code execution quickstart guide</a>.</p>
 <div id="cell-40" class="cell" data-execution_count="59">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> code_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
@@ -1580,7 +1592,7 @@ Note
 <section id="use-context-caching" class="level2">
 <h2 class="anchored" data-anchor-id="use-context-caching">Use context caching</h2>
 <p><a href="https://ai.google.dev/gemini-api/docs/caching?lang=javascript">Context caching</a> lets you to store frequently used input tokens in a dedicated cache and reference them for subsequent requests, eliminating the need to repeatedly pass the same set of tokens to a model.</p>
-<p>Context caching is only available for stable models with fixed versions (for example, <code>gemini-1.5-flash-002</code>). You must include the version postfix (for example, the <code>-002</code> in <code>gemini-1.5-flash-002</code>). You can find more caching examples <a href="quickstarts/Caching.ipynb">here</a>.</p>
+<p>Context caching is only available for stable models with fixed versions (for example, <code>gemini-1.5-flash-002</code>). You must include the version postfix (for example, the <code>-002</code> in <code>gemini-1.5-flash-002</code>). You can find more caching examples <a href="../quickstarts/Caching.html">here</a>.</p>
 <section id="create-a-cache" class="level3">
 <h3 class="anchored" data-anchor-id="create-a-cache">Create a cache</h3>
 <div id="cell-65" class="cell" data-execution_count="75">
@@ -1831,8 +1843,8 @@ Note
 <section id="useful-api-references" class="level3">
 <h3 class="anchored" data-anchor-id="useful-api-references">Useful API references:</h3>
 <p>Check out the <a href="https://googleapis.github.io/js-genai/release_docs/index.html">Google GenAI SDK</a> for more details on the new SDK. ### Related examples</p>
-<p>For more detailed examples using Gemini models, check the <a href="https://github.com/FallenDeity/deepmind-starter/tree/main/quickstarts">Quickstarts folder of the cookbook</a>. You’ll learn how to use the <a href="quickstarts/Get_started_LiveAPI.ipynb">Live API</a>, juggle with <a href="examples/LiveAPI_plotting_and_mapping.ipynb">multiple tools</a> or use Gemini 2.0 <a href="quickstarts/Spatial_understanding.ipynb">spatial understanding</a> abilities.</p>
-<p>Also check the <a href="quickstarts/Get_started_thinking.ipynb">Gemini thinking models</a> that explicitly showcases its thoughts summaries and can manage more complex reasonings.</p>
+<p>For more detailed examples using Gemini models, check the <a href="https://github.com/FallenDeity/deepmind-starter/tree/main/quickstarts">Quickstarts folder of the cookbook</a>. You’ll learn how to use the <a href="../quickstarts/Get_started_LiveAPI.html">Live API</a>, juggle with <a href="../examples/LiveAPI_plotting_and_mapping.ipynb">multiple tools</a> or use Gemini 2.0 <a href="Spatial_understanding.ipynb">spatial understanding</a> abilities.</p>
+<p>Also check the <a href="../quickstarts/Get_started_thinking.html">Gemini thinking models</a> that explicitly showcases its thoughts summaries and can manage more complex reasonings.</p>
 
 
 </section>

@@ -288,6 +288,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Gemini API: List models</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -428,7 +440,7 @@ Note
 </section>
 <section id="select-a-model" class="level3">
 <h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
-<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="quickstarts/Get_started_thinking.ipynb">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
 <div id="cell-9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -438,7 +450,7 @@ Note
 </section>
 <section id="upload-an-audio-file-with-the-file-api" class="level2">
 <h2 class="anchored" data-anchor-id="upload-an-audio-file-with-the-file-api">Upload an audio file with the File API</h2>
-<p>To use an audio file in your prompt, you must first upload it using the <a href="quickstarts/File_API.ipynb">File API</a>.</p>
+<p>To use an audio file in your prompt, you must first upload it using the <a href="../quickstarts/File_API.html">File API</a>.</p>
 <div id="cell-11" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
@@ -658,7 +670,7 @@ Note
 <section id="count-audio-tokens" class="level2">
 <h2 class="anchored" data-anchor-id="count-audio-tokens">Count audio tokens</h2>
 <p>You can count the number of tokens in your audio file using the <a href="https://googleapis.github.io/js-genai/release_docs/classes/models.Models.html#counttokens">countTokens</a> method.</p>
-<p>Audio files have a fixed per second token rate (more details in the dedicated <a href="quickstarts/Counting_Tokens.ipynb">count token quickstart</a>.)</p>
+<p>Audio files have a fixed per second token rate (more details in the dedicated <a href="../quickstarts/Counting_Tokens.html">count token quickstart</a>.)</p>
 <div id="cell-26" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> count_tokens_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
@@ -675,18 +687,18 @@ Note
 <section id="useful-api-references" class="level3">
 <h3 class="anchored" data-anchor-id="useful-api-references">Useful API references:</h3>
 <p>More details about Gemini API’s <a href="https://ai.google.dev/gemini-api/docs/vision">vision capabilities</a> in the documentation.</p>
-<p>If you want to know about the File API, check its <a href="https://ai.google.dev/api/files">API reference</a> or the <a href="quickstarts/File_API.ipynb">File API</a> quickstart.</p>
+<p>If you want to know about the File API, check its <a href="https://ai.google.dev/api/files">API reference</a> or the <a href="../quickstarts/File_API.html">File API</a> quickstart.</p>
 </section>
 <section id="related-examples" class="level3">
 <h3 class="anchored" data-anchor-id="related-examples">Related examples</h3>
 <p>Check this example using the audio files to give you more ideas on what the gemini API can do with them:</p>
 <ul>
-<li>Share <a href="examples/Voice_memos.ipynb">Voice memos</a> with Gemini API and brainstorm ideas.</li>
+<li>Share <a href="../examples/Voice_memos.ipynb">Voice memos</a> with Gemini API and brainstorm ideas.</li>
 </ul>
 </section>
 <section id="continue-your-discovery-of-the-gemini-api" class="level3">
 <h3 class="anchored" data-anchor-id="continue-your-discovery-of-the-gemini-api">Continue your discovery of the Gemini API</h3>
-<p>Have a look at the <a href="quickstarts/Audio.ipynb">Audio</a> quickstart to learn about another type of media file, then learn more about <a href="https://ai.google.dev/tutorials/prompting_with_media">prompting with media files</a> in the docs, including the supported formats and maximum length for audio files.</p>
+<p>Have a look at the <a href="../quickstarts/Audio.html">Audio</a> quickstart to learn about another type of media file, then learn more about <a href="https://ai.google.dev/tutorials/prompting_with_media">prompting with media files</a> in the docs, including the supported formats and maximum length for audio files.</p>
 
 
 </section>
