@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API: All about tokens – Gemini Cookbook</title>
+<title>Gemini API: List models – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../quickstarts/Embeddings.html" rel="next">
-<link href="../quickstarts/Code_Execution.html" rel="prev">
+<link href="../quickstarts/JSON_mode.html" rel="prev">
 <link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -107,14 +106,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<meta property="og:title" content="Gemini API: All about tokens – Gemini Cookbook">
+<meta property="og:title" content="Gemini API: List models – Gemini Cookbook">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://fallendeity.github.io/deepmind-starter/quickstarts/Counting_Tokens_files/figure-html/cell-10-output-1.jpeg">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta name="twitter:title" content="Gemini API: All about tokens – Gemini Cookbook">
+<meta name="twitter:title" content="Gemini API: List models – Gemini Cookbook">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://fallendeity.github.io/deepmind-starter/quickstarts/Counting_Tokens_files/figure-html/cell-10-output-1.jpeg">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-sidebar floating nav-fixed quarto-light">
@@ -168,7 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Counting_Tokens.html">Gemini API: All about tokens</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Models.html">Gemini API: List models</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -209,7 +206,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link active">
+  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: All about tokens</span></a>
   </div>
 </li>
@@ -287,7 +284,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Models.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Gemini API: List models</span></a>
   </div>
 </li>
@@ -303,35 +300,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#about-tokens" id="toc-about-tokens" class="nav-link active" data-scroll-target="#about-tokens">About tokens</a></li>
-  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
   <ul class="collapse">
   <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
   <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
   <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
   <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
   </ul></li>
-  <li><a href="#tokens-in-the-gemini-api" id="toc-tokens-in-the-gemini-api" class="nav-link" data-scroll-target="#tokens-in-the-gemini-api">Tokens in the Gemini API</a>
-  <ul class="collapse">
-  <li><a href="#context-windows" id="toc-context-windows" class="nav-link" data-scroll-target="#context-windows">Context windows</a></li>
-  <li><a href="#counting-tokens" id="toc-counting-tokens" class="nav-link" data-scroll-target="#counting-tokens">Counting tokens</a></li>
-  <li><a href="#choose-a-model" id="toc-choose-a-model" class="nav-link" data-scroll-target="#choose-a-model">Choose a model</a></li>
-  <li><a href="#text-tokens" id="toc-text-tokens" class="nav-link" data-scroll-target="#text-tokens">Text tokens</a></li>
-  <li><a href="#multi-modal-tokens" id="toc-multi-modal-tokens" class="nav-link" data-scroll-target="#multi-modal-tokens">Multi-modal tokens</a></li>
-  <li><a href="#inline-content" id="toc-inline-content" class="nav-link" data-scroll-target="#inline-content">Inline content</a></li>
-  <li><a href="#files-api" id="toc-files-api" class="nav-link" data-scroll-target="#files-api">Files API</a></li>
-  <li><a href="#chat-tools-and-cache" id="toc-chat-tools-and-cache" class="nav-link" data-scroll-target="#chat-tools-and-cache">Chat, tools and cache</a></li>
-  </ul></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  <li><a href="#list-models" id="toc-list-models" class="nav-link" data-scroll-target="#list-models">List models</a></li>
+  <li><a href="#find-details-about-a-model" id="toc-find-details-about-a-model" class="nav-link" data-scroll-target="#find-details-about-a-model">Find details about a model</a></li>
+  <li><a href="#learning-more" id="toc-learning-more" class="nav-link" data-scroll-target="#learning-more">Learning more</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Counting_Tokens.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Counting_Tokens.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Models.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Models.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Counting_Tokens.html">Gemini API: All about tokens</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Models.html">Gemini API: List models</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Gemini API: All about tokens</h1>
+<h1 class="title">Gemini API: List models</h1>
 </div>
 
 
@@ -348,14 +335,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>An understanding of tokens is central to using the Gemini API. This guide will provide a interactive introduction to what tokens are and how they are used in the Gemini API.</p>
-<section id="about-tokens" class="level2">
-<h2 class="anchored" data-anchor-id="about-tokens">About tokens</h2>
-<p>LLMs break up their input and produce their output at a granularity that is smaller than a word, but larger than a single character or code-point.</p>
-<p>These tokens can be single characters, like <code>z</code>, or whole words, like <code>the</code>. Long words may be broken up into several tokens. The set of all tokens used by the model is called the vocabulary, and the process of breaking down text into tokens is called tokenization.</p>
-<p>For Gemini models, a token is equivalent to about 4 characters. <strong>100 tokens are about 60-80 English words</strong>.</p>
-<p>When billing is enabled, the price of a paid request is controlled by the <a href="https://ai.google.dev/pricing">number of input and output tokens</a>, so knowing how to count your tokens is important.</p>
-</section>
+<p>This notebook demonstrates how to list the models that are available for you to use in the Gemini API, and how to find details about a model.</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -420,7 +400,7 @@ Note
 <pre><code>│
 ├── .env
 └── quickstarts
-    └── Counting_Tokens.ipynb</code></pre>
+    └── Models.ipynb</code></pre>
 </div>
 </div>
 </section>
@@ -434,28 +414,117 @@ Note
 </div>
 </section>
 </section>
-<section id="tokens-in-the-gemini-api" class="level2">
-<h2 class="anchored" data-anchor-id="tokens-in-the-gemini-api">Tokens in the Gemini API</h2>
-<section id="context-windows" class="level3">
-<h3 class="anchored" data-anchor-id="context-windows">Context windows</h3>
-<p>The models available through the Gemini API have context windows that are measured in tokens. These define how much input you can provide, and how much output the model can generate, and combined are referred to as the “context window”. This information is available directly through <a href="https://ai.google.dev/api/rest/v1/models/get">the API</a> and in the <a href="https://ai.google.dev/models/gemini">models</a> documentation.</p>
-<p>In this example you can see the <code>gemini-2.5-flash-preview-05-20</code> model has an 1M tokens context window. If you need more, Pro models have an even bigger 2M tokens context window.</p>
-<div id="cell-9" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> model_info_2_5_flash_preview_05_20 <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">get</span>({</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">,</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(model_info_2_5_flash_preview_05_20<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="list-models" class="level2">
+<h2 class="anchored" data-anchor-id="list-models">List models</h2>
+<p>Use <code>models.list()</code> to see what models are available. These models support <code>generateContent</code>, the main method used for prompting.</p>
+<div id="cell-9" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> models <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">list</span>()<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> {page} <span class="op">=</span> models<span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (page<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> model <span class="kw">of</span> page) {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`- </span><span class="sc">${</span>model<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs"> (</span><span class="sc">${</span>model<span class="op">.</span><span class="at">displayName</span><span class="sc">}</span><span class="vs">) | [Actions: </span><span class="sc">${</span>model<span class="op">.</span><span class="at">supportedActions</span><span class="op">?.</span><span class="fu">join</span>(<span class="st">", "</span>)<span class="sc">}</span><span class="vs">]`</span>)<span class="op">;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  page <span class="op">=</span> models<span class="op">.</span><span class="fu">hasNextPage</span>() <span class="op">?</span> <span class="cf">await</span> models<span class="op">.</span><span class="fu">nextPage</span>() <span class="op">:</span> []<span class="op">;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- models/embedding-gecko-001 (Embedding Gecko) | [Actions: embedText, countTextTokens]
+- models/gemini-1.0-pro-vision-latest (Gemini 1.0 Pro Vision) | [Actions: generateContent, countTokens]
+- models/gemini-pro-vision (Gemini 1.0 Pro Vision) | [Actions: generateContent, countTokens]
+- models/gemini-1.5-pro-latest (Gemini 1.5 Pro Latest) | [Actions: generateContent, countTokens]
+- models/gemini-1.5-pro-002 (Gemini 1.5 Pro 002) | [Actions: generateContent, countTokens, createCachedContent]
+- models/gemini-1.5-pro (Gemini 1.5 Pro) | [Actions: generateContent, countTokens]
+- models/gemini-1.5-flash-latest (Gemini 1.5 Flash Latest) | [Actions: generateContent, countTokens]
+- models/gemini-1.5-flash (Gemini 1.5 Flash) | [Actions: generateContent, countTokens]
+- models/gemini-1.5-flash-002 (Gemini 1.5 Flash 002) | [Actions: generateContent, countTokens, createCachedContent]
+- models/gemini-1.5-flash-8b (Gemini 1.5 Flash-8B) | [Actions: createCachedContent, generateContent, countTokens]
+- models/gemini-1.5-flash-8b-001 (Gemini 1.5 Flash-8B 001) | [Actions: createCachedContent, generateContent, countTokens]
+- models/gemini-1.5-flash-8b-latest (Gemini 1.5 Flash-8B Latest) | [Actions: createCachedContent, generateContent, countTokens]
+- models/gemini-2.5-pro-exp-03-25 (Gemini 2.5 Pro Experimental 03-25) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.5-pro-preview-03-25 (Gemini 2.5 Pro Preview 03-25) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.5-flash-preview-04-17 (Gemini 2.5 Flash Preview 04-17) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.5-flash-preview-05-20 (Gemini 2.5 Flash Preview 05-20) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.5-flash-preview-04-17-thinking (Gemini 2.5 Flash Preview 04-17 for cursor testing) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.5-pro-preview-05-06 (Gemini 2.5 Pro Preview 05-06) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.5-pro-preview-06-05 (Gemini 2.5 Pro Preview) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.0-flash-exp (Gemini 2.0 Flash Experimental) | [Actions: generateContent, countTokens, bidiGenerateContent]
+- models/gemini-2.0-flash (Gemini 2.0 Flash) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.0-flash-001 (Gemini 2.0 Flash 001) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.0-flash-exp-image-generation (Gemini 2.0 Flash (Image Generation) Experimental) | [Actions: generateContent, countTokens, bidiGenerateContent]
+- models/gemini-2.0-flash-lite-001 (Gemini 2.0 Flash-Lite 001) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.0-flash-lite (Gemini 2.0 Flash-Lite) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.0-flash-preview-image-generation (Gemini 2.0 Flash Preview Image Generation) | [Actions: generateContent, countTokens]
+- models/gemini-2.0-flash-lite-preview-02-05 (Gemini 2.0 Flash-Lite Preview 02-05) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.0-flash-lite-preview (Gemini 2.0 Flash-Lite Preview) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.0-pro-exp (Gemini 2.0 Pro Experimental) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.0-pro-exp-02-05 (Gemini 2.0 Pro Experimental 02-05) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-exp-1206 (Gemini Experimental 1206) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.0-flash-thinking-exp-01-21 (Gemini 2.5 Flash Preview 04-17) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.0-flash-thinking-exp (Gemini 2.5 Flash Preview 04-17) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.0-flash-thinking-exp-1219 (Gemini 2.5 Flash Preview 04-17) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
+- models/gemini-2.5-flash-preview-tts (Gemini 2.5 Flash Preview TTS) | [Actions: countTokens, generateContent]
+- models/gemini-2.5-pro-preview-tts (Gemini 2.5 Pro Preview TTS) | [Actions: countTokens, generateContent]
+- models/learnlm-2.0-flash-experimental (LearnLM 2.0 Flash Experimental) | [Actions: generateContent, countTokens]
+- models/gemma-3-1b-it (Gemma 3 1B) | [Actions: generateContent, countTokens]
+- models/gemma-3-4b-it (Gemma 3 4B) | [Actions: generateContent, countTokens]
+- models/gemma-3-12b-it (Gemma 3 12B) | [Actions: generateContent, countTokens]
+- models/gemma-3-27b-it (Gemma 3 27B) | [Actions: generateContent, countTokens]
+- models/gemma-3n-e4b-it (Gemma 3n E4B) | [Actions: generateContent, countTokens]
+- models/embedding-001 (Embedding 001) | [Actions: embedContent]
+- models/text-embedding-004 (Text Embedding 004) | [Actions: embedContent]
+- models/gemini-embedding-exp-03-07 (Gemini Embedding Experimental 03-07) | [Actions: embedContent, countTextTokens, countTokens]
+- models/gemini-embedding-exp (Gemini Embedding Experimental) | [Actions: embedContent, countTextTokens, countTokens]
+- models/aqa (Model that performs Attributed Question Answering.) | [Actions: generateAnswer]
+- models/imagen-3.0-generate-002 (Imagen 3.0 002 model) | [Actions: predict]
+- models/veo-2.0-generate-001 (Veo 2) | [Actions: predictLongRunning]
+- models/gemini-2.5-flash-preview-native-audio-dialog (Gemini 2.5 Flash Preview Native Audio Dialog) | [Actions: countTokens, bidiGenerateContent]
+- models/gemini-2.5-flash-preview-native-audio-dialog-rai-v3 (Gemini 2.5 Flash Preview Native Audio Dialog RAI v3) | [Actions: countTokens, bidiGenerateContent]
+- models/gemini-2.5-flash-exp-native-audio-thinking-dialog (Gemini 2.5 Flash Exp Native Audio Thinking Dialog) | [Actions: countTokens, bidiGenerateContent]
+- models/gemini-2.0-flash-live-001 (Gemini 2.0 Flash 001) | [Actions: bidiGenerateContent, countTokens]</code></pre>
+</div>
+</div>
+<p>These models support <code>embedContent</code>, used for embeddings:</p>
+<div id="cell-11" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> models_1 <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">list</span>()<span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> page_1 <span class="op">=</span> models_1<span class="op">.</span><span class="at">page</span><span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (page_1<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> model <span class="kw">of</span> page_1) {</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (model<span class="op">.</span><span class="at">supportedActions</span><span class="op">?.</span><span class="fu">includes</span>(<span class="st">"embedContent"</span>)) {</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`- </span><span class="sc">${</span>model<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs"> (</span><span class="sc">${</span>model<span class="op">.</span><span class="at">displayName</span><span class="sc">}</span><span class="vs">) | [Actions: </span><span class="sc">${</span>model<span class="op">.</span><span class="at">supportedActions</span><span class="op">.</span><span class="fu">join</span>(<span class="st">", "</span>)<span class="sc">}</span><span class="vs">]`</span>)<span class="op">;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  page_1 <span class="op">=</span> models_1<span class="op">.</span><span class="fu">hasNextPage</span>() <span class="op">?</span> <span class="cf">await</span> models_1<span class="op">.</span><span class="fu">nextPage</span>() <span class="op">:</span> []<span class="op">;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- models/embedding-001 (Embedding 001) | [Actions: embedContent]
+- models/text-embedding-004 (Text Embedding 004) | [Actions: embedContent]
+- models/gemini-embedding-exp-03-07 (Gemini Embedding Experimental 03-07) | [Actions: embedContent, countTextTokens, countTokens]
+- models/gemini-embedding-exp (Gemini Embedding Experimental) | [Actions: embedContent, countTextTokens, countTokens]</code></pre>
+</div>
+</div>
+</section>
+<section id="find-details-about-a-model" class="level2">
+<h2 class="anchored" data-anchor-id="find-details-about-a-model">Find details about a model</h2>
+<p>You can see more details about a model, including the <code>inputTokenLimit</code> and <code>outputTokenLimit</code> as follows.</p>
+<div id="cell-13" class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> models_2 <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">list</span>()<span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> page_2 <span class="op">=</span> models_2<span class="op">.</span><span class="at">page</span><span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (page_2<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> model <span class="kw">of</span> page_2) {</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (model<span class="op">.</span><span class="at">name</span> <span class="op">===</span> <span class="st">"models/gemini-2.0-flash"</span>) {</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(model<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  page_2 <span class="op">=</span> models_2<span class="op">.</span><span class="fu">hasNextPage</span>() <span class="op">?</span> <span class="cf">await</span> models_2<span class="op">.</span><span class="fu">nextPage</span>() <span class="op">:</span> []<span class="op">;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>{
-  "name": "models/gemini-2.5-flash-preview-05-20",
-  "displayName": "Gemini 2.5 Flash Preview 05-20",
-  "description": "Preview release (April 17th, 2025) of Gemini 2.5 Flash",
-  "version": "2.5-preview-05-20",
+  "name": "models/gemini-2.0-flash",
+  "displayName": "Gemini 2.0 Flash",
+  "description": "Gemini 2.0 Flash",
+  "version": "2.0",
   "tunedModelInfo": {},
   "inputTokenLimit": 1048576,
-  "outputTokenLimit": 65536,
+  "outputTokenLimit": 8192,
   "supportedActions": [
     "generateContent",
     "countTokens",
@@ -466,184 +535,12 @@ Note
 </div>
 </div>
 </section>
-<section id="counting-tokens" class="level3">
-<h3 class="anchored" data-anchor-id="counting-tokens">Counting tokens</h3>
-<p>The API provides an endpoint for counting the number of tokens in a request: <code>client.models.countTokens</code>. You pass the same arguments as you would to <code>client.models.generateContent</code> and the service will return the number of tokens in that request.</p>
-</section>
-<section id="choose-a-model" class="level3">
-<h3 class="anchored" data-anchor-id="choose-a-model">Choose a model</h3>
-<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="quickstarts/Get_started_thinking.ipynb">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
-<p>The tokenization should be more or less the same for each of the Gemini models, but you can still switch between the different ones to double-check.</p>
-<p>For more information about all Gemini models, check the <a href="https://ai.google.dev/gemini-api/docs/models/gemini">documentation</a> for extended information on each of them.</p>
-<div id="cell-12" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="text-tokens" class="level3">
-<h3 class="anchored" data-anchor-id="text-tokens">Text tokens</h3>
-<div id="cell-14" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> text_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="st">"What's the highest mountain in Africa?"</span><span class="op">,</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Prompt Tokens: </span><span class="sc">${</span>text_response<span class="op">.</span><span class="at">totalTokens</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Prompt Tokens: 10</code></pre>
-</div>
-</div>
-<p>When you call <code>client.models.generateContent</code> (or <code>chat.sendMessage</code>) the response object has a <code>usageMetadata</code> attribute containing both the input and output token counts (<code>promptTokenCount</code> and <code>candidatesTokenCount</code>):</p>
-<div id="cell-16" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> text_response_2 <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="st">"The quick brown fox jumps over the lazy dog."</span><span class="op">,</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(text_response_2<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>Yes, that’s a classic and very well-known <strong>pangram</strong>!</p>
-<p>It’s famous because it contains every letter of the English alphabet, which makes it useful for testing typewriters, keyboards, and font displays.</p>
-</div>
-</div>
-<div id="cell-17" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Prompt Tokens: </span><span class="sc">${</span>text_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">promptTokenCount</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Output Tokens: </span><span class="sc">${</span>text_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">candidatesTokenCount</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Total Tokens: </span><span class="sc">${</span>text_response_2<span class="op">.</span><span class="at">usageMetadata</span><span class="op">?.</span><span class="at">totalTokenCount</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Prompt Tokens: 11
-Output Tokens: 47
-Total Tokens: 881</code></pre>
-</div>
-</div>
-</section>
-<section id="multi-modal-tokens" class="level3">
-<h3 class="anchored" data-anchor-id="multi-modal-tokens">Multi-modal tokens</h3>
-<p>All input to the API is tokenized, including images or other non-text modalities.</p>
-<p>Images are considered to be a fixed size, so they consume a fixed number of tokens, regardless of their display or file size.</p>
-<p>Video and audio files are converted to tokens at a fixed per second rate.</p>
-<p>The current rates and token sizes can be found on the <a href="https://ai.google.dev/gemini-api/docs/tokens?lang=python#multimodal-tokens">documentation</a>.</p>
-<div id="cell-19" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> IMG_URL <span class="op">=</span> <span class="st">"https://goo.gle/instrument-img"</span><span class="op">;</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> downloadFile <span class="op">=</span> <span class="kw">async</span> (url<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> filePath<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> {</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to download image: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">blob</span>()<span class="op">;</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> bufferData <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> buffer<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">;</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(filePath<span class="op">,</span> bufferData)<span class="op">;</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> filePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets"</span><span class="op">,</span> <span class="st">"organ.jpg"</span>)<span class="op">;</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(IMG_URL<span class="op">,</span> filePath)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-20" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">jpeg</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(filePath))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Counting_Tokens_files/figure-html/cell-10-output-1.jpeg" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="inline-content" class="level3">
-<h3 class="anchored" data-anchor-id="inline-content">Inline content</h3>
-<p>Media objects can be sent to the API inline with the request:</p>
-<div id="cell-22" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> inline_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [google<span class="op">.</span><span class="fu">createPartFromBase64</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(filePath)<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/jpeg"</span>)]<span class="op">,</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Image Tokens: </span><span class="sc">${</span>inline_response<span class="op">.</span><span class="at">totalTokens</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Image Tokens: 259</code></pre>
-</div>
-</div>
-<p>You can try with different images and should always get the same number of tokens, that is independent of their display or file size. Note that an extra token seems to be added, representing the empty prompt.</p>
-</section>
-<section id="files-api" class="level3">
-<h3 class="anchored" data-anchor-id="files-api">Files API</h3>
-<p>The model sees identical tokens if you upload parts of the prompt through the files API instead:</p>
-<div id="cell-25" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> file_upload_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  file<span class="op">:</span> filePath<span class="op">,</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    displayName<span class="op">:</span> <span class="st">"organ.jpg"</span><span class="op">,</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    mimeType<span class="op">:</span> <span class="st">"image/jpeg"</span><span class="op">,</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> file_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [google<span class="op">.</span><span class="fu">createPartFromUri</span>(file_upload_response<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> file_upload_response<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)]<span class="op">,</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`File Tokens: </span><span class="sc">${</span>file_response<span class="op">.</span><span class="at">totalTokens</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>File Tokens: 259</code></pre>
-</div>
-</div>
-<p>Audio and video are each converted to tokens at a fixed rate of tokens per minute.</p>
-<div id="cell-27" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> AUDIO_URL <span class="op">=</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://storage.googleapis.com/generativeai-downloads/data/State_of_the_Union_Address_30_January_1961.mp3"</span><span class="op">;</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> audioPath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets"</span><span class="op">,</span> <span class="st">"audio.mp3"</span>)<span class="op">;</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(AUDIO_URL<span class="op">,</span> audioPath)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-28" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { ffprobe<span class="op">,</span> FfprobeData } <span class="im">from</span> <span class="st">"fluent-ffmpeg"</span><span class="op">;</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">// eslint-disable-next-line @typescript-eslint/no-explicit-any</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ffprobe</span>(audioPath<span class="op">,</span> (err<span class="op">:</span> <span class="dt">any</span><span class="op">,</span> metadata<span class="op">:</span> FfprobeData) <span class="kw">=&gt;</span> {</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (err) {</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">"Error getting audio metadata:"</span><span class="op">,</span> err)<span class="op">;</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span><span class="op">;</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> { duration } <span class="op">=</span> metadata<span class="op">.</span><span class="at">format</span><span class="op">;</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Audio Duration: </span><span class="sc">${</span>duration<span class="sc">}</span><span class="vs"> seconds`</span>)<span class="op">;</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Audio Duration: 2610.128938 seconds</code></pre>
-</div>
-</div>
-<p>As you can see, this audio file is 2610s long.</p>
-<div id="cell-30" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> audio_file_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  file<span class="op">:</span> audioPath<span class="op">,</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    displayName<span class="op">:</span> <span class="st">"audio.mp3"</span><span class="op">,</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    mimeType<span class="op">:</span> <span class="st">"audio/mpeg"</span><span class="op">,</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> audio_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [google<span class="op">.</span><span class="fu">createPartFromUri</span>(audio_file_response<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> audio_file_response<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)]<span class="op">,</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Audio Tokens: </span><span class="sc">${</span>audio_response<span class="op">.</span><span class="at">totalTokens</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Tokens per second: </span><span class="sc">${</span>audio_response<span class="op">.</span><span class="at">totalTokens</span> <span class="op">/</span> <span class="dv">2610</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Audio Tokens: 83528
-Tokens per second: 32.003065134099614</code></pre>
-</div>
-</div>
-</section>
-<section id="chat-tools-and-cache" class="level3">
-<h3 class="anchored" data-anchor-id="chat-tools-and-cache">Chat, tools and cache</h3>
-<p>Chat, tools and cache are currently not supported by the unified SDK <code>countTokens</code> method. This notebook will be updated when that will be the case.</p>
-<p>In the meantime you can still check the token used after the call using the <code>usageMetadata</code> from the response. Check the <a href="quickstarts/Caching.ipynb">caching notebook</a> for more details.</p>
-</section>
-</section>
-<section id="further-reading" class="level2">
-<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
-<p>For more on token counting, check out the <a href="https://ai.google.dev/gemini-api/docs/tokens?lang=python#multimodal-tokens">documentation</a> or the API reference:</p>
+<section id="learning-more" class="level2">
+<h2 class="anchored" data-anchor-id="learning-more">Learning more</h2>
 <ul>
-<li><a href="https://ai.google.dev/api/rest/v1/models/countTokens"><code>countTokens</code></a> REST API reference</li>
-<li><a href="https://googleapis.github.io/js-genai/release_docs/classes/models.Models.html#counttokens"><code>models.countTokens</code></a> JS SDK reference</li>
+<li>To learn how use a model for prompting, see the <a href="quickstarts/Prompting.ipynb">Prompting</a> quickstart.</li>
+<li>To learn how use a model for embedding, see the <a href="quickstarts/Embeddings.ipynb">Embedding</a> quickstart.</li>
+<li>For more information on models, visit the <a href="https://ai.google.dev/models/gemini">Gemini models</a> documentation.</li>
 </ul>
 
 
@@ -1051,14 +948,11 @@ Tokens per second: 32.003065134099614</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../quickstarts/Code_Execution.html" class="pagination-link" aria-label="Gemini API: Code Execution">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Code Execution</span>
+      <a href="../quickstarts/JSON_mode.html" class="pagination-link" aria-label="Gemini API: JSON Mode Quickstart">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: JSON Mode Quickstart</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../quickstarts/Embeddings.html" class="pagination-link" aria-label="Gemini API: Embeddings Quickstart">
-        <span class="nav-page-text">Gemini API: Embeddings Quickstart</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -1066,4 +960,4 @@ Tokens per second: 32.003065134099614</code></pre>
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Counting_Tokens.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Counting_Tokens.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Models.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Models.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
