@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API: Read a PDF – Gemini Cookbook</title>
+<title>Gemini API: Safety Quickstart – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../quickstarts/Prompting.html" rel="next">
-<link href="../quickstarts/New_in_002.html" rel="prev">
+<link href="../quickstarts/Prompting.html" rel="prev">
 <link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -107,18 +106,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<meta property="og:title" content="Gemini API: Read a PDF – Gemini Cookbook">
+<meta property="og:title" content="Gemini API: Safety Quickstart – Gemini Cookbook">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://fallendeity.github.io/deepmind-starter/quickstarts/PDF_Files_files/figure-html/cell-7-output-1.png">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta property="og:image:height" content="792">
-<meta property="og:image:width" content="612">
-<meta name="twitter:title" content="Gemini API: Read a PDF – Gemini Cookbook">
+<meta name="twitter:title" content="Gemini API: Safety Quickstart – Gemini Cookbook">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://fallendeity.github.io/deepmind-starter/quickstarts/PDF_Files_files/figure-html/cell-7-output-1.png">
-<meta name="twitter:image-height" content="792">
-<meta name="twitter:image-width" content="612">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-sidebar floating nav-fixed quarto-light">
@@ -172,7 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/PDF_Files.html">Gemini API: Read a PDF</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Safety.html">Gemini API: Safety Quickstart</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -303,7 +296,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link active">
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Read a PDF</span></a>
   </div>
 </li>
@@ -315,7 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Gemini API: Safety Quickstart</span></a>
   </div>
 </li>
@@ -339,19 +332,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
   <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
   </ul></li>
-  <li><a href="#download-and-inspect-the-pdf" id="toc-download-and-inspect-the-pdf" class="nav-link" data-scroll-target="#download-and-inspect-the-pdf">Download and inspect the PDF</a></li>
-  <li><a href="#upload-the-file-to-the-api" id="toc-upload-the-file-to-the-api" class="nav-link" data-scroll-target="#upload-the-file-to-the-api">Upload the file to the API</a></li>
-  <li><a href="#try-it-out" id="toc-try-it-out" class="nav-link" data-scroll-target="#try-it-out">Try it out</a></li>
+  <li><a href="#send-your-prompt-request-to-gemini" id="toc-send-your-prompt-request-to-gemini" class="nav-link" data-scroll-target="#send-your-prompt-request-to-gemini">Send your prompt request to Gemini</a></li>
+  <li><a href="#customizing-safety-settings" id="toc-customizing-safety-settings" class="nav-link" data-scroll-target="#customizing-safety-settings">Customizing safety settings</a></li>
   <li><a href="#learning-more" id="toc-learning-more" class="nav-link" data-scroll-target="#learning-more">Learning more</a></li>
+  <li><a href="#useful-api-references" id="toc-useful-api-references" class="nav-link" data-scroll-target="#useful-api-references">Useful API references</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/PDF_Files.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/PDF_Files.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Safety.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Safety.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/PDF_Files.html">Gemini API: Read a PDF</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Safety.html">Gemini API: Safety Quickstart</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Gemini API: Read a PDF</h1>
+<h1 class="title">Gemini API: Safety Quickstart</h1>
 </div>
 
 
@@ -368,7 +361,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This notebook demonstrates how you can convert a PDF file so that it can be read by the Gemini API.</p>
+<p>The Gemini API has adjustable safety settings. This notebook walks you through how to use them. You’ll write a prompt that’s blocked, see the reason why, and then adjust the filters to unblock it.</p>
+<p>Safety is an important topic, and you can learn more with the links at the end of this notebook. Here, you will focus on the code</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -403,7 +397,7 @@ Tip
 <p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then, we can load the API key in our code:</p>
-<div id="cell-4" class="cell" data-execution_count="2">
+<div id="cell-4" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
@@ -433,14 +427,14 @@ Note
 <pre><code>│
 ├── .env
 └── quickstarts
-    └── PDF_Files.ipynb</code></pre>
+    └── Safety.ipynb</code></pre>
 </div>
 </div>
 </section>
 <section id="initialize-sdk-client" class="level3">
 <h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
 <p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
-<div id="cell-7" class="cell" data-execution_count="3">
+<div id="cell-7" class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -448,181 +442,177 @@ Note
 </section>
 <section id="select-a-model" class="level3">
 <h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
-<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
-<div id="cell-9" class="cell" data-execution_count="4">
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="quickstarts/Get_started_thinking.ipynb">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<div id="cell-9" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="download-and-inspect-the-pdf" class="level2">
-<h2 class="anchored" data-anchor-id="download-and-inspect-the-pdf">Download and inspect the PDF</h2>
-<p>This PDF page is an article titled <a href="https://research.google/blog/smoothly-editing-material-properties-of-objects-with-text-to-image-models-and-synthetic-data/">Smoothly editing material properties of objects with text-to-image models and synthetic data</a> available on the Google Research Blog.</p>
-<div id="cell-11" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> downloadFile <span class="op">=</span> <span class="kw">async</span> (url<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> filePath<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> {</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to download image: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">blob</span>()<span class="op">;</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> bufferData <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> buffer<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">;</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(filePath<span class="op">,</span> bufferData)<span class="op">;</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="send-your-prompt-request-to-gemini" class="level2">
+<h2 class="anchored" data-anchor-id="send-your-prompt-request-to-gemini">Send your prompt request to Gemini</h2>
+<p>Pick the prompt you want to use to test the safety filters settings. An examples could be <code>Write a list of 5 very rude things that I might say to the universe after stubbing my toe in the dark</code> which was previously tested and trigger the <code>HARM_CATEGORY_HARASSMENT</code> and <code>HARM_CATEGORY_DANGEROUS_CONTENT</code> categories.</p>
+<p>The result returned by the <code>generateContent</code> method is a <a href="https://googleapis.github.io/js-genai/release_docs/classes/types.GenerateContentResponse.html"><code>GenerateContentResponse</code></a>.</p>
+<div id="cell-11" class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> unsafe_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="vs">`</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="vs">    I support Martians Soccer Club and I think Jupiterians Football Club</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    sucks! Write a ironic phrase about them.</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  `</span><span class="op">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-12" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> PDF_URL <span class="op">=</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://storage.googleapis.com/generativeai-downloads/data/Smoothly%20editing%20material%20properties%20of%20objects%20with%20text-to-image%20models%20and%20synthetic%20data.pdf"</span><span class="op">;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> pdfPath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets"</span><span class="op">,</span> <span class="st">"article.pdf"</span>)<span class="op">;</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(PDF_URL<span class="op">,</span> pdfPath)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Look at one of the pages:</p>
-<div id="cell-14" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> getPage <span class="op">=</span> <span class="kw">async</span> (pdfPath<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> pageNumber<span class="op">:</span> <span class="dt">number</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="bu">Uint8Array</span><span class="op">&gt;</span> <span class="kw">=&gt;</span> {</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> { pdf } <span class="op">=</span> <span class="cf">await</span> <span class="im">import</span>(<span class="st">"pdf-to-img"</span>)<span class="op">;</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> <span class="bu">document</span> <span class="op">=</span> <span class="cf">await</span> <span class="fu">pdf</span>(pdfPath)<span class="op">;</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> pageIndex <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="cf">await</span> (<span class="kw">const</span> page <span class="kw">of</span> <span class="bu">document</span>) {</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (pageIndex <span class="op">===</span> pageNumber) {</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="kw">new</span> <span class="bu">Uint8Array</span>(page)<span class="op">;</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    pageIndex<span class="op">++;</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Page </span><span class="sc">${</span>pageNumber<span class="sc">}</span><span class="vs"> not found in the PDF document.`</span>)<span class="op">;</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(<span class="cf">await</span> <span class="fu">getPage</span>(pdfPath<span class="op">,</span> <span class="dv">0</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="PDF_Files_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="upload-the-file-to-the-api" class="level2">
-<h2 class="anchored" data-anchor-id="upload-the-file-to-the-api">Upload the file to the API</h2>
-<p>Start by uploading the PDF using the <a href="../quickstarts/File_API.html">File API</a>.</p>
-<div id="cell-16" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> file_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  file<span class="op">:</span> pdfPath<span class="op">,</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    displayName<span class="op">:</span> <span class="st">"article.pdf"</span><span class="op">,</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    mimeType<span class="op">:</span> <span class="st">"application/pdf"</span><span class="op">,</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="try-it-out" class="level2">
-<h2 class="anchored" data-anchor-id="try-it-out">Try it out</h2>
-<p>The pages of the PDF file are each passed to the model as a screenshot of the page plus the text extracted by OCR.</p>
-<div id="cell-18" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tokens_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(file_response<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> file_response<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Can you summarize this file as a bulleted list?"</span><span class="op">,</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">text</span>(<span class="vs">`Token count: </span><span class="sc">${</span>tokens_response<span class="op">.</span><span class="at">totalTokens</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<pre><code>Token count: 1560</code></pre>
-</div>
-</div>
-<div id="cell-19" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> content_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(file_response<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> file_response<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Can you summarize this file as a bulleted list?"</span><span class="op">,</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(content_response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>Here’s a summary of the provided document as a bulleted list:</p>
+<p>This response object gives you safety feedback about the candidate answers Gemini generates to you.</p>
+<p>For each candidate answer you need to check <code>response.candidates.finishReason</code>.</p>
+<p>As you can find on the <a href="https://ai.google.dev/gemini-api/docs/safety-settings#safety-feedback">Gemini API safety filters documentation</a>:</p>
 <ul>
-<li><strong>Core Innovation:</strong> Introduces a method to smoothly edit material properties (like color, shininess, transparency) of objects within any photograph.</li>
-<li><strong>Leverages T2I Models:</strong> Augments existing generative text-to-image (T2I) models, specifically fine-tuning Stable Diffusion 1.5.</li>
-<li><strong>Synthetic Data Training:</strong> The model is trained on a novel synthetic dataset created using computer graphics and physically based rendering. This dataset features 100 3D household objects, showing various material attributes changed with different “edit strengths” while keeping object shape, lighting, and camera angle constant.</li>
-<li><strong>Parametric Control:</strong> Users gain precise, parametric control over material attributes, defined by a scalar edit strength (e.g., -1 for minimum change, +1 for maximum change).</li>
-<li><strong>Preserves Shape &amp; Lighting:</strong> A key achievement is the ability to edit material properties without altering the object’s geometric shape or the scene’s lighting conditions.</li>
-<li><strong>Photorealistic Results:</strong> The method produces highly photorealistic edits, including realistic background fills and caustic effects for transparency changes.</li>
-<li><strong>Generalization to Real-World Images:</strong> Despite being trained on a relatively small synthetic dataset, the model generalizes effectively to real-world input images.</li>
-<li><strong>Superior User Preference:</strong> A user study showed that the method’s edits were significantly more photorealistic and preferred compared to a baseline method (InstructPix2Pix).</li>
-<li><strong>Applications:</strong> Potential uses include visualizing room changes, mocking up new product designs for architects/designers, and achieving 3D consistent material edits when combined with NeRF for synthesizing new views.</li>
-<li><strong>Publication:</strong> The work is detailed in the paper “Alchemist: Parametric Control of Material Properties with Diffusion Models,” published at CVPR 2024.</li>
+<li>if the <code>candidate.finishReason</code> is <code>FinishReason.STOP</code> means that your generation request ran successfully</li>
+<li>if the <code>candidate.finishReason</code> is <code>FinishReason.SAFETY</code> means that your generation request was blocked by safety reasons. It also means that the <code>response.text</code> structure will be empty.</li>
 </ul>
+<div id="cell-13" class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(unsafe_response<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">finishReason</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>STOP</code></pre>
 </div>
 </div>
-<p>In addition, take a look at how the Gemini model responds when you ask questions about the images within the PDF.</p>
-<div id="cell-21" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> image_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(file_response<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> file_response<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Can you explain the images on the first page of the document?"</span><span class="op">,</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(image_response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If the <code>finishReason</code> is <code>FinishReason.SAFETY</code> you can check which filter caused the block checking the <code>safetyRatings</code> list for the candidate answer:</p>
+<div id="cell-15" class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(unsafe_response<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">safetyRatings</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>undefined</code></pre>
+</div>
+</div>
+<div id="cell-16" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(unsafe_response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
-<p>The images on the first page of the document serve as key examples demonstrating the core capability of the presented method: <strong>smoothly editing the material properties of objects in real-world photographs using text-to-image models.</strong></p>
-<p>Here’s a breakdown of what each set of images illustrates:</p>
-<ol type="1">
-<li><p><strong>Overall Layout:</strong></p>
-<ul>
-<li>The page features four pairs of images, each labeled “Input” and “Output.”</li>
-<li>Below each “Input” image is a text prompt, which is the instruction given to the model to perform the edit.</li>
-</ul></li>
-<li><p><strong>Purpose:</strong></p>
-<ul>
-<li>The “Input” images are original, real-world photographs of various objects.</li>
-<li>The “Output” images show the result after the model applies the specified material edit, aiming to preserve the object’s shape, lighting, and context while changing its material appearance.</li>
-</ul></li>
-<li><p><strong>Specific Examples:</strong></p>
-<ul>
-<li><strong>Top Left (Teapot):</strong>
-<ul>
-<li><strong>Input:</strong> A brown, relatively matte or rough-looking teapot.</li>
-<li><strong>Prompt:</strong> “change the roughness of the teapot.”</li>
-<li><strong>Output:</strong> The same teapot, but its material has been changed to appear much smoother and shinier, reflecting light more sharply and clearly. This demonstrates the ability to control the <strong>roughness</strong> (or shininess/glossiness) property.</li>
-</ul></li>
-<li><strong>Top Right (Cupid Statue):</strong>
-<ul>
-<li><strong>Input:</strong> An opaque, white-colored statue of Cupid.</li>
-<li><strong>Prompt:</strong> “change the transparency of the cupid statue.”</li>
-<li><strong>Output:</strong> The statue now appears translucent or semi-transparent, allowing the background to be seen through it. This showcases the model’s ability to manipulate the <strong>transparency</strong> property.</li>
-</ul></li>
-<li><strong>Bottom Left (Pot):</strong>
-<ul>
-<li><strong>Input:</strong> A gray, non-metallic pot.</li>
-<li><strong>Prompt:</strong> “change the metallic of the pot.”</li>
-<li><strong>Output:</strong> The pot has been transformed to look like a highly reflective, metallic object, accurately reflecting its surroundings. This highlights the control over the <strong>metallic appearance</strong> property.</li>
-</ul></li>
-<li><strong>Bottom Right (Buddha Statue):</strong>
-<ul>
-<li><strong>Input:</strong> A golden-yellow Buddha statue.</li>
-<li><strong>Prompt:</strong> “change the albedo of the Buddha statue.”</li>
-<li><strong>Output:</strong> The statue’s base color (albedo) has been changed to a lighter, possibly white or light-gray, while its shape and the scene’s lighting remain consistent. This illustrates the ability to modify the <strong>albedo</strong> (base color) property.</li>
-</ul></li>
-</ul></li>
-</ol>
-<p>In summary, the images on the first page vividly demonstrate how the proposed method can take an existing photograph and parametrically alter specific material attributes (like roughness, transparency, metallicity, and base color) of objects within it, producing photorealistic results while maintaining the object’s original form and lighting conditions.</p>
+<p>Here are a few ironic phrases about Jupiterians Football Club, playing on the idea that they “suck”:</p>
+<p><strong>Option 1 (Feigned admiration for their unique approach):</strong></p>
+<blockquote class="blockquote">
+<p>“Jupiterians Football Club: Consistently expanding our understanding of what ‘football’ can be… which is often not very much like actual football.”</p>
+</blockquote>
+<p><strong>Option 2 (Focus on their generosity to opponents):</strong></p>
+<blockquote class="blockquote">
+<p>“Jupiterians FC is a shining example of sportsmanship; they’re truly dedicated to making the opposing team feel like champions.”</p>
+</blockquote>
+<p><strong>Option 3 (Understated “talent”):</strong></p>
+<blockquote class="blockquote">
+<p>“You have to admire Jupiterians Football Club’s unwavering commitment to… an extremely long-term rebuilding process.”</p>
+</blockquote>
+<p><strong>Option 4 (Playing on “gravity” for the league table):</strong></p>
+<blockquote class="blockquote">
+<p>“Jupiterians FC brings a certain… <em>gravitational pull</em> to the bottom of the league table.”</p>
+</blockquote>
+<p><strong>Option 5 (Complimenting their effort, not results):</strong></p>
+<blockquote class="blockquote">
+<p>“Watching Jupiterians Football Club play, you can really see their dedication to <em>trying</em>.”</p>
+</blockquote>
+<p>Choose the one that best fits your style!</p>
 </div>
 </div>
-<p>If you observe the area of the header of the article, you can see that the model captures what is happening.</p>
+</section>
+<section id="customizing-safety-settings" class="level2">
+<h2 class="anchored" data-anchor-id="customizing-safety-settings">Customizing safety settings</h2>
+<p>Depending on the scenario you are working with, it may be necessary to customize the safety filters behaviors to allow a certain degree of unsafety results.</p>
+<p>To make this customization you must define a <code>safetySettings</code> config as part of your <code>generateContent()</code>request.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To guarantee the Google commitment with the Responsible AI development and its <a href="https://ai.google/responsibility/principles/">AI Principles</a>, for some prompts Gemini will avoid generating the results even if you set all the filters to none.</p>
+</div>
+</div>
+<div id="cell-18" class="cell" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> unsafe_response_1 <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="vs">`</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="vs">    I support Martians Soccer Club and I think Jupiterians Football Club</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    sucks! Write a ironic phrase about them.</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  `</span><span class="op">,</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    safetySettings<span class="op">:</span> [</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_HATE_SPEECH</span><span class="op">,</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_LOW_AND_ABOVE</span><span class="op">,</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_HARASSMENT</span><span class="op">,</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_LOW_AND_ABOVE</span><span class="op">,</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>        category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_SEXUALLY_EXPLICIT</span><span class="op">,</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_LOW_AND_ABOVE</span><span class="op">,</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>        category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_DANGEROUS_CONTENT</span><span class="op">,</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>        threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_LOW_AND_ABOVE</span><span class="op">,</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Checking again the <code>candidate.finishReason</code> information, if the request was not too unsafe, it must show now the value as <code>FinishReason.STOP</code> which means that the request was successfully processed by Gemini.</p>
+<div id="cell-20" class="cell" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(unsafe_response_1<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">finishReason</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>STOP</code></pre>
+</div>
+</div>
+<p>Since the request was successfully generated, you can check the result on the <code>response.text</code>:</p>
+<div id="cell-22" class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(unsafe_response_1<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>“Jupiterians Football Club: They truly excel at making every other team in the league feel like champions.”</p>
+</div>
+</div>
+<p>And if you check the safety filters ratings, as you set all filters to be ignored, no filtering category was trigerred:</p>
+<div id="cell-24" class="cell" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(unsafe_response<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">safetyRatings</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>undefined</code></pre>
+</div>
+</div>
 </section>
 <section id="learning-more" class="level2">
 <h2 class="anchored" data-anchor-id="learning-more">Learning more</h2>
-<p>The File API lets you upload a variety of multimodal MIME types, including images, audio, and video formats. The File API handles inputs that can be used to generate content with <code>model.generateContent</code> or <code>model.generateContentStream</code>.</p>
-<p>The File API accepts files under 2GB in size and can store up to 20GB of files per project. Files last for 2 days and cannot be downloaded from the API.</p>
+<p>Learn more with these articles on <a href="https://ai.google.dev/docs/safety_guidance">safety guidance</a> and <a href="https://ai.google.dev/docs/safety_guidance">safety settings</a>.</p>
+</section>
+<section id="useful-api-references" class="level2">
+<h2 class="anchored" data-anchor-id="useful-api-references">Useful API references</h2>
+<p>There are 6 configurable safety settings for the Gemini API:</p>
 <ul>
-<li>Learn more about prompting with <a href="https://ai.google.dev/gemini-api/docs/file-prompting-strategies">media files</a> in the docs, including the supported formats and maximum length.</li>
-<li>Learn more about to extract structured outputs from PDFs in the <a href="../examples/Pdf_structured_outputs_on_invoices_and_forms.ipynb">Structured outputs on invoices and forms</a> example.</li>
+<li><code>HARM_CATEGORY_CIVIC_INTEGRITY</code></li>
+<li><code>HARM_CATEGORY_DANGEROUS_CONTENT</code></li>
+<li><code>HARM_CATEGORY_HARASSMENT</code></li>
+<li><code>HARM_CATEGORY_SEXUALLY_EXPLICIT</code></li>
+<li><code>HARM_CATEGORY_HATE_SPEECH</code></li>
+<li><code>HARM_CATEGORY_UNSPECIFIED</code></li>
+</ul>
+<p>You can refer to the safety settings using either their full name, or the aliases like <code>DANGEROUS</code>.</p>
+<ul>
+<li>They can also be passed on each request to <a href="https://googleapis.github.io/js-genai/release_docs/classes/models.Models.html#generatecontent">generateContent</a> or <a href="https://googleapis.github.io/js-genai/release_docs/classes/chats.Chat.html#sendmessage">ChatSession.send_message</a>.</li>
+<li>The <a href="https://googleapis.github.io/js-genai/release_docs/classes/types.GenerateContentResponse.html">GenerateContentResponse</a> returns <a href="https://googleapis.github.io/js-genai/release_docs/interfaces/types.SafetyRating.html">SafetyRatings</a> for the prompt in the <a href="https://googleapis.github.io/js-genai/release_docs/classes/types.GenerateContentResponsePromptFeedback.html">GenerateContentResponse.promptFeedback</a>, and for each <a href="https://googleapis.github.io/js-genai/release_docs/interfaces/types.Candidate.html">Candidate</a> in the <code>safetyRatings</code> attribute.</li>
+<li>A <a href="https://googleapis.github.io/js-genai/release_docs/interfaces/types.SafetySetting.html">SafetySetting</a> contains:
+<ul>
+<li><a href="https://googleapis.github.io/js-genai/release_docs/enums/types.HarmCategory.html">HarmCategory</a></li>
+<li><a href="https://googleapis.github.io/js-genai/release_docs/enums/types.HarmBlockThreshold.html">HarmBlockThreshold</a></li>
+</ul></li>
+<li>A <a href="https://googleapis.github.io/js-genai/release_docs/interfaces/types.SafetyRating.html">SafetyRating</a> contains:
+<ul>
+<li><a href="https://googleapis.github.io/js-genai/release_docs/enums/types.HarmCategory.html">HarmCategory</a></li>
+<li><a href="https://googleapis.github.io/js-genai/release_docs/enums/types.HarmProbability.html">HarmProbability</a></li>
+</ul></li>
+</ul>
+<p>The <a href="https://googleapis.github.io/js-genai/release_docs/enums/types.HarmCategory.html">HarmCategory</a> enum includes both the categories for PaLM and Gemini models.</p>
+<ul>
+<li>When specifying enum values the SDK will accept the enum values themselves, or their integer or string representations.</li>
+<li>The SDK will also accept abbreviated string representations: <code>["HARM_CATEGORY_DANGEROUS_CONTENT", "DANGEROUS_CONTENT", "DANGEROUS"]</code> are all valid. Strings are case insensitive.</li>
 </ul>
 
 
@@ -1030,14 +1020,11 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../quickstarts/New_in_002.html" class="pagination-link" aria-label="What's new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span>
+      <a href="../quickstarts/Prompting.html" class="pagination-link" aria-label="Gemini API: Prompting Quickstart">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Prompting Quickstart</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../quickstarts/Prompting.html" class="pagination-link" aria-label="Gemini API: Prompting Quickstart">
-        <span class="nav-page-text">Gemini API: Prompting Quickstart</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -1045,4 +1032,4 @@ Note
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/PDF_Files.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/PDF_Files.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Safety.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Safety.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
