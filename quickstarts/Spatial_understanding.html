@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2D spatial understanding with Gemini 2.0 – Gemini Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../quickstarts/Search_Grounding.html" rel="prev">
+<link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ea566745f0d2a752ad1774cffeebdeb0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<meta property="og:title" content="2D spatial understanding with Gemini 2.0 – Gemini Cookbook">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://fallendeity.github.io/deepmind-starter/quickstarts/Spatial_understanding_files/figure-html/cell-9-output-1.jpeg">
+<meta property="og:site_name" content="Gemini Cookbook">
+<meta name="twitter:title" content="2D spatial understanding with Gemini 2.0 – Gemini Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://fallendeity.github.io/deepmind-starter/quickstarts/Spatial_understanding_files/figure-html/cell-9-output-1.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Gemini Cookbook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../quickstarts/Get_started.html" aria-current="page"> 
+<span class="menu-text">Quickstarts</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://github.com/FallenDeity/deepmind-starter/">
+            Source Code
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Spatial_understanding.html">2D spatial understanding with Gemini 2.0</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Quickstarts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Audio Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Code Execution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: All about tokens</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Embeddings Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Enum Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: File API Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multimodal Live API - Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Use Gemini thinking</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with information grounding for Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini 2.0 Image output</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: List models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Prompting Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Safety Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Grounding using Search as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">2D spatial understanding with Gemini 2.0</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
+  <ul class="collapse">
+  <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
+  <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
+  <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
+  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
+  <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
+  <li><a href="#system-instructions" id="toc-system-instructions" class="nav-link" data-scroll-target="#system-instructions">System instructions</a></li>
+  </ul></li>
+  <li><a href="#utilities" id="toc-utilities" class="nav-link" data-scroll-target="#utilities">Utilities</a>
+  <ul class="collapse">
+  <li><a href="#get-example-images" id="toc-get-example-images" class="nav-link" data-scroll-target="#get-example-images">Get example images</a></li>
+  <li><a href="#overlaying-information" id="toc-overlaying-information" class="nav-link" data-scroll-target="#overlaying-information">Overlaying Information</a></li>
+  </ul></li>
+  <li><a href="#search-within-an-image" id="toc-search-within-an-image" class="nav-link" data-scroll-target="#search-within-an-image">Search within an image</a></li>
+  <li><a href="#multilinguality" id="toc-multilinguality" class="nav-link" data-scroll-target="#multilinguality">Multilinguality</a></li>
+  <li><a href="#use-gemini-reasoning-capabilities" id="toc-use-gemini-reasoning-capabilities" class="nav-link" data-scroll-target="#use-gemini-reasoning-capabilities">Use Gemini reasoning capabilities</a></li>
+  <li><a href="#experimental-segmentation" id="toc-experimental-segmentation" class="nav-link" data-scroll-target="#experimental-segmentation">Experimental: Segmentation</a></li>
+  <li><a href="#preliminary-capabilities-pointing-and-3d-boxes" id="toc-preliminary-capabilities-pointing-and-3d-boxes" class="nav-link" data-scroll-target="#preliminary-capabilities-pointing-and-3d-boxes">Preliminary capabilities: pointing and 3D boxes</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next">What’s next?</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Spatial_understanding.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Spatial_understanding.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Spatial_understanding.html">2D spatial understanding with Gemini 2.0</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">2D spatial understanding with Gemini 2.0</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This notebook introduces object detection and spatial understanding with the Gemini API like in the Spatial understanding example from AI Studio and demonstrated in the Building with Gemini 2.0: Spatial understanding video.</p>
+<p>You’ll learn how to use Gemini the same way as in the demo and perform object detection like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://storage.googleapis.com/generativeai-downloads/images/cupcakes_with_bbox.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="BBOX Cupcakes"><img src="https://storage.googleapis.com/generativeai-downloads/images/cupcakes_with_bbox.png" class="img-fluid figure-img" alt="BBOX Cupcakes"></a></p>
+<figcaption>BBOX Cupcakes</figcaption>
+</figure>
+</div>
+<p>There are many examples, including object detection with</p>
+<ul>
+<li>simply overlaying information</li>
+<li>searching within an image</li>
+<li>translating and understanding things in multiple languages</li>
+<li>using Gemini thinking abilities</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There’s no “magical prompt”. Feel free to experiment with different ones. You can use the dropdown to see different samples, but you can also write your own prompts. Also, you can try uploading your own images.</p>
+</div>
+</div>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="install-the-google-genai-sdk" class="level3">
+<h3 class="anchored" data-anchor-id="install-the-google-genai-sdk">Install the Google GenAI SDK</h3>
+<p>Install the Google GenAI SDK from <a href="https://www.npmjs.com/package/@google/genai">npm</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install @google/genai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="setup-your-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="setup-your-api-key">Setup your API key</h3>
+<p>You can <a href="https://aistudio.google.com/app/apikey">create</a> your API key using Google AI Studio with a single click.</p>
+<p>Remember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a <code>.env</code> file. You can also set it as an environment variable or use a secret manager.</p>
+<p>Here’s how to set it up in a <code>.env</code> file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch .env</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;"</span> <span class="op">&gt;&gt;</span> .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another option is to set the API key as an environment variable. You can do this in your terminal with the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export GEMINI_API_KEY=<span class="st">"&lt;YOUR_API_KEY&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="load-the-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-api-key">Load the API key</h3>
+<p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, we can load the API key in our code:</p>
+<div id="cell-4" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../.env"</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GEMINI_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">GEMINI_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>GEMINI_API_KEY) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"GEMINI_API_KEY is not set in the environment variables"</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"GEMINI_API_KEY is set in the environment variables"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEMINI_API_KEY is set in the environment variables</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
+<pre><code>│
+├── .env
+└── quickstarts
+    └── Spatial_understanding.ipynb</code></pre>
+</div>
+</div>
+</section>
+<section id="initialize-sdk-client" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
+<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
+<div id="cell-7" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="select-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
+<p>Spatial understanding works best <a href="https://ai.google.dev/gemini-api/docs/models/gemini-v2">Gemini 2.0 Flash model</a>. It’s even better with 2.5 models like <code>gemini-2.5-pro-preview-05-20</code> but slightly slower as it’s a <a href="../quickstarts/Get_started_thinking.html">thinking</a> model.</p>
+<p>Some features, like segmentation, only works with 2.5 models.</p>
+<p>You can try with the older ones but it might be more inconsistent (<code>gemini-1.5-flash-001</code> had the best results of the previous generation).</p>
+<p>For more information about all Gemini models, check the <a href="https://ai.google.dev/gemini-api/docs/models/gemini">documentation</a> for extended information on each of them.</p>
+<div id="cell-9" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="system-instructions" class="level3">
+<h3 class="anchored" data-anchor-id="system-instructions">System instructions</h3>
+<p>With the new SDK, the <code>systemInstruction</code> and the model parameters must be passed in all <code>generateContent</code> calls, so let’s save them to not have to type them all the time.</p>
+<div id="cell-11" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> BOUNDING_BOX_SYSTEM_INSTRUCTION <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="vs">    Return bounding boxes as a JSON array with labels. Never return masks or code fencing. Limit to 25 objects.</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="vs">    If an object is present multiple times, name them according to their unique characteristic (colors, size, position, unique characteristics, etc..).</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The system instructions are mainly used to make the prompts shorter by not having to reapeat each time the format. They are also telling the model how to deal with similar objects which is a nice way to let it be creative.</p>
+<p>The <a href="https://aistudio.google.com/starter-apps/spatial">Spatial understanding example</a> is using a different strategy with no system instructions but a longer prompt. You can see their full prompts by clicking on the “show raw prompt” button on the right. There no optimal solution, experiment with diffrent strategies and find the one that suits your use-case the best.</p>
+</section>
+</section>
+<section id="utilities" class="level2">
+<h2 class="anchored" data-anchor-id="utilities">Utilities</h2>
+<p>Some scripts will be needed to draw the bounding boxes. Of course they are just examples and you are free to just write your own.</p>
+<p>For example the <a href="https://aistudio.google.com/starter-apps/spatial">Spatial understanding example</a> from <a href="https://aistudio.google.com/">AI Studio</a> uses HML to render the bounding boxes. You can find its code in the <a href="https://github.com/google-gemini/starter-applets/tree/main/spatial">Github repository</a>.</p>
+<div id="cell-14" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> downloadFile <span class="op">=</span> <span class="kw">async</span> (url<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> filePath<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to download image: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">blob</span>()<span class="op">;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> bufferData <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> buffer<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(filePath<span class="op">,</span> bufferData)<span class="op">;</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-15" class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> canvas <span class="op">=</span> <span class="pp">require</span>(<span class="st">"canvas"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"canvas"</span>)<span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> colors <span class="op">=</span> [</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"red"</span><span class="op">,</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"green"</span><span class="op">,</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"blue"</span><span class="op">,</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"yellow"</span><span class="op">,</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"orange"</span><span class="op">,</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"pink"</span><span class="op">,</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"purple"</span><span class="op">,</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"brown"</span><span class="op">,</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gray"</span><span class="op">,</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"beige"</span><span class="op">,</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"turquoise"</span><span class="op">,</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"cyan"</span><span class="op">,</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"magenta"</span><span class="op">,</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"lime"</span><span class="op">,</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"navy"</span><span class="op">,</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"maroon"</span><span class="op">,</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"teal"</span><span class="op">,</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">"olive"</span><span class="op">,</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">"coral"</span><span class="op">,</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">"lavender"</span><span class="op">,</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">"violet"</span><span class="op">,</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gold"</span><span class="op">,</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">"silver"</span><span class="op">,</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> BoundingBox {</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>  box_2d<span class="op">:</span> [<span class="dt">number</span><span class="op">,</span> <span class="dt">number</span><span class="op">,</span> <span class="dt">number</span><span class="op">,</span> <span class="dt">number</span>]<span class="op">;</span> <span class="co">// [y1, x1, y2, x2] in 1000ths of the image dimensions</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>  label<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="co">// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">parseJSON</span><span class="op">&lt;</span>T <span class="op">=</span> <span class="dt">unknown</span><span class="op">&gt;</span>(jsonString<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> T {</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> match <span class="op">=</span> <span class="ss">/</span><span class="sc">^</span><span class="ss">```</span><span class="sc">(?</span><span class="ss">:json</span><span class="sc">)?\\</span><span class="ss">s</span><span class="sc">*([\\s\\S]*?)\\</span><span class="ss">s</span><span class="sc">*</span><span class="ss">```</span><span class="sc">$</span><span class="ss">/i</span><span class="op">.</span><span class="fu">exec</span>(jsonString<span class="op">.</span><span class="fu">trim</span>())<span class="op">;</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> jsonContent <span class="op">=</span> match <span class="op">?</span> match[<span class="dv">1</span>]<span class="op">.</span><span class="fu">trim</span>() <span class="op">:</span> jsonString<span class="op">.</span><span class="fu">trim</span>()<span class="op">;</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(jsonContent) <span class="im">as</span> T<span class="op">;</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (err) {</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"Invalid JSON input"</span>)<span class="op">;</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">normalizeBox</span>(</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>  box<span class="op">:</span> [<span class="dt">number</span><span class="op">,</span> <span class="dt">number</span><span class="op">,</span> <span class="dt">number</span><span class="op">,</span> <span class="dt">number</span>]<span class="op">,</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>  width<span class="op">:</span> <span class="dt">number</span><span class="op">,</span></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>  height<span class="op">:</span> <span class="dt">number</span></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>)<span class="op">:</span> { x1<span class="op">:</span> <span class="dt">number</span><span class="op">;</span> y1<span class="op">:</span> <span class="dt">number</span><span class="op">;</span> x2<span class="op">:</span> <span class="dt">number</span><span class="op">;</span> y2<span class="op">:</span> <span class="dt">number</span> } {</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> [y1<span class="op">,</span> x1<span class="op">,</span> y2<span class="op">,</span> x2] <span class="op">=</span> box<span class="op">;</span></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> absY1 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>((y1 <span class="op">/</span> <span class="dv">1000</span>) <span class="op">*</span> height)<span class="op">;</span></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> absX1 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>((x1 <span class="op">/</span> <span class="dv">1000</span>) <span class="op">*</span> width)<span class="op">;</span></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> absY2 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>((y2 <span class="op">/</span> <span class="dv">1000</span>) <span class="op">*</span> height)<span class="op">;</span></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> absX2 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>((x2 <span class="op">/</span> <span class="dv">1000</span>) <span class="op">*</span> width)<span class="op">;</span></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (absX1 <span class="op">&gt;</span> absX2) [absX1<span class="op">,</span> absX2] <span class="op">=</span> [absX2<span class="op">,</span> absX1]<span class="op">;</span></span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (absY1 <span class="op">&gt;</span> absY2) [absY1<span class="op">,</span> absY2] <span class="op">=</span> [absY2<span class="op">,</span> absY1]<span class="op">;</span></span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> { x1<span class="op">:</span> absX1<span class="op">,</span> y1<span class="op">:</span> absY1<span class="op">,</span> x2<span class="op">:</span> absX2<span class="op">,</span> y2<span class="op">:</span> absY2 }<span class="op">;</span></span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">plotBoundingBoxes</span>(imagePath<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> boundingBoxesJson<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> {</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> img <span class="op">=</span> <span class="cf">await</span> canvas<span class="op">.</span><span class="fu">loadImage</span>(imagePath)<span class="op">;</span></span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> { width<span class="op">,</span> height } <span class="op">=</span> img<span class="op">;</span></span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> image_canvas <span class="op">=</span> canvas<span class="op">.</span><span class="fu">createCanvas</span>(width<span class="op">,</span> height)<span class="op">;</span></span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> ctx <span class="op">=</span> image_canvas<span class="op">.</span><span class="fu">getContext</span>(<span class="st">"2d"</span>)<span class="op">;</span></span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>  ctx<span class="op">.</span><span class="fu">drawImage</span>(img<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width<span class="op">,</span> height)<span class="op">;</span></span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>  ctx<span class="op">.</span><span class="at">lineWidth</span> <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> textSize <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(width<span class="op">,</span> height) <span class="op">/</span> <span class="dv">64</span><span class="op">;</span></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>  ctx<span class="op">.</span><span class="at">font</span> <span class="op">=</span> <span class="vs">`bold </span><span class="sc">${</span>textSize<span class="sc">}</span><span class="vs">px Arial`</span><span class="op">;</span></span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> boundingBoxes <span class="op">=</span> <span class="fu">parseJSON</span><span class="op">&lt;</span>BoundingBox[]<span class="op">&gt;</span>(boundingBoxesJson)<span class="op">;</span></span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> boundingBoxes<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> bbox <span class="op">=</span> boundingBoxes[i]<span class="op">;</span></span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> color <span class="op">=</span> colors[i <span class="op">%</span> colors<span class="op">.</span><span class="at">length</span>]<span class="op">;</span></span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> { x1<span class="op">,</span> y1<span class="op">,</span> x2<span class="op">,</span> y2 } <span class="op">=</span> <span class="fu">normalizeBox</span>(bbox<span class="op">.</span><span class="at">box_2d</span><span class="op">,</span> width<span class="op">,</span> height)<span class="op">;</span></span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="at">strokeStyle</span> <span class="op">=</span> color<span class="op">;</span></span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="fu">strokeRect</span>(x1<span class="op">,</span> y1<span class="op">,</span> x2 <span class="op">-</span> x1<span class="op">,</span> y2 <span class="op">-</span> y1)<span class="op">;</span></span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (bbox<span class="op">.</span><span class="at">label</span>) {</span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> color<span class="op">;</span></span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">fillText</span>(bbox<span class="op">.</span><span class="at">label</span><span class="op">,</span> x1 <span class="op">+</span> <span class="dv">8</span><span class="op">,</span> y1 <span class="op">-</span> <span class="dv">8</span>)<span class="op">;</span></span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> image_canvas<span class="op">.</span><span class="fu">toBuffer</span>()<span class="op">;</span></span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> uint8Array <span class="op">=</span> <span class="kw">new</span> <span class="bu">Uint8Array</span>(buffer)<span class="op">;</span></span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a>  tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(uint8Array)<span class="op">;</span></span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="get-example-images" class="level3">
+<h3 class="anchored" data-anchor-id="get-example-images">Get example images</h3>
+<div id="cell-17" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> IMAGE_MAP <span class="op">=</span> {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Socks.jpg"</span><span class="op">:</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/socks.jpg"</span><span class="op">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Vegetables.jpg"</span><span class="op">:</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/vegetables.jpg"</span><span class="op">,</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Japanese_bento.png"</span><span class="op">:</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/Japanese_Bento.png"</span><span class="op">,</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Cupcakes.jpg"</span><span class="op">:</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/Cupcakes.jpg"</span><span class="op">,</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Origamis.jpg"</span><span class="op">:</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/origamis.jpg"</span><span class="op">,</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Fruits.jpg"</span><span class="op">:</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/fruits.jpg"</span><span class="op">,</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Cat.jpg"</span><span class="op">:</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/cat.jpg"</span><span class="op">,</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Pumpkins.jpg"</span><span class="op">:</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/pumpkins.jpg"</span><span class="op">,</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Breakfast.jpg"</span><span class="op">:</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/breakfast.jpg"</span><span class="op">,</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Bookshelf.jpg"</span><span class="op">:</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/bookshelf.jpg"</span><span class="op">,</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Spill.jpg"</span><span class="op">:</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/spill.jpg"</span><span class="op">,</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> [fileName<span class="op">,</span> url] <span class="kw">of</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">entries</span>(IMAGE_MAP)) {</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> filePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/spatial_understanding"</span><span class="op">,</span> fileName)<span class="op">;</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>fs<span class="op">.</span><span class="fu">existsSync</span>(filePath)) {</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    fs<span class="op">.</span><span class="fu">mkdirSync</span>(path<span class="op">.</span><span class="fu">dirname</span>(filePath)<span class="op">,</span> { recursive<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="fu">downloadFile</span>(url<span class="op">,</span> filePath)<span class="op">;</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Downloaded </span><span class="sc">${</span>fileName<span class="sc">}</span><span class="vs"> to </span><span class="sc">${</span>filePath<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`</span><span class="sc">${</span>fileName<span class="sc">}</span><span class="vs"> already exists at </span><span class="sc">${</span>filePath<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Socks.jpg already exists at ../assets/spatial_understanding/Socks.jpg
+Vegetables.jpg already exists at ../assets/spatial_understanding/Vegetables.jpg
+Japanese_bento.png already exists at ../assets/spatial_understanding/Japanese_bento.png
+Cupcakes.jpg already exists at ../assets/spatial_understanding/Cupcakes.jpg
+Origamis.jpg already exists at ../assets/spatial_understanding/Origamis.jpg
+Fruits.jpg already exists at ../assets/spatial_understanding/Fruits.jpg
+Cat.jpg already exists at ../assets/spatial_understanding/Cat.jpg
+Pumpkins.jpg already exists at ../assets/spatial_understanding/Pumpkins.jpg
+Breakfast.jpg already exists at ../assets/spatial_understanding/Breakfast.jpg
+Bookshelf.jpg already exists at ../assets/spatial_understanding/Bookshelf.jpg
+Spill.jpg already exists at ../assets/spatial_understanding/Spill.jpg</code></pre>
+</div>
+</div>
+</section>
+<section id="overlaying-information" class="level3">
+<h3 class="anchored" data-anchor-id="overlaying-information">Overlaying Information</h3>
+<p>Let’s start by loading an image, the cupcakes one for example:</p>
+<div id="cell-19" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> CUPCAKE_IMAGE_PATH <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/spatial_understanding/Cupcakes.jpg"</span>)<span class="op">;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">jpeg</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(CUPCAKE_IMAGE_PATH))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Spatial_understanding_files/figure-html/cell-9-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="Spatial_understanding_files/figure-html/cell-9-output-1.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Let’s start with a simple prompt to find all items in the image.</p>
+<p>To prevent the model from repeating itself, it is recommended to use a temperature over 0, in this case 0.5. Limiting the number of items (25 in the system instructions) is also a way to prevent the model from looping and to speed up the decoding of the bounding boxes. You can experiment with these parameters and find what works best for your use-case.</p>
+<div id="cell-21" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> boundingBoxesResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Detect the 2d bounding boxes of the cupcakes (with “label” as topping description”)"</span><span class="op">,</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(CUPCAKE_IMAGE_PATH)<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/jpeg"</span>)<span class="op">,</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> BOUNDING_BOX_SYSTEM_INSTRUCTION<span class="op">,</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    temperature<span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(boundingBoxesResponse<span class="op">.</span><span class="at">text</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>```json
+[
+  {"box_2d": [389, 64, 570, 201], "label": "Dark chocolate cupcake with red and pink sprinkles"},
+  {"box_2d": [383, 250, 538, 367], "label": "Light pink frosting with small pink sprinkles"},
+  {"box_2d": [366, 397, 501, 506], "label": "Pink frosting with light blue candy balls"},
+  {"box_2d": [353, 529, 521, 650], "label": "Pink frosting with blue candy balls"},
+  {"box_2d": [384, 737, 535, 865], "label": "Plain chocolate frosting cupcake"},
+  {"box_2d": [476, 627, 636, 768], "label": "White frosting with red, yellow, blue, and pink sprinkles (top-right)"},
+  {"box_2d": [509, 799, 688, 959], "label": "White frosting with red, yellow, blue, and pink sprinkles (middle-right)"},
+  {"box_2d": [554, 40, 723, 199], "label": "White frosting with mixed colorful sprinkles (front-left)"},
+  {"box_2d": [546, 296, 700, 442], "label": "White frosting with candy eyes and yellow/red sprinkles (middle-left)"},
+  {"box_2d": [442, 433, 595, 563], "label": "Bright pink frosting with candy eyes"},
+  {"box_2d": [559, 514, 712, 663], "label": "White frosting with candy eyes and yellow/red sprinkles (middle-right)"},
+  {"box_2d": [743, 134, 919, 306], "label": "White frosting with two candy eyes (bottom-left)"},
+  {"box_2d": [655, 354, 815, 513], "label": "White frosting with two candy eyes (bottom-right)"}
+]
+```</code></pre>
+</div>
+</div>
+<p>As you can see, even without any instructions about the format, Gemini is trained to always use this format with a label and the coordinates of the bounding box in a “box_2d” array.</p>
+<p>Just be careful, the y coordinates are first, x ones afterwards contrary to common usage.</p>
+<div id="cell-23" class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">plotBoundingBoxes</span>(CUPCAKE_IMAGE_PATH<span class="op">,</span> boundingBoxesResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"[]"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Spatial_understanding_files/figure-html/cell-11-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="Spatial_understanding_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="search-within-an-image" class="level2">
+<h2 class="anchored" data-anchor-id="search-within-an-image">Search within an image</h2>
+<p>Let’s complicate things and search within the image for specific objects.</p>
+<div id="cell-25" class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> SOCKS_IMAGE_PATH <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/spatial_understanding/Socks.jpg"</span>)<span class="op">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> socksBoundingBoxesResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Show me the positions of the socks with the face"</span><span class="op">,</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(SOCKS_IMAGE_PATH)<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/jpeg"</span>)<span class="op">,</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> BOUNDING_BOX_SYSTEM_INSTRUCTION<span class="op">,</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    temperature<span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(socksBoundingBoxesResponse<span class="op">.</span><span class="at">text</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[
+  {"box_2d": [240, 650, 649, 860], "label": "socks with the face"},
+  {"box_2d": [53, 248, 384, 524], "label": "socks with the face"}
+]</code></pre>
+</div>
+</div>
+<div id="cell-26" class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">plotBoundingBoxes</span>(SOCKS_IMAGE_PATH<span class="op">,</span> socksBoundingBoxesResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"[]"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Spatial_understanding_files/figure-html/cell-13-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="Spatial_understanding_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Try it with different images and prompts. Different samples are proposed but you can also write your own.</p>
+</section>
+<section id="multilinguality" class="level2">
+<h2 class="anchored" data-anchor-id="multilinguality">Multilinguality</h2>
+<p>As Gemini is able to understand multiple languages, you can combine spatial reasoning with multilingual capabilities.</p>
+<p>You can give it an image like this and prompt it to label each item with Japanese characters and English translation. The model reads the text and recognize the pictures from the image itself and translates them.</p>
+<div id="cell-29" class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> JAPANESE_BENTO_IMAGE_PATH <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/spatial_understanding/Japanese_bento.png"</span>)<span class="op">;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> japaneseBentoBoundingBoxesResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Detect food, label them with Japanese characters + english translation."</span><span class="op">,</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(JAPANESE_BENTO_IMAGE_PATH)<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/png"</span>)<span class="op">,</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> BOUNDING_BOX_SYSTEM_INSTRUCTION<span class="op">,</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    temperature<span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(japaneseBentoBoundingBoxesResponse<span class="op">.</span><span class="at">text</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>```json
+[
+  {"box_2d": [63, 56, 237, 259], "label": "抹茶のスイスロール (Matcha Swiss Roll)"},
+  {"box_2d": [62, 363, 225, 595], "label": "あんパン (Anpan)"},
+  {"box_2d": [55, 683, 243, 912], "label": "さきイカ (Sakiika)"},
+  {"box_2d": [379, 31, 537, 287], "label": "梅干し (Umeboshi)"},
+  {"box_2d": [372, 361, 555, 595], "label": "たい焼き (Taiyaki)"},
+  {"box_2d": [361, 674, 555, 920], "label": "あずき最中 (Azuki Monaka)"},
+  {"box_2d": [727, 24, 870, 305], "label": "お握り (Onigiri)"},
+  {"box_2d": [705, 358, 864, 602], "label": "桜餅 (Sakuramochi)"},
+  {"box_2d": [702, 670, 856, 918], "label": "海苔巻煎餅 (Norimaki Senbei)"}
+]
+```</code></pre>
+</div>
+</div>
+<div id="cell-30" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">plotBoundingBoxes</span>(JAPANESE_BENTO_IMAGE_PATH<span class="op">,</span> japaneseBentoBoundingBoxesResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"[]"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Spatial_understanding_files/figure-html/cell-15-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="Spatial_understanding_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="use-gemini-reasoning-capabilities" class="level2">
+<h2 class="anchored" data-anchor-id="use-gemini-reasoning-capabilities">Use Gemini reasoning capabilities</h2>
+<p>The model can also reason based on the image, you can ask it about the positions of items, their utility, or, like in this example, to find the shadow of a speficic item.</p>
+<div id="cell-32" class="cell" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ORIGAMI_IMAGE_PATH <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/spatial_understanding/Origamis.jpg"</span>)<span class="op">;</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> origamiBoundingBoxesResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Draw a square around the fox' shadow"</span><span class="op">,</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(ORIGAMI_IMAGE_PATH)<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/jpeg"</span>)<span class="op">,</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> BOUNDING_BOX_SYSTEM_INSTRUCTION<span class="op">,</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    temperature<span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(origamiBoundingBoxesResponse<span class="op">.</span><span class="at">text</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>```json
+[
+  {"box_2d": [435, 256, 608, 411], "label": "fox' shadow"}
+]
+```</code></pre>
+</div>
+</div>
+<div id="cell-33" class="cell" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">plotBoundingBoxes</span>(ORIGAMI_IMAGE_PATH<span class="op">,</span> origamiBoundingBoxesResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"[]"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Spatial_understanding_files/figure-html/cell-17-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="Spatial_understanding_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>You can also use Gemini knowledge to enhanced the labels returned. In this example Gemini will give you advices on how to fix your little mistake.</p>
+<div id="cell-35" class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> SPILL_IMAGE_PATH <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/spatial_understanding/Spill.jpg"</span>)<span class="op">;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> spillBoundingBoxesResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Tell me how to clean my table with an explanation as label. Do not just label the items"</span><span class="op">,</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(SPILL_IMAGE_PATH)<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/jpeg"</span>)<span class="op">,</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> BOUNDING_BOX_SYSTEM_INSTRUCTION<span class="op">,</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    temperature<span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(spillBoundingBoxesResponse<span class="op">.</span><span class="at">text</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>```json
+[
+  {"box_2d": [447, 0, 1000, 417], "label": "cleaning cloth: Use this cloth to gently blot and wipe the spilled liquid from the table surface."},
+  {"box_2d": [432, 606, 663, 874], "label": "liquid spill: This is the substance that needs to be cleaned from the table."},
+  {"box_2d": [200, 299, 508, 517], "label": "sugar bowl: Move this item aside to ensure thorough cleaning of the table surface underneath and around it."},
+  {"box_2d": [106, 556, 220, 699], "label": "sugar container: Move this item aside to ensure thorough cleaning of the table surface underneath and around it."},
+  {"box_2d": [287, 140, 467, 314], "label": "knives: Carefully move these sharp objects to a safe location before cleaning to prevent injury and allow full access to the table surface."},
+  {"box_2d": [108, 843, 360, 1000], "label": "wooden object: Move this item aside to ensure thorough cleaning of the table surface underneath and around it."},
+  {"box_2d": [113, 224, 280, 492], "label": "wooden stand: Move this item aside to ensure thorough cleaning of the table surface underneath and around it."},
+  {"box_2d": [121, 120, 361, 229], "label": "wooden dowel: This is part of the wooden stand; move it with the stand to clear the area for cleaning."}
+]
+```</code></pre>
+</div>
+</div>
+<div id="cell-36" class="cell" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">plotBoundingBoxes</span>(SPILL_IMAGE_PATH<span class="op">,</span> spillBoundingBoxesResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"[]"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Spatial_understanding_files/figure-html/cell-19-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="Spatial_understanding_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>And if you check the previous examples, the <a href="#multilinguality">Japanese food</a> one in particular, multiple other prompt samples are provided to experiment with Gemini reasoning capabilities.</p>
+</section>
+<section id="experimental-segmentation" class="level2">
+<h2 class="anchored" data-anchor-id="experimental-segmentation">Experimental: Segmentation</h2>
+<p>2.5 models are also able to segment the image and not only draw a bounding box but to also provide a mask of the contour of the items. It’s especially useful if you are planning on editing images like in the <a href="../examples/Virtual_Try_On.ipynb">Virtual try-on</a> example.</p>
+<div id="cell-39" class="cell" data-execution_count="68">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { <span class="bu">CanvasRenderingContext2D</span> } <span class="im">from</span> <span class="st">"canvas"</span><span class="op">;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> SegmentationMask {</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  y0<span class="op">:</span> <span class="dt">number</span><span class="op">;</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  x0<span class="op">:</span> <span class="dt">number</span><span class="op">;</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  y1<span class="op">:</span> <span class="dt">number</span><span class="op">;</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  x1<span class="op">:</span> <span class="dt">number</span><span class="op">;</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  mask<span class="op">:</span> <span class="bu">Uint8ClampedArray</span><span class="op">;</span> <span class="co">// flat array of grayscale pixels</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  label<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> Box2D {</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  box_2d<span class="op">:</span> [<span class="dt">number</span><span class="op">,</span> <span class="dt">number</span><span class="op">,</span> <span class="dt">number</span><span class="op">,</span> <span class="dt">number</span>]<span class="op">;</span> <span class="co">// [y0, x0, y1, x1]</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>  label<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>  mask<span class="op">:</span> <span class="dt">string</span><span class="op">;</span> <span class="co">// base64 PNG</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> RGBColor {</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>  r<span class="op">:</span> <span class="dt">number</span><span class="op">;</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>  g<span class="op">:</span> <span class="dt">number</span><span class="op">;</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>  b<span class="op">:</span> <span class="dt">number</span><span class="op">;</span></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> rgbColors<span class="op">:</span> RGBColor[] <span class="op">=</span> [</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">255</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">0</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span> <span class="co">// Red</span></span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">0</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">255</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span> <span class="co">// Green</span></span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">0</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">0</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">255</span> }<span class="op">,</span> <span class="co">// Blue</span></span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">255</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">255</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span> <span class="co">// Yellow</span></span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">255</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">165</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span> <span class="co">// Orange</span></span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">255</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">192</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">203</span> }<span class="op">,</span> <span class="co">// Pink</span></span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">128</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">0</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">128</span> }<span class="op">,</span> <span class="co">// Purple</span></span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">165</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">42</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">42</span> }<span class="op">,</span> <span class="co">// Brown</span></span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">128</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">128</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">128</span> }<span class="op">,</span> <span class="co">// Gray</span></span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">245</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">245</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">220</span> }<span class="op">,</span> <span class="co">// Beige</span></span>
+<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">64</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">224</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">208</span> }<span class="op">,</span> <span class="co">// Turquoise</span></span>
+<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">0</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">255</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">255</span> }<span class="op">,</span> <span class="co">// Cyan</span></span>
+<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">255</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">0</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">255</span> }<span class="op">,</span> <span class="co">// Magenta</span></span>
+<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">50</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">205</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">50</span> }<span class="op">,</span> <span class="co">// Lime</span></span>
+<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">0</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">0</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">128</span> }<span class="op">,</span> <span class="co">// Navy</span></span>
+<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">128</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">0</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span> <span class="co">// Maroon</span></span>
+<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">0</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">128</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">128</span> }<span class="op">,</span> <span class="co">// Teal</span></span>
+<span id="cb31-42"><a href="#cb31-42" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">128</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">128</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span> <span class="co">// Olive</span></span>
+<span id="cb31-43"><a href="#cb31-43" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">255</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">127</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">80</span> }<span class="op">,</span> <span class="co">// Coral</span></span>
+<span id="cb31-44"><a href="#cb31-44" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">230</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">230</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">250</span> }<span class="op">,</span> <span class="co">// Lavender</span></span>
+<span id="cb31-45"><a href="#cb31-45" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">238</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">130</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">238</span> }<span class="op">,</span> <span class="co">// Violet</span></span>
+<span id="cb31-46"><a href="#cb31-46" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">255</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">215</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span> <span class="co">// Gold</span></span>
+<span id="cb31-47"><a href="#cb31-47" aria-hidden="true" tabindex="-1"></a>  { r<span class="op">:</span> <span class="dv">192</span><span class="op">,</span> g<span class="op">:</span> <span class="dv">192</span><span class="op">,</span> b<span class="op">:</span> <span class="dv">192</span> }<span class="op">,</span> <span class="co">// Silver</span></span>
+<span id="cb31-48"><a href="#cb31-48" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span>
+<span id="cb31-49"><a href="#cb31-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-50"><a href="#cb31-50" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">parseSegmentationMasks</span>(</span>
+<span id="cb31-51"><a href="#cb31-51" aria-hidden="true" tabindex="-1"></a>  predictedStr<span class="op">:</span> <span class="dt">string</span><span class="op">,</span></span>
+<span id="cb31-52"><a href="#cb31-52" aria-hidden="true" tabindex="-1"></a>  imgHeight<span class="op">:</span> <span class="dt">number</span><span class="op">,</span></span>
+<span id="cb31-53"><a href="#cb31-53" aria-hidden="true" tabindex="-1"></a>  imgWidth<span class="op">:</span> <span class="dt">number</span></span>
+<span id="cb31-54"><a href="#cb31-54" aria-hidden="true" tabindex="-1"></a>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>SegmentationMask[]<span class="op">&gt;</span> {</span>
+<span id="cb31-55"><a href="#cb31-55" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> items <span class="op">=</span> <span class="fu">parseJSON</span><span class="op">&lt;</span>Box2D[]<span class="op">&gt;</span>(predictedStr)<span class="op">;</span></span>
+<span id="cb31-56"><a href="#cb31-56" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> masks<span class="op">:</span> SegmentationMask[] <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb31-57"><a href="#cb31-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-58"><a href="#cb31-58" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> item <span class="kw">of</span> items) {</span>
+<span id="cb31-59"><a href="#cb31-59" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> [normY0<span class="op">,</span> normX0<span class="op">,</span> normY1<span class="op">,</span> normX1] <span class="op">=</span> item<span class="op">.</span><span class="at">box_2d</span><span class="op">;</span></span>
+<span id="cb31-60"><a href="#cb31-60" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> y0 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>((normY0 <span class="op">/</span> <span class="dv">1000</span>) <span class="op">*</span> imgHeight)<span class="op">;</span></span>
+<span id="cb31-61"><a href="#cb31-61" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> x0 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>((normX0 <span class="op">/</span> <span class="dv">1000</span>) <span class="op">*</span> imgWidth)<span class="op">;</span></span>
+<span id="cb31-62"><a href="#cb31-62" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> y1 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>((normY1 <span class="op">/</span> <span class="dv">1000</span>) <span class="op">*</span> imgHeight)<span class="op">;</span></span>
+<span id="cb31-63"><a href="#cb31-63" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> x1 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>((normX1 <span class="op">/</span> <span class="dv">1000</span>) <span class="op">*</span> imgWidth)<span class="op">;</span></span>
+<span id="cb31-64"><a href="#cb31-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-65"><a href="#cb31-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (y0 <span class="op">&gt;=</span> y1 <span class="op">||</span> x0 <span class="op">&gt;=</span> x1) {</span>
+<span id="cb31-66"><a href="#cb31-66" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">warn</span>(<span class="st">"Invalid bounding box:"</span><span class="op">,</span> item<span class="op">.</span><span class="at">box_2d</span>)<span class="op">;</span></span>
+<span id="cb31-67"><a href="#cb31-67" aria-hidden="true" tabindex="-1"></a>      <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb31-68"><a href="#cb31-68" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb31-69"><a href="#cb31-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-70"><a href="#cb31-70" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> pngData <span class="op">=</span> item<span class="op">.</span><span class="at">mask</span><span class="op">;</span></span>
+<span id="cb31-71"><a href="#cb31-71" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>pngData<span class="op">.</span><span class="fu">startsWith</span>(<span class="st">"data:image/png;base64,"</span>)) {</span>
+<span id="cb31-72"><a href="#cb31-72" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">warn</span>(<span class="st">"Invalid mask format"</span>)<span class="op">;</span></span>
+<span id="cb31-73"><a href="#cb31-73" aria-hidden="true" tabindex="-1"></a>      <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb31-74"><a href="#cb31-74" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb31-75"><a href="#cb31-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-76"><a href="#cb31-76" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> {</span>
+<span id="cb31-77"><a href="#cb31-77" aria-hidden="true" tabindex="-1"></a>      pngData <span class="op">=</span> pngData<span class="op">.</span><span class="fu">replace</span>(<span class="st">"data:image/png;base64,"</span><span class="op">,</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb31-78"><a href="#cb31-78" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> pngBuffer <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(pngData<span class="op">,</span> <span class="st">"base64"</span>)<span class="op">;</span></span>
+<span id="cb31-79"><a href="#cb31-79" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> maskImage <span class="op">=</span> <span class="cf">await</span> canvas<span class="op">.</span><span class="fu">loadImage</span>(pngBuffer)<span class="op">;</span></span>
+<span id="cb31-80"><a href="#cb31-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-81"><a href="#cb31-81" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> bboxWidth <span class="op">=</span> x1 <span class="op">-</span> x0<span class="op">;</span></span>
+<span id="cb31-82"><a href="#cb31-82" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> bboxHeight <span class="op">=</span> y1 <span class="op">-</span> y0<span class="op">;</span></span>
+<span id="cb31-83"><a href="#cb31-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-84"><a href="#cb31-84" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> tempCanvas <span class="op">=</span> canvas<span class="op">.</span><span class="fu">createCanvas</span>(bboxWidth<span class="op">,</span> bboxHeight)<span class="op">;</span></span>
+<span id="cb31-85"><a href="#cb31-85" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> ctx <span class="op">=</span> tempCanvas<span class="op">.</span><span class="fu">getContext</span>(<span class="st">"2d"</span>)<span class="op">;</span></span>
+<span id="cb31-86"><a href="#cb31-86" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">drawImage</span>(maskImage<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> bboxWidth<span class="op">,</span> bboxHeight)<span class="op">;</span></span>
+<span id="cb31-87"><a href="#cb31-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-88"><a href="#cb31-88" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> imageData <span class="op">=</span> ctx<span class="op">.</span><span class="fu">getImageData</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> bboxWidth<span class="op">,</span> bboxHeight)<span class="op">;</span></span>
+<span id="cb31-89"><a href="#cb31-89" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> gray <span class="op">=</span> <span class="kw">new</span> <span class="bu">Uint8ClampedArray</span>(bboxWidth <span class="op">*</span> bboxHeight)<span class="op">;</span></span>
+<span id="cb31-90"><a href="#cb31-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-91"><a href="#cb31-91" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> bboxWidth <span class="op">*</span> bboxHeight<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb31-92"><a href="#cb31-92" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> idx <span class="op">=</span> i <span class="op">*</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb31-93"><a href="#cb31-93" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Use red channel as mask value (PNG grayscale mask is usually replicated across channels)</span></span>
+<span id="cb31-94"><a href="#cb31-94" aria-hidden="true" tabindex="-1"></a>        gray[i] <span class="op">=</span> imageData<span class="op">.</span><span class="at">data</span>[idx]<span class="op">;</span></span>
+<span id="cb31-95"><a href="#cb31-95" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb31-96"><a href="#cb31-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-97"><a href="#cb31-97" aria-hidden="true" tabindex="-1"></a>      masks<span class="op">.</span><span class="fu">push</span>({</span>
+<span id="cb31-98"><a href="#cb31-98" aria-hidden="true" tabindex="-1"></a>        y0<span class="op">,</span></span>
+<span id="cb31-99"><a href="#cb31-99" aria-hidden="true" tabindex="-1"></a>        x0<span class="op">,</span></span>
+<span id="cb31-100"><a href="#cb31-100" aria-hidden="true" tabindex="-1"></a>        y1<span class="op">,</span></span>
+<span id="cb31-101"><a href="#cb31-101" aria-hidden="true" tabindex="-1"></a>        x1<span class="op">,</span></span>
+<span id="cb31-102"><a href="#cb31-102" aria-hidden="true" tabindex="-1"></a>        mask<span class="op">:</span> gray<span class="op">,</span></span>
+<span id="cb31-103"><a href="#cb31-103" aria-hidden="true" tabindex="-1"></a>        label<span class="op">:</span> item<span class="op">.</span><span class="at">label</span><span class="op">,</span></span>
+<span id="cb31-104"><a href="#cb31-104" aria-hidden="true" tabindex="-1"></a>      })<span class="op">;</span></span>
+<span id="cb31-105"><a href="#cb31-105" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">catch</span> (err) {</span>
+<span id="cb31-106"><a href="#cb31-106" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">"Error parsing mask:"</span><span class="op">,</span> err)<span class="op">;</span></span>
+<span id="cb31-107"><a href="#cb31-107" aria-hidden="true" tabindex="-1"></a>      <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb31-108"><a href="#cb31-108" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb31-109"><a href="#cb31-109" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb31-110"><a href="#cb31-110" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> masks<span class="op">;</span></span>
+<span id="cb31-111"><a href="#cb31-111" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-112"><a href="#cb31-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-113"><a href="#cb31-113" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">overlayMaskOnImage</span>(</span>
+<span id="cb31-114"><a href="#cb31-114" aria-hidden="true" tabindex="-1"></a>  ctx<span class="op">:</span> <span class="bu">CanvasRenderingContext2D</span><span class="op">,</span></span>
+<span id="cb31-115"><a href="#cb31-115" aria-hidden="true" tabindex="-1"></a>  mask<span class="op">:</span> <span class="bu">Uint8ClampedArray</span><span class="op">,</span></span>
+<span id="cb31-116"><a href="#cb31-116" aria-hidden="true" tabindex="-1"></a>  imgWidth<span class="op">:</span> <span class="dt">number</span><span class="op">,</span></span>
+<span id="cb31-117"><a href="#cb31-117" aria-hidden="true" tabindex="-1"></a>  imgHeight<span class="op">:</span> <span class="dt">number</span><span class="op">,</span></span>
+<span id="cb31-118"><a href="#cb31-118" aria-hidden="true" tabindex="-1"></a>  x0<span class="op">:</span> <span class="dt">number</span><span class="op">,</span></span>
+<span id="cb31-119"><a href="#cb31-119" aria-hidden="true" tabindex="-1"></a>  y0<span class="op">:</span> <span class="dt">number</span><span class="op">,</span></span>
+<span id="cb31-120"><a href="#cb31-120" aria-hidden="true" tabindex="-1"></a>  x1<span class="op">:</span> <span class="dt">number</span><span class="op">,</span></span>
+<span id="cb31-121"><a href="#cb31-121" aria-hidden="true" tabindex="-1"></a>  y1<span class="op">:</span> <span class="dt">number</span><span class="op">,</span></span>
+<span id="cb31-122"><a href="#cb31-122" aria-hidden="true" tabindex="-1"></a>  color<span class="op">:</span> RGBColor<span class="op">,</span></span>
+<span id="cb31-123"><a href="#cb31-123" aria-hidden="true" tabindex="-1"></a>  alpha <span class="op">=</span> <span class="fl">0.6</span></span>
+<span id="cb31-124"><a href="#cb31-124" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb31-125"><a href="#cb31-125" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> width <span class="op">=</span> x1 <span class="op">-</span> x0<span class="op">;</span></span>
+<span id="cb31-126"><a href="#cb31-126" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> height <span class="op">=</span> y1 <span class="op">-</span> y0<span class="op">;</span></span>
+<span id="cb31-127"><a href="#cb31-127" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> imageData <span class="op">=</span> ctx<span class="op">.</span><span class="fu">getImageData</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> imgWidth<span class="op">,</span> imgHeight)<span class="op">;</span></span>
+<span id="cb31-128"><a href="#cb31-128" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> [r<span class="op">,</span> g<span class="op">,</span> b] <span class="op">=</span> [color<span class="op">.</span><span class="at">r</span><span class="op">,</span> color<span class="op">.</span><span class="at">g</span><span class="op">,</span> color<span class="op">.</span><span class="at">b</span>]<span class="op">;</span></span>
+<span id="cb31-129"><a href="#cb31-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-130"><a href="#cb31-130" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> y <span class="op">&lt;</span> height<span class="op">;</span> y<span class="op">++</span>) {</span>
+<span id="cb31-131"><a href="#cb31-131" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> x <span class="op">&lt;</span> width<span class="op">;</span> x<span class="op">++</span>) {</span>
+<span id="cb31-132"><a href="#cb31-132" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> idx <span class="op">=</span> y <span class="op">*</span> width <span class="op">+</span> x<span class="op">;</span></span>
+<span id="cb31-133"><a href="#cb31-133" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (mask[idx] <span class="op">&gt;</span> <span class="dv">127</span>) {</span>
+<span id="cb31-134"><a href="#cb31-134" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> px <span class="op">=</span> (imgWidth <span class="op">*</span> (y0 <span class="op">+</span> y) <span class="op">+</span> (x0 <span class="op">+</span> x)) <span class="op">*</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb31-135"><a href="#cb31-135" aria-hidden="true" tabindex="-1"></a>        imageData<span class="op">.</span><span class="at">data</span>[px] <span class="op">=</span> r <span class="op">*</span> alpha <span class="op">+</span> imageData<span class="op">.</span><span class="at">data</span>[px] <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> alpha)<span class="op">;</span></span>
+<span id="cb31-136"><a href="#cb31-136" aria-hidden="true" tabindex="-1"></a>        imageData<span class="op">.</span><span class="at">data</span>[px <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> g <span class="op">*</span> alpha <span class="op">+</span> imageData<span class="op">.</span><span class="at">data</span>[px <span class="op">+</span> <span class="dv">1</span>] <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> alpha)<span class="op">;</span></span>
+<span id="cb31-137"><a href="#cb31-137" aria-hidden="true" tabindex="-1"></a>        imageData<span class="op">.</span><span class="at">data</span>[px <span class="op">+</span> <span class="dv">2</span>] <span class="op">=</span> b <span class="op">*</span> alpha <span class="op">+</span> imageData<span class="op">.</span><span class="at">data</span>[px <span class="op">+</span> <span class="dv">2</span>] <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> alpha)<span class="op">;</span></span>
+<span id="cb31-138"><a href="#cb31-138" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb31-139"><a href="#cb31-139" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb31-140"><a href="#cb31-140" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb31-141"><a href="#cb31-141" aria-hidden="true" tabindex="-1"></a>  ctx<span class="op">.</span><span class="fu">putImageData</span>(imageData<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb31-142"><a href="#cb31-142" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-143"><a href="#cb31-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-144"><a href="#cb31-144" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">plotSegmentationMasks</span>(imageBuffer<span class="op">:</span> <span class="bu">Buffer</span><span class="op">,</span> segmentationMasks<span class="op">:</span> SegmentationMask[])<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> {</span>
+<span id="cb31-145"><a href="#cb31-145" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> baseImg <span class="op">=</span> <span class="cf">await</span> canvas<span class="op">.</span><span class="fu">loadImage</span>(imageBuffer)<span class="op">;</span></span>
+<span id="cb31-146"><a href="#cb31-146" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> image_canvas <span class="op">=</span> canvas<span class="op">.</span><span class="fu">createCanvas</span>(baseImg<span class="op">.</span><span class="at">width</span><span class="op">,</span> baseImg<span class="op">.</span><span class="at">height</span>)<span class="op">;</span></span>
+<span id="cb31-147"><a href="#cb31-147" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> ctx <span class="op">=</span> image_canvas<span class="op">.</span><span class="fu">getContext</span>(<span class="st">"2d"</span>)<span class="op">;</span></span>
+<span id="cb31-148"><a href="#cb31-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-149"><a href="#cb31-149" aria-hidden="true" tabindex="-1"></a>  ctx<span class="op">.</span><span class="fu">drawImage</span>(baseImg<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb31-150"><a href="#cb31-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-151"><a href="#cb31-151" aria-hidden="true" tabindex="-1"></a>  segmentationMasks<span class="op">.</span><span class="fu">forEach</span>((mask<span class="op">,</span> i) <span class="kw">=&gt;</span> {</span>
+<span id="cb31-152"><a href="#cb31-152" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> color <span class="op">=</span> rgbColors[i <span class="op">%</span> rgbColors<span class="op">.</span><span class="at">length</span>]<span class="op">;</span></span>
+<span id="cb31-153"><a href="#cb31-153" aria-hidden="true" tabindex="-1"></a>    <span class="fu">overlayMaskOnImage</span>(ctx<span class="op">,</span> mask<span class="op">.</span><span class="at">mask</span><span class="op">,</span> baseImg<span class="op">.</span><span class="at">width</span><span class="op">,</span> baseImg<span class="op">.</span><span class="at">height</span><span class="op">,</span> mask<span class="op">.</span><span class="at">x0</span><span class="op">,</span> mask<span class="op">.</span><span class="at">y0</span><span class="op">,</span> mask<span class="op">.</span><span class="at">x1</span><span class="op">,</span> mask<span class="op">.</span><span class="at">y1</span><span class="op">,</span> color)<span class="op">;</span></span>
+<span id="cb31-154"><a href="#cb31-154" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb31-155"><a href="#cb31-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-156"><a href="#cb31-156" aria-hidden="true" tabindex="-1"></a>  ctx<span class="op">.</span><span class="at">lineWidth</span> <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb31-157"><a href="#cb31-157" aria-hidden="true" tabindex="-1"></a>  ctx<span class="op">.</span><span class="at">font</span> <span class="op">=</span> <span class="st">"bold 14px sans-serif"</span><span class="op">;</span></span>
+<span id="cb31-158"><a href="#cb31-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-159"><a href="#cb31-159" aria-hidden="true" tabindex="-1"></a>  segmentationMasks<span class="op">.</span><span class="fu">forEach</span>((mask<span class="op">,</span> i) <span class="kw">=&gt;</span> {</span>
+<span id="cb31-160"><a href="#cb31-160" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> color <span class="op">=</span> rgbColors[i <span class="op">%</span> rgbColors<span class="op">.</span><span class="at">length</span>]<span class="op">;</span></span>
+<span id="cb31-161"><a href="#cb31-161" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="at">strokeStyle</span> <span class="op">=</span> <span class="vs">`rgba(</span><span class="sc">${</span>color<span class="op">.</span><span class="at">r</span><span class="sc">}</span><span class="vs">, </span><span class="sc">${</span>color<span class="op">.</span><span class="at">g</span><span class="sc">}</span><span class="vs">, </span><span class="sc">${</span>color<span class="op">.</span><span class="at">b</span><span class="sc">}</span><span class="vs">, 0.8)`</span><span class="op">;</span></span>
+<span id="cb31-162"><a href="#cb31-162" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="fu">strokeRect</span>(mask<span class="op">.</span><span class="at">x0</span><span class="op">,</span> mask<span class="op">.</span><span class="at">y0</span><span class="op">,</span> mask<span class="op">.</span><span class="at">x1</span> <span class="op">-</span> mask<span class="op">.</span><span class="at">x0</span><span class="op">,</span> mask<span class="op">.</span><span class="at">y1</span> <span class="op">-</span> mask<span class="op">.</span><span class="at">y0</span>)<span class="op">;</span></span>
+<span id="cb31-163"><a href="#cb31-163" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb31-164"><a href="#cb31-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-165"><a href="#cb31-165" aria-hidden="true" tabindex="-1"></a>  segmentationMasks<span class="op">.</span><span class="fu">forEach</span>((mask<span class="op">,</span> i) <span class="kw">=&gt;</span> {</span>
+<span id="cb31-166"><a href="#cb31-166" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> color <span class="op">=</span> rgbColors[i <span class="op">%</span> rgbColors<span class="op">.</span><span class="at">length</span>]<span class="op">;</span></span>
+<span id="cb31-167"><a href="#cb31-167" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (mask<span class="op">.</span><span class="at">label</span>) {</span>
+<span id="cb31-168"><a href="#cb31-168" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="vs">`rgba(</span><span class="sc">${</span>color<span class="op">.</span><span class="at">r</span><span class="sc">}</span><span class="vs">, </span><span class="sc">${</span>color<span class="op">.</span><span class="at">g</span><span class="sc">}</span><span class="vs">, </span><span class="sc">${</span>color<span class="op">.</span><span class="at">b</span><span class="sc">}</span><span class="vs">, 0.8)`</span><span class="op">;</span></span>
+<span id="cb31-169"><a href="#cb31-169" aria-hidden="true" tabindex="-1"></a>      ctx<span class="op">.</span><span class="fu">fillText</span>(mask<span class="op">.</span><span class="at">label</span><span class="op">,</span> mask<span class="op">.</span><span class="at">x0</span> <span class="op">+</span> <span class="dv">8</span><span class="op">,</span> mask<span class="op">.</span><span class="at">y0</span> <span class="op">-</span> <span class="dv">6</span>)<span class="op">;</span></span>
+<span id="cb31-170"><a href="#cb31-170" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb31-171"><a href="#cb31-171" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb31-172"><a href="#cb31-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-173"><a href="#cb31-173" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> image_canvas<span class="op">.</span><span class="fu">toBuffer</span>()<span class="op">;</span></span>
+<span id="cb31-174"><a href="#cb31-174" aria-hidden="true" tabindex="-1"></a>  tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(<span class="kw">new</span> <span class="bu">Uint8Array</span>(buffer))<span class="op">;</span></span>
+<span id="cb31-175"><a href="#cb31-175" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-40" class="cell" data-execution_count="72">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> SEGMENTATION_PROMPT <span class="op">=</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Give the segmentation masks for the metal, wooden and glass small items (ignore the table). Output a JSON list of segmentation masks where each entry contains the 2D bounding box in the key "box_2d", the segmentation mask in key "mask", and the text label in the key "label". Use descriptive labels.'</span><span class="op">;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> segmentationResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    SEGMENTATION_PROMPT<span class="op">,</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(CUPCAKE_IMAGE_PATH)<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/jpeg"</span>)<span class="op">,</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    temperature<span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(segmentationResponse<span class="op">.</span><span class="at">text</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>```json
+[
+  {"box_2d": [156, 395, 362, 579], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAACMElEQVR42u3aS04DMRQEwL7/pc0GCRAIEmBsj7t6k2XclefJ/BLJ6G7/mnqAWoTxKfUAHzHePg89sI2nc6Mf9RGK8cvsWjzPrnX8Mftv5eRSgLUQ47EOMwDmKvzj0sZl2af8twsaF2dyyefXMiZneuufvn8szuwVbAewir1dYNQDvCMgQMCBsB6gEGGLs8LtAFoQllyI3Kb+8QZrL0jv0/9Ygx3uS9wIIPUA5xGUA2xze/I+/c8SaAdIugUCoFygHWDF40gCZ9Q/AWDVI/lD+qe9/80Flr6Wckj/GwssfzPpFIH2AQDQ3h8AAADd/U2AEQBQ3h8AAADlAAEAAAAAAAAAAKgFCAAAAAAAAFAMEAAAAAAAAACAEyEAdgAAW8AEAAAAAEBXfxNgAgAAAAAAAAAAAAAAcC0AwBYAAAAAAAAAAAAAAAAAAAAuhwHYAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMBJAAbABAAAAAAAAADOAwAAAAAAAACnAQAAAAAAwL8gAACOAQAAAAAAAAAAAAAAAAAAAACAUwUAAADgIOiucHH/HFvsRgBZmtLaiwGyUarLTwfIhqkuPwsgO6e8/uUC2T/d7a8ESKoBkm6AlAMk3QIpB4gB6BYIgG6AAOgWCAAAAKoFAAAA0C0AAEC5QIyAEQDQLZB2gbQLhEC7QFJOkJQTJOUESTlBTkh7/78YJOUEOSrt/X9hkJQT5Ni0938MITWpB/gaIb3Zrf8LMvdcGQiUcOYAAAAASUVORK5CYII=", "label": "metal pot"},
+  {"box_2d": [197, 249, 340, 381], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAACZ0lEQVR42u3dQW4CMRBE0br/pSuRYEUCGhgPY8//JWXBKt2PtkFI0Ikxxhhjtqa/UcFARr0P8977H6j7/wNv/2ZQdv/rjEGP6r8rPZlH9N+1BvkAgJkN9tTaCwjsqrVdnWBnqV1dYG+pXVlgRKn9KIu8gTkO4GSDkTV2V+btfXN9HZJpOn67rg7MPH2fBDAK4av19NBs+McHF3IywPnBA1QAAdDtCyAAvf/XAgIIABegA1QAAdACFUAAAcgCFYAt0MIFBBBAALRABYALCCCAAGiBCiAAW4AOUAEEEEAAAcACdIAKIIAAaAEBBBAADdDCBeoECCCAAF6CAmABKoAAAggggAACYAUEEEAANEAF8AgI4BFwAgQQwDvACRBAAAEE8GVAAAEEEEAAAQQQQAABBBBAAAH8QEAAAQSYpNL+WSc7DCDTP0WbtuteDeCj1c6XAfjabrLJADJquXu33hAzARyzm/B1d5N8Z+a8tZRTfG9sho3clO4fej3/JySmWUqP6n6OX1ZfZl83ov2vCmTOCADv/1sCiQBkgYQNEDhA2AAJGyBwgAQuQAcIHCACwAXoABFAALYAHSACwAUEEEAAtoAAAgjAFhBAAAG8BQUQwEvAERDAMyCAZ8AREEAALwFHwAkQwCMggAAwAQEEgAsIIABcII6AAJ4BAdACAggAFxCALiAAXSB0gdAFBBAALhC6gADrCgQOMGgKQhcIXUAAukDoAgLQBRI4gQB0gdAFQhcIXSB0gcAFcqUogAcIHiD0/t8XCF0ggROELpDrht7/NoHQBXL9PO8dAvCEIve1n1SA2+MYM3F+ANYGaX/NW7QBAAAAAElFTkSuQmCC", "label": "metal pot"},
+  {"box_2d": [267, 617, 363, 709], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAACMklEQVR42u3d0WrCQBQA0fn/n74F20ItfdBqkk1m5l3wHnbjmgjCV3OLQdj8Tj6+DGIeTA9w2QvEPJse4GoO83p6gHMrzHvjdBazUXqA00jMri14lJjj0gOsITHrpAc4RmNWTg+wh8WcqR/vVyqwxcqYy/TPU9Zcq++ZtADPbxE9AFcH+LxLoV0BD6yIMXb3iTHO9ACjB0hgugYkEEACZoGWgP48bP9G0PwJdBEIIIAAAgjAKqC/OxxAAHKBANoDPSdtC7QCxAAEEEAAZgECCEANQAABBBCAGIAA5AIByAEIIAA1AAEEkEAAAQQQQAABBOAUQH8SCiCAAPoYCKCbYgkEEEAPhwIIoEfkAfQzmQDaAwG0BToIBBBA3wcDCCCAbgwHEEAAAQQQQADm+fuhVAB6AAIIIIAAAjADYJ8/gAACCMANQAABBOAGIIAAAnAD9J/kAdgBCEA+fwAEEIAcgAACkAOgByCAAOQABBBAAG6AixIQQABugQACkAsEgJwggADkAtgFArALBCAXALkAdoEA7AIB2AWwC2AXwC5gBwC5AHaBAOwC2AWwC2AXCMAugF0gALsAdgHsAtgFsAsEYBfALvBWANzzn3MR6AUCsAtgF0AuAHIB7ALYBQKQC7BdegD0AOgB0AOcwAC7AAnYCdgnPcCyBOyYHmBJApATgJyAI7LPvxIBx6UHWIOAg9MDHE3AIukBDjNgsfQAexuwbvb5d0HgXNnnv7N4TeT2Wqr+6AOdv8gXM6IqCAAAAABJRU5ErkJggg==", "label": "metal mixing bowl"},
+  {"box_2d": [170, 96, 361, 229], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAACQUlEQVR42u3dwU7jUBQDUP//T3s0YjQbWJQU2iQ+XiC1K3x030sCSZvIqdKPn+2/l71jx0MZrPyYy0lp+oYMVv5yIkaLv34aevqs9v49g14ww9V/jKAXz3T5pwR6l2y3PyTQu2W8/jcBOg7QbgsUAIBpgAIAsC1gAgAAIAAAAAAnAgAAAAAAYFGg6wAmAAAAAAAA7AIYAOdBLgUATPd3g0jW+7tH7H4C7pLsuEDWZ+DIQ1Tbe8DdBLJOcPQ5wvVF8PcpbgDTSwBAM78JjAMUwLZAAWwLFIA/iiwLFMC2QO8Zd4zPXQQdAuiNs97/EYF2XGAdoN0WaLcF2nGBdpwAwLZAuw3Qjgt0XWAdoB0XAAAAwLYAgHUBAOsC6wC1BCwBAADsgkYAAACbgBEAYA0AAAAAAADHQQCWwJgAgABY3wX9hxSAJQAAAAAADgMAAAAAAMBxEAAAmwAAAAAAANgC8PQYAAAAAAAA4EzICMz2B2AJAAAAAAAAx0EAAAAAAAAAAAAAAOYAfMIwAAAAAAAAAAAAABcDAAAAAADAcRAAAJsAAEvABJiAIQDfPglgHSAAAGz3XxIA4IvYAQAAsCuQcYBkXGAdINkWSMYFMi6QjAtkXSDjAtkGyMNZ739PgYwD5JtZ75/1/ncTyLZAjmW9/10E8kTG699AIE9nvP61CfJTGa9/SYL8dLbbX8ggv5rl7ucmyOtywu8pzuszXf5Ek5B3Z7j6Ww1ytgxXfxVCrpb/v3g/03z1Xj+99/E6S3l12z+kRYVXexx0GAAAAABJRU5ErkJggg==", "label": "glass jar"},
+  {"box_2d": [276, 804, 467, 937], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAACOklEQVR42u3dwW6CYBRE4fP+Lz2NSZdd2BYMcM7sNc7nJYDCD5TzszfypLpvFX4UxE7N6/1frLLaV5+TXTDm7h+C2J2iLn84wu4be/8DBPaA2Pv/B2FPir3/Hwj2wMjr/0pgdoHZBTY5QQB2gdkF7AALIIAAAgigvWDHQQG0CTQBAXQ23AAEEEAAKoHpARZAAAGIARoAucACCMAtYAdYAAEEEEAAAQQQQEeCAQSQQOfDxv4J9Kvo7JcJ9t9gAAF0HNBesAEIoFOhfhCqf1uATmBygE0tsAVgBpgnAcj7B2DvH4C9/08CdoBNLmAHWBMQQJuAWWAByAUCCMANsAACCCAAs0AAAbgBNrlAAAG4AdYENAEBBBCAF2ABBBBAAAEEEEAAAQQQQAABBBBAALL+AfTHkB4APUAXSHS5dBfMd9dMN40IBbp9tjvI3Qb2lWRaTSiA1lRrVcEW1lQT9PThnkDuJsAuAHIC7AIgJ0AuAHIB7ALYBbALBGAXwC4AcgJwE0ACcgGQE4CbABJwE4BcgGNy38fycVj0AOgB0APckQAScBOAXAC7AMgJArALYBcIwC6AXQC7AHYB5AIgFwA5AcgJsAsgF+BD0QMQgB2AAOwA2PsHQAB2gCsS2AEIQC6AXQC5AMgFQE6AXQC5AMgFsAsgFwC5gB0A5AI0AXICOwABuAWQA4BbgADcAMgBwC1AAG4B3ADgBuB6kdfnc90vWf9TAFw56vJ/F3jvZdwj3x/2Md/oSTNBKafmC2rbiEkV4QAjAAAAAElFTkSuQmCC", "label": "glass jar"},
+  {"box_2d": [260, 701, 431, 811], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAACMUlEQVR42u3aW3bbMBTFUMx/0rerXf1s87AlhSRwZoAdypLsQGuLb/7shJDfKX9z3toXuBYAmwX2I7VLlD9nMOtPmn0Xwew6c/slAnPA1PGvE8xRc9d/m2EOnjz/c4I5f/b+DwVGMnv//wgmALfAjFtgApALBBCAG6AD0AHoAPQYoH4Srj+AAOoPoJtgAF0CHYDeBALoEgigb0NcANMBCEAtMAEEoAaYALoEAggggF4FehQOwAvQV4IByPv7XaRfxwMggAACCCCAboMBBNDLQAC9DwcQQAAByAAmgAACCCCAAAIIIIAAlAATQAABBBBAd8EAAgggAGV/AAEE4O7vnwM6AAEEEEAAAQQQQAABBBCAsD+AAAKoP4AAxAB9BgQQQAABBBBAAAEEEIASYAIIoI+AAAIIIIAAAggggAAC6FUggAACCKCbQAABBBBAAAH0GBBAAAEE0E2gA9ABOLg/AHt/AAHI+xUA/DvdAsDHO/sv/1n9yQB8cdLsIwF4ae76MwDg9fwDAHhv5vbdAcAMwFWT528KgBqAayfP3w0A3AC4AcANAG4BeT/3zV2/BQByAMwAPDB7/8IC4AZADoAbgCcnz18QANQC4AYAtwByAOQA4BYAtwByAJALIBdADgBuAZALIBcAuQBuAdaZvf9nBJALsNrs/Q8LsOTs/c8RgFqAtSfPv12AHWbvv5GAfaYHuIWA3SbPv5iATWfvvwqB/WfvfweBo2bv/64Dx08dv+d+AcLlqXz1z8t/AAAAAElFTkSuQmCC", "label": "glass jar"},
+  {"box_2d": [203, 597, 276, 895], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAACpklEQVR42u3dQXLbMBBE0bn/pTubbJKKY4sEOQP83weA0U8Qy6QtTdV/k98pZvJn6P15BgmbIIEL5MvQ+zMQ8n0UOBohPw8e4EyDfBp6/9MMcjF4gFMQci94gP0NsiJ4gI0Jsix4gE0Rsjr0/rsZ5KHgAbYhyKOh998AIYET5KXgAaYa5NXgAQYaJHCChE2QpuABxhAkcIK0psLuP+AgJHCCBE6QwAkCF8io4AGCBwi9vwDBA4TeXwA8QAQQQAB0fwEEEIDdX4AIIAC7vwARQACvAegDEAEEgAOE3l+ACCAAHCD0/gIIQAeIAAIIgO4vQAQQQAA2QOj9BcADRAAB4ABXBQI8AZ8ucNgJ+HyRHCNwcZWcIHBnmewvcG+Z7C1wf5lkW4LeVRoN1joGGDxA8ACh91dAgND7CxDfAr4HBPAiIIAAAoAB4gnwBAgggAACCCCAAAII4O/CAggggAACCCCAAAIIIIAAsP4CCCCAAAIIIIAAAggggAACCEAE8BMDAggggAACgPsLIIAAArAB/BIJAQTwGiCAAAIIIIAAAjD7C+CXKgoggAACCCCAAAJgAUoAAQQQQAABBMD2nwVQDQDV+jL8G6AOB/jrx789EK4boH0oYOfErbo0PPDpF2Dui//MHtsAhozHbBu7N2VAaBfAmCGpTaMnx8yJ7Zm9OWhYbs/41UEzg1sABg1ObpnAO2p2dINAPZtVm9m1/4dbf38Qd9UkgfdHkddLWbKdnQEuj99+WKDezILt7A1Qi3azbf9vdz/h1rvRYMatdx/BkDvvNoGOZw/Vm5vb2L5//9OXggtUsQXqjAgA77/62SOHoAouUHCBKrhAwQWq4AJVcIIqOEHBBerc4AFKADrAjxQKEHp/AQoPUCv+AnUkQdGy4N/hzfv5Bezy1UiW+gZ7AAAAAElFTkSuQmCC", "label": "wooden rolling pin"},
+  {"box_2d": [706, 652, 900, 999], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAACO0lEQVR42u3dwU4dMQyG0f/9X9qVukJVuUDLhvmOd0izyZGdkLmJZxN/i/sz4sNPGdz7UR9/geA+jPr4Hy1wn4w8wFMJ7toCd22B+2rUx/8wgbu4wMUF7uICFxe4iwvUAe7iAlcXuLjAXVzg4gJ3cYGrC1xd4OoCVxe4usDVBa4uAKAuAKAucHWBbwa4OMABuDzAAagDHAACAOIAB4BAHeBHCZx58Pc2zjTQFhiA+EpgV2hT5N2QIiAAgAABWwJLIQA/FcqAdgo4MpEHqB8bOiVAwCTg9CQAR6gJuEjhNlEdgAABtyq/6+3AfnIQMAvUp4G8gBYDCKwFFgMC32UAQA4QWD4L9oTIE0gCrTgR/K/BHhME/tmAwGTB8gZb3gDB8gQElicgQMBEIAkkAQECJgICNkcmAgLKgMATCQh4YywHEBAgQAABAQIE/u0kAQECyoCAMiDgeCUBB0wJECBAgIArJwQIPIuAAAEXEAkQIOAmMgFlIAcIaEshCeSA7iwElAEBZUCAAAECBLSuJKB7JwECBPRyvryAHCCgDAgQIEDAYiAHCPjODQFlIAc+KbB6FeyFQeU/otUFXjxWAHj9XCEH9ioFCgIfPPd8gTzA4yfCz02FXpD41cz5AadonCl1w8JdMx0IdCJ5NIDudHkAHfx9ycP3bAB8mWB1gdUFACxOsLrA6gJbnGB1gdUFVhdYXWCLEwBYnGB1gcUFtrbAKlEf/zsCW1tgiwtsbYKtLbBk1Mf/hmALE7z96xfMPaiHGtP3mgAAAABJRU5ErkJggg==", "label": "wooden spoon"},
+  {"box_2d": [701, 755, 811, 999], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAACXElEQVR42u3dSU7EUBAE0bz/pQNYgYQYxOD+3RG59K6eqv5gL7x9Ht7mzYMpwru8PnPW/1y3B4AvYq8fe/2PLmAHQA7A92KvPwB7/Q8rYAcAtwDIBQKQC4BbANwC4BYAtwC4BUAuYAcAuQByAQJwCxCAXCAAuQABuAVALhCAXIAA5AIByAFALhBAAG4AkAsEYBcIQC4AcoEA7AJ2AAJIIAA1APYZCCAAuQC1QAByggACkAsEkEAAAbgFArALUAvUAgE0A70Y6lIYQADdCAIIIIGWwc6DASQQQNdiqQC1QC0gFyABuwAJ2AWwC2AXYLVAAgnYl4EE7AIkYBfALgB2ggASsBNgFyABuwAJ2AVIwE4QAHYCvQAJyAW4PHoA9ADoAdADJIAeAD0A9vrPIdALYBfALgByAhKwCyAX4IDoARK4KQF2AZATkICdAL1APYC9CTgsCSSAHuByAuwEJIDdQC8AdgLsBGAnQE+AnQDsBOgJ0BOA3YAI9AJg7wL0BETQILQldDjKoFHoeFQX3OHGGEGno64JETQI7YpXnY3Oh7joe8rRDjf4vnzamFxNcN5KcS3AgavlhQBn7hg7IHqAmxpscoIdFD3ATRQ2OcEmJ9jkBJucYHaBTU6wyQl2fvQA62+w/RD4Hwk2OcEmJ5hdYJMTbHKCTU6wyQl2r9ED/JXBJifYvUcP8FuC2QU2OcEeJXqA6QF+aDC7wCYn2OQEm5xgkxNscoLZBTY5wSYn2OQEe/wEYAeYHuBTgtkFpoke4AOCTU6wyQlmF9jkBJucYJMTbHKCAOwCM+cF4AnFZUfGxfF8wgAAAABJRU5ErkJggg==", "label": "wooden spoon"},
+  {"box_2d": [47, 321, 212, 399], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAACUklEQVR42u3c0YoTURQF0f3/P10qiE8q4iTp2121Yd6n1pwOIkm2Kwf8+PnN9vTxL1PHP1WB/5o6/jEIfH3u+p8GmOvveQm8YfL8Oz0KvHHu+hsQ8InJ8w82ALcAyAX49OT5pxHYAXADcNn0ANj7jxAAtwC4BThgegDs/RcKgFwA3ATgFgC5AMfN3v9ZAZALIBfg2Nn7PyNAAHIB5AIcP3v/mwXATQBuAZAL2AEgATcBAbgFQC6AXIAA3ADgFuCu0wNg7w8Ae/9LBJALEIBcgAfM3v8lAeQCyAEIwC1AAAGoCez9zwLA3k8HUH8AvQIEoO0PoCegA+gA6u8fQR1AB9D/hHQAHYAMYAHU3ytAAPUH0Etg/QH0loAOoDcF9QB0AL0vsP4AemdwB9AB9NmADqAD6ONB9QdQ/wMB+oRoB9ABiAEWgLq/r0noizICqL+vyunLkpQAC6B+M0APQAegBlgA9ZsB5gbYAjD3bwGoASYHqN8NsA6gAzAD1O8GqD8ANcDcAJsbYHKAdQAdgBmgfjdA/QGoAep3A0wOUH8AZoHVrwaoP4D6vQCrXw2wAOo3A/QA1N8DIAaYHKC/f3//DqADqF8KUL8boH43wOQA9QegBpgcYHKA+t0AkwMsADfA5ACTAywAN8DkAAtADbAFoBaYHGCTC0wuMDnA5hZYANfO3n85wdwCO2Z6gNn7ryGYXGDnzd7/UYHNLbBzZ+//iMJuMHv/Owk2t8DkAJtbYHMLTA6w283e/1KC3XXff3V1/ytuYU/Zrx5p/59M/gKy1s7bN/8iyePvL/erAAAAAElFTkSuQmCC", "label": "wooden spatula"},
+  {"box_2d": [0, 370, 166, 458], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAACbElEQVR42u3dwY7aUBAF0fr/n+4oi2SZiQDj1666ErPEc4/62QJbPDgxM/P79VrYmHcKryeYK+Juv4dgLo29//kCM26B+Ub0AGPvH8DY+58qMAG4BUYOMCMXGLuAHGC+H3v/kde/COC1A81+gbeONOsB3jvibAX4zAHnxtxwxvr7Jn/+zC6Aj/8DswZgHpnr78ltB5iHR17/B4EZN8CMW2DkABOAW2ACcANMAHKBAAKQC0wjEEAXwgACSKDTYACtgb4TEAMQgB0ggQD0t0cC0N8htAh0k7gRCCCAHpVRC/S0WAAJBCAnCMAu0IPjASQgJwggALkAjUAjIBfALkACdgESsAtgFwggAbtAP6kRQGsggAQ6C6gFsAtgFyABuwAJBCAXwC6w5neRDwIgADsAeoAE0AOgB0AP8BiCfVtFHASAvT/6CXgAwdItY87pv1tg87ZB5/RfK7B+66hj6q8U+MaeW6b+ywS4Ivb+ewTADQBuAS6NvT/2/scL8IXI658sAG4BAnALIAcAtwDIBewAIBewA3BH7P2x9z9IwA7AfdEDYO8fAPb+AWDvf7sAcgGQCwRgF0AuAHKBAOwC2AXATQByAewC2AWwC2AXwC6AXQDkBNgFsAtgFwjALoBdALsAdgHsAmAnSCAAuwDICbALgJwAuwAJBBCAW4AE7AIgJyABuwB2ARqBRiABuQDICUjALtAINAKNgJ2AFoGdgATsAiSQQAAJJCAnIAH9KmgEEmgRNAPNgH0I9AAJJNC1oBnoati3A81AAAkk0Jlw7RD00eiDg5AAqxPBJxR4SBJ4GYJnRg/w3xBooi7/r/wCAh8RHlzrdhAAAAAASUVORK5CYII=", "label": "wooden spatula"},
+  {"box_2d": [27, 465, 166, 584], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAACO0lEQVR42u3d2XHDQAzAUPTfNNNADjt2JtwFWIHwvNJ49EHBypkHhztnnhx7/2UM89Ko449DmD8ca/dqhfmXefmqn73wf2x9P8BcM/L83xjMlWPvfxhhbh97/w8GM2aBsfR/JTCmsfd/IjAjFwhALjDjFpgA3AATQAABmAEmgADMADMBBBCAGGACCCCA+gMIoH8BAQQQgPJlQAABuPt7Ix5AAO7+AOoPIABzfwD2/gDs/QEEEIC7P4AA5P0B1O/uDyAAeX8A9v4AAgjA3R+Avd8kYAcgALmAfX2UfqleAPLdkmcuRV0EcLrC0ctxA1jTf67BDVui9/QfSIBc4J5l6YsATiK4bGX+IgDs/QEcQUAAboJbP5+yCAB7/24B7AK4BW7/kNQiAPQA2PtXCgQgF5B8U3ARAPb+ZQJ2AAJwCxCAGwDkAsgFkAOAXMAOAHIBOwABuAUIwA0AcgE7AHIAAnALEEAAagACcAMQgBsA5AJ2AOQABBCAGgDkAnYAAnADEIAbANwCBOAGIAA3AAEEoAYgADcAAdQfgBgA5AJ2AOQABNAd0AEIIIAArAAE0B3QAQjAC0AAAagBkAPUH0AAZoD6A1ADIAdADkAHoANgBqAD0AEwA9TvBkAOUL8bADkAcgACcAPI+8ENgBsAdz+4Aez9BwrYDwD2fuz9yPPfCIAbANwAyAGQA+AGADcAbgBwA+AGADcAcgDkAMgBkAMgB0AOgBuA+nv69/NLCbhw5PlPAHD5iNO/QaBZNx+RwNRM6dyBfgAAAABJRU5ErkJggg==", "label": "wooden spatula"},
+  {"box_2d": [73, 442, 169, 508], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAACTklEQVR42u3dwY7iUBTE0Pr/n/ZM73sxQ3fCC3ZJiLWPECvI3dqdg6/X1/6+++K/m7ccAwiv7/HpP4l/ugO/OnX80wy4cO768wm4Zer4Yw24efL8swx41+T5hxiAWoAjZu9/GwFHzd5/PwEHTp5/IwEHz95/BwG4BXjA7P0XCvCU2fsvEgC3ALgFeNwCkPf/rgC4BcAtAHIB5ALgFgC3ALgFwC0AcgE7AB8yPQD2/lcFkAsQgFsA3AIgF0AuQABuAZALBCAXALcAAcgF7ADgFgC5QAByAJALYBewA4BcwA4AcoEA5AIEEIBbwA4AcgHsAgHIAUAuYAcggADcAgHIBQggALUAAQSgFkAOAH0C+gSoBQIIIAA1AAHIBQIIIIAAAhADgFwggAACCCCAAAIIIIAAAggggAACCCAAm0AAAQTQl2AAAYgBFkAAAQQQgBmgn4jY+wPQA/Rz8QACcPf3t7EA9AALQN4fwAIIIAB1f09SCsDe3wP1Api9P4CeLByAvF8lEEBHJrqzEoBYYAF0b0wN0M3BADo8qgbo9q4coAPkcoB/OUE/PcACkPd/sEAAcoHJATa5gB1gkwvYAfa/C8AOMHt/ANMDzN7/SQIBzE0wOcAmF5hdYHKBBSAXmFxgkwtMLrDJBSYXmBxgkwtMLrC5BTa3wOYW2NwCm1xgcoHNLbC5BTa3wK6dvf94gd0we//JAptcYHKB3Th7/4kEu332/rME9p7Z+48R2Dtn7z+AYAfM3v9Gg501d/3tBjt37vrrIfbAacNfllprl+0PAWYu28nkEboAAAAASUVORK5CYII=", "label": "wooden spoon"},
+  {"box_2d": [56, 230, 215, 329], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAAB/klEQVR42u3dW07DQBQFwdn/pg8gPgEhXiFO1ywAZUp97cROzDkfrX26zgOvfWWlN/9wCPv2im//IQj20xXf/ivB0vt/FrhoB/vFVd//FQW2tsAWF1hcYADiAnWALS6wugAAAgDiAmZAAnWBSUACEiDgVOhDoQRcGDEEGnB5lIB7BPH7ZAQI5AHcLScggTwAgfzXpn5d4NQFANQFjgQkQMAQSIAAAAJpgUMAAIG4wCEAgIDjoAQkIAEJEPC5GAABRwEJECAQBiDgSxMSyAMQkIAEJEDAEEiAQByAAAG/J5FAHoAAAb+t9PPaPIDHDBDwvBUJSMBTlwhIQAL5BDyBUAIE8gAEJOCZ3B7L7n8T5AGWByBgCAwBAQAEABAgAIAAAAI+EkiAgCEAEJ4BbwYISEACzgQSkIDjIABHAQIACAAgQMD7QQlIgAAAAlWBQ4AAAAJxAQlIgAAAAo6DEiBgCAgAcHGIAIE0gDvGGiBAwBfoJGAGCBDIAxBYHoCAKSBwBQJTIIG6wFYnyAuYAQIOAnECAKsT7GYrD3CvBHmB3XjlAe6OYIsTrC6wusAWJ1he4MwUSCBOsLoAgLrA6gKbBjQQF1hdYBKQQFxgdQEAixOsLgDADNQBzpwIvBlyWSAP4EbZPymc+1svryq7+T/K4b0/di663rz4K2/Gupf1BFKpcnHxBQbqAAAAAElFTkSuQmCC", "label": "wooden handle utensil"},
+  {"box_2d": [72, 497, 167, 563], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAACWElEQVR42u3dS07DQBAA0br/pRtlxQKQAvg3U9USa6jndpACnsD9M6+v44dVZk4bef4CAHP2eMufTDDXjr3/SQJz09z6+/3z28+Nc13wfA2+tfxKgCcFXwkwPLH4IoFZof1EgFln7P0nCMxqowc4mGBGLTAjBphV848BmKVHHf9vgNlh5Pl/FphR989OE4C6/i8C4xaYDYdR57+9A7PzuOvfAJiRC8gBZtQA4xh7/88CcoAZMcCMqf8bARvA7PR291EAdoEAEgigeyCCdqCboBXQrwABBCAHSIAA7AC9O0wAdoAE9H8kawdagTagFehVUA6AHoAA5P39y2AABCDvDwB7v/3JgTagDcDeH4C9f2eBAHqAUg1AAG4BApA/RR9A50gEEEBnyQQgBSAANwABdKBaAGIAAghADdCxqnKBzhV2CxBAR4sHIAYggADUAATQB4wEEIAXgADcAATQh4wF4AUggADUAATgBiAANQAEoAYggADUAARQvxmAAAIIwAxAAAHUH0AAAVgBWoAAAugloAVoAQKQArQALYAagADqD0AMgBsAOQDHT/0BqAHs1z+A+t392PtpAdzXH3s/8nx9P+76NQDqVwPg7gc3gLufC0aejzz/wQD2fjsA7n5wA+AGADUA7n7c/eAGQA4g76fr3wKIAahfDSDvBzeAvB/cAMgB6ncD1O8GkPeDG4D2vxtADED9agDkAPJ+6m/9u/5agPrVANSvFkAOIO/nQWPvx95/gwCoBXji2PuvEwA3AEvM6+cU55+2Eqw58vxjFNhl5rcWCEaY3Ow0H8AxH5kIcshDAAAAAElFTkSuQmCC", "label": "wooden handle utensil"},
+  {"box_2d": [108, 513, 167, 561], "mask": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAACSElEQVR42u3dwVIbMRRE0ff/P90xgTKmyCIJ9oxGfRpcBpc3904/SWMWzCyX5Pb98bh9ze/HfHnO/ectk3veOT+ek8c3bAf9yP2v2ema10nIM+AfNVxLRV6UcvyLaMgRqYZfWEG6BeSElOOv5CCpNpBTU45/voKskNOOylkjp90rZJUQcMpKkLXSzn+4gaTbQNYUkGJ8Ag6cgXQLSNYVEAKa+VN+/e9/dezlP0BAVheQan4CXi0gBHQLyBXSzp92/rTzawB+E0BAM3/a+dsFvOrzgJQLsAMQYAvETwABzkCdAvATYAUgAD8B+AnATwABToEKoAAKQIAJIMAEKAAB+AnYXYDrT4AzAAEmgAB7IH4C8PcZMAEEmAACigUoAAEEWAII6BWgAApAQLOAEICfgGIBIcAEEGACFAA/AQRYAgsFOAUSYAIUQAEIMAEK4BRMgBVAARSAAAKcAVx/AgiwBCiAAigAAfgJwE+AT0IUQAEUQAH24x8DQID7YAUggAD8BDgFKoAC4CfACuA+2AAQgJ8AWwABJkABFIAAE4CfAPwE2ALwE4CfAJ+FKgABJoAA/ATgtwUoAAH4r8yvAAqgAAqgAAQ4BRNgAuwB+AnAj7+J3/9Rx09ANT8B7fzTzj/V8FcRMAR0C5huAdPNP9MsYA4IAbXkhwuYG9Yn2dsvby99e8vRWeWCvguZ7QTM8uklf6mAmWYBc620808zOwFPNlDOP5dNN/1TBMzVU47/MwGzR4rR/1fBbJhy/L91MNunFvzPKkZk2/wCNjHSsJkHhK4AAAAASUVORK5CYII=", "label": "wooden handle utensil"}
+]
+```</code></pre>
+</div>
+</div>
+<p>The model predicts a JSON list, where each item represents a segmentation mask. Each item has a bounding box (<code>"box_2d"</code>) in the format <code>[y0, x0, y1, x1]</code> with normalized coordinates between 0 and 1000, a label (<code>"label"</code>) that identifies the object, and lastly the segmentation mask inside the bounding box, as base64 encoded png.</p>
+<p>To use the mask, first you need to do base64 decoding, and then loading this string as a png. This will give you a probability map with values between 0 and 255. The mask needs to be resized to match the bounding box dimensions, then you can apply your confidence threshold, e.g.&nbsp;binarizing at 127 for the midpoint. Finally, pad the mask into an array of the size of the full image.</p>
+<p>All these steps are done by the the <code>parseSegmentationMasks</code> function provided earlier.</p>
+<p>Ultimately, use the <code>plotSegmentationMasks</code> function to visualize the decoded masks by overlaying it on the image.</p>
+<div id="cell-42" class="cell" data-execution_count="73">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> segmentationMasks <span class="op">=</span> <span class="cf">await</span> <span class="fu">parseSegmentationMasks</span>(segmentationResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"[]"</span><span class="op">,</span> <span class="dv">1024</span><span class="op">,</span> <span class="dv">1024</span>)<span class="op">;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">plotSegmentationMasks</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(CUPCAKE_IMAGE_PATH)<span class="op">,</span> segmentationMasks)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Spatial_understanding_files/figure-html/cell-22-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="Spatial_understanding_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="preliminary-capabilities-pointing-and-3d-boxes" class="level2">
+<h2 class="anchored" data-anchor-id="preliminary-capabilities-pointing-and-3d-boxes">Preliminary capabilities: pointing and 3D boxes</h2>
+<p>Pointing and 3D bounding boxes are experimental model capabilities. Check this <a href="../examples/Spatial_understanding_3d.ipynb">other notebook</a> to get a sneak peek on those upcoming capabilities.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://storage.googleapis.com/generativeai-downloads/images/box_3d.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Box 3D"><img src="https://storage.googleapis.com/generativeai-downloads/images/box_3d.png" class="img-fluid figure-img" alt="Box 3D"></a></p>
+<figcaption>Box 3D</figcaption>
+</figure>
+</div>
+</section>
+<section id="whats-next" class="level2">
+<h2 class="anchored" data-anchor-id="whats-next">What’s next?</h2>
+<p>For a more end-to-end example, the code from the <a href="https://aistudio.google.com/starter-apps/spatial">AI Studio Spatial understanding example</a> is available on <a href="https://github.com/google-gemini/starter-applets/tree/main/spatial">Github</a>.</p>
+<p>You’ll also find multiple other examples of Gemini capabilities in the <a href="https://github.com/FallenDeity/deepmind-starter">Gemini cookbook</a>, in particular the <a href="../quickstarts/Get_started_LiveAPI.html">Live API</a> and the <a href="Video_understanding.ipynb">video understanding</a> one.</p>
+<p>Related to image recognition and reasoning, <a href="../examples/Market_a_Jet_Backpack.ipynb">Market a jet backpack</a> and <a href="../examples/Guess_the_shape.ipynb">Guess the shape</a> examples are worth checking to continue your Gemini API discovery (Note: these examples still use the old SDK). And of course the <a href="../examples/Spatial_understanding_3d.ipynb">pointing and 3d boxes</a> example referenced earlier.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fallendeity\.github\.io\/deepmind-starter");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../quickstarts/Search_Grounding.html" class="pagination-link" aria-label="Gemini API: Grounding using Search as a tool">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Grounding using Search as a tool</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Spatial_understanding.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Spatial_understanding.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
