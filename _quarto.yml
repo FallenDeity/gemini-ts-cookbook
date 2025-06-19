@@ -5,8 +5,6 @@ project:
   resources:
     - "assets/*"
 
-toc: true
-
 website:
   title: "Gemini Cookbook"
   page-navigation: true
@@ -42,4 +40,7 @@ format:
     theme:
       - zephyr
     respect-user-color-scheme: true
+    lightbox: true
+    smooth-scroll: true
+    toc: true
     # code-line-numbers: true
