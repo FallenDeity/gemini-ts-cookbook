@@ -2,106 +2,110 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/New_in_002.html</loc>
-    <lastmod>2025-06-21T12:25:48.623Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.376Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Streaming.html</loc>
-    <lastmod>2025-06-21T12:25:48.817Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.568Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_LiveAPI_tools.html</loc>
-    <lastmod>2025-06-21T12:25:48.534Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.285Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Counting_Tokens.html</loc>
-    <lastmod>2025-06-21T12:25:48.515Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.265Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Audio.html</loc>
-    <lastmod>2025-06-21T12:25:48.511Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.262Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Safety.html</loc>
-    <lastmod>2025-06-21T12:25:48.633Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.386Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Code_Execution.html</loc>
-    <lastmod>2025-06-21T12:25:48.513Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.263Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Search_Grounding.html</loc>
-    <lastmod>2025-06-21T12:25:48.634Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.386Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Models.html</loc>
-    <lastmod>2025-06-21T12:25:48.623Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Enum.html</loc>
-    <lastmod>2025-06-21T12:25:48.517Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_LyriaRealtime.html</loc>
-    <lastmod>2025-06-21T12:25:48.534Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_thinking.html</loc>
-    <lastmod>2025-06-21T12:25:48.542Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fallendeity.github.io/deepmind-starter/index.html</loc>
-    <lastmod>2025-06-21T12:25:48.511Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fallendeity.github.io/deepmind-starter/assets/contrib.html</loc>
-    <lastmod>2025-06-21T12:25:48.377Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Image_out.html</loc>
-    <lastmod>2025-06-21T12:25:48.622Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/File_API.html</loc>
-    <lastmod>2025-06-21T12:25:48.531Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Embeddings.html</loc>
-    <lastmod>2025-06-21T12:25:48.515Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.375Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Caching.html</loc>
-    <lastmod>2025-06-21T12:25:48.511Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.262Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Embeddings.html</loc>
+    <lastmod>2025-06-21T12:43:20.265Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/File_API.html</loc>
+    <lastmod>2025-06-21T12:43:20.282Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Image_out.html</loc>
+    <lastmod>2025-06-21T12:43:20.374Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/assets/contrib.html</loc>
+    <lastmod>2025-06-21T12:43:20.127Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/index.html</loc>
+    <lastmod>2025-06-21T12:43:20.261Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_thinking.html</loc>
+    <lastmod>2025-06-21T12:43:20.293Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_LyriaRealtime.html</loc>
+    <lastmod>2025-06-21T12:43:20.285Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Enum.html</loc>
+    <lastmod>2025-06-21T12:43:20.268Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/System_instructions.html</loc>
+    <lastmod>2025-06-21T12:43:20.568Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_TTS.html</loc>
-    <lastmod>2025-06-21T12:25:48.534Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.285Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started.html</loc>
-    <lastmod>2025-06-21T12:25:48.533Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.285Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Grounding.html</loc>
-    <lastmod>2025-06-21T12:25:48.542Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.293Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/PDF_Files.html</loc>
-    <lastmod>2025-06-21T12:25:48.625Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.377Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/JSON_mode.html</loc>
-    <lastmod>2025-06-21T12:25:48.623Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.375Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Spatial_understanding.html</loc>
-    <lastmod>2025-06-21T12:25:48.796Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.547Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Prompting.html</loc>
-    <lastmod>2025-06-21T12:25:48.633Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.386Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_LiveAPI.html</loc>
-    <lastmod>2025-06-21T12:25:48.533Z</lastmod>
+    <lastmod>2025-06-21T12:43:20.285Z</lastmod>
   </url>
 </urlset>
