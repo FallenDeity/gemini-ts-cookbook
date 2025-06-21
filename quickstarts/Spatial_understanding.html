@@ -343,6 +343,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Gemini API: System instructions</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Video understanding with Gemini</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -541,7 +547,7 @@ Note
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> downloadFile <span class="op">=</span> <span class="kw">async</span> (url<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> filePath<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> {</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to download image: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to download file: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">blob</span>()<span class="op">;</span></span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> bufferData <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> buffer<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">;</span></span>
@@ -1157,7 +1163,7 @@ Spill.jpg already exists at ../assets/spatial_understanding/Spill.jpg</code></pr
 <section id="whats-next" class="level2">
 <h2 class="anchored" data-anchor-id="whats-next">What’s next?</h2>
 <p>For a more end-to-end example, the code from the <a href="https://aistudio.google.com/starter-apps/spatial">AI Studio Spatial understanding example</a> is available on <a href="https://github.com/google-gemini/starter-applets/tree/main/spatial">Github</a>.</p>
-<p>You’ll also find multiple other examples of Gemini capabilities in the <a href="https://github.com/FallenDeity/deepmind-starter">Gemini cookbook</a>, in particular the <a href="../quickstarts/Get_started_LiveAPI.html">Live API</a> and the <a href="Video_understanding.ipynb">video understanding</a> one.</p>
+<p>You’ll also find multiple other examples of Gemini capabilities in the <a href="https://github.com/FallenDeity/deepmind-starter">Gemini cookbook</a>, in particular the <a href="../quickstarts/Get_started_LiveAPI.html">Live API</a> and the <a href="../quickstarts/Video_understanding.html">video understanding</a> one.</p>
 <p>Related to image recognition and reasoning, <a href="../examples/Market_a_Jet_Backpack.ipynb">Market a jet backpack</a> and <a href="../examples/Guess_the_shape.ipynb">Guess the shape</a> examples are worth checking to continue your Gemini API discovery (Note: these examples still use the old SDK). And of course the <a href="../examples/Spatial_understanding_3d.ipynb">pointing and 3d boxes</a> example referenced earlier.</p>
 
 

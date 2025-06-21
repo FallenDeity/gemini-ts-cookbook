@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Video understanding with Gemini – Gemini Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../quickstarts/System_instructions.html" rel="prev">
+<link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ea566745f0d2a752ad1774cffeebdeb0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<meta property="og:title" content="Video understanding with Gemini – Gemini Cookbook">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Gemini Cookbook">
+<meta name="twitter:title" content="Video understanding with Gemini – Gemini Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Gemini Cookbook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../quickstarts/Get_started.html" aria-current="page"> 
+<span class="menu-text">Quickstarts</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://github.com/FallenDeity/deepmind-starter/">
+            Source Code
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Video_understanding.html">Video understanding with Gemini</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Quickstarts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Audio Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Code Execution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: All about tokens</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Embeddings Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Enum Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: File API Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multimodal Live API - Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Use Gemini thinking</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with information grounding for Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini 2.0 Image output</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: List models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Prompting Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Safety Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Grounding using Search as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2D spatial understanding with Gemini 2.0</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Streaming Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: System instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Video understanding with Gemini</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
+  <ul class="collapse">
+  <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
+  <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
+  <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
+  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
+  <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
+  </ul></li>
+  <li><a href="#get-sample-videos" id="toc-get-sample-videos" class="nav-link" data-scroll-target="#get-sample-videos">Get sample videos</a></li>
+  <li><a href="#upload-the-videos" id="toc-upload-the-videos" class="nav-link" data-scroll-target="#upload-the-videos">Upload the videos</a></li>
+  <li><a href="#search-within-videos" id="toc-search-within-videos" class="nav-link" data-scroll-target="#search-within-videos">Search within videos</a></li>
+  <li><a href="#extract-and-organize-text" id="toc-extract-and-organize-text" class="nav-link" data-scroll-target="#extract-and-organize-text">Extract and organize text</a></li>
+  <li><a href="#structure-information" id="toc-structure-information" class="nav-link" data-scroll-target="#structure-information">Structure information</a></li>
+  <li><a href="#analyze-screen-recordings-for-key-moments" id="toc-analyze-screen-recordings-for-key-moments" class="nav-link" data-scroll-target="#analyze-screen-recordings-for-key-moments">Analyze screen recordings for key moments</a></li>
+  <li><a href="#analyze-youtube-videos" id="toc-analyze-youtube-videos" class="nav-link" data-scroll-target="#analyze-youtube-videos">Analyze youtube videos</a></li>
+  <li><a href="#customizing-video-preprocessing" id="toc-customizing-video-preprocessing" class="nav-link" data-scroll-target="#customizing-video-preprocessing">Customizing video preprocessing</a></li>
+  <li><a href="#analyze-specific-parts-of-videos-using-clipping-intervals" id="toc-analyze-specific-parts-of-videos-using-clipping-intervals" class="nav-link" data-scroll-target="#analyze-specific-parts-of-videos-using-clipping-intervals">Analyze specific parts of videos using clipping intervals</a></li>
+  <li><a href="#customize-the-number-of-video-frames-per-second-fps-analyzed" id="toc-customize-the-number-of-video-frames-per-second-fps-analyzed" class="nav-link" data-scroll-target="#customize-the-number-of-video-frames-per-second-fps-analyzed">Customize the number of video frames per second (FPS) analyzed</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Video_understanding.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Video_understanding.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Video_understanding.html">Video understanding with Gemini</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Video understanding with Gemini</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Gemini has from the begining been a multimodal model, capable of analyzing all sorts of medias using its <a href="https://developers.googleblog.com/en/new-features-for-the-gemini-api-and-google-ai-studio/">long context window</a>.</p>
+<p><a href="https://aistudio.google.com/starter-apps/video">Gemini models</a> bring video analysis to a whole new level as illustrated in <a href="https://www.youtube.com/watch?v=Mot-JEU26GQ">this video</a>.</p>
+<p>This notebook will show you how to easily use Gemini to perform the same kind of video analysis. You can also check the <a href="https://aistudio.google.com/starter-apps/video">live demo</a> and try it on your own videos on <a href="https://aistudio.google.com/starter-apps/video">AI Studio</a>.</p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="install-the-google-genai-sdk" class="level3">
+<h3 class="anchored" data-anchor-id="install-the-google-genai-sdk">Install the Google GenAI SDK</h3>
+<p>Install the Google GenAI SDK from <a href="https://www.npmjs.com/package/@google/genai">npm</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install @google/genai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="setup-your-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="setup-your-api-key">Setup your API key</h3>
+<p>You can <a href="https://aistudio.google.com/app/apikey">create</a> your API key using Google AI Studio with a single click.</p>
+<p>Remember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a <code>.env</code> file. You can also set it as an environment variable or use a secret manager.</p>
+<p>Here’s how to set it up in a <code>.env</code> file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch .env</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;"</span> <span class="op">&gt;&gt;</span> .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another option is to set the API key as an environment variable. You can do this in your terminal with the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export GEMINI_API_KEY=<span class="st">"&lt;YOUR_API_KEY&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="load-the-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-api-key">Load the API key</h3>
+<p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, we can load the API key in our code:</p>
+<div id="cell-4" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../.env"</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GEMINI_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">GEMINI_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>GEMINI_API_KEY) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"GEMINI_API_KEY is not set in the environment variables"</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"GEMINI_API_KEY is set in the environment variables"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEMINI_API_KEY is set in the environment variables</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
+<pre><code>│
+├── .env
+└── quickstarts
+    └── Video_understanding.ipynb</code></pre>
+</div>
+</div>
+</section>
+<section id="initialize-sdk-client" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
+<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
+<div id="cell-7" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="select-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="quickstarts/Get_started_thinking.ipynb">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<p>Video understanding works best with Gemini 2.5 models. You can also select former models to compare their behavior but it is recommended to use at least the 2.0 ones.</p>
+<div id="cell-9" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="get-sample-videos" class="level2">
+<h2 class="anchored" data-anchor-id="get-sample-videos">Get sample videos</h2>
+<p>You will start with uploaded videos, as it’s a more common use-case, but you will also see later that you can also use Youtube videos.</p>
+<div id="cell-11" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> downloadFile <span class="op">=</span> <span class="kw">async</span> (url<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> filePath<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to download file: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">blob</span>()<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> bufferData <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> buffer<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(filePath<span class="op">,</span> bufferData)<span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> videoDir <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets"</span><span class="op">,</span> <span class="st">"video_understanding"</span>)<span class="op">;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>fs<span class="op">.</span><span class="fu">mkdirSync</span>(videoDir<span class="op">,</span> { recursive<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> videoMapping <span class="op">=</span> {</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Pottery.mp4"</span><span class="op">:</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/videos/Pottery.mp4"</span><span class="op">,</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Trailcam.mp4"</span><span class="op">:</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/videos/Jukin_Trailcam_Videounderstanding.mp4"</span><span class="op">,</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Post_its.mp4"</span><span class="op">:</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/videos/post_its.mp4"</span><span class="op">,</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">"User_study.mp4"</span><span class="op">:</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/videos/user_study.mp4"</span><span class="op">,</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> [fileName<span class="op">,</span> url] <span class="kw">of</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">entries</span>(videoMapping)) {</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> filePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(videoDir<span class="op">,</span> fileName)<span class="op">;</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>fs<span class="op">.</span><span class="fu">existsSync</span>(filePath)) {</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Downloading </span><span class="sc">${</span>fileName<span class="sc">}</span><span class="vs">...`</span>)<span class="op">;</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="fu">downloadFile</span>(url<span class="op">,</span> filePath)<span class="op">;</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`</span><span class="sc">${</span>fileName<span class="sc">}</span><span class="vs"> already exists, skipping download.`</span>)<span class="op">;</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Downloading Pottery.mp4...
+Downloading Trailcam.mp4...
+Downloading Post_its.mp4...
+Downloading User_study.mp4...</code></pre>
+</div>
+</div>
+</section>
+<section id="upload-the-videos" class="level2">
+<h2 class="anchored" data-anchor-id="upload-the-videos">Upload the videos</h2>
+<p>Upload all the videos using the File API. You can find modre details about how to use it in the <a href="../quickstarts/Get_started.html">Get Started</a> notebook.</p>
+<p>This can take a couple of minutes as the videos will need to be processed and tokenized.</p>
+<div id="cell-13" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { <span class="bu">File</span><span class="op">,</span> FileState } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">deferredFileUpload</span>(filePath<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> config<span class="op">:</span> { displayName<span class="op">:</span> <span class="dt">string</span> })<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="bu">File</span><span class="op">&gt;</span> {</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> file <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    file<span class="op">:</span> filePath<span class="op">,</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    config<span class="op">,</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> getFile <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">get</span>({ name<span class="op">:</span> file<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span> })<span class="op">;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (getFile<span class="op">.</span><span class="at">state</span> <span class="op">===</span> FileState<span class="op">.</span><span class="at">PROCESSING</span>) {</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    getFile <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">get</span>({ name<span class="op">:</span> file<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span> })<span class="op">;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`current file status (</span><span class="sc">${</span>getFile<span class="op">.</span><span class="at">displayName</span><span class="sc">}</span><span class="vs">): </span><span class="sc">${</span>getFile<span class="op">.</span><span class="at">state</span> <span class="op">??</span> <span class="st">"unknown"</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"File is still processing, retrying in 5 seconds"</span>)<span class="op">;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve) <span class="kw">=&gt;</span> {</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>      <span class="pp">setTimeout</span>(resolve<span class="op">,</span> <span class="dv">5000</span>)<span class="op">;</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (file<span class="op">.</span><span class="at">state</span> <span class="op">===</span> FileState<span class="op">.</span><span class="at">FAILED</span>) {</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"File processing failed."</span>)<span class="op">;</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> file<span class="op">;</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-14" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> pottery_video <span class="op">=</span> <span class="cf">await</span> <span class="fu">deferredFileUpload</span>(path<span class="op">.</span><span class="fu">join</span>(videoDir<span class="op">,</span> <span class="st">"Pottery.mp4"</span>)<span class="op">,</span> { displayName<span class="op">:</span> <span class="st">"Pottery Video"</span> })<span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> trailcam_video <span class="op">=</span> <span class="cf">await</span> <span class="fu">deferredFileUpload</span>(path<span class="op">.</span><span class="fu">join</span>(videoDir<span class="op">,</span> <span class="st">"Trailcam.mp4"</span>)<span class="op">,</span> { displayName<span class="op">:</span> <span class="st">"Trailcam Video"</span> })<span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> post_its_video <span class="op">=</span> <span class="cf">await</span> <span class="fu">deferredFileUpload</span>(path<span class="op">.</span><span class="fu">join</span>(videoDir<span class="op">,</span> <span class="st">"Post_its.mp4"</span>)<span class="op">,</span> { displayName<span class="op">:</span> <span class="st">"Post-its Video"</span> })<span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> user_study_video <span class="op">=</span> <span class="cf">await</span> <span class="fu">deferredFileUpload</span>(path<span class="op">.</span><span class="fu">join</span>(videoDir<span class="op">,</span> <span class="st">"User_study.mp4"</span>)<span class="op">,</span> {</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  displayName<span class="op">:</span> <span class="st">"User Study Video"</span><span class="op">,</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>current file status (Pottery Video): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (Post-its Video): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (Pottery Video): ACTIVE
+File is still processing, retrying in 5 seconds
+current file status (Post-its Video): ACTIVE
+File is still processing, retrying in 5 seconds
+current file status (User Study Video): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (Trailcam Video): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (User Study Video): ACTIVE
+File is still processing, retrying in 5 seconds
+current file status (Trailcam Video): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (Trailcam Video): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (Trailcam Video): ACTIVE
+File is still processing, retrying in 5 seconds
+current file status (Post-its Video): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (Post-its Video): ACTIVE
+File is still processing, retrying in 5 seconds
+current file status (User Study Video): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (User Study Video): ACTIVE
+File is still processing, retrying in 5 seconds</code></pre>
+</div>
+</div>
+</section>
+<section id="search-within-videos" class="level2">
+<h2 class="anchored" data-anchor-id="search-within-videos">Search within videos</h2>
+<p>First, try using the model to search within your videos and describe all the animal sightings in the trailcam video.</p>
+<div id="cell-16" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> trailcam_video_analysis <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"For each scene in this video, generate captions that describe the scene along with any spoken text placed in quotation marks. Place each caption into an object with the timecode of the caption in the video."</span><span class="op">,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(trailcam_video<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> trailcam_video<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(trailcam_video_analysis<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="sourceCode" id="cb16"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"00:00"</span><span class="fu">,</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A fox's head comes into frame, looking around, then walks off-screen. Another fox quickly enters the frame from the right, walks to the left, and then disappears. A third fox enters from the right, walks to the left, and then disappears. The second fox comes into frame from the bottom right, walks forward, then stops to look at the other foxes. The first fox walks on the top of the rocks, then disappears off-screen. The second and third foxes walk into the middle of the frame and then disappear off-screen. (audio: sounds of birds, animals, and clicks)"</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"00:17"</span><span class="fu">,</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A mountain lion is walking slowly, sniffing the ground. The mountain lion then stops and looks around, then continues walking, sniffing the ground and then disappears off-screen. (audio: sounds of animals and clicks)"</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"00:35"</span><span class="fu">,</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"Two foxes are walking in the forest at night, both looking at something on the ground. The fox on the left starts to roll around and appears to be playing with something on the ground, then stands up. The other fox starts to approach the fox on the left, then they both start chasing each other around. The fox on the right chases the fox on the left off-screen, then the fox on the left chases the fox on the right off-screen. (audio: sounds of animals and clicks)"</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"00:50"</span><span class="fu">,</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A camera flashes, revealing two foxes, one on the right and one on the left. The fox on the left is lying on the ground, then the fox on the right quickly runs towards it and off-screen. (audio: sounds of animals and clicks)"</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"01:05"</span><span class="fu">,</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A mountain lion's back is to the camera, looking around. It then jumps and disappears off-screen. (audio: sounds of animals and clicks)"</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"01:18"</span><span class="fu">,</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"Two mountain lions are walking in the forest. The mountain lion in the foreground turns its head to the camera, then walks towards the camera and off-screen. The mountain lion in the background walks to the right and then disappears off-screen. (audio: sounds of animals and clicks)"</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"01:29"</span><span class="fu">,</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A bobcat is looking at something on the ground in the forest, then quickly looks up and around, then back to the ground. The bobcat then lies down, rolls around, and then stands back up and looks to the left. The bobcat then walks away. (audio: sounds of animals and clicks)"</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"01:51"</span><span class="fu">,</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A bear walks from the right side of the screen to the left. (audio: sounds of birds and clicks)"</span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"01:57"</span><span class="fu">,</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A mountain lion runs from the left to the right side of the screen. (audio: sounds of birds and clicks)"</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"02:05"</span><span class="fu">,</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A black bear walks from the left to the right side of the screen. (audio: sounds of animals and clicks)"</span></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"02:12"</span><span class="fu">,</span></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A cub walks into the frame from the right side of the screen, followed by its mother. They both begin to sniff the ground and walk to the left. (audio: sounds of animals and clicks)"</span></span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"02:23"</span><span class="fu">,</span></span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A fox is walking along a rocky cliff at night. The fox stops to look down at the city lights, then starts to eat something off the ground. The fox then looks up at the city lights. (audio: sounds of birds and clicks)"</span></span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"02:35"</span><span class="fu">,</span></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A bear is walking along a rocky cliff at night, then walks off-screen. (audio: sounds of birds and clicks)"</span></span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"02:42"</span><span class="fu">,</span></span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A mountain lion is walking along a rocky cliff at night, then walks off-screen. (audio: sounds of birds and clicks)"</span></span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"02:47"</span><span class="fu">,</span></span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A mountain lion is walking along a rocky cliff at night, then walks off-screen. (audio: sounds of birds and clicks)"</span></span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"02:52"</span><span class="fu">,</span></span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A mountain lion is walking in the forest at night, then stops to look at something under a tree. It then walks further under the tree and disappears off-screen. (audio: sounds of animals and clicks)"</span></span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"03:05"</span><span class="fu">,</span></span>
+<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A black bear is walking in the forest, then stops and starts to bite at its front leg. The bear walks forward. (audio: sounds of animals and clicks)"</span></span>
+<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"03:22"</span><span class="fu">,</span></span>
+<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A bear cub walks into the frame, starts to bite at its leg, then another bear cub walks in behind it. They both stop and look around, then start to walk. The second bear cub sits down, scratches its back, then the first bear cub walks towards it and then off-screen. The second bear cub then follows the first one. (audio: sounds of animals and clicks)"</span></span>
+<span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"04:22"</span><span class="fu">,</span></span>
+<span id="cb16-76"><a href="#cb16-76" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A bobcat walks from the right side of the screen and into the center. It then looks at the camera, then away. It then walks off-screen. (audio: sounds of clicks)"</span></span>
+<span id="cb16-77"><a href="#cb16-77" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-78"><a href="#cb16-78" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-79"><a href="#cb16-79" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"04:30"</span><span class="fu">,</span></span>
+<span id="cb16-80"><a href="#cb16-80" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A bobcat walks from the left side of the screen and into the center. It then looks at the camera, then away. It then walks off-screen. (audio: sounds of clicks)"</span></span>
+<span id="cb16-81"><a href="#cb16-81" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-82"><a href="#cb16-82" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-83"><a href="#cb16-83" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"04:50"</span><span class="fu">,</span></span>
+<span id="cb16-84"><a href="#cb16-84" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A bobcat walks from the left side of the screen and into the center. It then looks away, then walks off-screen. (audio: sounds of clicks)"</span></span>
+<span id="cb16-85"><a href="#cb16-85" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-86"><a href="#cb16-86" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb16-87"><a href="#cb16-87" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timecode"</span><span class="fu">:</span> <span class="st">"04:57"</span><span class="fu">,</span></span>
+<span id="cb16-88"><a href="#cb16-88" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"caption"</span><span class="fu">:</span> <span class="st">"A mountain lion is walking from the left and into the center. It then looks at the camera, then walks from the left to the right. (audio: sounds of animals and clicks)"</span></span>
+<span id="cb16-89"><a href="#cb16-89" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span></span>
+<span id="cb16-90"><a href="#cb16-90" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>The prompt used is quite a generic one, but you can get even better results if you cutomize it to your needs (like asking specifically for foxes).</p>
+<p>The <a href="https://aistudio.google.com/starter-apps/video">live demo on AI Studio</a> shows how you can postprocess this output to jump directly to the the specific part of the video by clicking on the timecodes. If you are interested, you can check the <a href="https://github.com/google-gemini/starter-applets/tree/main/video">code of that demo on Github</a>.</p>
+</section>
+<section id="extract-and-organize-text" class="level2">
+<h2 class="anchored" data-anchor-id="extract-and-organize-text">Extract and organize text</h2>
+<p>Gemini models can also read what’s in the video and extract it in an organized way. You can even use Gemini reasoning capabilities to generate new ideas for you.</p>
+<div id="cell-19" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> post_its_video_analysis <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Transcribe the sticky notes, organize them and put it in a table. Can you come up with a few more ideas?"</span><span class="op">,</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(post_its_video<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> post_its_video<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(post_its_video_analysis<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Okay, I’ve transcribed and organized the sticky notes into a table based on apparent themes.</p>
+<p><strong>Brainstorm: Project Name</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 22%">
+<col style="width: 23%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Astronomy/Space</th>
+<th style="text-align: left;">Mythology/Legend</th>
+<th style="text-align: left;">Science/Mathematics</th>
+<th style="text-align: left;">Other</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Andromeda’s Reach</td>
+<td style="text-align: left;">Aether</td>
+<td style="text-align: left;">Bayes Theorem</td>
+<td style="text-align: left;">Convergence</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Canis Major</td>
+<td style="text-align: left;">Athena</td>
+<td style="text-align: left;">Chaos Field</td>
+<td style="text-align: left;">Orion’s Sword</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Celestial Drift</td>
+<td style="text-align: left;">Athena’s Eye</td>
+<td style="text-align: left;">Chaos Theory</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Centaurus</td>
+<td style="text-align: left;">Cerberus</td>
+<td style="text-align: left;">Equilibrium</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Comets Tail</td>
+<td style="text-align: left;">Chimera Dream</td>
+<td style="text-align: left;">Euler’s Path</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Delphinus</td>
+<td style="text-align: left;">Echo</td>
+<td style="text-align: left;">Fractal</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Draco</td>
+<td style="text-align: left;">Hera</td>
+<td style="text-align: left;">Golden Ratio</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Galactic Core</td>
+<td style="text-align: left;">Medusa</td>
+<td style="text-align: left;">Infinity Loop</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Leo Minor</td>
+<td style="text-align: left;">Odin</td>
+<td style="text-align: left;">Riemann’s Hypothesis</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Lunar Eclipse</td>
+<td style="text-align: left;">Pandora’s Box</td>
+<td style="text-align: left;">Stokes Theorem</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lyra</td>
+<td style="text-align: left;">Perseus Shield</td>
+<td style="text-align: left;">Symmetry</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Lynx</td>
+<td style="text-align: left;">Phoenix</td>
+<td style="text-align: left;">Taylor Series</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Orion’s Belt</td>
+<td style="text-align: left;">Prometheus Rising</td>
+<td style="text-align: left;">Vector</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sagitta</td>
+<td style="text-align: left;">Titan</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Serpens</td>
+<td style="text-align: left;">Zephyr</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Stellar Nexus</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Supernova Echo</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>A Few More Ideas (following similar themes):</strong></p>
+<ol type="1">
+<li><strong>Astronomy/Space:</strong>
+<ul>
+<li><strong>Nebula Prime:</strong> Combines a celestial body with a sense of origin or importance.</li>
+<li><strong>Event Horizon:</strong> Suggests a point of no return, a boundary, or a pivotal moment.</li>
+<li><strong>Cosmic Anomaly:</strong> Implies uniqueness, discovery, or something out of the ordinary.</li>
+</ul></li>
+<li><strong>Mythology/Legend:</strong>
+<ul>
+<li><strong>Ares Ascent:</strong> Implies power, rising to a challenge, or a new beginning.</li>
+<li><strong>Midas Core:</strong> Suggests a central element that transforms or creates value.</li>
+<li><strong>Valhalla Gateway:</strong> Evokes a grand, important entry point or destination.</li>
+</ul></li>
+<li><strong>Science/Mathematics Concepts:</strong>
+<ul>
+<li><strong>Quantum Leap:</strong> Denotes a significant, sudden advancement or change.</li>
+<li><strong>Paradox Engine:</strong> Suggests a powerful system that resolves complex problems or defies expectations.</li>
+<li><strong>Fibonacci Sequence:</strong> Implies growth, natural patterns, and interconnectedness.</li>
+</ul></li>
+<li><strong>General/Abstract:</strong>
+<ul>
+<li><strong>Apex Protocol:</strong> Suggests a highest standard, a definitive procedure, or a peak achievement.</li>
+<li><strong>Vanguard Initiative:</strong> Implies leading the way, pioneering, or being at the forefront.</li>
+<li><strong>Syntropy Engine:</strong> (Syntropy is the opposite of entropy, tending towards order and organization) – Suggests bringing things together, creating order, or a powerful organizing force.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="structure-information" class="level2">
+<h2 class="anchored" data-anchor-id="structure-information">Structure information</h2>
+<p>Gemini 2.0 is not only able to read text but also to reason and structure about real world objects. Like in this video about a display of ceramics with handwritten prices and notes.</p>
+<div id="cell-21" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> pottery_video_analysis <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Give me a detailed table of my items and notes"</span><span class="op">,</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(pottery_video<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> pottery_video<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> <span class="st">"Don't forget to escape the dollar signs"</span><span class="op">,</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(pottery_video_analysis<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Here is a detailed table of the items and notes from your image:</p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 6%">
+<col style="width: 42%">
+<col style="width: 27%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Item Type</th>
+<th style="text-align: left;">Quantity</th>
+<th style="text-align: left;">Description / Notes</th>
+<th style="text-align: left;">Dimensions</th>
+<th style="text-align: left;">Price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Tumblers</strong></td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">Glaze: #5 Artichoke double dip</td>
+<td style="text-align: left;">Approximately 4”h x 3”d</td>
+<td style="text-align: left;">$20 each</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Small Bowls</strong></td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Glaze: Brown speckled with dark interior accents</td>
+<td style="text-align: left;">3.5”h x 6.5”d</td>
+<td style="text-align: left;">$35 each</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Medium Bowls</strong></td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Glaze: Brown speckled with dark interior accents</td>
+<td style="text-align: left;">4”h x 7”d</td>
+<td style="text-align: left;">$40 each</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Glaze Test Tile</strong></td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Glaze: #5 Artichoke double dip</td>
+<td style="text-align: left;">Small, flat, irregular shape</td>
+<td style="text-align: left;">N/A (sample)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Glaze Test Tile</strong></td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Glaze: #6 Gemini double dip (labeled 6b on tile)</td>
+<td style="text-align: left;">Small, flat, rectangular shape</td>
+<td style="text-align: left;">N/A (sample)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><strong>Firing Note:</strong> SLOW COOL</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Summary of Items:</strong></p>
+<ul>
+<li>There are 7 tumblers, priced at $20 each, featuring an “#5 Artichoke double dip” glaze and measuring approximately 4 inches high by 3 inches in diameter.</li>
+<li>There are 2 small bowls, priced at $35 each, measuring 3.5 inches high by 6.5 inches in diameter, with a brown speckled glaze.</li>
+<li>There are 2 medium bowls, priced at $40 each, measuring 4 inches high by 7 inches in diameter, also with a brown speckled glaze.</li>
+<li>Two glaze test tiles are present: one for the “#5 Artichoke double dip” glaze and another for a “#6 Gemini double dip” glaze, noting “SLOW COOL” as a firing instruction for the latter.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="analyze-screen-recordings-for-key-moments" class="level2">
+<h2 class="anchored" data-anchor-id="analyze-screen-recordings-for-key-moments">Analyze screen recordings for key moments</h2>
+<p>You can also use the model to analyze screen recordings. Let’s say you’re doing user studies on how people use your product, so you end up with lots of screen recordings, like this one, that you have to manually comb through. With just one prompt, the model can describe all the actions in your video.</p>
+<div id="cell-23" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> user_study_video_analysis <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Generate a paragraph that summarizes this video. Keep it to 3 to 5 sentences with corresponding timecodes."</span><span class="op">,</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(user_study_video<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> user_study_video<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(user_study_video_analysis<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>This video demonstrates the core functionalities of the “My Garden App,” showcasing a plant shopping interface where users can browse various plants with their prices and descriptions. [0:00-0:09] Users interact with the app by “Liking” plants, which changes the button color, and “Adding to Cart,” which provides a quick “Added!” confirmation. [0:09-0:25] The application effectively tracks these actions, as seen when navigating to the “Shopping Cart” tab which lists added items like Fern, Cactus, and Hibiscus with a running total. [0:30-0:33] Finally, the “Profile” section provides a summary of user activity, displaying the total number of liked plants and items currently in the cart. [0:33-0:35]</p>
+</div>
+</div>
+</section>
+<section id="analyze-youtube-videos" class="level2">
+<h2 class="anchored" data-anchor-id="analyze-youtube-videos">Analyze youtube videos</h2>
+<p>On top of using your own videos you can also ask Gemini to get a video from Youtube and analyze it. He’s an example using the keynote from Google IO 2023. Guess what the main theme was?</p>
+<div id="cell-25" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> youtube_video_analysis <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Find all the instances where Sundar says "AI". Provide timestamps and broader context for each instance.'</span><span class="op">,</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(<span class="st">"https://www.youtube.com/watch?v=ixRanV-rdAQ"</span><span class="op">,</span> <span class="st">"video/x-youtube"</span>)<span class="op">,</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(youtube_video_analysis<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Here are all the instances where Sundar Pichai says “AI”, along with their timestamps and broader context:</p>
+<ol type="1">
+<li><strong>0:29</strong> “As you may have heard, <strong>AI</strong> is having a very busy year.”
+<ul>
+<li><strong>Context:</strong> Sundar is opening his keynote speech at Google I/O, remarking on the current surge in AI activity.</li>
+</ul></li>
+<li><strong>0:39</strong> “Seven years into our journey as an <strong>AI</strong> first company, we are at an exciting inflection point.”
+<ul>
+<li><strong>Context:</strong> He’s emphasizing Google’s long-term commitment to AI, stating that it’s been foundational to their operations for seven years and they’re now at a crucial stage.</li>
+</ul></li>
+<li><strong>0:45</strong> “We have an opportunity to make <strong>AI</strong> even more helpful for people, for businesses, for communities, for everyone.”
+<ul>
+<li><strong>Context:</strong> He’s highlighting the broad potential of AI to benefit various aspects of society and user groups.</li>
+</ul></li>
+<li><strong>0:54</strong> “We’ve been applying <strong>AI</strong> to make our products radically more helpful for a while.”
+<ul>
+<li><strong>Context:</strong> He mentions Google’s history of integrating AI into its products for enhanced utility.</li>
+</ul></li>
+<li><strong>0:59</strong> “With generative <strong>AI</strong>, we are taking the next step.”
+<ul>
+<li><strong>Context:</strong> He’s introducing the focus on generative AI and how it represents a significant leap forward for Google’s product development.</li>
+</ul></li>
+<li><strong>1:17</strong> “Let me start with few examples of how generative <strong>AI</strong> is helping to evolve our products, starting with Gmail.”
+<ul>
+<li><strong>Context:</strong> He transitions to showcasing specific product examples, beginning with Gmail, that demonstrate the evolution driven by generative AI.</li>
+</ul></li>
+<li><strong>1:41</strong> “Smart Compose led to more advanced writing features powered by <strong>AI</strong>.”
+<ul>
+<li><strong>Context:</strong> He’s explaining the progression of AI-powered features in Workspace, from Smart Reply to Smart Compose, and their widespread usage.</li>
+</ul></li>
+<li><strong>3:03</strong> “Since the early days of Street View, <strong>AI</strong> has stitched together billions of panoramic images, so people can explore the world from their device.”
+<ul>
+<li><strong>Context:</strong> He’s talking about Google Maps and how AI has been instrumental in creating immersive experiences like Street View.</li>
+</ul></li>
+<li><strong>3:14</strong> “At last year’s I/O, we introduced Immersive View, which uses <strong>AI</strong> to create a high fidelity representation of a place, so you can experience it before you visit.”
+<ul>
+<li><strong>Context:</strong> He describes how AI is used in Immersive View to provide realistic virtual tours of locations in Maps.</li>
+</ul></li>
+<li><strong>5:08</strong> “Another product made better by <strong>AI</strong> is Google Photos.”
+<ul>
+<li><strong>Context:</strong> He introduces Google Photos as another example of an AI-enhanced product.</li>
+</ul></li>
+<li><strong>5:16</strong> “It was one of our first <strong>AI</strong> native products.”
+<ul>
+<li><strong>Context:</strong> He specifies Google Photos’ early integration of AI from its inception.</li>
+</ul></li>
+<li><strong>5:40</strong> “<strong>AI</strong> advancements give us more powerful ways to do this.”
+<ul>
+<li><strong>Context:</strong> He’s talking about how new AI advancements are enabling more sophisticated photo editing capabilities in Google Photos.</li>
+</ul></li>
+<li><strong>5:48</strong> “Magic Eraser, launched first on Pixel, uses <strong>AI</strong>-powered computational photography to remove unwanted distractions.”
+<ul>
+<li><strong>Context:</strong> He explains the technology behind Magic Eraser in Google Photos, highlighting its AI foundation.</li>
+</ul></li>
+<li><strong>7:43</strong> “These are just a few examples of how <strong>AI</strong> can help you in moments that matter.”
+<ul>
+<li><strong>Context:</strong> He summarizes the product demonstrations, emphasizing the practical and meaningful applications of AI.</li>
+</ul></li>
+<li><strong>7:49</strong> “And there is so much more we can do to deliver the full potential of <strong>AI</strong> across the products you know and love.”
+<ul>
+<li><strong>Context:</strong> He reaffirms Google’s ongoing commitment to expanding AI capabilities across its entire product ecosystem.</li>
+</ul></li>
+<li><strong>8:24</strong> “Making <strong>AI</strong> helpful for everyone is the most profound way we will advance our mission.”
+<ul>
+<li><strong>Context:</strong> He states Google’s overarching goal for AI: to make it universally beneficial.</li>
+</ul></li>
+<li><strong>8:53</strong> “And finally, by building and deploying <strong>AI</strong> responsibly, so that everyone can benefit equally.”
+<ul>
+<li><strong>Context:</strong> He outlines the four key ways Google is making AI helpful for everyone, with responsible deployment being the last point.</li>
+</ul></li>
+<li><strong>9:03</strong> “Our ability to make <strong>AI</strong> helpful for everyone relies on continuously advancing our foundation models.”
+<ul>
+<li><strong>Context:</strong> He connects the goal of helpful AI to the foundational research and development of AI models.</li>
+</ul></li>
+<li><strong>10:25</strong> “It’s also trained on multilingual text spanning over 100 languages, so it understands and generates nuanced results. Combined with powerful coding capabilities, PaLM 2 can also help developers collaborating around the world.”
+<ul>
+<li><strong>Context:</strong> He’s explaining the advanced training and capabilities of PaLM 2, Google’s latest large language model, which is an AI.</li>
+</ul></li>
+<li><strong>11:27</strong> “It uses <strong>AI</strong> to better detect malicious scripts and can help security experts understand and resolve threats.”
+<ul>
+<li><strong>Context:</strong> He’s detailing how Sec-PaLM, an AI model, is being used for cybersecurity.</li>
+</ul></li>
+<li><strong>12:47</strong> “PaLM 2 is the latest step in our decade-long journey to bring <strong>AI</strong> in responsible ways to billions of people.”
+<ul>
+<li><strong>Context:</strong> He reiterates the long-term vision of making AI accessible and beneficial to a global audience.</li>
+</ul></li>
+<li><strong>12:53</strong> “It builds on progress made by two world-class teams, the Brain Team and DeepMind. Looking back at the defining <strong>AI</strong> breakthroughs over the last decade, these teams have contributed to a significant number of them.”
+<ul>
+<li><strong>Context:</strong> He acknowledges the history of Google’s AI research and the key teams that have driven breakthroughs.</li>
+</ul></li>
+<li><strong>13:10</strong> “All this helps set the stage for the inflection point we are at today. We recently brought these two teams together into a single unit, Google DeepMind, using the computational resources of Google, they are focused on building more capable systems safely and responsibly. This includes our next generation foundation model, Gemini, which is still in training. Gemini was created from the ground up to be multimodal, highly efficient at tool and API integrations, and built to enable future innovations like memory and planning. While still early, we are already seeing impressive multimodal capabilities not seen in prior models. Once fine-tuned and rigorously tested for safety, Gemini will be available at various sizes and capabilities, just like PaLM 2. As we invest in more advanced models, we are also deeply investing in <strong>AI</strong> responsibility.”
+<ul>
+<li><strong>Context:</strong> Sundar discusses the merger of Google Brain and DeepMind into Google DeepMind, their focus on building more capable AI systems, and the ongoing development of Gemini. He emphasizes the commitment to responsible AI development.</li>
+</ul></li>
+<li><strong>15:11</strong> “James will talk about our responsible approach to <strong>AI</strong> later.”
+<ul>
+<li><strong>Context:</strong> He refers to a segment by another speaker who will delve deeper into Google’s approach to AI ethics and responsibility.</li>
+</ul></li>
+<li><strong>15:18</strong> “As models get better and more capable, one of the most exciting opportunities is making them available for people to engage with directly. That’s the opportunity we have with Bard, our experiment for conversational <strong>AI</strong>.”
+<ul>
+<li><strong>Context:</strong> He speaks about the increasing capabilities of AI models and the opportunity to make them directly available to users through interfaces like Bard.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="customizing-video-preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="customizing-video-preprocessing">Customizing video preprocessing</h2>
+<p>The Gemini API allows you to define some preprocessing steps to enhance your abilities to understand and extract information from videos.</p>
+<p>You can use clipping intervals (or define time offsets to focus on specific video parts) and custom FPS (to define how many frames will be considered to analyze the video.</p>
+<p>For more details about those features, you can take a look at the <a href="https://ai.google.dev/gemini-api/docs/video-understanding#customize-video-preprocessing">Customizing video preprocessing</a> at the Gemini API documentation.</p>
+</section>
+<section id="analyze-specific-parts-of-videos-using-clipping-intervals" class="level2">
+<h2 class="anchored" data-anchor-id="analyze-specific-parts-of-videos-using-clipping-intervals">Analyze specific parts of videos using clipping intervals</h2>
+<p>Sometimes you want to look for specific parts of your videos. You can define time offsets on your request, pointing to the model which specific video interval you are more interested about.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <a href="https://googleapis.github.io/js-genai/release_docs/interfaces/types.VideoMetadata.html"><code>VideoMetadata</code></a> that you will inform must be representing the time offsets in seconds.</p>
+</div>
+</div>
+<p>In this example, you are using this video, from <a href="https://www.youtube.com/watch?v=WsEQjeZoEng">Google I/O 2024 keynote</a> and asking the model to consider specifically the time offset between 1min40s and 5min.</p>
+<div id="cell-28" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { VideoMetadata } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> video_metadata<span class="op">:</span> VideoMetadata <span class="op">=</span> {</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  startOffset<span class="op">:</span> <span class="st">"100s"</span><span class="op">,</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  endOffset<span class="op">:</span> <span class="st">"300s"</span><span class="op">,</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> clipping_intervals_video_analysis <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>      <span class="op">...</span>google<span class="op">.</span><span class="fu">createPartFromUri</span>(<span class="st">"https://www.youtube.com/watch?v=WsEQjeZoEng"</span><span class="op">,</span> <span class="st">"video/x-youtube"</span>)<span class="op">,</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>      videoMetadata<span class="op">:</span> video_metadata<span class="op">,</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Please summarize the video in 3 sentences"</span><span class="op">,</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(clipping_intervals_video_analysis<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Google I/O 2024 showcased the deep integration of its Gemini AI across its vast product ecosystem. Major announcements included the expanded multimodal capabilities and significantly larger context windows of Gemini 1.5 Pro, the real-time AI agent “Project Astra,” and the efficient Gemini 1.5 Flash. These advancements aim to deliver more intuitive and powerful AI experiences across Google Workspace, Search, Android, and creative tools, alongside a commitment to responsible AI development.</p>
+</div>
+</div>
+<div id="cell-29" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { VideoMetadata } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> video_metadata_2<span class="op">:</span> VideoMetadata <span class="op">=</span> {</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  startOffset<span class="op">:</span> <span class="st">"60s"</span><span class="op">,</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  endOffset<span class="op">:</span> <span class="st">"120s"</span><span class="op">,</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> clipping_intervals_video_analysis_2 <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>      <span class="op">...</span>google<span class="op">.</span><span class="fu">createPartFromUri</span>(trailcam_video<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> trailcam_video<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>      videoMetadata<span class="op">:</span> video_metadata_2<span class="op">,</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Summarize this video in few short bullets with timestamps."</span><span class="op">,</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(clipping_intervals_video_analysis_2<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Here’s a summary of the video:</p>
+<ul>
+<li><strong>0:00 - 0:04</strong>: A bobcat quickly crosses the frame, its eyes reflecting the camera’s light.</li>
+<li><strong>0:05 - 0:09</strong>: Another bobcat quickly crosses the frame.</li>
+<li><strong>0:10 - 0:13</strong>: A third bobcat quickly crosses the frame.</li>
+<li><strong>0:14 - 0:17</strong>: A fourth bobcat quickly crosses the frame.</li>
+<li><strong>0:20 - 0:29</strong>: Two large mountain lions appear, walking past the camera.</li>
+<li><strong>0:35 - 0:39</strong>: A bobcat quickly crosses the frame.</li>
+<li><strong>0:40 - 0:44</strong>: Another bobcat quickly crosses the frame.</li>
+<li><strong>0:45 - 0:49</strong>: Another bobcat quickly crosses the frame.</li>
+<li><strong>0:50 - 0:54</strong>: A mountain lion quickly passes by.</li>
+<li><strong>1:00 - 1:03</strong>: A bobcat approaches the camera, its eyes glowing, and then quickly retreats.</li>
+<li><strong>1:04 - 1:16</strong>: A mountain lion walks into the frame, pauses, and then continues on its way.</li>
+<li><strong>1:17 - 1:28</strong>: Two mountain lions appear, one walking past the camera closer to the foreground, followed by the other.</li>
+<li><strong>1:29 - 1:51</strong>: A bobcat pauses in the frame, sniffing the ground and looking around before exiting.</li>
+<li><strong>1:51 - 1:56</strong>: A large black bear walks slowly past the camera.</li>
+<li><strong>1:57 - 2:02</strong>: A mountain lion walks quickly past the camera.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="customize-the-number-of-video-frames-per-second-fps-analyzed" class="level2">
+<h2 class="anchored" data-anchor-id="customize-the-number-of-video-frames-per-second-fps-analyzed">Customize the number of video frames per second (FPS) analyzed</h2>
+<p>By default, the Gemini API extract 1 (one) FPS to analyze your videos. But this amount may be too much (for videos with less activities, like a lecture) or to preserve more detail in fast-changing visuals, a higher FPS should be selected.</p>
+<p>In this scenario, you are using one specific interval of one Nascar pit-stop as also you will capture a higher number of FPS (in this case, 24 FPS).</p>
+<div id="cell-31" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { VideoMetadata } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> video_metadata_3<span class="op">:</span> VideoMetadata <span class="op">=</span> {</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  startOffset<span class="op">:</span> <span class="st">"15s"</span><span class="op">,</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  endOffset<span class="op">:</span> <span class="st">"35s"</span><span class="op">,</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  fps<span class="op">:</span> <span class="dv">24</span><span class="op">,</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fps_video_analysis <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>      <span class="op">...</span>google<span class="op">.</span><span class="fu">createPartFromUri</span>(<span class="st">"https://www.youtube.com/watch?v=McN0-DpyHzE"</span><span class="op">,</span> <span class="st">"video/x-youtube"</span>)<span class="op">,</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>      videoMetadata<span class="op">:</span> video_metadata_3<span class="op">,</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"How many tires where changed? Front tires or rear tires?"</span><span class="op">,</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(fps_video_analysis<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>The pit crew changed <strong>all four tires</strong> on the car, which includes both the <strong>front and rear tires</strong>.</p>
+</div>
+</div>
+<p>Once again, you can check the <a href="https://aistudio.google.com/starter-apps/video">live demo on AI Studio</a> shows an example on how to postprocess this output. Check the <a href="https://github.com/google-gemini/starter-applets/tree/main/video">code of that demo</a> for more details.</p>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
+<p>Try with you own videos using the <a href="https://aistudio.google.com/starter-apps/video">AI Studio’s live demo</a> or play with the examples from this notebook (in case you haven’t seen, there are other prompts you can try in the dropdowns).</p>
+<p>For more examples of the Gemini capabilities, check the other guide from the Cookbook. You’ll learn how to use the <a href="../quickstarts/Get_started_LiveAPI.html">Live API</a>, juggle with <a href="../quickstarts/Get_started_LiveAPI_tools.html">multiple tools</a> or use Gemini 2.0 <a href="../quickstarts/Spatial_understanding.html">spatial understanding</a> abilities.</p>
+<p>The examples folder from the cookbook is also full of nice code samples illustrating creative ways to use Gemini multimodal capabilities and long-context.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fallendeity\.github\.io\/deepmind-starter");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../quickstarts/System_instructions.html" class="pagination-link" aria-label="Gemini API: System instructions">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: System instructions</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Video_understanding.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Video_understanding.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
