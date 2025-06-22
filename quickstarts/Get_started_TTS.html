@@ -376,6 +376,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#prompt-the-model-to-speak-in-certain-ways" id="toc-prompt-the-model-to-speak-in-certain-ways" class="nav-link" data-scroll-target="#prompt-the-model-to-speak-in-certain-ways">Prompt the model to speak in certain ways</a></li>
   </ul></li>
   <li><a href="#mutlti-speakers" id="toc-mutlti-speakers" class="nav-link" data-scroll-target="#mutlti-speakers">Mutlti-speakers</a></li>
+  <li><a href="#voice-gallery" id="toc-voice-gallery" class="nav-link" data-scroll-target="#voice-gallery">Voice Gallery</a></li>
   <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next">What’s next?</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Get_started_TTS.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Get_started_TTS.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -453,7 +454,7 @@ Tip
 <p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then, we can load the API key in our code:</p>
-<div id="cell-4" class="cell" data-execution_count="24">
+<div id="cell-4" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
@@ -490,7 +491,7 @@ Note
 <section id="initialize-sdk-client" class="level3">
 <h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
 <p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
-<div id="cell-7" class="cell" data-execution_count="25">
+<div id="cell-7" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -499,7 +500,7 @@ Note
 <section id="select-a-model" class="level3">
 <h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
 <p>Audio-out is only supported by the “<code>tts</code>” models, <code>gemini-2.5-flash-preview-tts</code> and <code>gemini-2.5-pro-preview-tts</code>. For more information about all Gemini models, check the <a href="https://ai.google.dev/gemini-api/docs/models/gemini">documentation</a> for extended information on each of them.</p>
-<div id="cell-9" class="cell" data-execution_count="26">
+<div id="cell-9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-tts"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -508,7 +509,7 @@ Note
 <section id="utilites" class="level3">
 <h3 class="anchored" data-anchor-id="utilites">Utilites</h3>
 <p>The simplest way to playback the audio in Colab, is to write it out to a .wav file. So here is a simple wave file writer:</p>
-<div id="cell-11" class="cell" data-execution_count="27">
+<div id="cell-11" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> wave <span class="op">=</span> <span class="pp">require</span>(<span class="st">"wavefile"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"wavefile"</span>)<span class="op">;</span></span>
@@ -527,7 +528,7 @@ Note
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> int16Array<span class="op">;</span></span>
 <span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-12" class="cell" data-execution_count="31">
+<div id="cell-12" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { GenerateContentResponse } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">playAudio</span>(response<span class="op">:</span> GenerateContentResponse<span class="op">,</span> filePath<span class="op">:</span> <span class="dt">string</span>) {</span>
@@ -823,6 +824,372 @@ Note
                       Your browser does not support the audio element.
                   </audio>
               
+</div>
+</div>
+</section>
+<section id="voice-gallery" class="level2">
+<h2 class="anchored" data-anchor-id="voice-gallery">Voice Gallery</h2>
+<p>Here is a gallery of the voices you can use with the TTS model. You can use them in the <code>voiceConfig</code> parameter of the model call.</p>
+<div id="cell-32" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> audioMap<span class="op">:</span> <span class="bu">Record</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">string</span><span class="op">&gt;</span> <span class="op">=</span> {}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-33" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> voices <span class="op">=</span> [</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Zephyr"</span><span class="op">,</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Puck"</span><span class="op">,</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Charon"</span><span class="op">,</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Kore"</span><span class="op">,</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Fenrir"</span><span class="op">,</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Leda"</span><span class="op">,</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Orus"</span><span class="op">,</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Aoede"</span><span class="op">,</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Callirrhoe"</span><span class="op">,</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Autonoe"</span><span class="op">,</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Enceladus"</span><span class="op">,</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Iapetus"</span><span class="op">,</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Umbriel"</span><span class="op">,</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Algieba"</span><span class="op">,</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Despina"</span><span class="op">,</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Erinome"</span><span class="op">,</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Algenib"</span><span class="op">,</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Rasalgethi"</span><span class="op">,</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Laomedeia"</span><span class="op">,</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Achernar"</span><span class="op">,</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Alnilam"</span><span class="op">,</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Schedar"</span><span class="op">,</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Gacrux"</span><span class="op">,</span></span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Pulcherrima"</span><span class="op">,</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Achird"</span><span class="op">,</span></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Zubenelgenubi"</span><span class="op">,</span></span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Vindemiatrix"</span><span class="op">,</span></span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Sadachbia"</span><span class="op">,</span></span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Sadaltager"</span><span class="op">,</span></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Sulafat"</span><span class="op">,</span></span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a><span class="co">// generate for all voices and directly pass the base64 data to the audio player</span></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> voice <span class="kw">of</span> voices) {</span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> filePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/voices"</span><span class="op">,</span> <span class="vs">`</span><span class="sc">${</span>voice<span class="sc">}</span><span class="vs">.wav`</span>)<span class="op">;</span></span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (audioMap[voice] <span class="op">||</span> fs<span class="op">.</span><span class="fu">existsSync</span>(filePath)) {</span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>    audioMap[voice] <span class="op">=</span> audioMap[voice] <span class="op">?</span> audioMap[voice] <span class="op">:</span> fs<span class="op">.</span><span class="fu">readFileSync</span>(filePath<span class="op">,</span> <span class="st">"base64"</span>)<span class="op">;</span></span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">debug</span>(<span class="vs">`Audio for voice </span><span class="sc">${</span>voice<span class="sc">}</span><span class="vs"> already generated, skipping...`</span>)<span class="op">;</span></span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> voice_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb30-42"><a href="#cb30-42" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> [<span class="vs">`Say "Hello, I am a voice named </span><span class="sc">${</span>voice<span class="sc">}</span><span class="vs">!"`</span>]<span class="op">,</span></span>
+<span id="cb30-44"><a href="#cb30-44" aria-hidden="true" tabindex="-1"></a>    config<span class="op">:</span> {</span>
+<span id="cb30-45"><a href="#cb30-45" aria-hidden="true" tabindex="-1"></a>      responseModalities<span class="op">:</span> [google<span class="op">.</span><span class="at">Modality</span><span class="op">.</span><span class="at">AUDIO</span>]<span class="op">,</span></span>
+<span id="cb30-46"><a href="#cb30-46" aria-hidden="true" tabindex="-1"></a>      speechConfig<span class="op">:</span> {</span>
+<span id="cb30-47"><a href="#cb30-47" aria-hidden="true" tabindex="-1"></a>        voiceConfig<span class="op">:</span> {</span>
+<span id="cb30-48"><a href="#cb30-48" aria-hidden="true" tabindex="-1"></a>          prebuiltVoiceConfig<span class="op">:</span> {</span>
+<span id="cb30-49"><a href="#cb30-49" aria-hidden="true" tabindex="-1"></a>            voiceName<span class="op">:</span> voice<span class="op">,</span></span>
+<span id="cb30-50"><a href="#cb30-50" aria-hidden="true" tabindex="-1"></a>          }<span class="op">,</span></span>
+<span id="cb30-51"><a href="#cb30-51" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
+<span id="cb30-52"><a href="#cb30-52" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb30-53"><a href="#cb30-53" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb30-54"><a href="#cb30-54" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb30-55"><a href="#cb30-55" aria-hidden="true" tabindex="-1"></a>  audioMap[voice] <span class="op">=</span> voice_response<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">content</span><span class="op">?.</span><span class="at">parts</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">inlineData</span><span class="op">?.</span><span class="at">data</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb30-56"><a href="#cb30-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveAudioToFile</span>(<span class="fu">base64ToInt16Array</span>(audioMap[voice])<span class="op">,</span> filePath)<span class="op">;</span></span>
+<span id="cb30-57"><a href="#cb30-57" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-58"><a href="#cb30-58" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">debug</span>(<span class="st">"Generated audio for all voices"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Audio for voice Zephyr already generated, skipping...
+Audio for voice Puck already generated, skipping...
+Audio for voice Charon already generated, skipping...
+Audio for voice Kore already generated, skipping...
+Audio for voice Fenrir already generated, skipping...
+Audio for voice Leda already generated, skipping...
+Audio for voice Orus already generated, skipping...
+Audio for voice Aoede already generated, skipping...
+Audio for voice Callirrhoe already generated, skipping...
+Audio for voice Autonoe already generated, skipping...
+Audio for voice Enceladus already generated, skipping...
+Audio for voice Iapetus already generated, skipping...
+Audio for voice Umbriel already generated, skipping...
+Audio for voice Algieba already generated, skipping...
+Audio for voice Despina already generated, skipping...
+Audio for voice Erinome already generated, skipping...
+Audio for voice Algenib already generated, skipping...
+Audio for voice Rasalgethi already generated, skipping...
+Audio for voice Laomedeia already generated, skipping...
+Audio for voice Achernar already generated, skipping...
+Audio for voice Alnilam already generated, skipping...
+Audio for voice Schedar already generated, skipping...
+Audio for voice Gacrux already generated, skipping...
+Audio for voice Pulcherrima already generated, skipping...
+Audio for voice Achird already generated, skipping...
+Audio for voice Zubenelgenubi already generated, skipping...
+Audio for voice Vindemiatrix already generated, skipping...
+Audio for voice Sadachbia already generated, skipping...
+Audio for voice Sadaltager already generated, skipping...
+Audio for voice Sulafat already generated, skipping...
+Generated audio for all voices</code></pre>
+</div>
+</div>
+<div id="cell-34" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">// make an html grid gallery of the audio files</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">html</span>(<span class="vs">`</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 10px;"&gt;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="vs">        </span><span class="sc">${</span><span class="bu">Object</span><span class="op">.</span><span class="fu">keys</span>(audioMap)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>          <span class="op">.</span><span class="fu">map</span>(</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>            (voice) <span class="kw">=&gt;</span> <span class="vs">`</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="vs">            &lt;div style="text-align: center;"&gt;</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="vs">                &lt;audio controls&gt;</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="vs">                    &lt;source src="../assets/voices/</span><span class="sc">${</span>voice<span class="sc">}</span><span class="vs">.wav" type="audio/wav"&gt;</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="vs">                    Your browser does not support the audio element.</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="vs">                &lt;/audio&gt;</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="vs">                &lt;p&gt;</span><span class="sc">${</span>voice<span class="sc">}</span><span class="vs">&lt;/p&gt;</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="vs">            &lt;/div&gt;</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="vs">        `</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>          <span class="op">.</span><span class="fu">join</span>(<span class="st">""</span>)<span class="sc">}</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;/div&gt;</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 10px;">
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Zephyr.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Zephyr</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Puck.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Puck</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Charon.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Charon</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Kore.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Kore</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Fenrir.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Fenrir</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Leda.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Leda</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Orus.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Orus</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Aoede.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Aoede</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Callirrhoe.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Callirrhoe</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Autonoe.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Autonoe</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Enceladus.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Enceladus</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Iapetus.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Iapetus</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Umbriel.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Umbriel</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Algieba.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Algieba</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Despina.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Despina</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Erinome.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Erinome</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Algenib.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Algenib</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Rasalgethi.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Rasalgethi</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Laomedeia.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Laomedeia</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Achernar.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Achernar</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Alnilam.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Alnilam</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Schedar.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Schedar</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Gacrux.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Gacrux</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Pulcherrima.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Pulcherrima</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Achird.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Achird</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Zubenelgenubi.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Zubenelgenubi</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Vindemiatrix.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Vindemiatrix</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Sadachbia.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Sadachbia</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Sadaltager.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Sadaltager</p>
+            </div>
+        
+            <div style="text-align: center;">
+                <audio controls="">
+                    <source src="../assets/voices/Sulafat.wav" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>Sulafat</p>
+            </div>
+        
+    </div>
 </div>
 </div>
 </section>
