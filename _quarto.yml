@@ -6,6 +6,7 @@ project:
     - "assets/*"
 
 website:
+  google-analytics: "G-Q9492TZKXX"
   title: "Gemini Cookbook"
   page-navigation: true
   reader-mode: true
