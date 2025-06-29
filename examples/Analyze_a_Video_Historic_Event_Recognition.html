@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API: Gemini 2.0 Image output – Gemini Cookbook</title>
+<title>Gemini API: Analyze a Video - Historic Event Recognition – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../quickstarts/JSON_mode.html" rel="next">
-<link href="../quickstarts/Grounding.html" rel="prev">
+<link href="../quickstarts/Audio.html" rel="next">
+<link href="../examples/Analyze_a_Video_Classification.html" rel="prev">
 <link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -78,9 +78,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-a366eb2ea23be5ba5111ff25b5c9c0ae.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -120,18 +117,12 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Gemini API: Gemini 2.0 Image output – Gemini Cookbook">
+<meta property="og:title" content="Gemini API: Analyze a Video - Historic Event Recognition – Gemini Cookbook">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://fallendeity.github.io/deepmind-starter/quickstarts/Image_out_files/figure-html/cell-6-output-2.png">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta property="og:image:height" content="678">
-<meta property="og:image:width" content="1024">
-<meta name="twitter:title" content="Gemini API: Gemini 2.0 Image output – Gemini Cookbook">
+<meta name="twitter:title" content="Gemini API: Analyze a Video - Historic Event Recognition – Gemini Cookbook">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://fallendeity.github.io/deepmind-starter/quickstarts/Image_out_files/figure-html/cell-6-output-2.png">
-<meta name="twitter:image-height" content="678">
-<meta name="twitter:image-width" content="1024">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-sidebar floating nav-fixed quarto-light">
@@ -185,7 +176,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Image_out.html">Gemini API: Gemini 2.0 Image output</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html">Gemini API: Analyze a Video - Historic Event Recognition</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -214,7 +205,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Gemini API: Analyze a Video - Historic Event Recognition</span></a>
   </div>
 </li>
@@ -327,7 +318,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link active">
+  <a href="../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Gemini 2.0 Image output</span></a>
   </div>
 </li>
@@ -417,26 +408,17 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
   <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
   <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
   </ul></li>
-  <li><a href="#utils" id="toc-utils" class="nav-link" data-scroll-target="#utils">Utils</a></li>
-  <li><a href="#generate-images" id="toc-generate-images" class="nav-link" data-scroll-target="#generate-images">Generate images</a></li>
-  <li><a href="#edit-images" id="toc-edit-images" class="nav-link" data-scroll-target="#edit-images">Edit images</a></li>
-  <li><a href="#get-multiple-images" id="toc-get-multiple-images" class="nav-link" data-scroll-target="#get-multiple-images">Get multiple images</a></li>
-  <li><a href="#chat-recommended" id="toc-chat-recommended" class="nav-link" data-scroll-target="#chat-recommended">Chat (recommended)</a></li>
-  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a>
-  <ul class="collapse">
-  <li><a href="#useful-documentation-references" id="toc-useful-documentation-references" class="nav-link" data-scroll-target="#useful-documentation-references">Useful documentation references:</a></li>
-  <li><a href="#check-out-imagen-as-well" id="toc-check-out-imagen-as-well" class="nav-link" data-scroll-target="#check-out-imagen-as-well">Check-out Imagen as well:</a></li>
-  <li><a href="#continue-your-discovery-of-the-gemini-api" id="toc-continue-your-discovery-of-the-gemini-api" class="nav-link" data-scroll-target="#continue-your-discovery-of-the-gemini-api">Continue your discovery of the Gemini API</a></li>
-  </ul></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Image_out.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Image_out.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Analyze_a_Video_Historic_Event_Recognition.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Analyze_a_Video_Historic_Event_Recognition.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Image_out.html">Gemini API: Gemini 2.0 Image output</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html">Gemini API: Analyze a Video - Historic Event Recognition</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Gemini API: Gemini 2.0 Image output</h1>
+<h1 class="title">Gemini API: Analyze a Video - Historic Event Recognition</h1>
 </div>
 
 
@@ -453,22 +435,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </header>
 
 
-<p>This notebook will show you how to use the Image-out feature of Gemini, using the model multimodal capabilities to output both images and texts, and iterate on an image through a discussion.</p>
-<p>This feature is very close to what <a href="Get_started_imagen.ipynb">Imagen</a> offers but in a slightly different way as the Image-out feature has been developed to work iteratively so if you want to make sure certain details are clearly followed, and you are ready to iterate on the image until it’s exactly what you envision, Image-out is for you.</p>
-<p>Check the <a href="https://ai.google.dev/gemini-api/docs/image-generation#choose-a-model">documentation</a> for more details on both features and some more advice on when to use each one.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Image-out is a preview feature. It’s free to use with quota limitations, but subject to change. See <a href="https://ai.google.dev/gemini-api/docs/pricing#gemini-2.0-flash">pricing</a> and <a href="https://ai.google.dev/gemini-api/docs/rate-limits#current-rate-limits">rate limit</a> pages for more details.</p>
-</div>
-</div>
+<p>This notebook shows how you can use Gemini models’ multimodal capabilities to recognize which historic event is happening in the video.</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -503,7 +470,7 @@ Tip
 <p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then, we can load the API key in our code:</p>
-<div id="cell-4" class="cell" data-execution_count="2">
+<div id="cell-4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
@@ -532,15 +499,15 @@ Note
 <p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
 <pre><code>│
 ├── .env
-└── quickstarts
-    └── Image_out.ipynb</code></pre>
+└── examples
+    └── Analyze_a_Video_Historic_Event_Recognition.ipynb</code></pre>
 </div>
 </div>
 </section>
 <section id="initialize-sdk-client" class="level3">
 <h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
 <p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
-<div id="cell-7" class="cell" data-execution_count="3">
+<div id="cell-7" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -548,319 +515,160 @@ Note
 </section>
 <section id="select-a-model" class="level3">
 <h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
-<p>Image-out is available through the <code>gemini-2.0-flash-preview-image-generation</code> model.</p>
-<p>For more information about all Gemini models, check the <a href="https://ai.google.dev/gemini-api/docs/models/gemini">documentation</a> for extended information.</p>
-<div id="cell-9" class="cell" data-execution_count="4">
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="quickstarts/Get_started_thinking.ipynb">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<div id="cell-9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.0-flash-preview-image-generation"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="utils" class="level2">
-<h2 class="anchored" data-anchor-id="utils">Utils</h2>
-<p>Define helper functions for visualizing model responses.</p>
-<div id="cell-11" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { GenerateContentResponse } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">displayResponse</span>(response<span class="op">:</span> GenerateContentResponse) {</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> part <span class="kw">of</span> response<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">content</span><span class="op">?.</span><span class="at">parts</span> <span class="op">??</span> []) {</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (part<span class="op">.</span><span class="at">text</span>) {</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>      tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(part<span class="op">.</span><span class="at">text</span>)<span class="op">;</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (part<span class="op">.</span><span class="at">inlineData</span>) {</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> imageData <span class="op">=</span> part<span class="op">.</span><span class="at">inlineData</span><span class="op">.</span><span class="at">data</span><span class="op">!;</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> buffer <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(imageData<span class="op">,</span> <span class="st">"base64"</span>)<span class="op">;</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>      tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(buffer)<span class="op">;</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">saveImage</span>(response<span class="op">:</span> GenerateContentResponse<span class="op">,</span> fileName<span class="op">:</span> <span class="dt">string</span>) {</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> imagePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets"</span><span class="op">,</span> fileName)<span class="op">;</span></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> part <span class="kw">of</span> response<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">content</span><span class="op">?.</span><span class="at">parts</span> <span class="op">??</span> []) {</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (part<span class="op">.</span><span class="at">inlineData</span>) {</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> imageData <span class="op">=</span> part<span class="op">.</span><span class="at">inlineData</span><span class="op">.</span><span class="at">data</span><span class="op">!;</span></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> buffer <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(imageData<span class="op">,</span> <span class="st">"base64"</span>)<span class="op">;</span></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>      fs<span class="op">.</span><span class="fu">writeFileSync</span>(imagePath<span class="op">,</span> buffer)<span class="op">;</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Image saved to </span><span class="sc">${</span>imagePath<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="example" class="level2">
+<h2 class="anchored" data-anchor-id="example">Example</h2>
+<p>This example uses <a href="https://s3.amazonaws.com/NARAprodstorage/opastorage/live/16/147/6014716/content/presidential-libraries/reagan/5730544/6-12-1987-439.mp4">video of President Ronald Reagan’s Speech at the Berlin Wall</a> taken on June 12 1987.</p>
+<div id="cell-11" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> downloadFile <span class="op">=</span> <span class="kw">async</span> (url<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> filePath<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to download file: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">mkdirSync</span>(path<span class="op">.</span><span class="fu">dirname</span>(filePath)<span class="op">,</span> { recursive<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">blob</span>()<span class="op">;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> bufferData <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> buffer<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(filePath<span class="op">,</span> bufferData)<span class="op">;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="generate-images" class="level2">
-<h2 class="anchored" data-anchor-id="generate-images">Generate images</h2>
-<p>Use <code>responseModalities</code> to indicate to the model that you are expecting an image in the output. You’ll need to specify both <code>"text"</code> and <code>"image"</code> in your generation configuration. If you set only <code>"image"</code> in response_modalities, you’ll get an error.</p>
-<p>If you want to generate image only outputs, you can use Imagen.</p>
-<p>Remember that generating people is not allowed at the moment.</p>
-<div id="cell-13" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> generate_image_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"create a 3d rendered image of a pig with wings and a top hat flying over a happy futuristic scifi city with lots of greenery"</span><span class="op">,</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    responseModalities<span class="op">:</span> [google<span class="op">.</span><span class="at">Modality</span><span class="op">.</span><span class="at">TEXT</span><span class="op">,</span> google<span class="op">.</span><span class="at">Modality</span><span class="op">.</span><span class="at">IMAGE</span>]<span class="op">,</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">displayResponse</span>(generate_image_response)<span class="op">;</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="fu">saveImage</span>(generate_image_response<span class="op">,</span> <span class="st">"pig_with_wings_and_top_hat.png"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>I will create a 3D rendered image showing a whimsical scene: a pink pig wearing a distinguished grey top hat and a pair of small, delicate white wings soaring through the air. Below, a vibrant, futuristic cityscape unfolds with sleek, modern buildings interspersed with abundant lush greenery, suggesting a harmonious blend of nature and technology, all under a bright, cheerful sky.</p>
+<div id="cell-12" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> VIDEO_URL <span class="op">=</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://s3.amazonaws.com/NARAprodstorage/opastorage/live/16/147/6014716/content/presidential-libraries/reagan/5730544/6-12-1987-439.mp4"</span><span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> VIDEO_FILE_PATH <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/examples"</span><span class="op">,</span> <span class="st">"Reagan_Berlin_Wall.mp4"</span>)<span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(VIDEO_URL<span class="op">,</span> VIDEO_FILE_PATH)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Image_out_files/figure-html/cell-6-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Image_out_files/figure-html/cell-6-output-2.png" class="img-fluid figure-img"></a></p>
-</figure>
+<p>Upload the file using the File API so its easier to pass it to the model later on.</p>
+<div id="cell-14" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { <span class="bu">File</span><span class="op">,</span> FileState } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">deferredFileUpload</span>(filePath<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> config<span class="op">:</span> { displayName<span class="op">:</span> <span class="dt">string</span> })<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="bu">File</span><span class="op">&gt;</span> {</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> file <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    file<span class="op">:</span> filePath<span class="op">,</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    config<span class="op">,</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> getFile <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">get</span>({ name<span class="op">:</span> file<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span> })<span class="op">;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (getFile<span class="op">.</span><span class="at">state</span> <span class="op">===</span> FileState<span class="op">.</span><span class="at">PROCESSING</span>) {</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    getFile <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">get</span>({ name<span class="op">:</span> file<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span> })<span class="op">;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`current file status (</span><span class="sc">${</span>getFile<span class="op">.</span><span class="at">displayName</span><span class="sc">}</span><span class="vs">): </span><span class="sc">${</span>getFile<span class="op">.</span><span class="at">state</span> <span class="op">??</span> <span class="st">"unknown"</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"File is still processing, retrying in 5 seconds"</span>)<span class="op">;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve) <span class="kw">=&gt;</span> {</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>      <span class="pp">setTimeout</span>(resolve<span class="op">,</span> <span class="dv">5000</span>)<span class="op">;</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (file<span class="op">.</span><span class="at">state</span> <span class="op">===</span> FileState<span class="op">.</span><span class="at">FAILED</span>) {</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"File processing failed."</span>)<span class="op">;</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> file<span class="op">;</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
+<div id="cell-15" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> videoFile <span class="op">=</span> <span class="cf">await</span> <span class="fu">deferredFileUpload</span>(VIDEO_FILE_PATH<span class="op">,</span> {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  displayName<span class="op">:</span> <span class="st">"President Reagan's Speech at the Berlin Wall"</span><span class="op">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Image saved to ../assets/pig_with_wings_and_top_hat.png</code></pre>
+<pre><code>current file status (President Reagan's Speech at the Berlin Wall): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (President Reagan's Speech at the Berlin Wall): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (President Reagan's Speech at the Berlin Wall): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (President Reagan's Speech at the Berlin Wall): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (President Reagan's Speech at the Berlin Wall): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (President Reagan's Speech at the Berlin Wall): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (President Reagan's Speech at the Berlin Wall): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (President Reagan's Speech at the Berlin Wall): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (President Reagan's Speech at the Berlin Wall): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (President Reagan's Speech at the Berlin Wall): PROCESSING
+File is still processing, retrying in 5 seconds
+current file status (President Reagan's Speech at the Berlin Wall): ACTIVE
+File is still processing, retrying in 5 seconds</code></pre>
 </div>
 </div>
-</section>
-<section id="edit-images" class="level2">
-<h2 class="anchored" data-anchor-id="edit-images">Edit images</h2>
-<p>You can also do image editing, simply pass the original image as part of the prompt.</p>
-<div id="cell-15" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> edit_image_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"could you edit this image to make it look like a cat instead of a pig?"</span><span class="op">,</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(<span class="st">"../assets/pig_with_wings_and_top_hat.png"</span><span class="op">,</span> <span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/png"</span>)<span class="op">,</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    responseModalities<span class="op">:</span> [google<span class="op">.</span><span class="at">Modality</span><span class="op">.</span><span class="at">TEXT</span><span class="op">,</span> google<span class="op">.</span><span class="at">Modality</span><span class="op">.</span><span class="at">IMAGE</span>]<span class="op">,</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">displayResponse</span>(edit_image_response)<span class="op">;</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="fu">saveImage</span>(edit_image_response<span class="op">,</span> <span class="st">"cat_with_wings_and_top_hat.png"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>Okay, I will transform the flying pig into a flying cat while keeping the hat, wings, and the futuristic city background consistent. The new image will feature a fluffy cat with feline features, similar wings, and the same top hat, soaring over the cityscape.</p>
+<p>The uploaded video is ready for processing. This prompt instructs the model to provide basic information about the historical events portrayed in the video.</p>
+<div id="cell-17" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> SYSTEM_PROMPT <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="vs">  You are historian who specializes in events caught on film.</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="vs">  When you receive a video answer following questions:</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  When did it happen?</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  Who is the most important person in video?</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  How the event is called?</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Image_out_files/figure-html/cell-7-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="Image_out_files/figure-html/cell-7-output-2.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Image saved to ../assets/cat_with_wings_and_top_hat.png</code></pre>
-</div>
-</div>
-</section>
-<section id="get-multiple-images" class="level2">
-<h2 class="anchored" data-anchor-id="get-multiple-images">Get multiple images</h2>
-<p>So far you’ve only generated one image per call, but you can request way more than that! Let’s try a baking receipe.</p>
-<div id="cell-17" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> multi_image_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="st">"Show me how to bake a macaron with images."</span><span class="op">,</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    responseModalities<span class="op">:</span> [google<span class="op">.</span><span class="at">Modality</span><span class="op">.</span><span class="at">TEXT</span><span class="op">,</span> google<span class="op">.</span><span class="at">Modality</span><span class="op">.</span><span class="at">IMAGE</span>]<span class="op">,</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">displayResponse</span>(multi_image_response)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>Okay, here are the steps to bake macarons, with an image for each step.</p>
-<p><strong>Step 1: Prepare the ingredients.</strong></p>
-<p>Gather your ingredients: almond flour, powdered sugar, granulated sugar, egg whites (aged), and food coloring (optional). Have your piping bag fitted with a round tip and parchment paper ready.</p>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Image_out_files/figure-html/cell-8-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="Image_out_files/figure-html/cell-8-output-2.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Step 2: Sift the dry ingredients.</strong></p>
-<p>Thoroughly whisk together the almond flour and powdered sugar. Then, sift the mixture through a fine-mesh sieve into a large bowl to remove any lumps. This step is crucial for smooth macaron shells.</p>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Image_out_files/figure-html/cell-8-output-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="Image_out_files/figure-html/cell-8-output-4.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Step 3: Make the meringue.</strong></p>
-<p>In a clean, grease-free bowl of a stand mixer fitted with the whisk attachment, beat the aged egg whites on medium-low speed until foamy. Gradually add the granulated sugar while continuing to beat on medium-high speed until stiff, glossy peaks form. The meringue should hold its shape when the whisk is lifted. If using, gently fold in the food coloring at the end.</p>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Image_out_files/figure-html/cell-8-output-6.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="Image_out_files/figure-html/cell-8-output-6.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Step 4: Macaronage.</strong></p>
-<p>Pour the sifted dry ingredients into the meringue. Using a spatula, gently fold the mixture together using a circular motion, scraping down the sides of the bowl. Continue folding until the batter flows off your spatula in a thick ribbon and slowly melts back into the mixture in about 10-20 seconds. This is the macaronage stage, and it’s crucial not to overmix or undermix.</p>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Image_out_files/figure-html/cell-8-output-8.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="Image_out_files/figure-html/cell-8-output-8.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Step 5: Pipe the macarons.</strong></p>
-<p>Transfer the macaron batter into the prepared piping bag. Pipe small, even circles onto the parchment-lined baking sheets. Aim for consistent sizes, about 1.5 inches in diameter.</p>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Image_out_files/figure-html/cell-8-output-10.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="Image_out_files/figure-html/cell-8-output-10.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Step 6: Tap the trays.</strong></p>
-<p>Firmly tap the baking sheets several times on the counter to release any trapped air bubbles. Use a toothpick to pop any visible bubbles on the surface of the macarons.</p>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Image_out_files/figure-html/cell-8-output-12.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="Image_out_files/figure-html/cell-8-output-12.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Step 7: Rest the macarons.</strong></p>
-<p>Let the piped macaron shells sit at room temperature for 30-60 minutes, or until a skin forms on the surface. You should be able to gently touch them without the batter sticking to your finger. This step is crucial for developing the “feet.”</p>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Image_out_files/figure-html/cell-8-output-14.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="Image_out_files/figure-html/cell-8-output-14.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Step 8: Bake the macarons.</strong></p>
-<p>Preheat your oven to the correct temperature (usually between 285-325°F or 140-160°C, depending on your oven). Bake one tray at a time for 12-18 minutes, or until the “feet” have formed and the shells don’t wiggle when gently touched.</p>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Image_out_files/figure-html/cell-8-output-16.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="Image_out_files/figure-html/cell-8-output-16.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Step 9: Cool and fill.</strong></p>
-<p>Let the baked macaron shells cool completely on the baking sheets before attempting to remove them. Once cooled, match the shells by size and pipe your desired filling (like buttercream, ganache, or jam) onto the flat side of one shell. Gently sandwich it with another shell.</p>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Image_out_files/figure-html/cell-8-output-18.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="Image_out_files/figure-html/cell-8-output-18.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Step 10: Mature (optional but recommended).</strong></p>
-<p>For the best flavor and texture, place the filled macarons in an airtight container and refrigerate them for at least 12-24 hours. This allows the flavors to meld and the filling to soften the shells slightly.</p>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Image_out_files/figure-html/cell-8-output-20.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="Image_out_files/figure-html/cell-8-output-20.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>Enjoy your homemade macarons! They are delicate and can be tricky, so don’t be discouraged if your first attempt isn’t perfect. Practice makes perfect!</p>
-</div>
-</div>
-</section>
-<section id="chat-recommended" class="level2">
-<h2 class="anchored" data-anchor-id="chat-recommended">Chat (recommended)</h2>
-<p>So far you’ve used unary calls, but Image-out is actually made to work better with chat mode as it’s easier to iterate on an image turn after turn.</p>
-<div id="cell-19" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat <span class="op">=</span> ai<span class="op">.</span><span class="at">chats</span><span class="op">.</span><span class="fu">create</span>({</span>
+<p>Some historic events touch on controversial topics that may get flagged by Gemini API, which blocks the response for the query.</p>
+<p>Because of this, it might be a good idea to turn off safety settings.</p>
+<div id="cell-19" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    responseModalities<span class="op">:</span> [google<span class="op">.</span><span class="at">Modality</span><span class="op">.</span><span class="at">TEXT</span><span class="op">,</span> google<span class="op">.</span><span class="at">Modality</span><span class="op">.</span><span class="at">IMAGE</span>]<span class="op">,</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-20" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat_response_1 <span class="op">=</span> <span class="cf">await</span> chat<span class="op">.</span><span class="fu">sendMessage</span>({</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> <span class="st">"create a photorealistic image of a giraffe with a tiny bird on its head"</span><span class="op">,</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">displayResponse</span>(chat_response_1)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Analyze the video please"</span><span class="op">,</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(videoFile<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> videoFile<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">"video/mp4"</span>)<span class="op">,</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> SYSTEM_PROMPT<span class="op">,</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    safetySettings<span class="op">:</span> [</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_HARASSMENT</span><span class="op">,</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_NONE</span><span class="op">,</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_HATE_SPEECH</span><span class="op">,</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_NONE</span><span class="op">,</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_DANGEROUS_CONTENT</span><span class="op">,</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>        threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_NONE</span><span class="op">,</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>        category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_SEXUALLY_EXPLICIT</span><span class="op">,</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>        threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_NONE</span><span class="op">,</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"No response text available"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
-<p>I will generate a photorealistic image of a majestic giraffe in its natural habitat, perhaps near some acacia trees, with a tiny, colorful bird with blue and red plumage resting on its head, seemingly unfazed by the height.</p>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Image_out_files/figure-html/cell-10-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="Image_out_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="cell-21" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat_response_2 <span class="op">=</span> <span class="cf">await</span> chat<span class="op">.</span><span class="fu">sendMessage</span>({</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> <span class="st">"use a cartoon style instead of photorealistic"</span><span class="op">,</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">displayResponse</span>(chat_response_2)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>I will create a cartoon-style image of a friendly-looking giraffe with large, expressive eyes, and a small, round, blue cartoon bird cheerfully perched on its head. The style will be bright and colorful.</p>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Image_out_files/figure-html/cell-11-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="Image_out_files/figure-html/cell-11-output-2.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="cell-22" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat_response_3 <span class="op">=</span> <span class="cf">await</span> chat<span class="op">.</span><span class="fu">sendMessage</span>({</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> <span class="st">"add a rainbow and some colorful birds"</span><span class="op">,</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">displayResponse</span>(chat_response_3)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>I will generate a cheerful cartoon image of the same friendly giraffe with the blue bird on its head, now with a bright, curved rainbow arcing across a sunny sky in the background. Several other small, colorful cartoon birds of different shapes and sizes will be flying around the giraffe and the rainbow.</p>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Image_out_files/figure-html/cell-12-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="Image_out_files/figure-html/cell-12-output-2.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="next-steps" class="level2">
-<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
-<section id="useful-documentation-references" class="level3">
-<h3 class="anchored" data-anchor-id="useful-documentation-references">Useful documentation references:</h3>
-<p>Check the <a href="https://ai.google.dev/gemini-api/docs/image-generation#gemini">documentation</a> for more details about the image generation capabilities of the model. To improve your prompting skills, check out the <a href="https://ai.google.dev/gemini-api/docs/imagen-prompt-guide">Imagen prompt guide</a> for great advices on creating your prompts.</p>
-</section>
-<section id="check-out-imagen-as-well" class="level3">
-<h3 class="anchored" data-anchor-id="check-out-imagen-as-well">Check-out Imagen as well:</h3>
-<p>The <a href="https://ai.google.dev/gemini-api/docs/imagen-prompt-guide">Imagen</a> model is another way to generate images. Check out the <a href="Get_started_imagen.ipynb">Get Started with Imagen notebook</a> to start playing with it too.</p>
-<p>Here are some Imagen examples to get your imagination started on how to use it in creative ways:</p>
+<p>Based on the video, here is the analysis:</p>
 <ul>
-<li><a href="../examples/Book_illustration.ipynb">Illustrate a book</a>: Use Gemini and Imagen to create illustration for an open-source book</li>
+<li><p><strong>When did it happen?</strong> This event took place on <strong>June 12, 1987</strong>. President Reagan references President Kennedy’s visit 24 years prior (June 1963) and the 40th anniversary of the Marshall Plan (June 1947), both pointing to 1987.</p></li>
+<li><p><strong>Who is the most important person in the video?</strong> The most important person in the video is <strong>Ronald Reagan</strong>, who was the President of the United States at the time. He is delivering the address and is the central focus of the recording.</p></li>
+<li><p><strong>How the event is called?</strong> This iconic event is widely known as the <strong>“Tear Down This Wall” speech</strong> or <strong>Reagan’s Brandenburg Gate speech</strong>. In it, President Reagan directly challenged Soviet leader Mikhail Gorbachev to dismantle the Berlin Wall.</p></li>
 </ul>
+</div>
+</div>
+<p>As you can see, the model correctly provided information about the dates, Ronald Reagan, who was the main subject of the video, and the name of this event.</p>
+<p>You can delete the video to prevent unnecessary data storage.</p>
+<div id="cell-21" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">delete</span>({</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> videoFile<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DeleteFileResponse {}</code></pre>
+</div>
+</div>
 </section>
-<section id="continue-your-discovery-of-the-gemini-api" class="level3">
-<h3 class="anchored" data-anchor-id="continue-your-discovery-of-the-gemini-api">Continue your discovery of the Gemini API</h3>
-<p>Gemini is not only good at generating images, but also at understanding them. Check the <a href="../quickstarts/Spatial_understanding.html">Spatial understanding</a> guide for an introduction on those capabilities, and the <a href="../quickstarts/Video_understanding.html">Video understanding</a> one for video examples.</p>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>Now you know how you can prompt Gemini models with videos and use them to recognize historic events.</p>
+<p>This notebook shows only one of many use cases. Check the <a href="../quickstarts/Video_understanding.html">Video understanding notebook</a> for more examples of using the Gemini API with videos.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1265,52 +1073,20 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../quickstarts/Grounding.html" class="pagination-link" aria-label="Gemini API: Getting started with information grounding for Gemini models">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Getting started with information grounding for Gemini models</span>
+      <a href="../examples/Analyze_a_Video_Classification.html" class="pagination-link" aria-label="Gemini API: Analyze a Video - Classification">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Analyze a Video - Classification</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../quickstarts/JSON_mode.html" class="pagination-link" aria-label="Gemini API: JSON Mode Quickstart">
-        <span class="nav-page-text">Gemini API: JSON Mode Quickstart</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../quickstarts/Audio.html" class="pagination-link" aria-label="Gemini API: Audio Quickstart">
+        <span class="nav-page-text">Gemini API: Audio Quickstart</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Image_out.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Image_out.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script>
 
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Analyze_a_Video_Historic_Event_Recognition.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Analyze_a_Video_Historic_Event_Recognition.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
