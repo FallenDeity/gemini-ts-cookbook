@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API: JSON Mode Quickstart – Gemini Cookbook</title>
+<title>Prompting with an Apollo 11 transcript – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../quickstarts/Models.html" rel="next">
-<link href="../quickstarts/Image_out.html" rel="prev">
+<link href="../quickstarts/Audio.html" rel="next">
+<link href="../examples/Analyze_a_Video_Summarization.html" rel="prev">
 <link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -117,10 +117,10 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Gemini API: JSON Mode Quickstart – Gemini Cookbook">
+<meta property="og:title" content="Prompting with an Apollo 11 transcript – Gemini Cookbook">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta name="twitter:title" content="Gemini API: JSON Mode Quickstart – Gemini Cookbook">
+<meta name="twitter:title" content="Prompting with an Apollo 11 transcript – Gemini Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -176,7 +176,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/JSON_mode.html">Gemini API: JSON Mode Quickstart</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Apollo_11.html">Prompting with an Apollo 11 transcript</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -217,7 +217,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Apollo_11.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Prompting with an Apollo 11 transcript</span></a>
   </div>
 </li>
@@ -336,7 +336,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link active">
+  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
   </div>
 </li>
@@ -420,23 +420,19 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
   <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
   <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
   </ul></li>
-  <li><a href="#set-your-constrained-output-in-the-prompt" id="toc-set-your-constrained-output-in-the-prompt" class="nav-link" data-scroll-target="#set-your-constrained-output-in-the-prompt">Set your constrained output in the prompt</a></li>
-  <li><a href="#supply-the-schema-to-the-model-directly" id="toc-supply-the-schema-to-the-model-directly" class="nav-link" data-scroll-target="#supply-the-schema-to-the-model-directly">Supply the schema to the model directly</a></li>
-  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a>
-  <ul class="collapse">
-  <li><a href="#useful-api-references" id="toc-useful-api-references" class="nav-link" data-scroll-target="#useful-api-references">Useful API references:</a></li>
-  <li><a href="#related-examples" id="toc-related-examples" class="nav-link" data-scroll-target="#related-examples">Related examples</a></li>
-  <li><a href="#continue-your-discovery-of-the-gemini-api" id="toc-continue-your-discovery-of-the-gemini-api" class="nav-link" data-scroll-target="#continue-your-discovery-of-the-gemini-api">Continue your discovery of the Gemini API</a></li>
-  </ul></li>
+  <li><a href="#download-the-apollo-11-transcript" id="toc-download-the-apollo-11-transcript" class="nav-link" data-scroll-target="#download-the-apollo-11-transcript">Download the Apollo 11 transcript</a></li>
+  <li><a href="#generate-content" id="toc-generate-content" class="nav-link" data-scroll-target="#generate-content">Generate Content</a></li>
+  <li><a href="#delete-file" id="toc-delete-file" class="nav-link" data-scroll-target="#delete-file">Delete File</a></li>
+  <li><a href="#learning-more" id="toc-learning-more" class="nav-link" data-scroll-target="#learning-more">Learning more</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/JSON_mode.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/JSON_mode.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Apollo_11.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Apollo_11.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/JSON_mode.html">Gemini API: JSON Mode Quickstart</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Apollo_11.html">Prompting with an Apollo 11 transcript</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Gemini API: JSON Mode Quickstart</h1>
+<h1 class="title">Prompting with an Apollo 11 transcript</h1>
 </div>
 
 
@@ -453,8 +449,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </header>
 
 
-<p>The Gemini API can be used to generate a JSON output if you set the schema that you would like to use.</p>
-<p>Two methods are available. You can either set the desired output in the prompt or supply a schema to the model separately.</p>
+<p>This notebook provides a quick example of how to prompt Gemini using a text file. In this case, you’ll use a 400 page transcript from <a href="https://www.nasa.gov/history/alsj/a11/a11trans.html">Apollo 11</a>.</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -489,7 +484,7 @@ Tip
 <p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then, we can load the API key in our code:</p>
-<div id="cell-4" class="cell" data-execution_count="1">
+<div id="cell-4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
@@ -518,15 +513,15 @@ Note
 <p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
 <pre><code>│
 ├── .env
-└── quickstarts
-    └── JSON_mode.ipynb</code></pre>
+└── examples
+    └── Apollo_11.ipynb</code></pre>
 </div>
 </div>
 </section>
 <section id="initialize-sdk-client" class="level3">
 <h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
 <p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
-<div id="cell-7" class="cell" data-execution_count="2">
+<div id="cell-7" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -534,159 +529,125 @@ Note
 </section>
 <section id="select-a-model" class="level3">
 <h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
-<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
-<div id="cell-9" class="cell" data-execution_count="3">
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="quickstarts/Get_started_thinking.ipynb">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<div id="cell-9" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="set-your-constrained-output-in-the-prompt" class="level2">
-<h2 class="anchored" data-anchor-id="set-your-constrained-output-in-the-prompt">Set your constrained output in the prompt</h2>
-<p>For this first example just describe the schema you want back in the prompt:</p>
-<div id="cell-11" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> json_prompt <span class="op">=</span> <span class="vs">`</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="vs">  List a few popular cookie recipes using this JSON schema:</span></span>
+<section id="download-the-apollo-11-transcript" class="level2">
+<h2 class="anchored" data-anchor-id="download-the-apollo-11-transcript">Download the Apollo 11 transcript</h2>
+<div id="cell-11" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  Recipe = {'recipe_name': str}</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  Return: list[Recipe]</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> downloadFile <span class="op">=</span> <span class="kw">async</span> (url<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> filePath<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to download file: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">mkdirSync</span>(path<span class="op">.</span><span class="fu">dirname</span>(filePath)<span class="op">,</span> { recursive<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">blob</span>()<span class="op">;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> bufferData <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> buffer<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(filePath<span class="op">,</span> bufferData)<span class="op">;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Then activate JSON mode by specifying <code>resposeMimeType</code> in the config parameter:</p>
-<div id="cell-13" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> json_prompt_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> json_prompt<span class="op">,</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">// Parse the JSON response</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"JSON Response"</span>)<span class="op">;</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(json_prompt_response<span class="op">.</span><span class="at">text</span><span class="op">!</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>JSON Response
-[
-  { recipe_name: 'Chocolate Chip Cookies' },
-  { recipe_name: 'Oatmeal Raisin Cookies' },
-  { recipe_name: 'Peanut Butter Cookies' },
-  { recipe_name: 'Sugar Cookies' },
-  { recipe_name: 'Snickerdoodles' }
-]</code></pre>
+<div id="cell-12" class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> TRANSCRIPT_URL <span class="op">=</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/data/a11.txt"</span><span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> transcriptFilePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets"</span><span class="op">,</span> <span class="st">"a11.txt"</span>)<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(TRANSCRIPT_URL<span class="op">,</span> transcriptFilePath)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Upload the file using the File API so its easier to pass it to the model later on.</p>
+<div id="cell-14" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { <span class="bu">File</span><span class="op">,</span> FileState } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">deferredFileUpload</span>(filePath<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> config<span class="op">:</span> { displayName<span class="op">:</span> <span class="dt">string</span> })<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="bu">File</span><span class="op">&gt;</span> {</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> file <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    file<span class="op">:</span> filePath<span class="op">,</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    config<span class="op">,</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> getFile <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">get</span>({ name<span class="op">:</span> file<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span> })<span class="op">;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (getFile<span class="op">.</span><span class="at">state</span> <span class="op">===</span> FileState<span class="op">.</span><span class="at">PROCESSING</span>) {</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    getFile <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">get</span>({ name<span class="op">:</span> file<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span> })<span class="op">;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`current file status (</span><span class="sc">${</span>getFile<span class="op">.</span><span class="at">displayName</span><span class="sc">}</span><span class="vs">): </span><span class="sc">${</span>getFile<span class="op">.</span><span class="at">state</span> <span class="op">??</span> <span class="st">"unknown"</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"File is still processing, retrying in 5 seconds"</span>)<span class="op">;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve) <span class="kw">=&gt;</span> {</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>      <span class="pp">setTimeout</span>(resolve<span class="op">,</span> <span class="dv">5000</span>)<span class="op">;</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (file<span class="op">.</span><span class="at">state</span> <span class="op">===</span> FileState<span class="op">.</span><span class="at">FAILED</span>) {</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"File processing failed."</span>)<span class="op">;</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> file<span class="op">;</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="supply-the-schema-to-the-model-directly" class="level2">
-<h2 class="anchored" data-anchor-id="supply-the-schema-to-the-model-directly">Supply the schema to the model directly</h2>
-<p>The newest models (1.5 and beyond) allow you to pass a <code>Schema</code> object directly and the output will strictly follow that schema.</p>
-<p>Following the same example as the previous section, here’s that recipe type:</p>
-<div id="cell-15" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Schema<span class="op">,</span> Type } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> recipeSchema<span class="op">:</span> Schema <span class="op">=</span> {</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  type<span class="op">:</span> Type<span class="op">.</span><span class="at">OBJECT</span><span class="op">,</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"A recipe object"</span><span class="op">,</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  properties<span class="op">:</span> {</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    recipeName<span class="op">:</span> {</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>      description<span class="op">:</span> <span class="st">"The name of the recipe"</span><span class="op">,</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    recipeDescription<span class="op">:</span> {</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>      type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>      description<span class="op">:</span> <span class="st">"A brief description of the recipe"</span><span class="op">,</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    recipeIngredients<span class="op">:</span> {</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>      type<span class="op">:</span> Type<span class="op">.</span><span class="at">ARRAY</span><span class="op">,</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>      description<span class="op">:</span> <span class="st">"A list of ingredients for the recipe"</span><span class="op">,</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>      items<span class="op">:</span> {</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>        type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        description<span class="op">:</span> <span class="st">"An ingredient for the recipe"</span><span class="op">,</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  required<span class="op">:</span> [<span class="st">"recipeName"</span><span class="op">,</span> <span class="st">"recipeDescription"</span><span class="op">,</span> <span class="st">"recipeIngredients"</span>]<span class="op">,</span></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> listRecipesSchema<span class="op">:</span> Schema <span class="op">=</span> {</span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  type<span class="op">:</span> Type<span class="op">.</span><span class="at">ARRAY</span><span class="op">,</span></span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"A list of recipes"</span><span class="op">,</span></span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>  items<span class="op">:</span> recipeSchema<span class="op">,</span></span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> json_schema_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span></span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"List a few imaginative cookie recipes along with a one-sentence description as if you were a gourmet restaurant and their main ingredients"</span><span class="op">,</span></span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    responseSchema<span class="op">:</span> listRecipesSchema<span class="op">,</span></span>
-<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"JSON Schema Response"</span>)<span class="op">;</span></span>
-<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(json_schema_response<span class="op">.</span><span class="at">text</span><span class="op">!</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>JSON Schema Response
-[
-  {
-    recipeDescription: 'A celestial delight, these cookies shimmer with edible glitter and a hint of lavender, promising an otherworldly experience with every ethereal bite.',
-    recipeIngredients: [
-      'All-purpose flour',
-      'Unsalted butter',
-      'Granulated sugar',
-      'Edible glitter',
-      'Culinary lavender',
-      'Eggs'
-    ],
-    recipeName: 'Stardust Serenade Cookies'
-  },
-  {
-    recipeDescription: 'Indulge in the opulent depth of these intensely dark chocolate cookies, encasing a molten truffle heart that melts sensuously on the palate.',
-    recipeIngredients: [
-      'Dark cocoa powder',
-      'Unsalted butter',
-      'Brown sugar',
-      'Granulated sugar',
-      'Chocolate truffles',
-      'Sea salt'
-    ],
-    recipeName: 'Velvet Midnight Truffle Cookies'
-  },
-  {
-    recipeDescription: 'These exquisite biscuits offer a harmonious blend of warm spices and tart dried cranberries, evoking a vibrant tapestry of autumnal flavors.',
-    recipeIngredients: [
-      'All-purpose flour',
-      'Unsalted butter',
-      'Brown sugar',
-      'Cinnamon',
-      'Dried cranberries',
-      'Orange zest'
-    ],
-    recipeName: 'Spiced Ruby Blossom Biscuits'
-  }
-]</code></pre>
-</div>
+<div id="cell-15" class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> textFile <span class="op">=</span> <span class="cf">await</span> <span class="fu">deferredFileUpload</span>(transcriptFilePath<span class="op">,</span> {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  displayName<span class="op">:</span> <span class="st">"Apollo 11 Transcript"</span><span class="op">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="next-steps" class="level2">
-<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
-<section id="useful-api-references" class="level3">
-<h3 class="anchored" data-anchor-id="useful-api-references">Useful API references:</h3>
-<p>Check the <a href="https://ai.google.dev/gemini-api/docs/structured-output">structured ouput</a> documentation or the <a href="https://ai.google.dev/api/generate-content#generationconfig"><code>GenerationConfig</code></a> API reference for more details</p>
-</section>
-<section id="related-examples" class="level3">
-<h3 class="anchored" data-anchor-id="related-examples">Related examples</h3>
+<section id="generate-content" class="level2">
+<h2 class="anchored" data-anchor-id="generate-content">Generate Content</h2>
+<p>After the file has been uploaded, you can make <code>client.models.generateContent</code> requests that reference the File API URI. Then you will ask the model to find a few lighthearted moments.</p>
+<div id="cell-17" class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Find four lighthearted moments in this text file."</span><span class="op">,</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(textFile<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> textFile<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">"text/plain"</span>)<span class="op">,</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"No response text available"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Here are four lighthearted moments from the text:</p>
+<ol type="1">
+<li><strong>A Lost Bet Over Coffee:</strong>
 <ul>
-<li>The constrained output is used in the <a href="../examples/json_capabilities/Text_Summarization.ipynb">Text summarization</a> example to provide the model a format to summarize a story (genre, characters, etc…)</li>
-<li>The <a href="../examples/Object_detection.ipynb">Object detection</a> examples are using the JSON constrained output to uniiformize the output of the detection.</li>
-</ul>
+<li><code>00 00 54 13 CMP And tell Glenn Parker down at the Cape that he lucked out.</code></li>
+<li><code>00 00 54 17 CC Understand. Tell Glenn Parker he lucked out.</code></li>
+<li><code>00 00 54 22 CMP Yes. He lucked out. He doesn't owe me a cup of coffee.</code> This exchange reveals a personal bet between Michael Collins and Glenn Parker, adding a touch of everyday human interaction to the high-stakes mission.</li>
+</ul></li>
+<li><strong>Crew Distracted by the View:</strong>
+<ul>
+<li><code>01 03 15 30 CDR Yes, and he is eyeballing the Earth.</code></li>
+<li><code>01 03 15 32 CMP He's got his head out the window.</code></li>
+<li><code>01 03 15 35 CC I understand, I had trouble on 12 with him, too.</code> The crew’s playful comments about a fellow astronaut “eyeballing the Earth” and the CAPCOMM’s relatable admission of having “trouble with him, too” highlight the human element of being captivated by the view from space.</li>
+</ul></li>
+<li><strong>A Navy Term for Grayness:</strong>
+<ul>
+<li><code>01 03 22 57 LMP Yes. Is there a Navy term for that?</code></li>
+<li><code>01 03 23 00 CC (Laughing.) A lot of gray paint.</code> Buzz Aldrin asks a humorous, casual question about a “Navy term” for a visual phenomenon, and the CAPCOMM responds with laughter and a witty, simple answer, breaking the technical jargon.</li>
+</ul></li>
+<li><strong>Zero-G Exercise and a TV Request:</strong>
+<ul>
+<li><code>01 06 51 33 CMP Ever alert and ... Hey, you got any medics down there watching high grade? I'm trying to do some running in place down here, and I'm wondering just out of curiosity whether it brings my heart rate up.</code></li>
+<li><code>01 06 52 26 CC I'd like to see that sight. Why don't you give us a TV picture of that one.</code> A crew member playfully asks about their heart rate while “running in place” in zero-g, leading the CAPCOMM to humorously request a TV broadcast of the unusual sight.</li>
+</ul></li>
+</ol>
+</div>
+</div>
 </section>
-<section id="continue-your-discovery-of-the-gemini-api" class="level3">
-<h3 class="anchored" data-anchor-id="continue-your-discovery-of-the-gemini-api">Continue your discovery of the Gemini API</h3>
-<p>JSON is not the only way to constrain the output of the model, you can also use an <a href="../quickstarts/Enum.html">Enum</a>, <a href="Function_calling.ipynb">Function calling</a> and <a href="../quickstarts/Code_Execution.html">Code execution</a> are other ways to enhance your model by either using your own functions or by letting the model write and run them.</p>
+<section id="delete-file" class="level2">
+<h2 class="anchored" data-anchor-id="delete-file">Delete File</h2>
+<p>Files are automatically deleted after 2 days or you can manually delete them using <code>files.delete()</code>.</p>
+<div id="cell-19" class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">delete</span>({</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> textFile<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DeleteFileResponse {}</code></pre>
+</div>
+</div>
+</section>
+<section id="learning-more" class="level2">
+<h2 class="anchored" data-anchor-id="learning-more">Learning more</h2>
+<p>The File API accepts files under 2GB in size and can store up to 20GB of files per project. Learn more about the <a href="../quickstarts/File_API.html">File API</a> here.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1091,13 +1052,13 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../quickstarts/Image_out.html" class="pagination-link" aria-label="Gemini API: Gemini 2.0 Image output">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Gemini 2.0 Image output</span>
+      <a href="../examples/Analyze_a_Video_Summarization.html" class="pagination-link" aria-label="Gemini API: Analyze a Video - Summarization">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Analyze a Video - Summarization</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../quickstarts/Models.html" class="pagination-link" aria-label="Gemini API: List models">
-        <span class="nav-page-text">Gemini API: List models</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../quickstarts/Audio.html" class="pagination-link" aria-label="Gemini API: Audio Quickstart">
+        <span class="nav-page-text">Gemini API: Audio Quickstart</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1106,5 +1067,5 @@ Note
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/JSON_mode.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/JSON_mode.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Apollo_11.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Apollo_11.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
