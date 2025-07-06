@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API: Analyze a Video - Summarization – Gemini Cookbook</title>
+<title>Create a marketing campaign from a product sketch of a Jet Backpack – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,15 +58,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../examples/Apollo_11.html" rel="next">
-<link href="../examples/Analyze_a_Video_Historic_Event_Recognition.html" rel="prev">
+<link href="../quickstarts/Audio.html" rel="next">
+<link href="../examples/Guess_the_shape.html" rel="prev">
 <link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -118,19 +118,18 @@ gtag('js', new Date());
 gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
-<meta property="og:title" content="Gemini API: Analyze a Video - Summarization – Gemini Cookbook">
+<meta property="og:title" content="Create a marketing campaign from a product sketch of a Jet Backpack – Gemini Cookbook">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://fallendeity.github.io/deepmind-starter/examples/Analyze_a_Video_Summarization_files/figure-html/cell-9-output-1.png">
+<meta property="og:image" content="https://fallendeity.github.io/deepmind-starter/examples/Market_a_Jet_Backpack_files/figure-html/cell-7-output-1.jpeg">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta property="og:image:height" content="1080">
-<meta property="og:image:width" content="1920">
-<meta name="twitter:title" content="Gemini API: Analyze a Video - Summarization – Gemini Cookbook">
+<meta name="twitter:title" content="Create a marketing campaign from a product sketch of a Jet Backpack – Gemini Cookbook">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://fallendeity.github.io/deepmind-starter/examples/Analyze_a_Video_Summarization_files/figure-html/cell-9-output-1.png">
-<meta name="twitter:image-height" content="1080">
-<meta name="twitter:image-width" content="1920">
+<meta name="twitter:image" content="https://fallendeity.github.io/deepmind-starter/examples/Market_a_Jet_Backpack_files/figure-html/cell-7-output-1.jpeg">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -185,7 +184,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Summarization.html">Gemini API: Analyze a Video - Summarization</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Market_a_Jet_Backpack.html">Create a marketing campaign from a product sketch of a Jet Backpack</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -220,7 +219,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link active">
+  <a href="../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Analyze a Video - Summarization</span></a>
   </div>
 </li>
@@ -244,7 +243,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Create a marketing campaign from a product sketch of a Jet Backpack</span></a>
   </div>
 </li>
@@ -447,17 +446,18 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
   <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
   <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
   </ul></li>
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#marketing-campaign" id="toc-marketing-campaign" class="nav-link" data-scroll-target="#marketing-campaign">Marketing Campaign</a></li>
+  <li><a href="#analyze-product-sketch" id="toc-analyze-product-sketch" class="nav-link" data-scroll-target="#analyze-product-sketch">Analyze Product Sketch</a></li>
+  <li><a href="#generate-marketing-ideas" id="toc-generate-marketing-ideas" class="nav-link" data-scroll-target="#generate-marketing-ideas">Generate marketing ideas</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Analyze_a_Video_Summarization.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Analyze_a_Video_Summarization.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Market_a_Jet_Backpack.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Market_a_Jet_Backpack.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Summarization.html">Gemini API: Analyze a Video - Summarization</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Market_a_Jet_Backpack.html">Create a marketing campaign from a product sketch of a Jet Backpack</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Gemini API: Analyze a Video - Summarization</h1>
+<h1 class="title">Create a marketing campaign from a product sketch of a Jet Backpack</h1>
 </div>
 
 
@@ -474,7 +474,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </header>
 
 
-<p>This notebook shows how you can use Gemini API’s multimodal capabilities for video summarization.</p>
+<p>This notebook contains a code example of using the Gemini API to analyze a a product sketch (in this case, a drawing of a Jet Backpack), create a marketing campaign for it, and output taglines in JSON format.</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -509,7 +509,7 @@ Tip
 <p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then, we can load the API key in our code:</p>
-<div id="cell-4" class="cell" data-execution_count="15">
+<div id="cell-4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
@@ -538,15 +538,15 @@ Note
 <p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
 <pre><code>│
 ├── .env
-└── examples
-    └── Analyze_a_Video_Summarization.ipynb</code></pre>
+└── quickstarts
+    └── Market_a_Jet_Backpack.ipynb</code></pre>
 </div>
 </div>
 </section>
 <section id="initialize-sdk-client" class="level3">
 <h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
 <p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
-<div id="cell-7" class="cell" data-execution_count="16">
+<div id="cell-7" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -555,18 +555,27 @@ Note
 <section id="select-a-model" class="level3">
 <h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
 <p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
-<div id="cell-9" class="cell" data-execution_count="17">
+<div id="cell-9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="example" class="level2">
-<h2 class="anchored" data-anchor-id="example">Example</h2>
-<p>This notebook will use <a href="https://studio.blender.org/films/wing-it/">Wing It!</a> movie directed by Rik Schutte, wills falls under the <a href="https://creativecommons.org/licenses/by/4.0/deed.en">Creative Commons Attribution 4.0 License</a>.</p>
-<p>See the full <a href="https://studio.blender.org/films/wing-it/pages/credits/">credits</a> for all of the other people involved in its creation.</p>
-<div id="cell-11" class="cell" data-execution_count="18">
+<section id="marketing-campaign" class="level2">
+<h2 class="anchored" data-anchor-id="marketing-campaign">Marketing Campaign</h2>
+<ul>
+<li>Product Name</li>
+<li>Description</li>
+<li>Feature List / Descriptions</li>
+<li>H1</li>
+<li>H2</li>
+</ul>
+</section>
+<section id="analyze-product-sketch" class="level2">
+<h2 class="anchored" data-anchor-id="analyze-product-sketch">Analyze Product Sketch</h2>
+<p>First you will download a sample image to be used:</p>
+<div id="cell-12" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -581,132 +590,521 @@ Note
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(filePath<span class="op">,</span> bufferData)<span class="op">;</span></span>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-12" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> VIDEO_URL <span class="op">=</span> <span class="st">"https://upload.wikimedia.org/wikipedia/commons/3/38/WING_IT%21_-_Blender_Open_Movie-full_movie.webm"</span><span class="op">;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> VIDEO_FILE_PATH <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/examples"</span><span class="op">,</span> <span class="st">"Wing_It.webm"</span>)<span class="op">;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(VIDEO_URL<span class="op">,</span> VIDEO_FILE_PATH)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-13" class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> IMAGE_URL <span class="op">=</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/jetpack.jpg"</span><span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> jetpackImagePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/examples"</span><span class="op">,</span> <span class="st">"jetpack.jpg"</span>)<span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(IMAGE_URL<span class="op">,</span> jetpackImagePath)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Upload the file using the File API so its easier to pass it to the model later on.</p>
-<div id="cell-14" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { <span class="bu">File</span><span class="op">,</span> FileState } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">deferredFileUpload</span>(filePath<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> config<span class="op">:</span> { displayName<span class="op">:</span> <span class="dt">string</span> })<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="bu">File</span><span class="op">&gt;</span> {</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> file <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    file<span class="op">:</span> filePath<span class="op">,</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    config<span class="op">,</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> getFile <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">get</span>({ name<span class="op">:</span> file<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span> })<span class="op">;</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (getFile<span class="op">.</span><span class="at">state</span> <span class="op">===</span> FileState<span class="op">.</span><span class="at">PROCESSING</span>) {</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    getFile <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">get</span>({ name<span class="op">:</span> file<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span> })<span class="op">;</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`current file status (</span><span class="sc">${</span>getFile<span class="op">.</span><span class="at">displayName</span><span class="sc">}</span><span class="vs">): </span><span class="sc">${</span>getFile<span class="op">.</span><span class="at">state</span> <span class="op">??</span> <span class="st">"unknown"</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"File is still processing, retrying in 5 seconds"</span>)<span class="op">;</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve) <span class="kw">=&gt;</span> {</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>      <span class="pp">setTimeout</span>(resolve<span class="op">,</span> <span class="dv">5000</span>)<span class="op">;</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (file<span class="op">.</span><span class="at">state</span> <span class="op">===</span> FileState<span class="op">.</span><span class="at">FAILED</span>) {</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"File processing failed."</span>)<span class="op">;</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> file<span class="op">;</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-15" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> videoFile <span class="op">=</span> <span class="cf">await</span> <span class="fu">deferredFileUpload</span>(VIDEO_FILE_PATH<span class="op">,</span> {</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    displayName<span class="op">:</span> <span class="st">"Wing It! - Full Movie"</span><span class="op">,</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>current file status (Wing It! - Full Movie): PROCESSING
-File is still processing, retrying in 5 seconds
-current file status (Wing It! - Full Movie): PROCESSING
-File is still processing, retrying in 5 seconds
-current file status (Wing It! - Full Movie): PROCESSING
-File is still processing, retrying in 5 seconds
-current file status (Wing It! - Full Movie): ACTIVE
-File is still processing, retrying in 5 seconds</code></pre>
-</div>
-</div>
-<p>To demonstrate the video content, display the one of the frames:</p>
-<div id="cell-17" class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ffmpeg <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fluent-ffmpeg"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fluent-ffmpeg"</span>)<span class="op">;</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> stream <span class="op">=</span> <span class="pp">require</span>(<span class="st">"stream"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"stream"</span>)<span class="op">;</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">getFirstFrameBuffer</span>(videoPath<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> codec <span class="op">=</span> <span class="st">"png"</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="bu">Buffer</span><span class="op">&gt;</span> {</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve<span class="op">,</span> reject) <span class="kw">=&gt;</span> {</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> passthrough <span class="op">=</span> <span class="kw">new</span> stream<span class="op">.</span><span class="fu">PassThrough</span>()<span class="op">;</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> chunks<span class="op">:</span> <span class="bu">Buffer</span>[] <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ffmpeg</span>(videoPath)</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">seekInput</span>(<span class="st">"00:00:37"</span>)</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">input</span>(videoPath)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">outputOptions</span>([<span class="st">"-vframes"</span><span class="op">,</span> <span class="st">"1"</span><span class="op">,</span> <span class="st">"-vcodec"</span><span class="op">,</span> codec])</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">format</span>(<span class="st">"image2pipe"</span>)</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">on</span>(<span class="st">"error"</span><span class="op">,</span> reject)</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">on</span>(<span class="st">"end"</span><span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">resolve</span>(<span class="bu">Buffer</span><span class="op">.</span><span class="fu">concat</span>(chunks))<span class="op">;</span></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>      })</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">pipe</span>(passthrough<span class="op">,</span> { end<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    passthrough<span class="op">.</span><span class="fu">on</span>(<span class="st">"data"</span><span class="op">,</span> (chunk<span class="op">:</span> <span class="bu">Buffer</span>) <span class="kw">=&gt;</span> chunks<span class="op">.</span><span class="fu">push</span>(chunk))<span class="op">;</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    passthrough<span class="op">.</span><span class="fu">on</span>(<span class="st">"error"</span><span class="op">,</span> reject)<span class="op">;</span></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> firstFrameBuffer <span class="op">=</span> <span class="cf">await</span> <span class="fu">getFirstFrameBuffer</span>(VIDEO_FILE_PATH<span class="op">,</span> <span class="st">"png"</span>)<span class="op">;</span></span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(<span class="kw">new</span> <span class="bu">Uint8Array</span>(firstFrameBuffer))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can view the sample image to understand the prompts you are going to work with:</p>
+<div id="cell-15" class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">jpeg</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(jetpackImagePath))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Analyze_a_Video_Summarization_files/figure-html/cell-9-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Analyze_a_Video_Summarization_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></a></p>
+<p><a href="Market_a_Jet_Backpack_files/figure-html/cell-7-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Market_a_Jet_Backpack_files/figure-html/cell-7-output-1.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The video is now ready to be summarized by the model.</p>
-<div id="cell-19" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> [</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Summarise this video please."</span><span class="op">,</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        google<span class="op">.</span><span class="fu">createPartFromUri</span>(videoFile<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> videoFile<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">"video/webm"</span>)<span class="op">,</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    config<span class="op">:</span> {</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        systemInstruction<span class="op">:</span> <span class="st">"You should provide a quick 2 or 3 sentence summary of what is happening in the video."</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"No response text available."</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>This animated short features a cat meticulously building an airplane in a barn, only for his boisterous dog companion to eagerly commandeer the controls. The dog’s chaotic attempts to fly cause the plane to fall apart mid-air, but the resourceful cat manages to reassemble it into a makeshift flying machine. After successfully soaring through the sky, they hilariously crash back into the barn, completing their “pet project.”</p>
+<p>Now define a prompt to analyze the sample image:</p>
+<div id="cell-17" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> analyzePrompt <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="vs">  This image contains a sketch of a potential product along with some notes.</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="vs">  Given the product sketch, describe the product as thoroughly</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  as possible based on what you see in the image, making sure to note</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  all of the product features.</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="vs">  Return output in json format.</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<p>The model correctly describes the plot of the short movie.</p>
-<p>Now, you can delete the no longer necessary uploaded file.</p>
-<div id="cell-21" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">delete</span>({</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> videoFile<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Set the model to return JSON by setting <code>responseMimeType="application/json"</code>.</li>
+<li>Describe the schema for the response using a zod schema.</li>
+</ul>
+<div id="cell-19" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { z } <span class="im">from</span> <span class="st">"zod"</span><span class="op">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { zodToJsonSchema } <span class="im">from</span> <span class="st">"zod-to-json-schema"</span><span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> responseSchema <span class="op">=</span> z<span class="op">.</span><span class="fu">object</span>({</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"A detailed description of the product based on the image"</span>)<span class="op">,</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  features<span class="op">:</span> z<span class="op">.</span><span class="fu">array</span>(z<span class="op">.</span><span class="fu">string</span>())<span class="op">.</span><span class="fu">describe</span>(<span class="st">"A list of features of the product based on the image"</span>)<span class="op">,</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> analyzeResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    analyzePrompt<span class="op">,</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(jetpackImagePath)<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/jpeg"</span>)<span class="op">,</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    responseJsonSchema<span class="op">:</span> <span class="fu">zodToJsonSchema</span>(responseSchema) <span class="im">as</span> <span class="bu">Record</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">unknown</span><span class="op">&gt;,</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> productInfo <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(analyzeResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"{}"</span>) <span class="im">as</span> z<span class="op">.</span><span class="at">infer</span><span class="op">&lt;</span><span class="kw">typeof</span> responseSchema<span class="op">&gt;;</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(productInfo<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>DeleteFileResponse {}</code></pre>
+<pre><code>{
+  "description": "The product is a \"Jetpack Backpack\" designed to appear like a normal backpack while offering personal flight capabilities. It is described as lightweight and operates on steam power, making it a green and clean energy solution.",
+  "features": [
+    "Padded strap support",
+    "Fits an 18-inch laptop",
+    "Lightweight design",
+    "Looks like a normal backpack",
+    "USB-C charging",
+    "15-minute battery life",
+    "Retractable boosters",
+    "Steam-powered propulsion",
+    "Green/clean energy source"
+  ]
+}</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Important
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Gemini API takes only one frame per second of the video. It may cause models not to see everything that is happening, especially if something is visible only for a fraction of a second.</p>
+<p>Here the model is just following text instructions for how the output json should be formatted. The API also supports a strict JSON mode where you specify a schema, and the API uses “Controlled Generation” (aka “Constrained Decoding”) to ensure the model follows the schema, see the JSON mode quickstart for details.</p>
 </div>
 </div>
 </section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>Now you know how you can use Gemini models to summarize what is happening in videos.</p>
-<p>This notebook shows only one of many use cases. Check the <a href="../quickstarts/Video_understanding.html">Video understanding notebook</a> for more examples of using the Gemini API with videos.</p>
+<section id="generate-marketing-ideas" class="level2">
+<h2 class="anchored" data-anchor-id="generate-marketing-ideas">Generate marketing ideas</h2>
+<p>Now using the image you can use Gemini API to generate marketing names ideas:</p>
+<div id="cell-22" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> namePrompt <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="vs">  You are a marketing whiz and writer trying to come up</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="vs">  with a name for the product shown in the image.</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  Come up with ten varied, interesting possible names.</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> nameResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    namePrompt<span class="op">,</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(jetpackImagePath)<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/jpeg"</span>)<span class="op">,</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    responseJsonSchema<span class="op">:</span> <span class="fu">zodToJsonSchema</span>(</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>      z<span class="op">.</span><span class="fu">array</span>(z<span class="op">.</span><span class="fu">string</span>())<span class="op">.</span><span class="fu">describe</span>(<span class="st">"A list of ten possible names for the product"</span>)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    ) <span class="im">as</span> <span class="bu">Record</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">unknown</span><span class="op">&gt;,</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> nameSuggestions <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(nameResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"[]"</span>) <span class="im">as</span> <span class="dt">string</span>[]<span class="op">;</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(nameSuggestions<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[
+  "AeroPack",
+  "VaporGlide",
+  "SkyCommute",
+  "NimbusCarry",
+  "EcoBoost Bag",
+  "AscendPack",
+  "StratoLift",
+  "JetStream Pack",
+  "DiscreetFly",
+  "ZenithPack"
+]</code></pre>
+</div>
+</div>
+<p>Finally you can work on generating a page for your product campaign:</p>
+<div id="cell-24" class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> productName <span class="op">=</span> nameSuggestions[<span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> nameSuggestions<span class="op">.</span><span class="at">length</span>)]<span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> websiteCopyPrompt <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  You're a marketing whiz and expert copywriter. You're writing</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  website copy for a product named {name}. Your first job is to come</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  up with H1 H2 copy. These are brief, pithy sentences or phrases that</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="vs">  are the first and second things the customer sees when they land on the</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="vs">  splash page. Here are some examples:</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="vs">  [{{</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="vs">    "h1": "A feeling is canned",</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="vs">    "h2": "drinks and powders to help you feel calm cool and collected</span><span class="sc">\</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="vs">    despite the stressful world around you"</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="vs">  }},</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="vs">  {{</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="vs">    "h1": "Design. Publish. Done.",</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="vs">    "h2": "Stop rebuilding your designs from scratch. In Framer, everything</span><span class="sc">\</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="vs">    you put on the canvas is ready to be published to the web."</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="vs">  }}]</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="vs">  Create the same json output for a product named "</span><span class="sc">${</span>productName<span class="sc">}</span><span class="vs">".</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="vs">  "</span><span class="sc">${</span>productInfo<span class="op">.</span><span class="at">description</span><span class="sc">}</span><span class="vs">".</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="vs">  Output ten different options as json in an array.</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-25" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> headingSchema <span class="op">=</span> z</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">object</span>({</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    h1<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The main headline for the product"</span>)<span class="op">,</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    h2<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The subheadline for the product"</span>)<span class="op">,</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">describe</span>(<span class="st">"A headline and subheadline for the product"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-26" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> websiteCopyResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    websiteCopyPrompt<span class="op">,</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(jetpackImagePath)<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/jpeg"</span>)<span class="op">,</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    responseJsonSchema<span class="op">:</span> <span class="fu">zodToJsonSchema</span>(</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>      z<span class="op">.</span><span class="fu">array</span>(headingSchema)<span class="op">.</span><span class="fu">describe</span>(<span class="st">"An array of ten different H1 and H2 copy options for the product"</span>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    ) <span class="im">as</span> <span class="bu">Record</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">unknown</span><span class="op">&gt;,</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> websiteCopy <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(websiteCopyResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"[]"</span>) <span class="im">as</span> z<span class="op">.</span><span class="at">infer</span><span class="op">&lt;</span><span class="kw">typeof</span> headingSchema<span class="op">&gt;</span>[]<span class="op">;</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(websiteCopy<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[
+  {
+    "h1": "Your Commute, Redefined.",
+    "h2": "Soar above traffic with SkyCommute, the discreet personal flight system that looks just like your everyday backpack."
+  },
+  {
+    "h1": "Backpack by Day, Jetpack by Choice.",
+    "h2": "SkyCommute discreetly integrates personal flight into your daily routine, powered by clean steam energy."
+  },
+  {
+    "h1": "Green Flight Takes Off.",
+    "h2": "Experience the future of eco-conscious travel with SkyCommute, your lightweight, steam-powered personal jetpack."
+  },
+  {
+    "h1": "Elevate Your Every Day.",
+    "h2": "Break free from the ground. SkyCommute offers effortless, clean, personal flight in a backpack you'll love."
+  },
+  {
+    "h1": "The Backpack That Flies.",
+    "h2": "SkyCommute hides cutting-edge personal flight technology inside a lightweight, ordinary-looking backpack."
+  },
+  {
+    "h1": "Fly From Your Backpack.",
+    "h2": "SkyCommute: Unobtrusive personal flight, powered by clean steam, ready when you are."
+  },
+  {
+    "h1": "Skip the Traffic, Soar to Your Destination.",
+    "h2": "With SkyCommute, your lightweight, steam-powered backpack is all you need to beat the daily grind."
+  },
+  {
+    "h1": "Your Sky Awaits.",
+    "h2": "Embrace personal flight with SkyCommute, the innovative and eco-friendly jetpack that fits right into your life."
+  },
+  {
+    "h1": "Simple Commute, Soaring Heights.",
+    "h2": "SkyCommute delivers powerful, clean, personal flight, disguised as an everyday lightweight backpack."
+  },
+  {
+    "h1": "The Secret to Flying Green.",
+    "h2": "SkyCommute is the revolutionary, steam-powered jetpack disguised as a normal backpack for clean, discreet personal travel."
+  }
+]</code></pre>
+</div>
+</div>
+<div id="cell-27" class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> hIndex <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> websiteCopy<span class="op">.</span><span class="at">length</span>)<span class="op">;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> { h1<span class="op">,</span> h2 } <span class="op">=</span> websiteCopy[hIndex]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-28" class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> htmlPrompt <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="vs"> Generate HTML and CSS for a splash page for a new product called </span><span class="sc">${</span>productName<span class="sc">}</span><span class="vs">.</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="vs">    Output only HTML and CSS and do not link to any external resources.</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="vs">    Include the top level title: "</span><span class="sc">${</span>h1<span class="sc">}</span><span class="vs">" with the subtitle: "</span><span class="sc">${</span>h2<span class="sc">}</span><span class="vs">".</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="vs">    Return the HTML directly, do not wrap it in triple-back-ticks (</span><span class="sc">\`\`\`</span><span class="vs">).</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-29" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> htmlResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [htmlPrompt]<span class="op">,</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-30" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(htmlResponse<span class="op">.</span><span class="at">text</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;SkyCommute - Simple Commute, Soaring Heights&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif; /* A common sans-serif font */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Full viewport height */
+            background: linear-gradient(to bottom right, #4CAF50, #2196F3); /* A pleasant green to blue gradient */
+            color: white; /* White text for contrast */
+            text-align: center;
+            overflow: hidden; /* Prevent scrollbar if content slightly larger than viewport */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        .splash-container {
+            padding: 30px;
+            max-width: 900px; /* Increased max-width for better display of long titles */
+            margin: 20px; /* Add some margin for smaller screens */
+            background-color: rgba(0, 0, 0, 0.4); /* Slightly transparent dark background for content box */
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* More pronounced shadow */
+            backdrop-filter: blur(5px); /* Add a subtle blur effect behind the container */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Light border for definition */
+        }
+
+        .product-name {
+            font-size: 3.5em; /* Larger for product name */
+            margin-bottom: 15px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #FFD700; /* Gold color for the product name */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Shadow for product name */
+        }
+
+        .main-title {
+            font-size: 4em; /* Very large for main title */
+            margin-top: 0;
+            margin-bottom: 25px;
+            line-height: 1.2;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4); /* Add stronger shadow for depth */
+        }
+
+        .subtitle {
+            font-size: 1.6em; /* Good size for subtitle */
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto; /* Center the subtitle within its container */
+            opacity: 0.95; /* Slightly less prominent than titles */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 800px) {
+            .product-name {
+                font-size: 2.8em;
+            }
+            .main-title {
+                font-size: 3.2em;
+            }
+            .subtitle {
+                font-size: 1.4em;
+            }
+            .splash-container {
+                padding: 25px;
+                margin: 15px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .product-name {
+                font-size: 2.2em;
+                letter-spacing: 2px;
+            }
+            .main-title {
+                font-size: 2.5em;
+                margin-bottom: 20px;
+            }
+            .subtitle {
+                font-size: 1.2em;
+                max-width: 90%; /* Allow subtitle to take more width */
+            }
+            .splash-container {
+                padding: 20px;
+                margin: 10px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .product-name {
+                font-size: 1.8em;
+                letter-spacing: 1px;
+            }
+            .main-title {
+                font-size: 2em;
+                line-height: 1.3;
+            }
+            .subtitle {
+                font-size: 1em;
+            }
+            .splash-container {
+                padding: 15px;
+                margin: 5px;
+            }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="splash-container"&gt;
+        &lt;h2 class="product-name"&gt;SkyCommute&lt;/h2&gt;
+        &lt;h1 class="main-title"&gt;Simple Commute, Soaring Heights.&lt;/h1&gt;
+        &lt;p class="subtitle"&gt;SkyCommute delivers powerful, clean, personal flight, disguised as an everyday lightweight backpack.&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+<div id="cell-31" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> containerId <span class="op">=</span> <span class="vs">`shadow-container-</span><span class="sc">${</span><span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>()<span class="op">.</span><span class="fu">toString</span>(<span class="dv">36</span>)<span class="op">.</span><span class="fu">slice</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> containerScript <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;div id="</span><span class="sc">${</span>containerId<span class="sc">}</span><span class="vs">"&gt;&lt;/div&gt;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;script&gt;</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  const htmlContent = </span><span class="sc">\`${</span>htmlResponse<span class="op">.</span><span class="at">text</span><span class="op">.</span><span class="fu">replace</span>(<span class="ss">/`/g</span><span class="op">,</span> <span class="st">"</span><span class="sc">\\</span><span class="st">`"</span>)<span class="sc">}\`</span><span class="vs">;</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="vs">  const container = document.getElementById('</span><span class="sc">${</span>containerId<span class="sc">}</span><span class="vs">');</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="vs">  if (container &amp;&amp; !container.shadowRoot) {</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="vs">    const shadow = container.attachShadow({ mode: 'open' });</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="vs">    shadow.innerHTML = htmlContent;</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="vs">  }</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;/script&gt;</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">html</span>(containerScript)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div id="shadow-container-e4ol3pa78pf"></div>
+<script>
+  const htmlContent = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyCommute - Simple Commute, Soaring Heights</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif; /* A common sans-serif font */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Full viewport height */
+            background: linear-gradient(to bottom right, #4CAF50, #2196F3); /* A pleasant green to blue gradient */
+            color: white; /* White text for contrast */
+            text-align: center;
+            overflow: hidden; /* Prevent scrollbar if content slightly larger than viewport */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        .splash-container {
+            padding: 30px;
+            max-width: 900px; /* Increased max-width for better display of long titles */
+            margin: 20px; /* Add some margin for smaller screens */
+            background-color: rgba(0, 0, 0, 0.4); /* Slightly transparent dark background for content box */
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* More pronounced shadow */
+            backdrop-filter: blur(5px); /* Add a subtle blur effect behind the container */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Light border for definition */
+        }
+
+        .product-name {
+            font-size: 3.5em; /* Larger for product name */
+            margin-bottom: 15px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #FFD700; /* Gold color for the product name */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Shadow for product name */
+        }
+
+        .main-title {
+            font-size: 4em; /* Very large for main title */
+            margin-top: 0;
+            margin-bottom: 25px;
+            line-height: 1.2;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4); /* Add stronger shadow for depth */
+        }
+
+        .subtitle {
+            font-size: 1.6em; /* Good size for subtitle */
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto; /* Center the subtitle within its container */
+            opacity: 0.95; /* Slightly less prominent than titles */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 800px) {
+            .product-name {
+                font-size: 2.8em;
+            }
+            .main-title {
+                font-size: 3.2em;
+            }
+            .subtitle {
+                font-size: 1.4em;
+            }
+            .splash-container {
+                padding: 25px;
+                margin: 15px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .product-name {
+                font-size: 2.2em;
+                letter-spacing: 2px;
+            }
+            .main-title {
+                font-size: 2.5em;
+                margin-bottom: 20px;
+            }
+            .subtitle {
+                font-size: 1.2em;
+                max-width: 90%; /* Allow subtitle to take more width */
+            }
+            .splash-container {
+                padding: 20px;
+                margin: 10px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .product-name {
+                font-size: 1.8em;
+                letter-spacing: 1px;
+            }
+            .main-title {
+                font-size: 2em;
+                line-height: 1.3;
+            }
+            .subtitle {
+                font-size: 1em;
+            }
+            .splash-container {
+                padding: 15px;
+                margin: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="splash-container">
+        <h2 class="product-name">SkyCommute</h2>
+        <h1 class="main-title">Simple Commute, Soaring Heights.</h1>
+        <p class="subtitle">SkyCommute delivers powerful, clean, personal flight, disguised as an everyday lightweight backpack.</p>
+    </div>
+</body>
+</html>`;
+
+  const container = document.getElementById('shadow-container-e4ol3pa78pf');
+  if (container && !container.shadowRoot) {
+    const shadow = container.attachShadow({ mode: 'open' });
+    shadow.innerHTML = htmlContent;
+  }
+</script>
+</div>
+</div>
 
 
 </section>
@@ -1113,18 +1511,18 @@ Important
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="pagination-link" aria-label="Gemini API: Analyze a Video - Historic Event Recognition">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Analyze a Video - Historic Event Recognition</span>
+      <a href="../examples/Guess_the_shape.html" class="pagination-link" aria-label="Guess the shape: Triangle, Square, Pentagon?">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Guess the shape: Triangle, Square, Pentagon?</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../examples/Apollo_11.html" class="pagination-link" aria-label="Prompting with an Apollo 11 transcript">
-        <span class="nav-page-text">Prompting with an Apollo 11 transcript</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../quickstarts/Audio.html" class="pagination-link" aria-label="Gemini API: Audio Quickstart">
+        <span class="nav-page-text">Gemini API: Audio Quickstart</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Analyze_a_Video_Summarization.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Analyze_a_Video_Summarization.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Market_a_Jet_Backpack.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Market_a_Jet_Backpack.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
