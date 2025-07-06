@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Gemini API: Translate a public domain book – Gemini Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../quickstarts/Audio.html" rel="next">
+<link href="../examples/Opossum_search.html" rel="prev">
+<link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a366eb2ea23be5ba5111ff25b5c9c0ae.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-GE1DFPVL15"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<meta property="og:title" content="Gemini API: Translate a public domain book – Gemini Cookbook">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Gemini Cookbook">
+<meta name="twitter:title" content="Gemini API: Translate a public domain book – Gemini Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Gemini Cookbook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../quickstarts/Get_started.html" aria-current="page"> 
+<span class="menu-text">Quickstarts</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://github.com/FallenDeity/deepmind-starter/">
+            Source Code
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Translate_a_Public_Domain_Book.html">Gemini API: Translate a public domain book</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Examples</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Historic Event Recognition</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Summarization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prompting with an Apollo 11 transcript</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Entity extraction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guess the shape: Triangle, Square, Pentagon?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create a marketing campaign from a product sketch of a Jet Backpack</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opossum search</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Gemini API: Translate a public domain book</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Quickstarts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Audio Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Code Execution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: All about tokens</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Embeddings Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Enum Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: File API Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guide: Building AI Tutors with LearnLM via System Instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multimodal Live API - Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting started with the Gemini API OpenAI compatibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Use Gemini thinking</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with information grounding for Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini 2.0 Image output</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: List models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Prompting Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Safety Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Grounding using Search as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2D spatial understanding with Gemini 2.0</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Streaming Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: System instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Video understanding with Gemini</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
+  <ul class="collapse">
+  <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
+  <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
+  <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
+  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
+  <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
+  </ul></li>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data preparation</a></li>
+  <li><a href="#token-information" id="toc-token-information" class="nav-link" data-scroll-target="#token-information">Token Information</a>
+  <ul class="collapse">
+  <li><a href="#split-text-into-chunks" id="toc-split-text-into-chunks" class="nav-link" data-scroll-target="#split-text-into-chunks">Split text into chunks</a></li>
+  <li><a href="#group-smaller-chunks-together" id="toc-group-smaller-chunks-together" class="nav-link" data-scroll-target="#group-smaller-chunks-together">Group smaller chunks together</a></li>
+  </ul></li>
+  <li><a href="#translation" id="toc-translation" class="nav-link" data-scroll-target="#translation">Translation</a>
+  <ul class="collapse">
+  <li><a href="#prompt" id="toc-prompt" class="nav-link" data-scroll-target="#prompt">Prompt</a></li>
+  <li><a href="#translate-chunks" id="toc-translate-chunks" class="nav-link" data-scroll-target="#translate-chunks">Translate chunks</a></li>
+  </ul></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next steps</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Translate_a_Public_Domain_Book.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Translate_a_Public_Domain_Book.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Translate_a_Public_Domain_Book.html">Gemini API: Translate a public domain book</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Gemini API: Translate a public domain book</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In this notebook, you will explore Gemini model as a translation tool, demonstrating how to prepare data, create effective prompts, and save results into a <code>.txt</code> file.</p>
+<p>This approach significantly improves knowledge accessibility. Various sources provide open-source books. In this notebook, you will use <a href="https://www.gutenberg.org/">Project Gutenberg</a> as a resource.</p>
+<p>This platform provides access to a wide range of books available for free download in PDF, eBook, TXT formats and more.</p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="install-the-google-genai-sdk" class="level3">
+<h3 class="anchored" data-anchor-id="install-the-google-genai-sdk">Install the Google GenAI SDK</h3>
+<p>Install the Google GenAI SDK from <a href="https://www.npmjs.com/package/@google/genai">npm</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install @google/genai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="setup-your-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="setup-your-api-key">Setup your API key</h3>
+<p>You can <a href="https://aistudio.google.com/app/apikey">create</a> your API key using Google AI Studio with a single click.</p>
+<p>Remember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a <code>.env</code> file. You can also set it as an environment variable or use a secret manager.</p>
+<p>Here’s how to set it up in a <code>.env</code> file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch .env</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;"</span> <span class="op">&gt;&gt;</span> .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another option is to set the API key as an environment variable. You can do this in your terminal with the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export GEMINI_API_KEY=<span class="st">"&lt;YOUR_API_KEY&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="load-the-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-api-key">Load the API key</h3>
+<p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, we can load the API key in our code:</p>
+<div id="cell-4" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../.env"</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GEMINI_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">GEMINI_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>GEMINI_API_KEY) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"GEMINI_API_KEY is not set in the environment variables"</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"GEMINI_API_KEY is set in the environment variables"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEMINI_API_KEY is set in the environment variables</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
+<pre><code>│
+├── .env
+└── examples
+    └── Translate_a_Public_Domain_Book.ipynb</code></pre>
+</div>
+</div>
+</section>
+<section id="initialize-sdk-client" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
+<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
+<div id="cell-7" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="select-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<div id="cell-9" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="data-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation">Data preparation</h2>
+<p>You will translate a well-known book written by Arthur Conan Doyle from Polish (trans. Eugenia Żmijewska) to English about the detective Sherlock Holmes. Here are the titles in Polish and English:</p>
+<ul>
+<li>Polish Title: Tajemnica Baskerville’ów: dziwne przygody Sherlocka Holmes</li>
+<li>English Title: The Hound of the Baskervilles</li>
+</ul>
+<div id="cell-11" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> downloadFile <span class="op">=</span> <span class="kw">async</span> (url<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> filePath<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to download file: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">mkdirSync</span>(path<span class="op">.</span><span class="fu">dirname</span>(filePath)<span class="op">,</span> { recursive<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">blob</span>()<span class="op">;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> bufferData <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> buffer<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(filePath<span class="op">,</span> bufferData)<span class="op">;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-12" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> sherlockHolmesBookUrl <span class="op">=</span> <span class="st">"https://www.gutenberg.org/cache/epub/34079/pg34079.txt"</span><span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> sherlockHolmesBookPath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/examples"</span><span class="op">,</span> <span class="st">"sherlock_holmes.txt"</span>)<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(sherlockHolmesBookUrl<span class="op">,</span> sherlockHolmesBookPath)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-13" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> bookText <span class="op">=</span> fs<span class="op">.</span><span class="fu">readFileSync</span>(sherlockHolmesBookPath<span class="op">,</span> <span class="st">"utf-8"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Books contain all sorts of fictional or historical descriptions, some of them rather literal and might cause the model to stop from performing translation query. To prevent some of those exceptions users are able to change <code>safetySetting</code> from default to more open approach.</p>
+<div id="cell-15" class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { SafetySetting } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> safetySettings<span class="op">:</span> SafetySetting[] <span class="op">=</span> [</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_HATE_SPEECH</span><span class="op">,</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_NONE</span><span class="op">,</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_DANGEROUS_CONTENT</span><span class="op">,</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_NONE</span><span class="op">,</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_HARASSMENT</span><span class="op">,</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_NONE</span><span class="op">,</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_SEXUALLY_EXPLICIT</span><span class="op">,</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_NONE</span><span class="op">,</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-16" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">generateOutput</span>(prompt<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> prompt<span class="op">,</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    config<span class="op">:</span> {</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>      safetySettings<span class="op">:</span> safetySettings<span class="op">,</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Begin by counting how many tokens are in the book to know if you need to proceed with the next step (split text into smaller chunks).</p>
+</section>
+<section id="token-information" class="level2">
+<h2 class="anchored" data-anchor-id="token-information">Token Information</h2>
+<p>LLMs are constrained by token limits. In order to stay within the limit of Gemini Flash, it’s important to ensure the following:</p>
+<ul>
+<li>Input token limit should not exceed: 1,048,576 tokens</li>
+<li>Output token limit should not exceed: 8,192 tokens</li>
+</ul>
+<p>Since input chunks of post-translation text will serve as outputs, it’s advisable to split them into smaller segments.</p>
+<p>As you will see in the example, there are over 1000 small chunks. Calling API for the token count of each one would take a long time. Because of this estimate 1 token is equal to 4 characters will be used.</p>
+<p>To account for the possible miscalculation of tokens and output potentially being longer than input each chunk will use up to 4*5000 characters. Remember to adjust the maximum to your needs.</p>
+<p>For more details on tokens in Gemini models, refer to the documentation <a href="https://ai.google.dev/gemini-api/docs/models/gemini">here</a>.</p>
+<section id="split-text-into-chunks" class="level3">
+<h3 class="anchored" data-anchor-id="split-text-into-chunks">Split text into chunks</h3>
+<p>Adjust the number of whitespace characters used for splitting based on the book you are working with.</p>
+<p>Then, ensure to consider token limitations to receive complete responses from the model.</p>
+<div id="cell-20" class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> bookEndMarker <span class="op">=</span> <span class="st">"END OF THE PROJECT GUTENBERG EBOOK TAJEMNICA BASKERVILLE'ÓW: DZIWNE PRZYGODY SHERLOCKA HOLMES"</span><span class="op">;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> bookChunks <span class="op">=</span> bookText<span class="op">.</span><span class="fu">slice</span>(<span class="dv">0</span><span class="op">,</span> bookText<span class="op">.</span><span class="fu">indexOf</span>(bookEndMarker))<span class="op">.</span><span class="fu">split</span>(<span class="ss">/</span><span class="sc">\r?\n\r?\n</span><span class="ss">/</span>)<span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> numChunks <span class="op">=</span> bookChunks<span class="op">.</span><span class="at">length</span><span class="op">;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Number of chunks: </span><span class="sc">${</span>numChunks<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of chunks: 1802</code></pre>
+</div>
+</div>
+<div id="cell-21" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> estimatedTokenCounts<span class="op">:</span> <span class="dt">number</span>[] <span class="op">=</span> bookChunks<span class="op">.</span><span class="fu">map</span>((chunk) <span class="kw">=&gt;</span> (chunk <span class="op">?</span> chunk<span class="op">.</span><span class="at">length</span> <span class="op">/</span> <span class="dv">4</span> <span class="op">:</span> <span class="dv">0</span>))<span class="op">;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Estimated token counts for each chunk:"</span><span class="op">,</span> estimatedTokenCounts)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Estimated token counts for each chunk: [
+  136.5, 16.25,  6.5,   7.25,  25.25,    4,    59, 26.25,     0,
+  51.25,     0,    0,    150,      0, 10.5,    11,  7.75,   8.5,
+  10.25,   9.5,  9.5,   7.75,   9.25,  9.5,  7.25,     0,  11.5,
+      0,     1,    5,    139,   22.5, 37.5,  12.5, 74.25,  45.5,
+   11.5,  24.5,  8.5,     46,  11.75,   32,  50.5,  48.5, 45.75,
+  22.25, 38.75,   53,   6.75,   6.25, 3.75,    55, 19.75, 15.75,
+   24.5, 45.75,  4.5,    155,  22.25,   73,   137, 92.75,  9.75,
+  54.25,  38.5, 5.25, 121.75, 129.75,   38,  9.25,   3.5, 10.25,
+  15.75, 11.25, 15.5,     28,   31.5, 16.5, 13.75, 10.25, 74.25,
+     45, 66.75, 13.5,  28.25,  11.25, 43.5,    34,     0,  1.25,
+    7.5, 14.75, 17.5,   6.25,    5.5,    4,  79.5,  16.5,     9,
+  112.5,
+  ... 1702 more items
+]</code></pre>
+</div>
+</div>
+<p>Identify the largest number of tokens in a chunk to check if any exceed your token limitations. In this case, the chunks are very small, so this should not be an issue.</p>
+<p>If you encounter this problem, consider splitting the text into even smaller chunks.</p>
+<div id="cell-23" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="op">...</span>estimatedTokenCounts))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>277</code></pre>
+</div>
+</div>
+</section>
+<section id="group-smaller-chunks-together" class="level3">
+<h3 class="anchored" data-anchor-id="group-smaller-chunks-together">Group smaller chunks together</h3>
+<p>As observed above, certain chunks contain very few tokens. While the LLM can translate these sentences accurately, providing larger context can enhance its understanding of the content.</p>
+<p>Let’s combine smaller chunks into larger ones for improved results.</p>
+<div id="cell-25" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">chunkGrouping</span>(chunks<span class="op">:</span> <span class="dt">string</span>[]<span class="op">,</span> tokenCounts<span class="op">:</span> <span class="dt">number</span>[]<span class="op">,</span> maxLen <span class="op">=</span> <span class="dv">5000</span>)<span class="op">:</span> <span class="dt">string</span>[] {</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> groupedChunks<span class="op">:</span> <span class="dt">string</span>[] <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> currentGroup <span class="op">=</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> currentTokenSum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Process each chunk and group them based on token limits</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> chunks<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> chunk <span class="op">=</span> chunks[i]<span class="op">;</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> count <span class="op">=</span> tokenCounts[i]<span class="op">;</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Skip chunks that exceed the max token limit</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (count <span class="op">&gt;</span> maxLen) {</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>      <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Add a new chunk if there is space available in the current group.</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (currentTokenSum <span class="op">+</span> <span class="dv">1</span> <span class="op">+</span> count <span class="op">&lt;=</span> maxLen) {</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>      currentGroup <span class="op">+=</span> <span class="vs">`</span><span class="sc">\n\n${</span>chunk<span class="sc">}</span><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>      currentTokenSum <span class="op">+=</span> <span class="dv">1</span> <span class="op">+</span> count<span class="op">;</span> <span class="co">// Count in 1 token for newlines</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>      <span class="co">// If adding this chunk exceeds the current group's capacity, start a new group</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>      groupedChunks<span class="op">.</span><span class="fu">push</span>(currentGroup)<span class="op">;</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>      currentGroup <span class="op">=</span> chunk<span class="op">;</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>      currentTokenSum <span class="op">=</span> count<span class="op">;</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (currentGroup) {</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Add the last remaining group</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>    groupedChunks<span class="op">.</span><span class="fu">push</span>(currentGroup)<span class="op">;</span></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> groupedChunks<span class="op">;</span></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chunks <span class="op">=</span> <span class="fu">chunkGrouping</span>(bookChunks<span class="op">,</span> estimatedTokenCounts)<span class="op">;</span></span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(chunks<span class="op">.</span><span class="at">length</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>13</code></pre>
+</div>
+</div>
+<p>The last step of splitting is checking if the non-estimated token counts are acceptable.</p>
+<div id="cell-27" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> chunk <span class="kw">of</span> chunks) {</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> tokenCount <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> chunk<span class="op">,</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Chunk token count: </span><span class="sc">${</span>tokenCount<span class="op">.</span><span class="at">totalTokens</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Chunk token count: 6661
+Chunk token count: 6750
+Chunk token count: 6761
+Chunk token count: 6655
+Chunk token count: 6875
+Chunk token count: 6749
+Chunk token count: 6953
+Chunk token count: 6798
+Chunk token count: 6816
+Chunk token count: 6842
+Chunk token count: 6910
+Chunk token count: 6825
+Chunk token count: 3305</code></pre>
+</div>
+</div>
+<p>Despite using estimates, this split minimizes the calls necessary to translate the book well, and most chunks are of similar token counts to each other.</p>
+</section>
+</section>
+<section id="translation" class="level2">
+<h2 class="anchored" data-anchor-id="translation">Translation</h2>
+<p>Your book is ready for translations! The selected book has been divided into 13 larger chunks.</p>
+<section id="prompt" class="level3">
+<h3 class="anchored" data-anchor-id="prompt">Prompt</h3>
+<p>Specify the original language of your book and the language you would like it to be translated into.</p>
+<div id="cell-31" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">translations</span>(text<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> sourceLanguage<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> targetLanguage<span class="op">:</span> <span class="dt">string</span>) {</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="vs">`</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="vs">      As a professional book translator,</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="vs">      translate the following book from </span><span class="sc">${</span>sourceLanguage<span class="sc">}</span><span class="vs"> into </span><span class="sc">${</span>targetLanguage<span class="sc">}</span><span class="vs">.</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="vs">      Book to Translate:</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="vs">      </span><span class="sc">${</span>text<span class="sc">}</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">;</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="translate-chunks" class="level3">
+<h3 class="anchored" data-anchor-id="translate-chunks">Translate chunks</h3>
+<p>The translation time depends on the amount of text being processed. Our selected book was 278 KB and the entire translation took 15 minutes.</p>
+<p>Please note that larger texts may take several hours to complete.</p>
+<div id="cell-33" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> display <span class="op">=</span> tslab<span class="op">.</span><span class="fu">newDisplay</span>()<span class="op">;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> results<span class="op">:</span> <span class="dt">string</span>[] <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>display<span class="op">.</span><span class="fu">text</span>(<span class="st">"Progress: 0.00%"</span>)<span class="op">;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> chunkIndex <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> chunkIndex <span class="op">&lt;</span> chunks<span class="op">.</span><span class="at">length</span><span class="op">;</span> chunkIndex<span class="op">++</span>) {</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> translation <span class="op">=</span> <span class="cf">await</span> <span class="fu">generateOutput</span>(<span class="fu">translations</span>(chunks[chunkIndex]<span class="op">,</span> <span class="st">"Polish"</span><span class="op">,</span> <span class="st">"English"</span>))<span class="op">;</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  results<span class="op">.</span><span class="fu">push</span>(translation)<span class="op">;</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  display<span class="op">.</span><span class="fu">text</span>(<span class="vs">`Progress: </span><span class="sc">${</span>(((chunkIndex <span class="op">+</span> <span class="dv">1</span>) <span class="op">/</span> chunks<span class="op">.</span><span class="at">length</span>) <span class="op">*</span> <span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">%`</span>)<span class="op">;</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Progress: 100.00%</code></pre>
+</div>
+</div>
+<p>All done, now you can print the chunk before and after translation to see the results.</p>
+<p>You can see, that translation effectively maintains the narrative’s novel quality, proper grammar and sentence structure.</p>
+<p>Next step will be joining chunks together and saving the translated book.</p>
+<div id="cell-35" class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(chunks[<span class="dv">1</span>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>– A teraz, panie Holmes – rzekł – pokażę panu coś aktualniejszego. Oto dziennik „Devon County Chronicle” z dnia 14-go Maja roku bieżącego. Jest w nim opis faktów, odnoszących się do śmierci sir Karola Baskerville, która zdarzyła się na kilka dni przed ową datą.</p>
+<p>Mój przyjaciel nachylił się i począł słuchać uważniej. Doktor Mortimer czytał:</p>
+<p>„Niedawna i nagła śmierć sir Karola Baskerville, kandydata liberalnego z hrabstwa Devon, przejęła całą naszą okolicę zdumieniem i trwogą. Jakkolwiek sir Karol Baskerville mieszkał w Baskerville Hall od niedawna, lecz jego uprzejmość, hojność i szlachetność, zjednały mu szacunek tych wszystkich, którzy mieli z nim do czynienia. W dzisiejszej epoce parweniuszów miło jest widzieć potomka starożytnego a podupadłego rodu, odzyskującego fortunę swych przodków i przywracającego świetność staremu nazwisku.</p>
+<p>„Sir Karol, jak wiadomo, zyskał duży majątek na spekulacyach w Afryce południowej, a będąc z natury przezornym, nie kusił dalej szczęścia, które mogłoby się odwrócić od niego, jak to czyni z innymi, i zrealizowawszy swoją fortunę, powrócił do Anglii.</p>
+<p>„Przed dwoma laty zaledwie osiadł w Baskerville Hall; znane są jego szerokie plany odnowienia starej siedziby i wprowadzenia ulepszeń w gospodarstwie rolnem. Śmierć przeszkodziła ich urzeczywistnieniu.</p>
+<p>„Będąc bezdzietnym, pragnął, aby cała okolica korzystała z jego fortuny i niejeden z sąsiadów ma ważne powody do opłakiwania jego przedwczesnego zgonu. Donosiliśmy często na tych szpaltach o jego hojnych ofiarach na instytucye publiczne.</p>
+<p>„Śledztwo nie wyjaśniło dotychczas okoliczności, towarzyszących śmierci sir Karola. Krążą tu najdziwaczniejsze legendy, przypisujące ów nagły zgon działaniu sił nadprzyrodzonych.</p>
+<p>„Sir Karol był wdowcem, uważano go powszechnie za dziwaka. Pomimo dużej fortuny, miał przyzwyczajenia proste, skromne. Personel służbowy w Baskerville Hall składał się z kamerdynera, nazwiskiem Barrymore, jego żony, kucharki i gospodyni w jednej osobie. Oboje zeznają, że zdrowie sir Karola w ostatnich czasach było nietęgie, że rozwijała się w nim choroba serca, objawiająca się bladością, brakiem tchu i częstemi omdleniami. Doktor Jerzy Mortimer, przyjaciel i domowy lekarz nieboszczyka, złożył zeznanie w tym samym duchu.</p>
+<p>„Sir Karol Baskerville zwykł był co wieczór, przed pójściem na spoczynek, przechadzać się po słynnej alei wiązów przed zamkiem. Małżonkowie Barrymore opowiadają, że wieczorom 4-go maja, ich pan oznajmił im, że nazajutrz wyrusza do Londynu i kazał pakować kuferek.</p>
+<p>„Owego wieczoru wyszedł, jak zwykle, na przechadzkę, wśród której wypalał cygaro.</p>
+<p>„Z tej przechadzki już nie powrócił.</p>
+<p>„O dwunastej Barrymore, widząc drzwi frontowe jeszcze otwarte, zaniepokoił się, i wziąwszy latarnię, poszedł szukać swego pana. W ciągu dnia deszcz padał, więc łatwo było dojrzeć ślady stóp sir Karola wzdłuż alei. W połowie drogi jest furtka, prowadząca na łąkę.</p>
+<p>„Były ślady, że sir Karol stał przy niej przez czas pewien, następnie skręcił znowu w aleję. Znaleziono jego trupa na jej końcu.</p>
+<p>„Pomiędzy innemi dotychczas nie wyjaśniono jednego faktu, wynikającego z zeznań Barrymora, a mianowicie, że ślady kroków jego pana zmieniły się z chwilą, gdy stał przy furtce i że odtąd szedł na palcach.</p>
+<p>„Niejaki Murphy, cygan, handlujący końmi, znajdował się wówczas na łące, w pewnej odległości od nieboszczyka, ale sam przyznaje, że był pijany. Powiada, że słyszał krzyki, ale nie może określić, skąd wychodziły.</p>
+<p>„Na ciele sir Karola nie było śladów przemocy lub gwałtu, a chociaż lekarz zeznaje, że wyraz twarzy nieboszczyka był tak zmieniony, że on, doktor Mortimer, w pierwszej chwili poznać go nie mógł, rzeczoznawcy tłómaczą to anewryzmem serca, przy którym zachodzą podobne objawy.</p>
+<p>„Sekcya wykazała przedawnioną wadę serca, sędzia śledczy potwierdził badanie lekarskie. Pożądanem jest, aby spadkobierca sir Karola mógł objąć jaknajprędzej majątek i prowadzić dalej chlubną działalność, przerwaną tak nagle i tak tragicznie.</p>
+<p>„Gdyby prozaiczne orzeczenie sędziego śledczego i rzeczoznawców nie położyło końca romantycznym historyom, krążącym na temat owej śmierci, nie łatwo byłoby znaleźć właściciela Baskerville Hall.</p>
+<p>„Domniemanym spadkobiercą jest pan Henryk Baskerville, syn młodszego brata sir Karola. Ów młodzieniec przed kilku laty wyruszył do Ameryki. Zarządzono poszukiwania. Dowie się on zapewne niebawem o zmianie swego losu”.</p>
+<pre><code>   *       *       *       *       *</code></pre>
+<p>Doktor Mortimer złożył gazetę i wsunął ją do kieszeni, mówiąc:</p>
+<p>– To są fakty, powszechnie znane.</p>
+<p>– Dziękuję panu za zwrócenie mojej uwagi na sprawę istotnie ciekawą – rzekł pan Holmes. – Czytałem o niej, coprawda, w dziennikach, ale w owym czasie byłem zajęty kameami, które zniknęły z muzeum Watykańskiego. Chciałem się przysłużyć Papieżowi i straciłem z oczu to, co się jednocześnie działo w Anglii. Ten artykuł, powiadasz pan, zawiera fakty, znane powszechnie?</p>
+<p>– Tak.</p>
+<p>– Zechciej więc pan uwiadomić mnie teraz o tem, czego nikt nie wie.</p>
+<p>Sherlock Holmes oparł się o poręcz fotelu i znowu złożył ręce tak, aby palce stykały się końcami.</p>
+<p>– Uczynię to – rzekł doktor Mortimer, zdradzając coraz większe wzburzenie. – Powiem panu to, czego nie mówiłem jeszcze nikomu. Zataiłem to przed sędzią śledczym z pobudek, które pan zapewne zrozumie. Jako człowiek nauki, nie chciałem zdradzać się publicznie, iż wierzę w przesądy. Dalej, rozumiałem, że gdyby utwierdziła się wiara w nadprzyrodzone siły, rządzące w Baskerville Hall, nikt nie zechciałby objąć starego zamku w posiadanie. Dla tych dwóch powodów nie zeznałem przed sądem wszystkiego, co wiem – albowiem nie zdałoby się to na nic sędziemu śledczemu – ale z panem będę zupełnie szczery.</p>
+<p>„Okolica jest mało zaludniona, rezydencye rzadkie, a siedziby włościańskie rozrzucone na znacznej odległości od siebie.</p>
+<p>„Widywałem często sir Karola Baskerville, który był spragniony towarzystwa. Oprócz p.&nbsp;Frankland w Lafterhall i naturalisty, p.&nbsp;Stapleton, w pobliżu niema ludzi inteligentnych. Sir Karol był skryty, małomówny. Zbliżyliśmy się z powodu jego choroby, przytem łączyły nas wspólne upodobania naukowe. Przywiózł wiele ciekawych wiadomości z Afryki Południowej. Spędziliśmy niejeden miły wieczór na rozprawach o anatomii porównawczej.</p>
+<p>„W ciągu ostatnich paru miesięcy spostrzegłem, że system nerwowy sir Karola był nadwerężony. Wziął tak dalece ową legendę do serca, że choć co wieczór odbywał spacery, nic go nie mogło skłonić do wejścia na łąkę po zachodzie słońca. Prześladowała go wciąż obawa upiorów, i pytał mnie nieraz, czym nie widział jakiego dziwacznego stworzenia i czym nie słyszał szczekania. Te pytania zadawał mi zawsze głosem drżącym.</p>
+<p>„Wraziła mi się w pamięć jedna z moich wizyt u niego przed trzema tygodniami. Stał w sieni. Gdym schodził z wózka, spostrzegłem, że patrzy po przez moje ramię ze strachem w oczach. Odwróciłem się i spostrzegłem jakiś kształt dziwny, podobny do dużego, czarnego cielęcia. Przeleciało to po za moim wózkiem.</p>
+<p>„Sir Karol był tak wzburzony, że poszedłem szukać tego osobliwego zwierzęcia. Ale nigdzie go nie było. Mój pacyent nie mógł się uspokoić. Zostałem z nim przez cały wieczór i wtedy, tłómacząc swe wzburzenie, opowiedział mi całą tę historyę.</p>
+<p>„Wspominam o tym drobnym epizodzie, gdyż nabiera on znaczenia wobec tragedyi, która potem nastąpiła; na razie nie przywiązywałem do tego wagi i dziwiłem się wzburzeniu sir Karola.</p>
+<p>„Miał jechać do Londynu z mojej porady. Wiedziałem, że jest chory na serce i że ciągły niepokój źle wpływa na jego zdrowie. Sądziłem, że parę miesięcy, spędzonych na rozrywkach, uwolni go od tych mar i przywidzeń. Nasz wspólny przyjaciel, pan Stapleton, był tego samego zdania. I oto wynikło nieszczęście.</p>
+<p>„Zaraz po śmierci sir Karola, kamerdyner Barrymore wyprawił do mnie grooma Perkinsa; przybyłem do Baskerville Hall w godzinę po katastrofie. Zbadałem wszystkie fakty, przytoczone w śledztwie. Szedłem śladami, pozostawionemi w Alei Wiązów, obejrzałem miejsce przy furtce, gdzie sir Karol zatrzymał się, i zmiarkowałem, że od owego miejsca szedł na palcach i że nie było śladu innych kroków, oprócz późniejszych, Barrymora. Wreszcie obejrzałem starannie zwłoki, które pozostały nietknięte do mego przybycia.</p>
+<p>„Sir Karol leżał nawznak z rozciągniętemi rękoma, jego twarz była tak zmieniona, że zaledwie mogłem ją poznać. Na ciele nie było żadnych obrażeń. Ale Barrymore w toku śledztwa uczynił jedno zeznanie fałszywe. Powiedział, że nie było żadnych śladów dokoła trupa. Nie spostrzegł ich, ale ja dostrzegłem – zupełnie świeże, w pobliżu.</p>
+<p>– Czy ślady kroków?</p>
+<p>– Tak.</p>
+<p>– Męzkie, czy kobiece?</p>
+<p>Doktor Mortimer patrzył na nas przez chwilę dziwnemi oczyma, wreszcie odparł szeptem:</p>
+<p>– Panie Holmes, były ślady kroków… psa… olbrzymiego.</p>
+<ol start="3" type="I">
+<li></li>
+</ol>
+<p>Zagadka.</p>
+<p>Przyznaję, że gdym słuchał tego opowiadania, przebiegały po mnie dreszcze. I doktor był żywo poruszony.</p>
+<p>– Widziałeś pan te ślady? – spytałem.</p>
+<p>– Tak, na własne oczy; tak wyraźnie, jak teraz widzę pana.</p>
+<p>– I nic pan nie mówiłeś?</p>
+<p>– Po co?</p>
+<p>– Dlaczego nikt inny nie dostrzegł tych śladów?</p>
+<p>– Pozostały o jakie dwa łokcie od trupa; nie zwrócono na nie uwagi i jabym ich nie zauważył, gdybym nie był znał tej legendy.</p>
+<p>– Dużo jest psów w okolicy.</p>
+<p>– Tak, ale to nie był zwykły pies. Powiedziałem już panom, że był ogromny.</p>
+<p>– Czy nie zbliżył się do trupa?</p>
+<p>– Nie.</p>
+<p>– Czy noc była jasna?</p>
+<p>– Nie; pochmurna i wilgotna.</p>
+<p>– Ale deszcz nie padał?</p>
+<p>– Nie.</p>
+<p>– Jak wygląda aleja?</p>
+<p>– Jest wysadzana dwoma rzędami wiązów i opasana żywopłotem, wysokości 12 stóp. Sama aleja ma 8 stóp szerokości.</p>
+<p>– Czy jest co pomiędzy żywopłotem a aleją?</p>
+<p>– Tak; po obu stronach biegnie trawnik, szerokości 6 stóp.</p>
+<p>– O ile zrozumiałem, jest wejście przez furtkę?</p>
+<p>– Tak; furtka prowadzi na łąkę.</p>
+<p>– Czy są inne wejścia?</p>
+<p>– Niema.</p>
+<p>– Tak, iż aby wkroczyć w Aleję Wiązów, trzeba wyjść z domu, lub iść przez łąkę?</p>
+<p>– Jest trzecie wejście przez altanę, na drugim końcu alei.</p>
+<p>– Czy sir Karol doszedł do tej altany?</p>
+<p>– Nie; znaleziono go o pięćdziesiąt łokci od niej.</p>
+<p>– A teraz, zechciej mi pan powiedzieć, doktorze Mortimer – będzie to szczegół ważny – czy ślady, któreś pan spostrzegł, pozostały na żwirze, czy na trawie?</p>
+<p>– Nie mogłem dojrzeć śladów na trawie.</p>
+<p>– Czy ślady były po tej samej stronie, co furtka?</p>
+<p>– Tak, po tej samej.</p>
+<p>– Bardzo mnie pan zaciekawia. Jeszcze jedno pytanie. Czy furtka była zamknięta?</p>
+<p>– Zamknięta na klucz i zaryglowana.</p>
+<p>– Jak jest wysoka?</p>
+<p>– Ma około 4-ch stóp.</p>
+<p>– A więc można ją łatwo przesadzić?</p>
+<p>– Tak.</p>
+<p>– A jakie ślady znalazłeś pan przy furtce?</p>
+<p>– Żadnych, któreby mogły zwrócić uwagę.</p>
+<p>– Czyżeś pan nie oglądał ziemi dokoła?</p>
+<p>– I owszem, oglądałem.</p>
+<p>– I nie dostrzegłeś pan żadnych śladów?</p>
+<p>– Były bardzo niewyraźne. Widocznie sir Karol stał tutaj przez pięć do dziesięciu minut.</p>
+<p>– Skąd pan to wie?</p>
+<p>– Gdyż popiół z cygara spadł dwa razy na ziemię.</p>
+<p>– Wybornie. Znaleźliśmy kolegę wedle naszego serca. Prawda, Watson? Ale jakież to były ślady?</p>
+<p>– Ślady stóp na żwirze. Innych znaków dostrzedz nie mogłem.</p>
+<p>Sherlock Holmes uderzył ręką w kolano.</p>
+<p>– Czemu mnie tam nie było! – zawołał. – Jest to wypadek bardzo ciekawy, dający obfite pole do naukowej ekspertyzy. Czemuż nie mogłem odczytać tej żwirowej karty, zanim ją zatarły inne stopy! Doktorze Mortimer, że też mnie pan nie uwiadomił wcześniej! Jeśli nam się nie uda wyświetlić sprawy, cała odpowiedzialność spadnie na pana.</p>
+<p>– Nie mogłem pana wzywać, panie Holmes, bo w takim razie musiałbym ujawnić te fakty przed całym światem, a mówiłem już, żem sobie tego nie życzył. Zresztą… zresztą…</p>
+<p>– Czemu pan nie kończysz?</p>
+<p>– Bywają dziedziny, niedostępne nawet dla najbystrzejszych i najdoświadczeńszych detektywów…</p>
+<p>– Chcesz pan powiedzieć, że wchodzi to w zakres rzeczy nadprzyrodzonych?</p>
+<p>– Tego nie twierdzę stanowczo.</p>
+<p>– Ale pan tak myślisz w głębi ducha.</p>
+<p>– Od owej tragedyi doszły do mojej świadomości fakty, sprzeczne z ogólnemi prawami natury.</p>
+<p>– Naprzykład?</p>
+<p>– Dowiaduję się, że przed tą katastrofą, kilku ludzi widziało na łące niezwykłe stworzenie, podobne do złego ducha Baskervillów. Wszyscy mówią, że był to pies ogromny, przezroczysty. Wypytywałem tych ludzi – jeden z nich jest włościaninem, drugi kowalem, trzeci farmerem. Ich zeznania są jednakowe. W całej okolicy zapanował strach przesądny. Nikt po nocy nie przejdzie przez łąkę.</p>
+<p>– I pan, człowiek nauki, wierzy w takie baśnie? – zawołał Holmes.</p>
+<p>– Dotychczas moje badania ogarniały świat zmysłów; usiłowałem walczyć z chorobą, ale ze złymi duchami walczyć nie umiem. Zresztą musisz pan przyznać, że ślady stóp są dowodem materyalnym. Pies Hugona nie był także zjawiskiem nadprzyrodzonem skoro mógł zagryźć na śmierć, a jednak miał w sobie coś szatańskiego.</p>
+<p>– Widzę, że pan przeszedłeś do obozu spirytystów. Ale zechciej mi powiedzieć jeszcze jedno, doktorze Mortimer. Jeżeli pan skłaniasz się ku takim zapatrywaniom, dlaczego przyszedłeś zasięgnąć mojej rady? Powiadasz pan jednym tchem, że nie warto przeprowadzać śledztwa w sprawie zabójstwa sir Karola, a jednocześnie prosisz mnie, żebym się tą sprawą zajął.</p>
+<p>– Nie prosiłem o to.</p>
+<p>– Więc w jaki sposób mogę panu dopomódz?</p>
+<p>– Radząc mi, co mam zrobić z sir Henrykiem Baskerville, który przybywa na dworzec Waterloo – doktor Mortimer spojrzał na zegarek – za godzinę i kwadrans – dokończył.</p>
+<p>– Czy on jest spadkobiercą?</p>
+<p>– Tak. Po śmierci sir Karola zasięgaliśmy wiadomości o tym gentlemanie i dowiedzieliśmy się, że ma fermę w Kanadzie. Wedle naszych informacyj, jest to młodzieniec bez zarzutu. Nie mówię teraz jako lekarz, lecz jako wykonawca testamentu sir Karola.</p>
+<p>– Czy niema innych kandydatów do spadku?</p>
+<p>– Żadnego. Mógłby nim być tylko Roger Baskerville, najmłodszy z trzech braci, z których sir Karol był najstarszym. Drugi brat, zmarły przedwcześnie, był właśnie ojcem owego Henryka. Trzeci, Roger, był synem marnotrawnym, żywą podobizną duchową starego Hugona. Tyle nabroił w Anglii, że nie mógł już tu przebywać, uciekł do Ameryki środkowej i umarł w roku 1876-ym na żółtą febrę. Henryk jest ostatnim z Baskervillów. Za godzinę i pięć minut mam go spotkać na dworcu Waterloo. Miałem depeszę z uwiadomieniem, iż przybył dziś do Southampton. A teraz, panie Holmes, powiedz, jak mi radzisz postąpić?</p>
+<p>– Dlaczego sir Henryk nie miałby wrócić do domu swych ojców?</p>
+<p>– Wydaje się to rzeczą naturalną, a jednak, jeśli weźmiemy pod uwagę, że każdego z Baskervillów, który tam przebywa, czeka śmierć nagła i gwałtowna… Jestem pewien, że gdyby sir Karol mógł był ze mną mówić przed katastrofą, byłby mi zakazał wprowadzać ostatniego z rodu do owej przeklętej rezydencyi. Z drugiej strony, dobrobyt całej okolicy zależy od przebywania dziedzica w Baskerville Hall. Całe dzieło, zapoczątkowane przez sir Karola, pójdzie w niwecz, jeśli nikt nie zamieszka na zamku. Boję się, aby dobro tej okolicy nie skłoniło mnie do nielojalnego postąpienia z sir Henrykiem i dlatego proszę pana o radę.</p>
+<p>Holmes zastanawiał się długą chwilę.</p>
+<p>– Zatem – odezwał się – według pańskiego przekonania, jakaś siła nieczysta grozi w tych stronach Baskervillom. Wszak pan w to wierzy święcie?</p>
+<p>– Gotów jestem przypuszczać, że tak jest.</p>
+<p>– W takim razie, ta siła nieczysta może pastwić się nad Baskervillem równie dobrze w Londynie, jak i w Devonshire. Szatan, którego działanie byłoby umiejscowione, nie byłby groźnym.</p>
+<p>– Starasz się pan ośmieszyć moją obawę, panie Holmes. Lecz gdybyś sam widział te rzeczy nadprzyrodzone, odechciałoby ci się żartów. Z pańskich słów miarkuję, że ów młodzieniec jest równie bezpieczny w Londynie, jak i w Devonshire. Przybywa za pięćdziesiąt minut. Cóż mi pan radzisz?</p>
+<p>– Radzę wziąć dorożkę, zawołać psa, który skowyczy za drzwiami i jechać na dworzec Waterloo na spotkanie sir Henryka Baskerville.</p>
+<p>– A potem?</p>
+<p>– A potem nic mu pan nie powiesz, dopóki nie namyślę się w tym względzie.</p>
+<p>– Jak długo potrzebujesz pan namyślać się?</p>
+<p>– Dwadzieścia cztery godziny. Poproszę cię, doktorze Mortimer, abyś mnie odwiedził jutro rano o dziesiątej. A zechciej przywieźć ze sobą sir Henryka Baskerville. To mi ułatwi wykonanie mego planu.</p>
+<p>– Zrobię, jak pan chcesz.</p>
+<p>Doktor zapisał godzinę na mankiecie i wyszedł. Pan Holmes zatrzymał go na schodach.</p>
+<p>– Jeszcze jedno pytanie – rzekł. – Powiadasz pan, że przed śmiercią sir Karola kilku ludzi widziało to zjawisko na łące?</p>
+<p>– Tak, trzech ludzi.</p>
+<p>– Czy który z nich widział je potem?</p>
+<p>– Nie wiem.</p>
+<p>– Dziękuję panu. Dowidzenia.</p>
+<p>Holmes powrócił na swoje miejsce. Był widocznie zadowolony.</p>
+<p>– Wychodzisz, Watson? – rzekł.</p>
+<p>– Czy potrzebujesz mojej pomocy?</p>
+<p>– Nie, mój drogi. Poproszę cię o nią dopiero w chwili działania. Sprawa wyjątkowa. Przechodząc obok Bradleya, zechciej wstąpić do sklepu i każ mi przynieść paczkę najmocniejszego tytoniu. Jeżeli możesz, byłbym ci bardzo obowiązany, gdybyś tu nie wracał przed wieczorem, a wtedy zestawimy nasze wrażenia i poglądy.</p>
+<p>Wiedziałem, że samotność jest niezbędną mojemu przyjacielowi w chwilach, gdy zastanawiał się nad poszlakami spraw kryminalnych, gdy wyciągał wnioski i tworzył teorye, które okazywały się zawsze słusznemi. To też cały dzień spędziłem w klubie i dopiero około dziewiątej powróciłem do mieszkania przy Bakerstreet.</p>
+<p>Gdy drzwi otworzyłem, zdało mi się, że w mieszkaniu był pożar; światło lampy ukazywało się jakby za czarną mgłą. Po chwili zmiarkowałem, że dym pochodzi nie od ognia, lecz od mocnego tytoniu. Wśród kłębów ujrzałem Holmesa w szlafroku. Siedział w fotelu z fajeczką w ustach. Na stole leżało kilka zwitków papieru. Odkaszlnąłem.</p>
+<p>– Zaziębiłeś się? – spytał.</p>
+<p>– Nie, ale można się tu udusić.</p>
+<p>– Otwórz okno. Widzę, że spędziłeś cały dzień w klubie…</p>
+<p>– Po czem to miarkujesz, Holmes?</p>
+<p>– Jesteś rzeźwy, pachnący, w dobrym humorze. Nigdy nie domyślisz się, gdzie ja byłem.</p>
+<p>– Nie będę nad tem suszył głowy. Powiesz mi sam.</p>
+<p>– A więc byłem w Devonshire.</p>
+<p>– Myślą?</p>
+<p>– Tak. Moje ciało pozostało tutaj, na tym fotelu, i skonsumowało dwa olbrzymie imbryki kawy i niezliczoną moc tytoniu. Po twojem wyjściu posłałem do Stamforda po mapę tej okolicy i błądziłem po niej przez dzień cały. Pochlebiam sobie, że każda piędź ziemi jest mi teraz dobrze znana.</p>
+<p>– To zapewne mapa o wielkiej skali?</p>
+<p>– Tak.</p>
+<p>Rozwinął ją i położył na kolanie.</p>
+<p>– Widzisz – mówił – oto łąka, a to – Baskerville Hall.</p>
+<p>– Naokoło las.</p>
+<p>– Istotnie. A oto Aleja Wiązów, na lewo od łąki. Tu jest wioska Grimpen, w której doktor Mortimer obrał swoją główną kwaterę. W obrębie mil pięciu mało jest ludzkich siedzib. Oto Lafter Hall. Tu – domek przyrodnika Stapleton. Tutaj dwie formy: High Tore i Fulmire. O czternaście mil dalej – więzienie państwowe Princetown. Dokoła i pośrodku – łąki i trzęsawiska. Taki jest teren, na którym rozegrała się owa tragedya. Postaramy się odtworzyć wszystkie jej sceny i akty.</p>
+<p>– Miejscowość bezludna.</p>
+<p>– Tak. Dyabeł mógł się na niej rozgościć…</p>
+<p>– A zatem i pan skłaniasz się do nadprzyrodzonych wyjaśnień…</p>
+<p>– Sługami Dyabła mogą być ludzie z krwi i kości. Należy przedewszystkiem rozstrzygnąć dwa zagadnienia: popierwsze, czy zaszła zbrodnia? Powtóre: w jaki sposób ją spełniono? Jeżeli doktor Mortimer nie jest w błędzie, jeśli okaże się, że mamy do czynienia z nadprzyrodzonemi siłami, w takim razie dochodzenia sądowe są bezużyteczne. Ale musimy wyczerpać wszelkie inne hypotezy, zanim dojdziemy do tego wniosku. Możebyś zamknął okno. Znajduję, że skoncentrowana atmosfera pomaga do skupienia myśli. Czy zastanawiałeś się w ciągu dnia nad tą sprawą?</p>
+</div>
+</div>
+<div id="cell-36" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(results[<span class="dv">1</span>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Here is the translation of the provided text from Polish into English:</p>
+<hr>
+<p>“And now, Mr.&nbsp;Holmes,” he said, “I will show you something more recent. Here is the ‘Devon County Chronicle’ for May 14th of the current year. It contains an account of the facts relating to the death of Sir Charles Baskerville, which occurred a few days before that date.”</p>
+<p>My friend leaned forward and began to listen more attentively. Dr.&nbsp;Mortimer read:</p>
+<p>“The recent and sudden death of Sir Charles Baskerville, the Liberal candidate for the county of Devon, has filled our entire neighbourhood with astonishment and dismay. Although Sir Charles Baskerville had resided at Baskerville Hall for only a short time, his courtesy, generosity, and nobility of character had won him the respect of all who had dealings with him. In this age of parvenus, it is pleasant to see a descendant of an ancient but decayed family restoring the fortune of his ancestors and bringing lustre to an old name.</p>
+<p>“Sir Charles, as is well known, amassed a large fortune through speculations in South Africa, and being by nature prudent, he did not tempt fortune further, as it might turn away from him, as it does with others. Having realised his fortune, he returned to England.</p>
+<p>“He had settled at Baskerville Hall barely two years ago; his extensive plans for renovating the old mansion and introducing improvements in agriculture were well known. Death prevented their realisation.</p>
+<p>“Being childless, he desired that the entire neighbourhood should benefit from his fortune, and not a few of his neighbours have ample reason to mourn his premature demise. We have frequently reported in these columns on his generous donations to public institutions.</p>
+<p>“The inquest has not yet elucidated the circumstances attending Sir Charles’s death. The strangest legends circulate here, attributing his sudden demise to the action of supernatural forces.</p>
+<p>“Sir Charles was a widower and was generally regarded as eccentric. Despite his great wealth, his habits were simple and modest. The household staff at Baskerville Hall consisted of a butler, named Barrymore, his wife, who served as cook and housekeeper combined. Both testify that Sir Charles’s health had been failing of late, and that a heart condition, manifesting in pallor, shortness of breath, and frequent fainting spells, had been developing in him. Dr.&nbsp;George Mortimer, a friend and the deceased’s personal physician, gave testimony to the same effect.</p>
+<p>“Sir Charles Baskerville was accustomed to taking an evening stroll, before retiring, along the famous elm avenue in front of the mansion. The Barrymores state that on the evening of May 4th, their master informed them that he was departing for London the following day and instructed them to pack a valise.</p>
+<p>“That evening he went out, as usual, for a walk, during which he was smoking a cigar.</p>
+<p>“He never returned from that walk.</p>
+<p>“At midnight, Barrymore, seeing the front door still open, became alarmed, and taking a lantern, went to look for his master. Rain had fallen during the day, so it was easy to discern Sir Charles’s footprints along the avenue. Halfway along, there is a gate leading to the meadow.</p>
+<p>“There were indications that Sir Charles had stood by it for some time, then turned back into the avenue. His body was found at the end of it.</p>
+<p>“Among other things, one fact arising from Barrymore’s testimony has not yet been explained: namely, that his master’s footsteps changed the moment he stood by the gate, and from then on, he walked on tiptoe.</p>
+<p>“A certain Murphy, a Gypsy horse-dealer, was then on the meadow, at some distance from the deceased, but he himself admits that he was drunk. He states that he heard cries, but cannot specify whence they came.</p>
+<p>“There were no marks of violence or struggle on Sir Charles’s body, and although the doctor testifies that the expression on the deceased’s face was so distorted that he, Dr.&nbsp;Mortimer, could not at first recognise him, experts attribute this to a cardiac aneurysm, which produces similar symptoms.</p>
+<p>“An autopsy revealed an old-standing heart defect, and the coroner confirmed the medical findings. It is desirable that Sir Charles’s heir should take possession of the estate as soon as possible and continue the laudable work so suddenly and tragically interrupted.</p>
+<p>“Had the prosaic verdict of the coroner and experts not put an end to the romantic stories circulating about this death, it would not have been easy to find an owner for Baskerville Hall.</p>
+<p>“The presumptive heir is Mr.&nbsp;Henry Baskerville, son of Sir Charles’s younger brother. This young gentleman departed for America some years ago. Search efforts have been initiated. He will doubtless soon learn of the change in his fortunes.”</p>
+<hr>
+<p>Dr.&nbsp;Mortimer folded the newspaper and tucked it into his pocket, saying:</p>
+<p>“Those are the universally known facts.”</p>
+<p>“I thank you for drawing my attention to a truly interesting matter,” said Mr.&nbsp;Holmes. “I had, it is true, read about it in the daily papers, but at that time I was engaged with the cameos that had disappeared from the Vatican Museum. I wished to render a service to the Pope and thus lost sight of what was simultaneously happening in England. This article, you say, contains universally known facts?”</p>
+<p>“Yes.”</p>
+<p>“Then kindly inform me now of what no one else knows.”</p>
+<p>Sherlock Holmes leaned back against the armrest of his armchair and again put his hands together, fingertips touching.</p>
+<p>“I shall do so,” said Dr.&nbsp;Mortimer, betraying increasing agitation. “I will tell you what I have not yet told anyone. I concealed it from the coroner for reasons which you will doubtless understand. As a man of science, I did not wish to publicly reveal that I believe in superstitions. Furthermore, I understood that if belief in the supernatural forces governing Baskerville Hall were to become firmly established, no one would wish to take possession of the old mansion. For these two reasons, I did not testify in court to everything I know—for it would have been of no use to the coroner—but with you, I shall be entirely frank.</p>
+<p>“The district is sparsely populated, residences are rare, and farmhouses are scattered at considerable distances from one another.</p>
+<p>“I frequently saw Sir Charles Baskerville, who was eager for company. Apart from Mr.&nbsp;Frankland of Lafterhall and the naturalist, Mr.&nbsp;Stapleton, there are no other intelligent people nearby. Sir Charles was reserved and taciturn. We grew close due to his illness, and moreover, we shared common scientific interests. He had brought many interesting facts from South Africa. We spent many pleasant evenings discussing comparative anatomy.</p>
+<p>“Over the last few months, I had observed that Sir Charles’s nervous system was overtaxed. He had taken that legend so much to heart that although he took walks every evening, nothing could induce him to venture onto the moor after sunset. He was constantly haunted by the fear of spectres, and he would often ask me if I had seen any strange creature or heard any barking. These questions he always put to me in a trembling voice.</p>
+<p>“One of my visits to him three weeks ago impressed itself upon my memory. He was standing in the hall. As I alighted from my trap, I noticed him looking over my shoulder with terror in his eyes. I turned and perceived a strange shape, resembling a large, black calf. It darted past my trap.</p>
+<p>“Sir Charles was so agitated that I went to look for this peculiar animal. But it was nowhere to be found. My patient could not be calmed. I remained with him throughout the evening, and it was then, explaining his agitation, that he recounted the entire story to me.</p>
+<p>“I mention this minor episode because it gains significance in light of the tragedy that followed; at the time, I attached no importance to it and wondered at Sir Charles’s agitation.</p>
+<p>“He was to go to London on my advice. I knew he had a heart condition and that constant anxiety negatively affected his health. I believed that a few months spent in diversions would free him from these delusions and hallucinations. Our mutual friend, Mr.&nbsp;Stapleton, was of the same opinion. And then misfortune occurred.</p>
+<p>“Immediately after Sir Charles’s death, the butler Barrymore dispatched the groom Perkins to me; I arrived at Baskerville Hall an hour after the catastrophe. I examined all the facts presented at the inquest. I followed the tracks left in the Elm Avenue, inspected the spot by the gate where Sir Charles had stopped, and perceived that from that point he had walked on tiptoe, and that there was no trace of other footsteps, apart from Barrymore’s later ones. Finally, I carefully examined the remains, which had remained untouched until my arrival.</p>
+<p>“Sir Charles lay on his back with his arms outstretched, his face so altered that I could barely recognise it. There were no injuries on the body. But Barrymore made one false statement during the inquest. He said there were no tracks around the corpse. He did not observe them, but I did—quite fresh, nearby.</p>
+<p>“Footprints?”</p>
+<p>“Yes.”</p>
+<p>“Male or female?”</p>
+<p>Dr.&nbsp;Mortimer looked at us for a moment with strange eyes, then replied in a whisper:</p>
+<p>“Mr.&nbsp;Holmes, there were footprints… of a dog… an enormous one.”</p>
+<hr>
+<ol start="3" type="I">
+<li>The Problem.</li>
+</ol>
+<p>I confess that as I listened to this account, a thrill ran through me. And the doctor himself was visibly agitated.</p>
+<p>“Did you see these tracks?” I asked.</p>
+<p>“Yes, with my own eyes; as distinctly as I now see you.”</p>
+<p>“And you said nothing?”</p>
+<p>“Why should I?”</p>
+<p>“Why did no one else perceive these tracks?”</p>
+<p>“They were about two cubits from the corpse; they went unnoticed, and I myself would not have noticed them had I not been aware of the legend.”</p>
+<p>“There are many dogs in the district.”</p>
+<p>“Yes, but it was no ordinary dog. I have already told you, gentlemen, that it was enormous.”</p>
+<p>“Did it not approach the corpse?”</p>
+<p>“No.”</p>
+<p>“Was the night clear?”</p>
+<p>“No; cloudy and damp.”</p>
+<p>“But it had not rained?”</p>
+<p>“No.”</p>
+<p>“What is the nature of the avenue?”</p>
+<p>“It is bordered by two rows of elms and enclosed by a hedge, twelve feet high. The avenue itself is eight feet wide.”</p>
+<p>“Is there anything between the hedge and the avenue?”</p>
+<p>“Yes; on both sides runs a lawn, six feet wide.”</p>
+<p>“As I understand it, there is an entrance through a gate?”</p>
+<p>“Yes; the gate leads to the meadow.”</p>
+<p>“Are there other entrances?”</p>
+<p>“There are not.”</p>
+<p>“So, to enter the Elm Avenue, one must leave the house or pass through the meadow?”</p>
+<p>“There is a third entrance through a summer-house at the other end of the avenue.”</p>
+<p>“Did Sir Charles reach this summer-house?”</p>
+<p>“No; he was found about fifty cubits from it.”</p>
+<p>“And now, please tell me, Dr.&nbsp;Mortimer—this will be an important detail—were the tracks you observed left on the gravel or on the grass?”</p>
+<p>“I could not discern tracks on the grass.”</p>
+<p>“Were the tracks on the same side as the gate?”</p>
+<p>“Yes, the same side.”</p>
+<p>“You intensely interest me. One more question. Was the gate locked?”</p>
+<p>“Locked and bolted.”</p>
+<p>“How high is it?”</p>
+<p>“It is about four feet high.”</p>
+<p>“So it could be easily surmounted?”</p>
+<p>“Yes.”</p>
+<p>“And what traces did you find by the gate?”</p>
+<p>“None that would attract attention.”</p>
+<p>“Did you not examine the ground around it?”</p>
+<p>“Indeed, I did.”</p>
+<p>“And you perceived no traces?”</p>
+<p>“They were very faint. Apparently Sir Charles stood there for five to ten minutes.”</p>
+<p>“How do you know that?”</p>
+<p>“Because cigar ash had fallen twice upon the ground.”</p>
+<p>“Excellent. We have found a kindred spirit. Have we not, Watson? But what exactly were these traces?”</p>
+<p>“Footprints on the gravel. I could discern no other marks.”</p>
+<p>Sherlock Holmes slapped his knee.</p>
+<p>“Why was I not there!” he exclaimed. “This is a most interesting case, offering ample scope for scientific investigation. Why could I not have read that gravel card before other footsteps obliterated it! Dr.&nbsp;Mortimer, why did you not inform me sooner! If we fail to elucidate the matter, the entire responsibility will fall upon you.”</p>
+<p>“I could not summon you, Mr.&nbsp;Holmes, for in that case I would have had to reveal these facts to the entire world, and I have already said that I did not wish to do so. Besides… besides…”</p>
+<p>“Why do you not finish?”</p>
+<p>“There are domains inaccessible even to the keenest and most experienced detectives…”</p>
+<p>“Do you mean to say that this falls within the realm of the supernatural?”</p>
+<p>“I do not assert that definitively.”</p>
+<p>“But you believe so in your heart of hearts.”</p>
+<p>“Since that tragedy, facts have come to my knowledge that are contrary to the general laws of nature.”</p>
+<p>“For example?”</p>
+<p>“I learn that before this catastrophe, several people saw an unusual creature on the moor, resembling the evil spirit of the Baskervilles. All say it was an enormous, transparent dog. I questioned these people—one of them is a peasant, another a blacksmith, the third a farmer. Their testimonies are identical. A superstitious fear has gripped the entire district. No one will cross the moor after nightfall.”</p>
+<p>“And you, a man of science, believe in such fables?” exclaimed Holmes.</p>
+<p>“Hitherto my investigations have encompassed the world of the senses; I have endeavoured to combat illness, but I know not how to fight evil spirits. Besides, you must admit that the footprints are material evidence. Hugo’s dog was also not a supernatural phenomenon, since it could bite to death, and yet it had something diabolical about it.”</p>
+<p>“I see you have crossed over to the camp of the spiritualists. But tell me one more thing, Dr.&nbsp;Mortimer. If you incline towards such views, why have you come to seek my advice? You say in one breath that it is not worthwhile to investigate Sir Charles’s murder, and at the same time you ask me to take up the matter.”</p>
+<p>“I did not ask that.”</p>
+<p>“Then in what manner may I assist you?”</p>
+<p>“By advising me what to do with Sir Henry Baskerville, who arrives at Waterloo Station—Dr.&nbsp;Mortimer glanced at his watch—in an hour and a quarter,” he finished.</p>
+<p>“Is he the heir?”</p>
+<p>“Yes. After Sir Charles’s death, we made inquiries concerning this gentleman and learned that he owns a farm in Canada. According to our information, he is a young man of irreproachable character. I speak now not as a physician, but as the executor of Sir Charles’s will.”</p>
+<p>“Are there no other claimants to the inheritance?”</p>
+<p>“None. The only other possible claimant would be Roger Baskerville, the youngest of the three brothers, of whom Sir Charles was the eldest. The second brother, who died prematurely, was in fact the father of this Henry. The third, Roger, was the prodigal son, a living spiritual image of old Hugo. He had caused so much trouble in England that he could no longer remain here, fled to Central America, and died of yellow fever in 1876. Henry is the last of the Baskervilles. I am to meet him at Waterloo Station in an hour and five minutes. I received a telegram informing me that he arrived in Southampton today. And now, Mr.&nbsp;Holmes, what do you advise me to do?”</p>
+<p>“Why should not Sir Henry return to the home of his fathers?”</p>
+<p>“It seems natural, and yet, if we consider that every Baskerville who resides there faces a sudden and violent death… I am certain that had Sir Charles been able to speak with me before the catastrophe, he would have forbidden me to introduce the last of the line to that cursed residence. On the other hand, the prosperity of the entire district depends on the heir residing at Baskerville Hall. The whole work initiated by Sir Charles will come to naught if no one inhabits the mansion. I fear that the welfare of this district might sway me to act disloyally towards Sir Henry, and that is why I seek your advice.”</p>
+<p>Holmes pondered for a long moment.</p>
+<p>“So,” he said, “according to your conviction, some unholy force threatens the Baskervilles in those parts. You truly believe this, do you not?”</p>
+<p>“I am prepared to suppose that such is the case.”</p>
+<p>“In that case, this unholy force can torment a Baskerville just as well in London as in Devonshire. A fiend whose operations were localised would not be so formidable.”</p>
+<p>“You seek to ridicule my apprehension, Mr.&nbsp;Holmes. But had you yourself witnessed these supernatural occurrences, you would lose all desire for jesting. From your words, I gather that this young man is as safe in London as in Devonshire. He arrives in fifty minutes. What do you advise me?”</p>
+<p>“I advise you to take a hansom, call for the dog that is whining behind the door, and proceed to Waterloo Station to meet Sir Henry Baskerville.”</p>
+<p>“And then?”</p>
+<p>“And then you will tell him nothing until I have deliberated upon the matter.”</p>
+<p>“How long will you require for deliberation?”</p>
+<p>“Twenty-four hours. I shall ask you, Dr.&nbsp;Mortimer, to call upon me tomorrow morning at ten o’clock. And please bring Sir Henry Baskerville with you. That will facilitate the execution of my plan.”</p>
+<p>“I shall do as you wish.”</p>
+<p>The doctor noted the hour on his cuff and departed. Mr.&nbsp;Holmes stopped him on the stairs.</p>
+<p>“One more question,” he said. “You state that before Sir Charles’s death, several people saw this phenomenon on the moor?”</p>
+<p>“Yes, three people.”</p>
+<p>“Did any of them see it afterwards?”</p>
+<p>“I do not know.”</p>
+<p>“Thank you. Good day.”</p>
+<p>Holmes returned to his seat. He was visibly satisfied.</p>
+<p>“Are you going out, Watson?” he said.</p>
+<p>“Do you require my assistance?”</p>
+<p>“No, my dear fellow. I shall ask for it only when action is required. This is an exceptional case. As you pass Bradley’s, kindly step into the shop and have them send me a packet of the strongest tobacco. If you can, I should be much obliged if you did not return until evening, and then we shall compare our impressions and views.”</p>
+<p>I knew that solitude was essential to my friend when he was pondering the clues of criminal cases, drawing conclusions, and forming theories that invariably proved correct. So I spent the entire day at my club, and it was not until about nine o’clock that I returned to our rooms in Baker Street.</p>
+<p>When I opened the door, it seemed to me that there had been a fire in the room; the lamplight appeared as if through a black mist. After a moment, I perceived that the smoke emanated not from fire, but from strong tobacco. Amidst the clouds, I discerned Holmes in his dressing-gown. He was seated in an armchair with a pipe in his mouth. Several rolls of paper lay upon the table. I cleared my throat.</p>
+<p>“Have you caught a cold?” he asked.</p>
+<p>“No, but one could suffocate in here.”</p>
+<p>“Open the window. I see you have spent the entire day at your club…”</p>
+<p>“How do you gather that, Holmes?”</p>
+<p>“You are refreshed, fragrant, and in good spirits. You will never guess where I have been.”</p>
+<p>“I shall not rack my brains over it. You will tell me yourself.”</p>
+<p>“Then I have been in Devonshire.”</p>
+<p>“In thought?”</p>
+<p>“Yes. My body has remained here, in this armchair, and has consumed two enormous pots of coffee and an immeasurable quantity of tobacco. After your departure, I sent to Stamford for a map of that district and have roamed over it all day long. I flatter myself that every inch of the ground is now well known to me.”</p>
+<p>“That is presumably a large-scale map?”</p>
+<p>“Yes.”</p>
+<p>He unrolled it and laid it on his knee.</p>
+<p>“You see,” he said, “here is the moor, and here—Baskerville Hall.”</p>
+<p>“All around, woods.”</p>
+<p>“Indeed. And here is the Elm Avenue, to the left of the moor. Here is the village of Grimpen, where Dr.&nbsp;Mortimer has established his headquarters. Within a radius of five miles, there are few human habitations. Here is Lafter Hall. Here—the naturalist Stapleton’s cottage. Here are two farms: High Tore and Fulmire. Fourteen miles further on—Princetown State Prison. All around and in the middle—moors and bogs. Such is the terrain upon which this tragedy unfolded. We shall endeavour to reconstruct all its scenes and acts.”</p>
+<p>“A desolate locality.”</p>
+<p>“Yes. The Devil himself might make his abode there…”</p>
+<p>“And so you too incline towards supernatural explanations…”</p>
+<p>“The Devil’s agents may be men of flesh and blood. First and foremost, two questions must be resolved: first, was a crime committed? Secondly: how was it perpetrated? If Dr.&nbsp;Mortimer is not mistaken, if it turns out that we are dealing with supernatural forces, then judicial inquiries are useless. But we must exhaust all other hypotheses before arriving at that conclusion. Perhaps you might close the window. I find that a concentrated atmosphere aids in the focusing of thought. Have you pondered this matter during the day?”</p>
+</div>
+</div>
+<div id="cell-37" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> translatedBookPath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/examples"</span><span class="op">,</span> <span class="st">"sherlock_holmes_translated.txt"</span>)<span class="op">;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>fs<span class="op">.</span><span class="fu">writeFileSync</span>(translatedBookPath<span class="op">,</span> results<span class="op">.</span><span class="fu">join</span>(<span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>))<span class="op">;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Translated book saved to </span><span class="sc">${</span>translatedBookPath<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Translated book saved to ../assets/examples/sherlock_holmes_translated.txt</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
+<p>Now you know how to properly prepare data, check token limitations and translate each chunk to obtain your results. Feel free to try this process with a book that interests you!</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fallendeity\.github\.io\/deepmind-starter");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../examples/Opossum_search.html" class="pagination-link" aria-label="Opossum search">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Opossum search</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../quickstarts/Audio.html" class="pagination-link" aria-label="Gemini API: Audio Quickstart">
+        <span class="nav-page-text">Gemini API: Audio Quickstart</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Translate_a_Public_Domain_Book.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Translate_a_Public_Domain_Book.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
