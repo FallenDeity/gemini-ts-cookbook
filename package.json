@@ -10,6 +10,7 @@
     "@types/fluent-ffmpeg": "^2.1.27",
     "@types/node": "^22.15.17",
     "@types/pdf-parse": "^1.1.5",
+    "@types/tar": "^6.1.13",
     "eslint": "^9.26.0",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3",
@@ -24,7 +25,9 @@
     "openai": "^5.8.2",
     "pdf-parse": "^1.1.1",
     "pdf-to-img": "3.0.0",
+    "plotly.js": "^3.0.1",
     "tslab": "^1.0.22",
+    "tsne-js": "^1.0.3",
     "wavefile": "^11.0.0"
   }
 }
