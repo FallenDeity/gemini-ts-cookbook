@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Gemini API: Browser as a tool – Gemini Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../examples/Entity_Extraction.html" rel="next">
+<link href="../examples/Apollo_11.html" rel="prev">
+<link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a366eb2ea23be5ba5111ff25b5c9c0ae.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-GE1DFPVL15"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<meta property="og:title" content="Gemini API: Browser as a tool – Gemini Cookbook">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://fallendeity.github.io/deepmind-starter/examples/Browser_as_a_tool_files/figure-html/cell-13-output-1.png">
+<meta property="og:site_name" content="Gemini Cookbook">
+<meta property="og:image:height" content="2048">
+<meta property="og:image:width" content="1024">
+<meta name="twitter:title" content="Gemini API: Browser as a tool – Gemini Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://fallendeity.github.io/deepmind-starter/examples/Browser_as_a_tool_files/figure-html/cell-13-output-1.png">
+<meta name="twitter:image-height" content="2048">
+<meta name="twitter:image-width" content="1024">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Gemini Cookbook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../quickstarts/Get_started.html" aria-current="page"> 
+<span class="menu-text">Quickstarts</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://github.com/FallenDeity/deepmind-starter/">
+            Source Code
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Browser_as_a_tool.html">Gemini API: Browser as a tool</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Examples</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Historic Event Recognition</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Summarization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Anomaly_detection_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Anomaly detection with embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prompting with an Apollo 11 transcript</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Browser_as_a_tool.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Gemini API: Browser as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Entity extraction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guess the shape: Triangle, Square, Pentagon?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create a marketing campaign from a product sketch of a Jet Backpack</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opossum search</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Translate a public domain book</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Voice_memos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Voice memos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Working with Charts, Graphs, and Slide Decks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Quickstarts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Audio Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Code Execution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: All about tokens</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Embeddings Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Enum Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: File API Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guide: Building AI Tutors with LearnLM via System Instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multimodal Live API - Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting started with the Gemini API OpenAI compatibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Use Gemini thinking</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with information grounding for Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini 2.0 Image output</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: List models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Prompting Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Safety Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Grounding using Search as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2D spatial understanding with Gemini 2.0</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Streaming Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: System instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Video understanding with Gemini</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
+  <ul class="collapse">
+  <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
+  <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
+  <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
+  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
+  <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
+  </ul></li>
+  <li><a href="#utilities" id="toc-utilities" class="nav-link" data-scroll-target="#utilities">Utilities</a></li>
+  <li><a href="#browsing-live" id="toc-browsing-live" class="nav-link" data-scroll-target="#browsing-live">Browsing live</a>
+  <ul class="collapse">
+  <li><a href="#use-google-search-as-a-tool" id="toc-use-google-search-as-a-tool" class="nav-link" data-scroll-target="#use-google-search-as-a-tool">Use Google Search as a tool</a></li>
+  <li><a href="#add-a-live-browser" id="toc-add-a-live-browser" class="nav-link" data-scroll-target="#add-a-live-browser">Add a live browser</a></li>
+  </ul></li>
+  <li><a href="#browse-pages-visually" id="toc-browse-pages-visually" class="nav-link" data-scroll-target="#browse-pages-visually">Browse pages visually</a>
+  <ul class="collapse">
+  <li><a href="#define-a-graphical-browser" id="toc-define-a-graphical-browser" class="nav-link" data-scroll-target="#define-a-graphical-browser">Define a graphical browser</a></li>
+  <li><a href="#connect-the-browser-to-the-model" id="toc-connect-the-browser-to-the-model" class="nav-link" data-scroll-target="#connect-the-browser-to-the-model">Connect the browser to the model</a></li>
+  </ul></li>
+  <li><a href="#browse-local-services" id="toc-browse-local-services" class="nav-link" data-scroll-target="#browse-local-services">Browse local services</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Browser_as_a_tool.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Browser_as_a_tool.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Browser_as_a_tool.html">Gemini API: Browser as a tool</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Gemini API: Browser as a tool</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>LLMs are powerful tools, but are not intrinsically connected to live data sources. Features like Google Search grounding provide fresh information using Google’s search index, but to supply truly live information, you can connect a browser to provide up-to-the-minute data and smart exploration.</p>
+<p>This notebook will guide you through three examples of using a browser as a tool with the Gemini API, using both the <a href="https://ai.google.dev/api/multimodal-live">Live Multimodal API</a> and traditional turn-based conversations.</p>
+<ul>
+<li>Requesting live data using a browser tool with the Live API</li>
+<li>Returning images of web pages from function calling</li>
+<li>Connecting to a local network/intranet using a browser tool</li>
+</ul>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="install-the-google-genai-sdk" class="level3">
+<h3 class="anchored" data-anchor-id="install-the-google-genai-sdk">Install the Google GenAI SDK</h3>
+<p>Install the Google GenAI SDK from <a href="https://www.npmjs.com/package/@google/genai">npm</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install @google/genai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="setup-your-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="setup-your-api-key">Setup your API key</h3>
+<p>You can <a href="https://aistudio.google.com/app/apikey">create</a> your API key using Google AI Studio with a single click.</p>
+<p>Remember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a <code>.env</code> file. You can also set it as an environment variable or use a secret manager.</p>
+<p>Here’s how to set it up in a <code>.env</code> file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch .env</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;"</span> <span class="op">&gt;&gt;</span> .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another option is to set the API key as an environment variable. You can do this in your terminal with the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export GEMINI_API_KEY=<span class="st">"&lt;YOUR_API_KEY&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="load-the-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-api-key">Load the API key</h3>
+<p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, we can load the API key in our code:</p>
+<div id="cell-4" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../.env"</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GEMINI_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">GEMINI_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>GEMINI_API_KEY) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"GEMINI_API_KEY is not set in the environment variables"</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"GEMINI_API_KEY is set in the environment variables"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEMINI_API_KEY is set in the environment variables</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
+<pre><code>│
+├── .env
+└── examples
+    └── Browser_as_tool.ipynb</code></pre>
+</div>
+</div>
+</section>
+<section id="initialize-sdk-client" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
+<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
+<div id="cell-7" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="select-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<div id="cell-9" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> LIVE_MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.0-flash-live-001"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="utilities" class="level2">
+<h2 class="anchored" data-anchor-id="utilities">Utilities</h2>
+<p>The <code>showParts</code> helper renders the deeply nested output that the API returns in an notebook-friendly way; handling text, code and tool calls.</p>
+<p>The <code>canCrawlUrl</code> helper will perform a robots.txt check to ensure any automated requests are welcome by the remote service.</p>
+<div id="cell-11" class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  FunctionResponse<span class="op">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  GenerateContentResponse<span class="op">,</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  LiveServerContent<span class="op">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  LiveServerToolCall<span class="op">,</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  Session<span class="op">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>} <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> robotsParser <span class="im">from</span> <span class="st">"robots-parser"</span><span class="op">;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">// eslint-disable-next-line complexity</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">showParts</span>(content<span class="op">:</span> GenerateContentResponse) {</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> parts <span class="op">=</span> content<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">content</span><span class="op">?.</span><span class="at">parts</span> <span class="op">??</span> []<span class="op">;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (parts<span class="op">.</span><span class="at">length</span> <span class="op">===</span> <span class="dv">0</span>) {</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">-------------------------------</span><span class="sc">\n</span><span class="st">"</span>)<span class="op">;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`**Finish Reason:** </span><span class="sc">${</span>content<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">finishReason</span> <span class="op">??</span> <span class="st">"unknown"</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> part <span class="kw">of</span> parts) {</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (part<span class="op">.</span><span class="at">text</span>) {</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>      tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(part<span class="op">.</span><span class="at">text</span>)<span class="op">;</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (part<span class="op">.</span><span class="at">executableCode</span>) {</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>      tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">-------------------------------</span><span class="sc">\n</span><span class="st">"</span>)<span class="op">;</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>      tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`</span><span class="sc">\`\`\`</span><span class="vs">python</span><span class="sc">\n${</span>part<span class="op">.</span><span class="at">executableCode</span><span class="op">.</span><span class="at">code</span><span class="sc">}\n\`\`\`</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>      tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">-------------------------------</span><span class="sc">\n</span><span class="st">"</span>)<span class="op">;</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (part<span class="op">.</span><span class="at">codeExecutionResult</span>) {</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>      tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">-------------------------------</span><span class="sc">\n</span><span class="st">"</span>)<span class="op">;</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>      tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`</span><span class="sc">\`\`\`\n${</span>part<span class="op">.</span><span class="at">codeExecutionResult</span><span class="op">.</span><span class="at">output</span><span class="sc">}\n\`\`\`</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>      tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">-------------------------------</span><span class="sc">\n</span><span class="st">"</span>)<span class="op">;</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(part<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> groundingMetadata <span class="op">=</span> content<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">groundingMetadata</span><span class="op">;</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (groundingMetadata) {</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">html</span>(groundingMetadata<span class="op">.</span><span class="at">searchEntryPoint</span><span class="op">?.</span><span class="at">renderedContent</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">handleServerContent</span>(content<span class="op">:</span> LiveServerContent) {</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (content<span class="op">.</span><span class="at">modelTurn</span>) {</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">const</span> turn <span class="kw">of</span> content<span class="op">.</span><span class="at">modelTurn</span><span class="op">.</span><span class="at">parts</span> <span class="op">??</span> []) {</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (turn<span class="op">.</span><span class="at">executableCode</span>) {</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>        tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`</span><span class="sc">\`\`\`</span><span class="vs">python</span><span class="sc">\n${</span>turn<span class="op">.</span><span class="at">executableCode</span><span class="op">.</span><span class="at">code</span><span class="sc">}\n\`\`\`</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (turn<span class="op">.</span><span class="at">codeExecutionResult</span>) {</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>        tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`</span><span class="sc">\`\`\`\n${</span>turn<span class="op">.</span><span class="at">codeExecutionResult</span><span class="op">.</span><span class="at">output</span><span class="sc">}\n\`\`\`</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (content<span class="op">.</span><span class="at">groundingMetadata</span>) {</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">html</span>(content<span class="op">.</span><span class="at">groundingMetadata</span><span class="op">.</span><span class="at">searchEntryPoint</span><span class="op">?.</span><span class="at">renderedContent</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">handleToolCall</span>(session<span class="op">:</span> Session<span class="op">,</span> toolCall<span class="op">:</span> LiveServerToolCall) {</span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Tool call received:"</span><span class="op">,</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(toolCall<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> responses<span class="op">:</span> FunctionResponse[] <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> fc <span class="kw">of</span> toolCall<span class="op">.</span><span class="at">functionCalls</span> <span class="op">??</span> []) {</span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>    responses<span class="op">.</span><span class="fu">push</span>({</span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>      id<span class="op">:</span> fc<span class="op">.</span><span class="at">id</span><span class="op">,</span></span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>      name<span class="op">:</span> fc<span class="op">.</span><span class="at">name</span><span class="op">,</span></span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>      response<span class="op">:</span> {</span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>        result<span class="op">:</span> <span class="st">"ok"</span><span class="op">,</span></span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Tool call responses:"</span><span class="op">,</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(responses<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a>  session<span class="op">.</span><span class="fu">sendToolResponse</span>({</span>
+<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a>    functionResponses<span class="op">:</span> responses<span class="op">,</span></span>
+<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">canCrawlUrl</span>(url<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> userAgent <span class="op">=</span> <span class="st">"*"</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">boolean</span><span class="op">&gt;</span> {</span>
+<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
+<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> parsedUrl <span class="op">=</span> <span class="kw">new</span> <span class="fu">URL</span>(url)<span class="op">;</span></span>
+<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> robotsUrl <span class="op">=</span> <span class="vs">`</span><span class="sc">${</span>parsedUrl<span class="op">.</span><span class="at">protocol</span><span class="sc">}</span><span class="vs">//</span><span class="sc">${</span>parsedUrl<span class="op">.</span><span class="at">host</span><span class="sc">}</span><span class="vs">/robots.txt`</span><span class="op">;</span></span>
+<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(robotsUrl)<span class="op">;</span></span>
+<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="vs">`Failed to fetch robots.txt from </span><span class="sc">${</span>robotsUrl<span class="sc">}</span><span class="vs">: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span> <span class="co">// If we can't fetch the robots.txt, assume we can't crawl.</span></span>
+<span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> robotsTxt <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">text</span>()<span class="op">;</span></span>
+<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a>    <span class="co">// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access</span></span>
+<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">robotsParser</span>(robotsUrl<span class="op">,</span> robotsTxt)<span class="op">.</span><span class="fu">isAllowed</span>(robotsUrl<span class="op">,</span> userAgent) <span class="im">as</span> <span class="dt">boolean</span><span class="op">;</span></span>
+<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (e) {</span>
+<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="vs">`Error checking robots.txt: </span><span class="sc">${</span>e<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span> <span class="co">// Be a good citizen: fail closed.</span></span>
+<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="browsing-live" class="level2">
+<h2 class="anchored" data-anchor-id="browsing-live">Browsing live</h2>
+<p>This example will show you how to use the Multimodal Live API with the Google Search tool, and then comparatively shows a custom web browsing tool to retrieve site contents in real-time.</p>
+<section id="use-google-search-as-a-tool" class="level3">
+<h3 class="anchored" data-anchor-id="use-google-search-as-a-tool">Use Google Search as a tool</h3>
+<p>The streaming nature of the Live API requires that the stream processing and function handling code be written in advance. This allows the stream to continue without timing out.</p>
+<p>This example uses text as the input mode, and streams text back out, but the technique applies any mode supported by the Live API, including audio.</p>
+<div id="cell-14" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Modality<span class="op">,</span> Tool } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">run</span>(prompt<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> modality<span class="op">:</span> Modality <span class="op">=</span> Modality<span class="op">.</span><span class="at">TEXT</span><span class="op">,</span> tools<span class="op">:</span> Tool[] <span class="op">=</span> []<span class="op">,</span> systemInstructions <span class="op">=</span> <span class="st">""</span>) {</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> completed <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> textAccumulator <span class="op">=</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> flushText <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> session <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">live</span><span class="op">.</span><span class="fu">connect</span>({</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> LIVE_MODEL_ID<span class="op">,</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    callbacks<span class="op">:</span> {</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>      onopen<span class="op">:</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Connection opened"</span>)<span class="op">;</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>      onclose<span class="op">:</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Connection closed"</span>)<span class="op">;</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>      onerror<span class="op">:</span> (error) <span class="kw">=&gt;</span> {</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">"Error:"</span><span class="op">,</span> error<span class="op">.</span><span class="at">message</span>)<span class="op">;</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>      onmessage<span class="op">:</span> (message) <span class="kw">=&gt;</span> {</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (message<span class="op">.</span><span class="at">text</span>) {</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>          textAccumulator <span class="op">+=</span> message<span class="op">.</span><span class="at">text</span><span class="op">;</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>          <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>        flushText <span class="op">=</span> message<span class="op">.</span><span class="at">serverContent</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">||</span> message<span class="op">.</span><span class="at">toolCall</span> <span class="op">!==</span> <span class="kw">undefined</span><span class="op">;</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (flushText <span class="op">&amp;&amp;</span> textAccumulator) {</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>          tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(textAccumulator)<span class="op">;</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>          textAccumulator <span class="op">=</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>          flushText <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (message<span class="op">.</span><span class="at">serverContent</span>) {</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>          <span class="fu">handleServerContent</span>(message<span class="op">.</span><span class="at">serverContent</span>)<span class="op">;</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (message<span class="op">.</span><span class="at">serverContent</span><span class="op">.</span><span class="at">turnComplete</span>) {</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>            completed <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>          <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (message<span class="op">.</span><span class="at">toolCall</span>) {</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>          <span class="fu">handleToolCall</span>(session<span class="op">,</span> message<span class="op">.</span><span class="at">toolCall</span>)<span class="op">;</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>          completed <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>          <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>    config<span class="op">:</span> {</span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>      tools<span class="op">:</span> tools<span class="op">,</span></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>      responseModalities<span class="op">:</span> [modality]<span class="op">,</span></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>      systemInstruction<span class="op">:</span> systemInstructions<span class="op">,</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>  session<span class="op">.</span><span class="fu">sendClientContent</span>({</span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>    turns<span class="op">:</span> [prompt]<span class="op">,</span></span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>    turnComplete<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>  <span class="co">// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition</span></span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (<span class="op">!</span>completed) {</span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve) <span class="kw">=&gt;</span> <span class="pp">setTimeout</span>(resolve<span class="op">,</span> <span class="dv">100</span>))<span class="op">;</span></span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>  session<span class="op">.</span><span class="fu">close</span>()<span class="op">;</span></span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now define and run the conversation.</p>
+<div id="cell-16" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">// temporarily make console.warn a no-op to avoid warnings in the output (non-text part in GenerateContentResponse caused by accessing .text)</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">// https://github.com/googleapis/js-genai/blob/d82aba244bdb804b063ef8a983b2916c00b901d2/src/types.ts#L2005</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">// copy the original console.warn function to restore it later</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> warn_fn <span class="op">=</span> <span class="bu">console</span><span class="op">.</span><span class="fu">warn</span><span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">// eslint-disable-next-line @typescript-eslint/no-empty-function, no-empty-function</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">warn</span> <span class="op">=</span> <span class="kw">function</span> () {}<span class="op">;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">run</span>(<span class="st">"What is today's featured article on the English Wikipedia?"</span><span class="op">,</span> google<span class="op">.</span><span class="at">Modality</span><span class="op">.</span><span class="at">TEXT</span><span class="op">,</span> [{ googleSearch<span class="op">:</span> {} }])<span class="op">;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">// restore console.warn later</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">// console.warn = warn_fn;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Connection opened</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(google_search.search(queries<span class="op">=</span>[<span class="st">"what is today's featured article on english wikipedia"</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<pre><code>Looking up information on Google Search.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Today’s featured article on the English Wikipedia is “Tritter”.</p>
+</div>
+<div class="cell-output cell-output-display">
+<style>
+.container {
+  align-items: center;
+  border-radius: 8px;
+  display: flex;
+  font-family: Google Sans, Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 8px 12px;
+}
+.chip {
+  display: inline-block;
+  border: solid 1px;
+  border-radius: 16px;
+  min-width: 14px;
+  padding: 5px 16px;
+  text-align: center;
+  user-select: none;
+  margin: 0 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.carousel {
+  overflow: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+  margin-right: -12px;
+}
+.headline {
+  display: flex;
+  margin-right: 4px;
+}
+.gradient-container {
+  position: relative;
+}
+.gradient {
+  position: absolute;
+  transform: translate(3px, -9px);
+  height: 36px;
+  width: 9px;
+}
+@media (prefers-color-scheme: light) {
+  .container {
+    background-color: #fafafa;
+    box-shadow: 0 0 0 1px #0000000f;
+  }
+  .headline-label {
+    color: #1f1f1f;
+  }
+  .chip {
+    background-color: #ffffff;
+    border-color: #d2d2d2;
+    color: #5e5e5e;
+    text-decoration: none;
+  }
+  .chip:hover {
+    background-color: #f2f2f2;
+  }
+  .chip:focus {
+    background-color: #f2f2f2;
+  }
+  .chip:active {
+    background-color: #d8d8d8;
+    border-color: #b6b6b6;
+  }
+  .logo-dark {
+    display: none;
+  }
+  .gradient {
+    background: linear-gradient(90deg, #fafafa 15%, #fafafa00 100%);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: #1f1f1f;
+    box-shadow: 0 0 0 1px #ffffff26;
+  }
+  .headline-label {
+    color: #fff;
+  }
+  .chip {
+    background-color: #2c2c2c;
+    border-color: #3c4043;
+    color: #fff;
+    text-decoration: none;
+  }
+  .chip:hover {
+    background-color: #353536;
+  }
+  .chip:focus {
+    background-color: #353536;
+  }
+  .chip:active {
+    background-color: #464849;
+    border-color: #53575b;
+  }
+  .logo-light {
+    display: none;
+  }
+  .gradient {
+    background: linear-gradient(90deg, #1f1f1f 15%, #1f1f1f00 100%);
+  }
+}
+</style>
+<div class="container">
+  <div class="headline">
+    <svg class="logo-light" width="18" height="18" viewbox="9 9 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M42.8622 27.0064C42.8622 25.7839 42.7525 24.6084 42.5487 23.4799H26.3109V30.1568H35.5897C35.1821 32.3041 33.9596 34.1222 32.1258 35.3448V39.6864H37.7213C40.9814 36.677 42.8622 32.2571 42.8622 27.0064V27.0064Z" fill="#4285F4"></path>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M26.3109 43.8555C30.9659 43.8555 34.8687 42.3195 37.7213 39.6863L32.1258 35.3447C30.5898 36.3792 28.6306 37.0061 26.3109 37.0061C21.8282 37.0061 18.0195 33.9811 16.6559 29.906H10.9194V34.3573C13.7563 39.9841 19.5712 43.8555 26.3109 43.8555V43.8555Z" fill="#34A853"></path>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M16.6559 29.8904C16.3111 28.8559 16.1074 27.7588 16.1074 26.6146C16.1074 25.4704 16.3111 24.3733 16.6559 23.3388V18.8875H10.9194C9.74388 21.2072 9.06992 23.8247 9.06992 26.6146C9.06992 29.4045 9.74388 32.022 10.9194 34.3417L15.3864 30.8621L16.6559 29.8904V29.8904Z" fill="#FBBC05"></path>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M26.3109 16.2386C28.85 16.2386 31.107 17.1164 32.9095 18.8091L37.8466 13.8719C34.853 11.082 30.9659 9.3736 26.3109 9.3736C19.5712 9.3736 13.7563 13.245 10.9194 18.8875L16.6559 23.3388C18.0195 19.2636 21.8282 16.2386 26.3109 16.2386V16.2386Z" fill="#EA4335"></path>
+    </svg>
+    <svg class="logo-dark" width="18" height="18" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="24" cy="23" fill="#FFF" r="22"></circle>
+      <path d="M33.76 34.26c2.75-2.56 4.49-6.37 4.49-11.26 0-.89-.08-1.84-.29-3H24.01v5.99h8.03c-.4 2.02-1.5 3.56-3.07 4.56v.75l3.91 2.97h.88z" fill="#4285F4"></path>
+      <path d="M15.58 25.77A8.845 8.845 0 0 0 24 31.86c1.92 0 3.62-.46 4.97-1.31l4.79 3.71C31.14 36.7 27.65 38 24 38c-5.93 0-11.01-3.4-13.45-8.36l.17-1.01 4.06-2.85h.8z" fill="#34A853"></path>
+      <path d="M15.59 20.21a8.864 8.864 0 0 0 0 5.58l-5.03 3.86c-.98-2-1.53-4.25-1.53-6.64 0-2.39.55-4.64 1.53-6.64l1-.22 3.81 2.98.22 1.08z" fill="#FBBC05"></path>
+      <path d="M24 14.14c2.11 0 4.02.75 5.52 1.98l4.36-4.36C31.22 9.43 27.81 8 24 8c-5.93 0-11.01 3.4-13.45 8.36l5.03 3.85A8.86 8.86 0 0 1 24 14.14z" fill="#EA4335"></path>
+    </svg>
+    <div class="gradient-container"><div class="gradient"></div></div>
+  </div>
+  <div class="carousel">
+    <a class="chip" href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkefTrrXh_AlTN9lX-kJv9HODLyFazqRRjddow4W3Fvik6-YV6iAewwcjK4UHTUNVs4VmnD45JhXjqNRU5tZQwiJFxGuw_gBzmgCbbB4L_7vWTa_U46DwiWa5njASZ_IfJW2kbz0xAELPg_yvyvruRIXLxNULEA-ZbnZkE-wzryV_2ty5jkGpt1NDxF7iXG1uk2kS4td0S9e8MXDs2yV57L0InYRSfWe_WOpqGVEh4fUlmmrJ4">what is today's featured article on english wikipedia</a>
+  </div>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Connection closed</code></pre>
+</div>
+</div>
+<p>Depending on when you run this, you may note a discrepency between what Google Search has in its index, and what is currently live on Wikipedia. Check out <a href="https://en.wikipedia.org/wiki/Main_Page#mp-tfa">Wikipedia’s featured article</a> yourself. Alternatively, the model may decide not to answer due to the requirement for freshness.</p>
+<p>To improve this situation, add a browse tool so the model can acquire this information in real-time.</p>
+</section>
+<section id="add-a-live-browser" class="level3">
+<h3 class="anchored" data-anchor-id="add-a-live-browser">Add a live browser</h3>
+<p>This step defines a “browser” that requests a URL over HTTP(S), converts the response to markdown and returns it.</p>
+<p>This technique works for sites that serve content as full HTML, so sites that rely on scripting to serve content, such as a <a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps">PWA</a> without <a href="https://developer.mozilla.org/en-US/docs/Glossary/SSR">SSR</a>, will not work. Check out the visual example later that uses a fully-featured browser.</p>
+<div id="cell-19" class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> TurndownService <span class="op">=</span> <span class="pp">require</span>(<span class="st">"turndown"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"turndown"</span>)<span class="op">;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">loadPage</span>(url<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> {</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>(<span class="cf">await</span> <span class="fu">canCrawlUrl</span>(url))) {</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="vs">`Cannot crawl </span><span class="sc">${</span>url<span class="sc">}</span><span class="vs"> due to robots.txt restrictions.`</span>)<span class="op">;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> page <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>page<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="vs">`Failed to fetch </span><span class="sc">${</span>url<span class="sc">}</span><span class="vs">: </span><span class="sc">${</span>page<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> html <span class="op">=</span> <span class="cf">await</span> page<span class="op">.</span><span class="fu">text</span>()<span class="op">;</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> turndownService <span class="op">=</span> <span class="kw">new</span> <span class="fu">TurndownService</span>()<span class="op">;</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> markdown <span class="op">=</span> turndownService<span class="op">.</span><span class="fu">turndown</span>(html)<span class="op">;</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> markdown<span class="op">;</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-20" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { FunctionDeclaration } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> loadPagePageDef<span class="op">:</span> FunctionDeclaration <span class="op">=</span> {</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="st">"loadPage"</span><span class="op">,</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"Load a web page and return its content in Markdown format."</span><span class="op">,</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  parameters<span class="op">:</span> {</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> google<span class="op">.</span><span class="at">Type</span><span class="op">.</span><span class="at">OBJECT</span><span class="op">,</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    properties<span class="op">:</span> {</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>      url<span class="op">:</span> {</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        type<span class="op">:</span> google<span class="op">.</span><span class="at">Type</span><span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>        description<span class="op">:</span> <span class="st">"The URL of the web page to load."</span><span class="op">,</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    required<span class="op">:</span> [<span class="st">"url"</span>]<span class="op">,</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  response<span class="op">:</span> {</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> google<span class="op">.</span><span class="at">Type</span><span class="op">.</span><span class="at">OBJECT</span><span class="op">,</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    properties<span class="op">:</span> {</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>      result<span class="op">:</span> {</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>        type<span class="op">:</span> google<span class="op">.</span><span class="at">Type</span><span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>        description<span class="op">:</span> <span class="st">"The requested webpage content in markdown format."</span><span class="op">,</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    required<span class="op">:</span> [<span class="st">"result"</span>]<span class="op">,</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-21" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">run</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"What is today's featured article on the English Wikipedia?"</span><span class="op">,</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  google<span class="op">.</span><span class="at">Modality</span><span class="op">.</span><span class="at">TEXT</span><span class="op">,</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  [{ functionDeclarations<span class="op">:</span> [loadPagePageDef] }]<span class="op">,</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="vs">`</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  Your job is to answer the users query using the tools available.</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="vs">  First determine the address that will have the information and tell the user. Then immediately</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="vs">  invoke the tool. Then answer the user.</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="vs">  `</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Connection opened</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>I can load the main page of the English Wikipedia and find the featured article. The URL for that page is “https://en.wikipedia.org/wiki/Main_Page”.</p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(default_api.loadPage(url<span class="op">=</span><span class="st">"https://en.wikipedia.org/wiki/Main_Page"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Tool call received: {
+  "functionCalls": [
+    {
+      "id": "function-call-4631648064980030826",
+      "args": {
+        "url": "https://en.wikipedia.org/wiki/Main_Page"
+      },
+      "name": "loadPage"
+    }
+  ]
+}
+Tool call responses: [
+  {
+    "id": "function-call-4631648064980030826",
+    "name": "loadPage",
+    "response": {
+      "result": "ok"
+    }
+  }
+]</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<pre><code>DefaultApi.LoadpageResponse(result='ok')
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Connection closed</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="browse-pages-visually" class="level2">
+<h2 class="anchored" data-anchor-id="browse-pages-visually">Browse pages visually</h2>
+<p>In the previous example, you used a tool to retrieve a page’s textual content and use it in a live chat context. However, web pages are a rich multi-modal medium, so using text results in some loss of signal. Using a fully-featured web browser also enables websites that use JavaScript to render content, something that is not possible using a simple HTTP request like the earlier example.</p>
+<p>In this example, you will define a tool that takes a screenshot of a web page and passes the image back to the model.</p>
+<section id="define-a-graphical-browser" class="level3">
+<h3 class="anchored" data-anchor-id="define-a-graphical-browser">Define a graphical browser</h3>
+<p>Here you define a <code>browseUrl</code> function that uses <a href="https://pptr.dev/">Puppeteer</a> to load a headless web browser, navigate to a URL and take a screenshot. This technique takes a single screenshot at a fixed size.</p>
+<div id="cell-24" class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> puppeteer <span class="op">=</span> <span class="pp">require</span>(<span class="st">"puppeteer"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"puppeteer"</span>)<span class="op">;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> SCREENSHOT_FILE <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/browser_as_a_tool"</span><span class="op">,</span> <span class="st">"screenshot.png"</span>)<span class="op">;</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">browseUrl</span>(url<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> {</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>(<span class="cf">await</span> <span class="fu">canCrawlUrl</span>(url))) {</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="vs">`URL </span><span class="sc">${</span>url<span class="sc">}</span><span class="vs"> failed a robots.txt check.`</span><span class="op">;</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> browser<span class="op">:</span> Awaited<span class="op">&lt;</span><span class="bu">ReturnType</span><span class="op">&lt;</span><span class="kw">typeof</span> puppeteer<span class="op">.</span><span class="at">launch</span><span class="op">&gt;&gt;</span> <span class="op">|</span> <span class="dt">undefined</span><span class="op">;</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    browser <span class="op">=</span> <span class="cf">await</span> puppeteer<span class="op">.</span><span class="fu">launch</span>({</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>      headless<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>      args<span class="op">:</span> [<span class="st">"--no-sandbox"</span><span class="op">,</span> <span class="st">"--disable-setuid-sandbox"</span>]<span class="op">,</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> page <span class="op">=</span> <span class="cf">await</span> browser<span class="op">.</span><span class="fu">newPage</span>()<span class="op">;</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> page<span class="op">.</span><span class="fu">setViewport</span>({ width<span class="op">:</span> <span class="dv">1024</span><span class="op">,</span> height<span class="op">:</span> <span class="dv">2048</span> })<span class="op">;</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> page<span class="op">.</span><span class="fu">goto</span>(url<span class="op">,</span> { waitUntil<span class="op">:</span> <span class="st">"networkidle2"</span><span class="op">,</span> timeout<span class="op">:</span> <span class="dv">30000</span> })<span class="op">;</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Wait for dynamic content</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve) <span class="kw">=&gt;</span> <span class="pp">setTimeout</span>(resolve<span class="op">,</span> <span class="dv">5000</span>))<span class="op">;</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> base64Image <span class="op">=</span> <span class="cf">await</span> page<span class="op">.</span><span class="fu">screenshot</span>()<span class="op">;</span></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>    fs<span class="op">.</span><span class="fu">writeFileSync</span>(SCREENSHOT_FILE<span class="op">,</span> base64Image)<span class="op">;</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Screenshot saved to </span><span class="sc">${</span>SCREENSHOT_FILE<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"ok"</span><span class="op">;</span></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (err) {</span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">"An error occurred:"</span><span class="op">,</span> err)<span class="op">;</span></span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">String</span>(err)<span class="op">;</span></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">finally</span> {</span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (browser) <span class="cf">await</span> browser<span class="op">.</span><span class="fu">close</span>()<span class="op">;</span></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-25" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">browseUrl</span>(<span class="st">"https://en.wikipedia.org/wiki/Castle"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Screenshot saved to ../assets/browser_as_a_tool/screenshot.png
+ok</code></pre>
+</div>
+</div>
+<p>Check out the screenshot to make sure it worked.</p>
+<div id="cell-27" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(SCREENSHOT_FILE))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Browser_as_a_tool_files/figure-html/cell-13-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Browser_as_a_tool_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="connect-the-browser-to-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="connect-the-browser-to-the-model">Connect the browser to the model</h3>
+<p>Add the <code>browseUrl</code> tool to a model and start a chat session. As LLMs do not directly have internet connectivity, modern models like Gemini are trained to tell users that they can’t access the internet, rather than hallucinating results. To override this behaviour, this step adds a system instruction that guides the model to use the tool for internet access.</p>
+<div id="cell-29" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { FunctionDeclaration } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> browseUrlPageDef<span class="op">:</span> FunctionDeclaration <span class="op">=</span> {</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="st">"browseUrl"</span><span class="op">,</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"Browse a web page and take a screenshot."</span><span class="op">,</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  parameters<span class="op">:</span> {</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> google<span class="op">.</span><span class="at">Type</span><span class="op">.</span><span class="at">OBJECT</span><span class="op">,</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    properties<span class="op">:</span> {</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>      url<span class="op">:</span> {</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>        type<span class="op">:</span> google<span class="op">.</span><span class="at">Type</span><span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>        description<span class="op">:</span> <span class="st">"The URL of the web page to browse."</span><span class="op">,</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    required<span class="op">:</span> [<span class="st">"url"</span>]<span class="op">,</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  response<span class="op">:</span> {</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> google<span class="op">.</span><span class="at">Type</span><span class="op">.</span><span class="at">OBJECT</span><span class="op">,</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    properties<span class="op">:</span> {</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>      result<span class="op">:</span> {</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>        type<span class="op">:</span> google<span class="op">.</span><span class="at">Type</span><span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>        description<span class="op">:</span> <span class="st">"The status of the operation, e.g., 'ok' or an error message."</span><span class="op">,</span></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>    required<span class="op">:</span> [<span class="st">"result"</span>]<span class="op">,</span></span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-30" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> SYSTEM_INSTRUCTION <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="vs">You are a system with access to websites via the </span><span class="sc">\`</span><span class="vs">browseUrl</span><span class="sc">\`</span><span class="vs"> tool.</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="vs">Use the </span><span class="sc">\`</span><span class="vs">browseUrl</span><span class="sc">\`</span><span class="vs"> tool to browse a URL and generate a screenshot that will be</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="vs">returned for you to see and inspect, like using a web browser.</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="vs">When a user requests information, first use your knowledge to determine a specific</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="vs">page URL, tell the user the URL and then invoke the </span><span class="sc">\`</span><span class="vs">browseUrlPageDef</span><span class="sc">\`</span><span class="vs"> with this URL. The</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="vs">tool will supply the website, at which point you will examine the contents of the</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="vs">screenshot to answer the user's questions. Do not ask the user to proceed, just act.</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="vs">You will not be able to inspect the page HTML, so determine the most specific page</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="vs">URL, rather than starting navigation from a site's homepage.</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat <span class="op">=</span> ai<span class="op">.</span><span class="at">chats</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">:</span> [{ functionDeclarations<span class="op">:</span> [browseUrlPageDef] }]<span class="op">,</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> SYSTEM_INSTRUCTION<span class="op">,</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> r <span class="op">=</span> <span class="cf">await</span> chat<span class="op">.</span><span class="fu">sendMessage</span>({</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> <span class="st">"What is trending on YouTube right now?"</span><span class="op">,</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a><span class="fu">showParts</span>(r)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>I will browse the YouTube trending page at https://www.youtube.com/feed/trending.</p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{
+  "functionCall": {
+    "name": "browseUrl",
+    "args": {
+      "url": "https://www.youtube.com/feed/trending"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<p>You should see a <code>functionCall</code> in the response above. Once the model issues a function call, execute the tool and save both the <code>functionResponse</code> and the image for the next turn.</p>
+<p>If you do not see a <code>functionCall</code>, you can either re-run the cell, or continue the chat to answer any questions the model has (e.g.&nbsp;<code>r = await chat.sendMessage({ message: "Yes, please use the tool" })</code>);</p>
+<div id="cell-32" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Part } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> functionResponse<span class="op">:</span> Part<span class="op">;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> parts <span class="op">=</span> r<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">content</span><span class="op">?.</span><span class="at">parts</span> <span class="op">??</span> []<span class="op">;</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> part <span class="kw">of</span> parts) {</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (part<span class="op">.</span><span class="at">functionCall</span>) {</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">assert</span>(part<span class="op">.</span><span class="at">functionCall</span><span class="op">.</span><span class="at">name</span> <span class="op">===</span> <span class="st">"browseUrl"</span><span class="op">,</span> <span class="st">"Expected function call to be browseUrl"</span>)<span class="op">;</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> url <span class="op">=</span> part<span class="op">.</span><span class="at">functionCall</span><span class="op">.</span><span class="at">args</span><span class="op">?.</span><span class="at">url</span> <span class="im">as</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Browsing URL: </span><span class="sc">${</span>url<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">browseUrl</span>(url)<span class="op">;</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Response: </span><span class="sc">${</span>response<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (response <span class="op">!==</span> <span class="st">"ok"</span>) {</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="vs">`Failed to browse URL </span><span class="sc">${</span>url<span class="sc">}</span><span class="vs">: </span><span class="sc">${</span>response<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    functionResponse <span class="op">=</span> google<span class="op">.</span><span class="fu">createPartFromFunctionResponse</span>(part<span class="op">.</span><span class="at">functionCall</span><span class="op">.</span><span class="at">id</span><span class="op">,</span> part<span class="op">.</span><span class="at">functionCall</span><span class="op">.</span><span class="at">name</span><span class="op">,</span> {</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>      result<span class="op">:</span> response<span class="op">,</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Browsing URL: https://www.youtube.com/feed/trending
+Screenshot saved to ../assets/browser_as_a_tool/screenshot.png
+Response: ok</code></pre>
+</div>
+</div>
+<p>Inspect the image before it is sent back to the model. Depending on where you are running this, you may see localised content. If you are using Google Colab, you can run <code>!curl ipinfo.io</code> to see the geolocation of the running kernal.</p>
+<p>Note that if you see a semi-blank image, the page may not have fully loaded. Try adjusting the sleep duration in <code>browseUrl</code>, or provide a suitable implementation for the pages you are using in your application.</p>
+<div id="cell-34" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(SCREENSHOT_FILE))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Browser_as_a_tool_files/figure-html/cell-17-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="Browser_as_a_tool_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-35" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> r2 <span class="op">=</span> <span class="cf">await</span> chat<span class="op">.</span><span class="fu">sendMessage</span>({</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> [</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    functionResponse<span class="op">,</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(SCREENSHOT_FILE)<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/png"</span>)<span class="op">,</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="fu">showParts</span>(r2)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Based on the trending page on YouTube, here’s what is currently trending:</p>
+<p><strong>Top Trending Videos:</strong></p>
+<ul>
+<li><strong>KD Official Teaser | KVN | Prems | Dhruva Sarja | Sanjay Dutt | Shilpa Shetty | Arjun Janya |Suprith</strong> by Anand Audio (4.5M views, 11 hours ago)</li>
+<li><strong>Monica Song - Promo | COOLIE | Superstar Rajinikanth | Sun Pictures | Lokesh | Anirudh | Pooja Hegde</strong> by Sun TV (2.3M views, 1 day ago)</li>
+<li><strong>Mahavatar Narsimha Official Kannada Trailer | July 25th Grand Release | Hombale Films</strong> by Hombale Films (245K views, 1 day ago)</li>
+<li><strong>MUTTON BIRYANI | 3 FULL GOAT ROASTED MUTTON BIRYANI Recipe Cooking in Village | Arabian Biryani</strong> by Village Cooking Channel (1.7M views, 1 day ago)</li>
+<li><strong>Saiyaara | Official Trailer | Ahaan Panday | Aneet Paddda | Mohit Suri | Releasing 18 July 2025</strong> by YRF (7.7M views, 2 days ago)</li>
+<li><strong>INDIAN MEDIA REVEIW ft. Kunal Kamra <span class="citation" data-cites="KunalKamra">@KunalKamra</span></strong> by Tanmay Bhat (1.4M views, 1 day ago)</li>
+<li>A devotional song in Telugu by Jayasindoor Bhakti Geetha (28K views, 13 hours ago)</li>
+<li><strong>Dhee 20 | Mega Grand Launch 2.0 | 2nd July 2025 | Regena Cassandra , Vijay Binni | ETV Telugu</strong> by ETV Dhee (1.4M views, 1 day ago)</li>
+<li><strong>Meghasandesam | Ep - 358 | Preview | Jul 10 2025 | Zee Telugu</strong> by Zee Telugu (421K views, 14 hours ago)</li>
+</ul>
+<p><strong>Trending Shorts:</strong></p>
+<ul>
+<li>“My friends are my shadow in my …” (19M views)</li>
+<li>“Desi Anni ke liye Dosa Printer!” (24M views)</li>
+<li>A short related to #sareedraping (14M views)</li>
+<li>“Aj bhabhi ke kaam ka gift aaya #minivlog …” (27M views)</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="browse-local-services" class="level2">
+<h2 class="anchored" data-anchor-id="browse-local-services">Browse local services</h2>
+<p>By providing a browse tool that you run in your own environment, you can connect it to your own private services - such as your home network or intranet.</p>
+<p>This example demonstrates how to connect the browse tool to a simulated intranet environment.</p>
+<p>First download the sample intranet files.</p>
+<div id="cell-37" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> AdmZip <span class="op">=</span> <span class="pp">require</span>(<span class="st">"adm-zip"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"adm-zip"</span>)<span class="op">;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> DATA_URL <span class="op">=</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/data/intranet.zip"</span><span class="op">;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> EXTRACT_PATH <span class="op">=</span> <span class="st">"../assets/browser_as_a_tool"</span><span class="op">;</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">downloadAndExtractDataset</span>()<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> {</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (fs<span class="op">.</span><span class="fu">existsSync</span>(<span class="vs">`</span><span class="sc">${</span>EXTRACT_PATH<span class="sc">}</span><span class="vs">/intranet`</span>)) {</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Dataset already exists. Skipping download."</span>)<span class="op">;</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(DATA_URL)<span class="op">;</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">arrayBuffer</span>()<span class="op">;</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Extracting dataset..."</span>)<span class="op">;</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">await</span> fs<span class="op">.</span><span class="at">promises</span><span class="op">.</span><span class="fu">mkdir</span>(EXTRACT_PATH<span class="op">,</span> { recursive<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> zipPath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(EXTRACT_PATH<span class="op">,</span> <span class="st">"intranet.zip"</span>)<span class="op">;</span></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(zipPath<span class="op">,</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(buffer))<span class="op">;</span></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> zip <span class="op">=</span> <span class="kw">new</span> <span class="fu">AdmZip</span>(zipPath)<span class="op">;</span></span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>  zip<span class="op">.</span><span class="fu">extractAllTo</span>(EXTRACT_PATH<span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span></span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Dataset extracted."</span>)<span class="op">;</span></span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadAndExtractDataset</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dataset already exists. Skipping download.</code></pre>
+</div>
+</div>
+<p>Set up a HTTP server that serves those files in a background thread, so that you can access it using the main foreground thread.</p>
+<div id="cell-39" class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mime <span class="im">from</span> <span class="st">"mime"</span><span class="op">;</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> http <span class="im">from</span> <span class="st">"http"</span><span class="op">;</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> PORT <span class="op">=</span> <span class="dv">8080</span><span class="op">;</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> DIRECTORY <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/browser_as_a_tool"</span><span class="op">,</span> <span class="st">"intranet"</span>)<span class="op">;</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> server <span class="op">=</span> http<span class="op">.</span><span class="fu">createServer</span>((req<span class="op">,</span> res) <span class="kw">=&gt;</span> {</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> filePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(DIRECTORY<span class="op">,</span> <span class="pp">decodeURIComponent</span>(req<span class="op">.</span><span class="at">url</span>))<span class="op">;</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (fs<span class="op">.</span><span class="fu">statSync</span>(DIRECTORY)<span class="op">.</span><span class="fu">isDirectory</span>() <span class="op">&amp;&amp;</span> req<span class="op">.</span><span class="at">url</span> <span class="op">===</span> <span class="st">"/"</span>) {</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    filePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(DIRECTORY<span class="op">,</span> <span class="st">"index.html"</span>)<span class="op">;</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">readFile</span>(filePath<span class="op">,</span> (err<span class="op">,</span> content) <span class="kw">=&gt;</span> {</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (err) {</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>      res<span class="op">.</span><span class="fu">writeHead</span>(<span class="dv">404</span><span class="op">,</span> { <span class="st">"Content-Type"</span><span class="op">:</span> <span class="st">"text/plain"</span> })<span class="op">;</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>      res<span class="op">.</span><span class="fu">end</span>(<span class="st">"404 - File Not Found"</span>)<span class="op">;</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> contentType <span class="op">=</span> mime<span class="op">.</span><span class="fu">getType</span>(filePath) <span class="op">??</span> <span class="st">"application/octet-stream"</span><span class="op">;</span></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>    res<span class="op">.</span><span class="fu">writeHead</span>(<span class="dv">200</span><span class="op">,</span> { <span class="st">"Content-Type"</span><span class="op">:</span> contentType })<span class="op">;</span></span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>    res<span class="op">.</span><span class="fu">end</span>(content)<span class="op">;</span></span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>server<span class="op">.</span><span class="fu">listen</span>(PORT<span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Server started on http://localhost:</span><span class="sc">${</span>PORT<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;ref *1&gt; Server {
+  maxHeaderSize: undefined,
+  insecureHTTPParser: undefined,
+  requestTimeout: 300000,
+  headersTimeout: 60000,
+  keepAliveTimeout: 5000,
+  connectionsCheckingInterval: 30000,
+  requireHostHeader: true,
+  joinDuplicateHeaders: undefined,
+  rejectNonStandardBodyWrites: false,
+  _events: [Object: null prototype] {
+    request: [Function (anonymous)],
+    connection: [Function: connectionListener],
+    listening: [ [Function: setupConnectionsTracking], [Function] ]
+  },
+  _eventsCount: 3,
+  _maxListeners: undefined,
+  _connections: 0,
+  _handle: TCP {
+    reading: false,
+    onconnection: [Function: onconnection],
+    [Symbol(owner_symbol)]: [Circular *1]
+  },
+  _usingWorkers: false,
+  _workers: [],
+  _unref: false,
+  _listeningId: 2,
+  allowHalfOpen: true,
+  pauseOnConnect: false,
+  noDelay: true,
+  keepAlive: false,
+  keepAliveInitialDelay: 0,
+  highWaterMark: 16384,
+  httpAllowHalfOpen: false,
+  timeout: 0,
+  maxHeadersCount: null,
+  maxRequestsPerSocket: 0,
+  _connectionKey: '6::::8080',
+  [Symbol(IncomingMessage)]: [Function: IncomingMessage],
+  [Symbol(ServerResponse)]: [Function: ServerResponse],
+  [Symbol(shapeMode)]: false,
+  [Symbol(kCapture)]: false,
+  [Symbol(async_id_symbol)]: 4184,
+  [Symbol(kUniqueHeaders)]: null
+}
+Server started on http://localhost:8080</code></pre>
+</div>
+</div>
+<p>Take a screenshot to see what the intranet home page looks like.</p>
+<div id="cell-41" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">browseUrl</span>(<span class="st">"http://localhost:8080"</span>)<span class="op">;</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(SCREENSHOT_FILE))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Screenshot saved to ../assets/browser_as_a_tool/screenshot.png</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Browser_as_a_tool_files/figure-html/cell-21-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="Browser_as_a_tool_files/figure-html/cell-21-output-2.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Finally, start a chat that uses the <code>loadPage</code> tool. Include instructions on how to access and navigate the intranet.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If the data you provide to the model is at all sensitive, be sure to read and understand the <a href="https://ai.google.dev/gemini-api/terms#data-use-unpaid">terms and conditions</a> for the Gemini API, specifically the terms governing how data is processed for paid vs unpaid services.</p>
+</div>
+</div>
+<div id="cell-43" class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { CallableTool<span class="op">,</span> FunctionCall<span class="op">,</span> Tool } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> loadPageTool<span class="op">:</span> CallableTool <span class="op">=</span> {</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  callTool<span class="op">:</span> <span class="kw">async</span> (calls<span class="op">:</span> FunctionCall[]) <span class="kw">=&gt;</span> {</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> call <span class="op">=</span> calls[<span class="dv">0</span>]<span class="op">;</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> { url } <span class="op">=</span> call<span class="op">.</span><span class="at">args</span> <span class="im">as</span> { url<span class="op">:</span> <span class="dt">string</span> }<span class="op">;</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> markdown <span class="op">=</span> <span class="cf">await</span> <span class="fu">loadPage</span>(url)<span class="op">;</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>      google<span class="op">.</span><span class="fu">createPartFromFunctionResponse</span>(call<span class="op">.</span><span class="at">id</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> call<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> {</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>        result<span class="op">:</span> markdown<span class="op">,</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>      })<span class="op">,</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">;</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>  tool<span class="op">:</span> <span class="kw">async</span> ()<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>Tool<span class="op">&gt;</span> <span class="kw">=&gt;</span> <span class="cf">await</span> <span class="bu">Promise</span><span class="op">.</span><span class="fu">resolve</span>({ functionDeclarations<span class="op">:</span> [loadPagePageDef] })<span class="op">,</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-44" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> PAPER_CORP_SYSTEM_INSTRUCTION <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="vs">  Use the tools you have to answer the user's questions about</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="vs">  the "PaperCorp" company.</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  You have access to web pages through the </span><span class="sc">\`</span><span class="vs">loadPage</span><span class="sc">\`</span><span class="vs"> tool, including access to the local</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  network and intranet, where you will find information about the company. The </span><span class="sc">\`</span><span class="vs">loadPage</span><span class="sc">\`</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="vs">  tool will return you the page contents as Markdown.</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="vs">  The intranet hostname is </span><span class="sc">\`</span><span class="vs">papercorp</span><span class="sc">\`</span><span class="vs">, and the home page can be accessed via</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a><span class="vs">  http://localhost:8080.</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="vs">  Unless you know an address already, start navigating from the home page to find other</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a><span class="vs">  pages.</span></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> paper_corp_chat <span class="op">=</span> ai<span class="op">.</span><span class="at">chats</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">:</span> [loadPageTool]<span class="op">,</span></span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> PAPER_CORP_SYSTEM_INSTRUCTION<span class="op">,</span></span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> stream <span class="op">=</span> <span class="cf">await</span> paper_corp_chat<span class="op">.</span><span class="fu">sendMessageStream</span>({</span>
+<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> <span class="st">"What forms are available through HR?"</span><span class="op">,</span></span>
+<span id="cb43-25"><a href="#cb43-25" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb43-26"><a href="#cb43-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="cf">await</span> (<span class="kw">const</span> chunk <span class="kw">of</span> stream) {</span>
+<span id="cb43-27"><a href="#cb43-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">showParts</span>(chunk)<span class="op">;</span></span>
+<span id="cb43-28"><a href="#cb43-28" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{
+  "thoughtSignature": "CiwBVKhc7k+mAhFaUMhzli8xM7D6GNQx4ApsJvXq6Yj5oZIT94XhCeXnxgNXIwqEAQFUqFzucj+yJ8JZ7jAwZeEzyfkYn0+Fr7sWegQovyExMYKa7Otj15iy0AItBb8AmDlTYlWUhd4fXQpLsoOw+nHbtPd2Rj9UcnqVThXN6Y5Vme4gr2H97Sgl4SrGOdz+dbSjs/ok/WRNXCWrVtxyokeb09m9mUB6C+M/3HNvF+B8BMVfCgqfAQFUqFzu7sgaDSv+GMBwnyQdU0Zj8ovM1neJoJ0lpJsXaP2U6LMkdaPUun6XrqDPCjKCpGbg7t92ZPTTTpfF4EbQ7jcNdkJu1GTyVD0/bylfNEfCCBObpdh3f5/tLEK1PJ8GLpdvc+NwrEaTPM3Yl8mfzrmf6dIi9O7+H3Kdwl3ptVSS14npcbLHRsz2Hwrhm0/dAtXZpmyGrRiQ3PCEjA==",
+  "functionCall": {
+    "name": "loadPage",
+    "args": {
+      "url": "http://localhost:8080"
+    }
+  }
+}
+{
+  "functionResponse": {
+    "id": "",
+    "name": "loadPage",
+    "response": {
+      "result": "Welcome to PaperCorp Intranet body { font-family: sans-serif; } .header { background-color: #f2f2f2; padding: 20px; text-align: center; } .logo { max-width: 200px; } .content { padding: 20px; } .news { float: left; width: 60%; } .announcements { float: right; width: 30%; } .clearfix::after { content: \"\"; clear: both; display: table; }\n\n![PaperCorp Logo](logo.png)\n\nWelcome to the PaperCorp Intranet!\n==================================\n\nYour one-stop shop for all things PaperCorp\n\nCompany News\n------------\n\n*   [New paper recycling initiative launched!](news.html)\n*   [PaperCorp wins \"Most Sustainable Paper Company\" award](news.html)\n*   [Q3 earnings report released](news.html)\n\nAnnouncements\n-------------\n\n*   Casual Friday this week!\n*   Don't forget to submit your time sheets!\n*   Upcoming company picnic on July 20th\n\nQuick Links\n-----------\n\n*   [HR Resources](hr.html)\n*   [IT Support](it.html)\n*   [Departments](departments.html)"
+    }
+  }
+}
+{
+  "thoughtSignature": "Ci4BVKhc7utxf7EVtE8IW9CAQzLL2Cfwl19egxfpqOBMv4J9nU83EzIv/88ay/Z7CmsBVKhc7nfAhGszzuM9I8mZGQMY6CMlDjFLcr/nXbrg034IwlzaAsHmAUY9vGpcjigETLRKGD22JXRzoF5O9DC6gkdWhNZbN+rMJ31TOc5x60ZuTJw/S8tfyjt2J2OBmFPMqBcuSaS1NTezfwpyAVSoXO4CZL8fv17YPHJ5EaZrcW7hoX1f2LraRQ8QymYnfRl8YsKn3fy26b39DR9sQTMJjwoAZXL1zeUSUJxAR7mol7Twn0JAWG2kfAk9cXcXqKRkQ6WhEyY09jgJeFNyMxc1t6nHn8/+U6s4L68Q0K2P",
+  "functionCall": {
+    "name": "loadPage",
+    "args": {
+      "url": "http://localhost:8080/hr.html"
+    }
+  }
+}
+{
+  "functionResponse": {
+    "id": "",
+    "name": "loadPage",
+    "response": {
+      "result": "PaperCorp - HR Resources body { font-family: sans-serif; } .header { background-color: #f2f2f2; padding: 20px; text-align: center; } .logo { max-width: 200px; } .content { padding: 20px; } .resource-list { list-style: disc; padding-left: 40px; }\n\n![PaperCorp Logo](logo.png)\n\nHR Resources\n============\n\nPolicies &amp; Procedures\n---------------------\n\n*   [Employee Handbook](#)\n*   [Code of Conduct](#)\n*   [Vacation Policy](#)\n*   [Sick Leave Policy](#)\n*   [Performance Review Process](#)\n\nForms &amp; Documents\n-----------------\n\n*   [Expense Report Form](#)\n*   [Time Off Request Form](#)\n*   [Benefits Enrollment Form](#)\n*   [Tax Forms (W-2, etc.)](#)\n\nContact HR\n----------\n\nIf you have any questions or concerns, please don't hesitate to contact the HR department:\n\nEmail: [hr@papercorp.com](mailto:hr@papercorp.com)\n\nPhone: (555) 555-5555"
+    }
+  }
+}</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>The forms available through HR are:</p>
+<ul>
+<li>Expense Report Form</li>
+<li>Time Off Request Form</li>
+<li>Benefits Enrollment Form</li>
+<li>Tax Forms (W-2, etc.)</li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Finish Reason:</strong> STOP</p>
+</div>
+</div>
+<div id="cell-45" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>server<span class="op">.</span><span class="fu">close</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Server closed"</span>)<span class="op">;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Server {
+  maxHeaderSize: undefined,
+  insecureHTTPParser: undefined,
+  requestTimeout: 300000,
+  headersTimeout: 60000,
+  keepAliveTimeout: 5000,
+  connectionsCheckingInterval: 30000,
+  requireHostHeader: true,
+  joinDuplicateHeaders: undefined,
+  rejectNonStandardBodyWrites: false,
+  _events: [Object: null prototype] {
+    request: [Function (anonymous)],
+    connection: [Function: connectionListener],
+    listening: [Function: setupConnectionsTracking],
+    close: [Function: bound onceWrapper] { listener: [Function (anonymous)] }
+  },
+  _eventsCount: 4,
+  _maxListeners: undefined,
+  _connections: 0,
+  _handle: null,
+  _usingWorkers: false,
+  _workers: [],
+  _unref: false,
+  _listeningId: 3,
+  allowHalfOpen: true,
+  pauseOnConnect: false,
+  noDelay: true,
+  keepAlive: false,
+  keepAliveInitialDelay: 0,
+  highWaterMark: 16384,
+  httpAllowHalfOpen: false,
+  timeout: 0,
+  maxHeadersCount: null,
+  maxRequestsPerSocket: 0,
+  _connectionKey: '6::::8080',
+  [Symbol(IncomingMessage)]: [Function: IncomingMessage],
+  [Symbol(ServerResponse)]: [Function: ServerResponse],
+  [Symbol(shapeMode)]: false,
+  [Symbol(kCapture)]: false,
+  [Symbol(async_id_symbol)]: 4184,
+  [Symbol(kUniqueHeaders)]: null,
+  [Symbol(http.server.connections)]: ConnectionsList {},
+  [Symbol(http.server.connectionsCheckingInterval)]: Timeout {
+    _idleTimeout: -1,
+    _idlePrev: null,
+    _idleNext: null,
+    _idleStart: 868058,
+    _onTimeout: null,
+    _timerArgs: undefined,
+    _repeat: 30000,
+    _destroyed: true,
+    [Symbol(refed)]: false,
+    [Symbol(kHasPrimitive)]: false,
+    [Symbol(asyncId)]: 4189,
+    [Symbol(triggerId)]: 4185
+  }
+}
+Server closed</code></pre>
+</div>
+</div>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<ul>
+<li>To learn more about using the search tools, try the <a href="../quickstarts/Search_Grounding.html">Search grounding</a> cookbook recipe.</li>
+<li>For more advanced examples of function calling in the Live API, try the <a href="LiveAPI_plotting_and_mapping.ipynb">Plotting and Mapping</a> cookbook recipe.</li>
+</ul>
+<p>Or browse the Gemini API cookbook.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fallendeity\.github\.io\/deepmind-starter");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../examples/Apollo_11.html" class="pagination-link" aria-label="Prompting with an Apollo 11 transcript">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Prompting with an Apollo 11 transcript</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../examples/Entity_Extraction.html" class="pagination-link" aria-label="Gemini API: Entity extraction">
+        <span class="nav-page-text">Gemini API: Entity extraction</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Browser_as_a_tool.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Browser_as_a_tool.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
