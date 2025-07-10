@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://intranet.example.com/</loc>
+    <lastmod>2025-01-15</lastmod>
+  </url>
+  <url>
+    <loc>https://intranet.example.com/news</loc>
+    <lastmod>2025-01-15</lastmod>
+  </url>
+  <url>
+    <loc>https://intranet.example.com/departments</loc>
+    <lastmod>2025-01-15</lastmod>
+  </url>
+  <url>
+    <loc>https://intranet.example.com/hr</loc>
+    <lastmod>2025-01-15</lastmod>
+  </url>
+  <url>
+    <loc>https://intranet.example.com/it</loc>
+    <lastmod>2025-01-15</lastmod>
+  </url>
+</urlset>
