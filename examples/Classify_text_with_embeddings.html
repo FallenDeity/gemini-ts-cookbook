@@ -1,0 +1,2336 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Classify text with embeddings – Gemini Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../examples/Entity_Extraction.html" rel="next">
+<link href="../examples/Browser_as_a_tool.html" rel="prev">
+<link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-73468ec7cfdc29adaa9e90c901492850.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-GE1DFPVL15"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<meta property="og:title" content="Classify text with embeddings – Gemini Cookbook">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Gemini Cookbook">
+<meta name="twitter:title" content="Classify text with embeddings – Gemini Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Gemini Cookbook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../quickstarts/Get_started.html" aria-current="page"> 
+<span class="menu-text">Quickstarts</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://github.com/FallenDeity/deepmind-starter/">
+            Source Code
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Classify_text_with_embeddings.html">Classify text with embeddings</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Examples</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Historic Event Recognition</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Summarization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Anomaly_detection_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Anomaly detection with embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prompting with an Apollo 11 transcript</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Browser_as_a_tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Browser as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Classify_text_with_embeddings.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Classify text with embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Entity extraction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guess the shape: Triangle, Square, Pentagon?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create a marketing campaign from a product sketch of a Jet Backpack</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opossum search</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Translate a public domain book</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Voice_memos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Voice memos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Working with Charts, Graphs, and Slide Decks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Quickstarts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Audio Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Code Execution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: All about tokens</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Embeddings Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Enum Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: File API Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guide: Building AI Tutors with LearnLM via System Instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multimodal Live API - Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting started with the Gemini API OpenAI compatibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Use Gemini thinking</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with information grounding for Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini 2.0 Image output</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: List models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Prompting Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Safety Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Grounding using Search as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2D spatial understanding with Gemini 2.0</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Streaming Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: System instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Video understanding with Gemini</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a>
+  <ul class="collapse">
+  <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
+  <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
+  <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
+  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
+  <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
+  </ul></li>
+  <li><a href="#prepare-dataset" id="toc-prepare-dataset" class="nav-link" data-scroll-target="#prepare-dataset">Prepare dataset</a></li>
+  <li><a href="#create-the-embeddings" id="toc-create-the-embeddings" class="nav-link" data-scroll-target="#create-the-embeddings">Create the embeddings</a>
+  <ul class="collapse">
+  <li><a href="#api-changes-to-embeddings" id="toc-api-changes-to-embeddings" class="nav-link" data-scroll-target="#api-changes-to-embeddings">API changes to Embeddings</a></li>
+  </ul></li>
+  <li><a href="#build-a-simple-classification-model" id="toc-build-a-simple-classification-model" class="nav-link" data-scroll-target="#build-a-simple-classification-model">Build a simple classification model</a></li>
+  <li><a href="#train-the-model-to-classify-newsgroups" id="toc-train-the-model-to-classify-newsgroups" class="nav-link" data-scroll-target="#train-the-model-to-classify-newsgroups">Train the model to classify newsgroups</a></li>
+  <li><a href="#evaluate-model-performance" id="toc-evaluate-model-performance" class="nav-link" data-scroll-target="#evaluate-model-performance">Evaluate model performance</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Classify_text_with_embeddings.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Classify_text_with_embeddings.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Classify_text_with_embeddings.html">Classify text with embeddings</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Classify text with embeddings</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level3">
+<h3 class="anchored" data-anchor-id="overview">Overview</h3>
+<p>In this notebook, you’ll learn to use the embeddings produced by the Gemini API to train a model that can classify different types of newsgroup posts based on the topic.</p>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="install-the-google-genai-sdk" class="level3">
+<h3 class="anchored" data-anchor-id="install-the-google-genai-sdk">Install the Google GenAI SDK</h3>
+<p>Install the Google GenAI SDK from <a href="https://www.npmjs.com/package/@google/genai">npm</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install @google/genai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="setup-your-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="setup-your-api-key">Setup your API key</h3>
+<p>You can <a href="https://aistudio.google.com/app/apikey">create</a> your API key using Google AI Studio with a single click.</p>
+<p>Remember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a <code>.env</code> file. You can also set it as an environment variable or use a secret manager.</p>
+<p>Here’s how to set it up in a <code>.env</code> file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch .env</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;"</span> <span class="op">&gt;&gt;</span> .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another option is to set the API key as an environment variable. You can do this in your terminal with the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export GEMINI_API_KEY=<span class="st">"&lt;YOUR_API_KEY&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="load-the-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-api-key">Load the API key</h3>
+<p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, we can load the API key in our code:</p>
+<div id="cell-4" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../.env"</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GEMINI_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">GEMINI_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>GEMINI_API_KEY) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"GEMINI_API_KEY is not set in the environment variables"</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"GEMINI_API_KEY is set in the environment variables"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEMINI_API_KEY is set in the environment variables</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
+<pre><code>│
+├── .env
+└── examples
+    └── Classify_text_with_embeddings.ipynb</code></pre>
+</div>
+</div>
+</section>
+<section id="initialize-sdk-client" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
+<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
+<div id="cell-7" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="select-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<div id="cell-9" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="prepare-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-dataset">Prepare dataset</h2>
+<p>The <a href="https://scikit-learn.org/0.19/datasets/twenty_newsgroups.html">20 Newsgroups Text Dataset</a> contains 18,000 newsgroups posts on 20 topics divided into training and test sets. The split between the training and test datasets are based on messages posted before and after a specific date. For this tutorial, you will be using the subsets of the training and test datasets. You will preprocess and organize the data into Pandas dataframes.</p>
+<div id="cell-11" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tar <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tar"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tar"</span>)<span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> danfo <span class="op">=</span> <span class="pp">require</span>(<span class="st">"danfojs-node"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"danfojs-node"</span>)<span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">// URL of the scikit-learn 20 Newsgroups dataset</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> DATA_URL <span class="op">=</span> <span class="st">"https://ndownloader.figshare.com/files/5975967"</span><span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> EXTRACT_PATH <span class="op">=</span> <span class="st">"../assets/anomaly_detection"</span><span class="op">;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">downloadAndExtractDataset</span>()<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> {</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (fs<span class="op">.</span><span class="fu">existsSync</span>(EXTRACT_PATH)) {</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Dataset already exists. Skipping download."</span>)<span class="op">;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Downloading 20 Newsgroups dataset..."</span>)<span class="op">;</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(DATA_URL)<span class="op">;</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">arrayBuffer</span>()<span class="op">;</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Extracting dataset..."</span>)<span class="op">;</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">await</span> fs<span class="op">.</span><span class="at">promises</span><span class="op">.</span><span class="fu">mkdir</span>(EXTRACT_PATH<span class="op">,</span> { recursive<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> zipPath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(EXTRACT_PATH<span class="op">,</span> <span class="st">"20news-bydate.tar.gz"</span>)<span class="op">;</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(zipPath<span class="op">,</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(buffer))<span class="op">;</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">await</span> tar<span class="op">.</span><span class="fu">x</span>({</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    file<span class="op">:</span> zipPath<span class="op">,</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    cwd<span class="op">:</span> EXTRACT_PATH<span class="op">,</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Dataset extracted."</span>)<span class="op">;</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">loadTextFilesFromDir</span>(dirPath<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> {</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>  data<span class="op">:</span> <span class="dt">string</span>[]<span class="op">;</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>  target<span class="op">:</span> <span class="dt">string</span>[]<span class="op">;</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>} {</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> categories <span class="op">=</span> fs<span class="op">.</span><span class="fu">readdirSync</span>(dirPath)<span class="op">;</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> data<span class="op">:</span> <span class="dt">string</span>[] <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> target<span class="op">:</span> <span class="dt">string</span>[] <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> category <span class="kw">of</span> categories) {</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> categoryPath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(dirPath<span class="op">,</span> category)<span class="op">;</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (fs<span class="op">.</span><span class="fu">lstatSync</span>(categoryPath)<span class="op">.</span><span class="fu">isDirectory</span>()) {</span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> files <span class="op">=</span> fs<span class="op">.</span><span class="fu">readdirSync</span>(categoryPath)<span class="op">;</span></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> (<span class="kw">const</span> file <span class="kw">of</span> files) {</span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> filePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(categoryPath<span class="op">,</span> file)<span class="op">;</span></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> content <span class="op">=</span> fs<span class="op">.</span><span class="fu">readFileSync</span>(filePath<span class="op">,</span> <span class="st">"utf-8"</span>)<span class="op">;</span></span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>        data<span class="op">.</span><span class="fu">push</span>(content)<span class="op">;</span></span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>        target<span class="op">.</span><span class="fu">push</span>(category)<span class="op">;</span></span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> { data<span class="op">,</span> target }<span class="op">;</span></span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadAndExtractDataset</span>()<span class="op">;</span></span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> trainDir <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(EXTRACT_PATH<span class="op">,</span> <span class="st">"20news-bydate-train"</span>)<span class="op">;</span></span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> { data<span class="op">:</span> trainData<span class="op">,</span> target<span class="op">:</span> trainTarget } <span class="op">=</span> <span class="fu">loadTextFilesFromDir</span>(trainDir)<span class="op">;</span></span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> trainDf <span class="op">=</span> <span class="kw">new</span> danfo<span class="op">.</span><span class="fu">DataFrame</span>({</span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>  data<span class="op">:</span> trainData<span class="op">,</span></span>
+<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>  target<span class="op">:</span> trainTarget<span class="op">,</span></span>
+<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> testDir <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(EXTRACT_PATH<span class="op">,</span> <span class="st">"20news-bydate-test"</span>)<span class="op">;</span></span>
+<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> { data<span class="op">:</span> testData<span class="op">,</span> target<span class="op">:</span> testTarget } <span class="op">=</span> <span class="fu">loadTextFilesFromDir</span>(testDir)<span class="op">;</span></span>
+<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> testDf <span class="op">=</span> <span class="kw">new</span> danfo<span class="op">.</span><span class="fu">DataFrame</span>({</span>
+<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>  data<span class="op">:</span> testData<span class="op">,</span></span>
+<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a>  target<span class="op">:</span> testTarget<span class="op">,</span></span>
+<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dataset already exists. Skipping download.</code></pre>
+</div>
+</div>
+<div id="cell-12" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> classNames <span class="op">=</span> trainDf<span class="op">.</span><span class="at">target</span><span class="op">.</span><span class="fu">unique</span>()<span class="op">.</span><span class="at">values</span> <span class="im">as</span> <span class="dt">string</span>[]<span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Class names:"</span><span class="op">,</span> classNames)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Class names: [
+  'alt.atheism',
+  'comp.graphics',
+  'comp.os.ms-windows.misc',
+  'comp.sys.ibm.pc.hardware',
+  'comp.sys.mac.hardware',
+  'comp.windows.x',
+  'misc.forsale',
+  'rec.autos',
+  'rec.motorcycles',
+  'rec.sport.baseball',
+  'rec.sport.hockey',
+  'sci.crypt',
+  'sci.electronics',
+  'sci.med',
+  'sci.space',
+  'soc.religion.christian',
+  'talk.politics.guns',
+  'talk.politics.mideast',
+  'talk.politics.misc',
+  'talk.religion.misc'
+]</code></pre>
+</div>
+</div>
+<p>Here is an example of what a data point from the training set looks like.</p>
+<div id="cell-14" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* eslint-disable @typescript-eslint/no-unsafe-member-access */</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> firstDoc <span class="op">=</span> trainDf<span class="op">.</span><span class="fu">loc</span>({ rows<span class="op">:</span> [<span class="dv">0</span>]<span class="op">,</span> columns<span class="op">:</span> [<span class="st">"data"</span>] })<span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> firstText <span class="op">=</span> firstDoc<span class="op">.</span><span class="at">data</span><span class="op">.</span><span class="at">values</span>[<span class="dv">0</span>] <span class="im">as</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> idx <span class="op">=</span> firstText<span class="op">.</span><span class="fu">indexOf</span>(<span class="st">"Lines"</span>)<span class="op">;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (idx <span class="op">!==</span> <span class="op">-</span><span class="dv">1</span>) {</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(firstText<span class="op">.</span><span class="fu">slice</span>(idx))<span class="op">;</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">'"Lines" not found in the first document.'</span>)<span class="op">;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Lines: 290
+
+Archive-name: atheism/resources
+Alt-atheism-archive-name: resources
+Last-modified: 11 December 1992
+Version: 1.0
+
+                              Atheist Resources
+
+                      Addresses of Atheist Organizations
+
+                                     USA
+
+FREEDOM FROM RELIGION FOUNDATION
+
+Darwin fish bumper stickers and assorted other atheist paraphernalia are
+available from the Freedom From Religion Foundation in the US.
+
+Write to:  FFRF, P.O. Box 750, Madison, WI 53701.
+Telephone: (608) 256-8900
+
+EVOLUTION DESIGNS
+
+Evolution Designs sell the "Darwin fish".  It's a fish symbol, like the ones
+Christians stick on their cars, but with feet and the word "Darwin" written
+inside.  The deluxe moulded 3D plastic fish is $4.95 postpaid in the US.
+
+Write to:  Evolution Designs, 7119 Laurel Canyon #4, North Hollywood,
+           CA 91605.
+
+People in the San Francisco Bay area can get Darwin Fish from Lynn Gold --
+try mailing &lt;figmo@netcom.com&gt;.  For net people who go to Lynn directly, the
+price is $4.95 per fish.
+
+AMERICAN ATHEIST PRESS
+
+AAP publish various atheist books -- critiques of the Bible, lists of
+Biblical contradictions, and so on.  One such book is:
+
+"The Bible Handbook" by W.P. Ball and G.W. Foote.  American Atheist Press.
+372 pp.  ISBN 0-910309-26-4, 2nd edition, 1986.  Bible contradictions,
+absurdities, atrocities, immoralities... contains Ball, Foote: "The Bible
+Contradicts Itself", AAP.  Based on the King James version of the Bible.
+
+Write to:  American Atheist Press, P.O. Box 140195, Austin, TX 78714-0195.
+      or:  7215 Cameron Road, Austin, TX 78752-2973.
+Telephone: (512) 458-1244
+Fax:       (512) 467-9525
+
+PROMETHEUS BOOKS
+
+Sell books including Haught's "Holy Horrors" (see below).
+
+Write to:  700 East Amherst Street, Buffalo, New York 14215.
+Telephone: (716) 837-2475.
+
+An alternate address (which may be newer or older) is:
+Prometheus Books, 59 Glenn Drive, Buffalo, NY 14228-2197.
+
+AFRICAN-AMERICANS FOR HUMANISM
+
+An organization promoting black secular humanism and uncovering the history of
+black freethought.  They publish a quarterly newsletter, AAH EXAMINER.
+
+Write to:  Norm R. Allen, Jr., African Americans for Humanism, P.O. Box 664,
+           Buffalo, NY 14226.
+
+                                United Kingdom
+
+Rationalist Press Association          National Secular Society
+88 Islington High Street               702 Holloway Road
+London N1 8EW                          London N19 3NL
+071 226 7251                           071 272 1266
+
+British Humanist Association           South Place Ethical Society
+14 Lamb's Conduit Passage              Conway Hall
+London WC1R 4RH                        Red Lion Square
+071 430 0908                           London WC1R 4RL
+fax 071 430 1271                       071 831 7723
+
+The National Secular Society publish "The Freethinker", a monthly magazine
+founded in 1881.
+
+                                   Germany
+
+IBKA e.V.
+Internationaler Bund der Konfessionslosen und Atheisten
+Postfach 880, D-1000 Berlin 41. Germany.
+
+IBKA publish a journal:
+MIZ. (Materialien und Informationen zur Zeit. Politisches
+Journal der Konfessionslosesn und Atheisten. Hrsg. IBKA e.V.)
+MIZ-Vertrieb, Postfach 880, D-1000 Berlin 41. Germany.
+
+For atheist books, write to:
+
+IBDK, Internationaler B"ucherdienst der Konfessionslosen
+Postfach 3005, D-3000 Hannover 1. Germany.
+Telephone: 0511/211216
+
+
+                               Books -- Fiction
+
+THOMAS M. DISCH
+
+"The Santa Claus Compromise"
+Short story.  The ultimate proof that Santa exists.  All characters and 
+events are fictitious.  Any similarity to living or dead gods -- uh, well...
+
+WALTER M. MILLER, JR
+
+"A Canticle for Leibowitz"
+One gem in this post atomic doomsday novel is the monks who spent their lives
+copying blueprints from "Saint Leibowitz", filling the sheets of paper with
+ink and leaving white lines and letters.
+
+EDGAR PANGBORN
+
+"Davy"
+Post atomic doomsday novel set in clerical states.  The church, for example,
+forbids that anyone "produce, describe or use any substance containing...
+atoms". 
+
+PHILIP K. DICK
+
+Philip K. Dick Dick wrote many philosophical and thought-provoking short 
+stories and novels.  His stories are bizarre at times, but very approachable.
+He wrote mainly SF, but he wrote about people, truth and religion rather than
+technology.  Although he often believed that he had met some sort of God, he
+remained sceptical.  Amongst his novels, the following are of some relevance:
+
+"Galactic Pot-Healer"
+A fallible alien deity summons a group of Earth craftsmen and women to a
+remote planet to raise a giant cathedral from beneath the oceans.  When the
+deity begins to demand faith from the earthers, pot-healer Joe Fernwright is
+unable to comply.  A polished, ironic and amusing novel.
+
+"A Maze of Death"
+Noteworthy for its description of a technology-based religion.
+
+"VALIS"
+The schizophrenic hero searches for the hidden mysteries of Gnostic
+Christianity after reality is fired into his brain by a pink laser beam of
+unknown but possibly divine origin.  He is accompanied by his dogmatic and
+dismissively atheist friend and assorted other odd characters.
+
+"The Divine Invasion"
+God invades Earth by making a young woman pregnant as she returns from
+another star system.  Unfortunately she is terminally ill, and must be
+assisted by a dead man whose brain is wired to 24-hour easy listening music.
+
+MARGARET ATWOOD
+
+"The Handmaid's Tale"
+A story based on the premise that the US Congress is mysteriously
+assassinated, and fundamentalists quickly take charge of the nation to set it
+"right" again.  The book is the diary of a woman's life as she tries to live
+under the new Christian theocracy.  Women's right to own property is revoked,
+and their bank accounts are closed; sinful luxuries are outlawed, and the
+radio is only used for readings from the Bible.  Crimes are punished
+retroactively: doctors who performed legal abortions in the "old world" are
+hunted down and hanged.  Atwood's writing style is difficult to get used to
+at first, but the tale grows more and more chilling as it goes on.
+
+VARIOUS AUTHORS
+
+"The Bible"
+This somewhat dull and rambling work has often been criticized.  However, it
+is probably worth reading, if only so that you'll know what all the fuss is
+about.  It exists in many different versions, so make sure you get the one
+true version.
+
+                             Books -- Non-fiction
+
+PETER DE ROSA
+
+"Vicars of Christ", Bantam Press, 1988
+Although de Rosa seems to be Christian or even Catholic this is a very
+enlighting history of papal immoralities, adulteries, fallacies etc.
+(German translation: "Gottes erste Diener. Die dunkle Seite des Papsttums",
+Droemer-Knaur, 1989)
+
+MICHAEL MARTIN
+
+"Atheism: A Philosophical Justification", Temple University Press,
+ Philadelphia, USA.
+A detailed and scholarly justification of atheism.  Contains an outstanding
+appendix defining terminology and usage in this (necessarily) tendentious
+area.  Argues both for "negative atheism" (i.e. the "non-belief in the
+existence of god(s)") and also for "positive atheism" ("the belief in the
+non-existence of god(s)").  Includes great refutations of the most
+challenging arguments for god; particular attention is paid to refuting
+contempory theists such as Platinga and Swinburne.
+541 pages. ISBN 0-87722-642-3 (hardcover; paperback also available)
+
+"The Case Against Christianity", Temple University Press
+A comprehensive critique of Christianity, in which he considers
+the best contemporary defences of Christianity and (ultimately)
+demonstrates that they are unsupportable and/or incoherent.
+273 pages. ISBN 0-87722-767-5
+
+JAMES TURNER
+
+"Without God, Without Creed", The Johns Hopkins University Press, Baltimore,
+ MD, USA
+Subtitled "The Origins of Unbelief in America".  Examines the way in which
+unbelief (whether agnostic or atheistic)  became a mainstream alternative
+world-view.  Focusses on the period 1770-1900, and while considering France
+and Britain the emphasis is on American, and particularly New England
+developments.  "Neither a religious history of secularization or atheism,
+Without God, Without Creed is, rather, the intellectual history of the fate
+of a single idea, the belief that God exists." 
+316 pages. ISBN (hardcover) 0-8018-2494-X (paper) 0-8018-3407-4
+
+GEORGE SELDES (Editor)
+
+"The great thoughts", Ballantine Books, New York, USA
+A "dictionary of quotations" of a different kind, concentrating on statements
+and writings which, explicitly or implicitly, present the person's philosophy
+and world-view.  Includes obscure (and often suppressed) opinions from many
+people.  For some popular observations, traces the way in which various
+people expressed and twisted the idea over the centuries.  Quite a number of
+the quotations are derived from Cardiff's "What Great Men Think of Religion"
+and Noyes' "Views of Religion".
+490 pages. ISBN (paper) 0-345-29887-X.
+
+RICHARD SWINBURNE
+
+"The Existence of God (Revised Edition)", Clarendon Paperbacks, Oxford
+This book is the second volume in a trilogy that began with "The Coherence of
+Theism" (1977) and was concluded with "Faith and Reason" (1981).  In this
+work, Swinburne attempts to construct a series of inductive arguments for the
+existence of God.  His arguments, which are somewhat tendentious and rely
+upon the imputation of late 20th century western Christian values and
+aesthetics to a God which is supposedly as simple as can be conceived, were
+decisively rejected in Mackie's "The Miracle of Theism".  In the revised
+edition of "The Existence of God", Swinburne includes an Appendix in which he
+makes a somewhat incoherent attempt to rebut Mackie.
+
+J. L. MACKIE
+
+"The Miracle of Theism", Oxford
+This (posthumous) volume contains a comprehensive review of the principal
+arguments for and against the existence of God.  It ranges from the classical
+philosophical positions of Descartes, Anselm, Berkeley, Hume et al, through
+the moral arguments of Newman, Kant and Sidgwick, to the recent restatements
+of the classical theses by Plantinga and Swinburne.  It also addresses those
+positions which push the concept of God beyond the realm of the rational,
+such as those of Kierkegaard, Kung and Philips, as well as "replacements for
+God" such as Lelie's axiarchism.  The book is a delight to read - less
+formalistic and better written than Martin's works, and refreshingly direct
+when compared with the hand-waving of Swinburne.
+
+JAMES A. HAUGHT
+
+"Holy Horrors: An Illustrated History of Religious Murder and Madness",
+ Prometheus Books
+Looks at religious persecution from ancient times to the present day -- and
+not only by Christians.
+Library of Congress Catalog Card Number 89-64079. 1990.
+
+NORM R. ALLEN, JR.
+
+"African American Humanism: an Anthology"
+See the listing for African Americans for Humanism above.
+
+GORDON STEIN
+
+"An Anthology of Atheism and Rationalism", Prometheus Books
+An anthology covering a wide range of subjects, including 'The Devil, Evil
+and Morality' and 'The History of Freethought'.  Comprehensive bibliography.
+
+EDMUND D. COHEN
+
+"The Mind of The Bible-Believer", Prometheus Books
+A study of why people become Christian fundamentalists, and what effect it
+has on them.
+
+                                Net Resources
+
+There's a small mail-based archive server at mantis.co.uk which carries
+archives of old alt.atheism.moderated articles and assorted other files.  For
+more information, send mail to archive-server@mantis.co.uk saying
+
+   help
+   send atheism/index
+
+and it will mail back a reply.
+
+
+mathew
+�
+</code></pre>
+</div>
+</div>
+<p>Now you will begin preprocessing the data for this tutorial. Remove any sensitive information like names, email, or redundant parts of the text like <code>"From: "</code> and <code>"\nSubject: "</code>. Organize the information into a Pandas dataframe so it is more readable.</p>
+<div id="cell-16" class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* eslint-disable no-control-regex, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment */</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { DataFrame } <span class="im">from</span> <span class="st">"danfojs-node"</span><span class="op">;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preprocessText</span>(text<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="dt">string</span> {</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> cleaned <span class="op">=</span> text<span class="op">;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Remove emails</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  cleaned <span class="op">=</span> cleaned<span class="op">.</span><span class="fu">replace</span>(<span class="ss">/</span><span class="sc">[\w.-]+</span><span class="ss">@</span><span class="sc">[\w.-]+</span><span class="ss">/g</span><span class="op">,</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Remove names (assuming your original regex was incomplete due to formatting)</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">// You can customize this pattern based on what "names" means in your context</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  cleaned <span class="op">=</span> cleaned<span class="op">.</span><span class="fu">replace</span>(<span class="ss">/</span><span class="sc">^(</span><span class="ss">.</span><span class="sc">*?)(?</span><span class="ss">=</span><span class="sc">\n)</span><span class="ss">/g</span><span class="op">,</span> <span class="st">""</span>)<span class="op">;</span> <span class="co">// naive: remove first line, often name</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Remove "From: "</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  cleaned <span class="op">=</span> cleaned<span class="op">.</span><span class="fu">replace</span>(<span class="ss">/From: /g</span><span class="op">,</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Remove "\nSubject: "</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  cleaned <span class="op">=</span> cleaned<span class="op">.</span><span class="fu">replace</span>(<span class="ss">/</span><span class="sc">\n</span><span class="ss">Subject: /g</span><span class="op">,</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Remove control characters</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>  cleaned <span class="op">=</span> cleaned<span class="op">.</span><span class="fu">replace</span>(<span class="ss">/</span><span class="sc">[\x00-\x1F\x7F]</span><span class="ss">/g</span><span class="op">,</span> <span class="st">" "</span>)<span class="op">;</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Truncate to 5000 characters</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (cleaned<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">5000</span>) {</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    cleaned <span class="op">=</span> cleaned<span class="op">.</span><span class="fu">slice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">5000</span>)<span class="op">;</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> cleaned<span class="op">;</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preprocessDataframe</span>(df<span class="op">:</span> DataFrame)<span class="op">:</span> DataFrame {</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> preprocessedData <span class="op">=</span> df<span class="op">.</span><span class="at">data</span><span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="fu">map</span>((d<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> <span class="fu">preprocessText</span>(d))<span class="op">;</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> preprocessedDf <span class="op">=</span> <span class="kw">new</span> <span class="fu">DataFrame</span>({</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    text<span class="op">:</span> preprocessedData <span class="im">as</span> <span class="dt">string</span>[]<span class="op">,</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    target<span class="op">:</span> df<span class="op">.</span><span class="at">target</span><span class="op">.</span><span class="at">values</span><span class="op">,</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment */</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> texts <span class="op">=</span> preprocessedDf<span class="op">.</span><span class="at">text</span><span class="op">.</span><span class="at">values</span> <span class="im">as</span> <span class="dt">string</span>[]<span class="op">;</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> classNameToLabelMap<span class="op">:</span> <span class="bu">Record</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">number</span><span class="op">&gt;</span> <span class="op">=</span> preprocessedDf<span class="op">.</span><span class="at">target</span></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">unique</span>()</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="fu">reduce</span>((acc<span class="op">:</span> <span class="bu">Record</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">number</span><span class="op">&gt;,</span> className<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> index<span class="op">:</span> <span class="dt">number</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>      acc[className] <span class="op">=</span> index <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> <span class="co">// Start labels from 1</span></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> acc<span class="op">;</span></span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span> {})<span class="op">;</span></span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> classNames <span class="op">=</span> preprocessedDf<span class="op">.</span><span class="at">target</span><span class="op">.</span><span class="at">values</span> <span class="im">as</span> <span class="dt">string</span>[]<span class="op">;</span></span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> labels <span class="op">=</span> classNames<span class="op">.</span><span class="fu">map</span>((name) <span class="kw">=&gt;</span> classNameToLabelMap[name])<span class="op">;</span></span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">new</span> <span class="fu">DataFrame</span>({</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>    Text<span class="op">:</span> texts<span class="op">,</span></span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>    Label<span class="op">:</span> labels<span class="op">,</span></span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Class Name"</span><span class="op">:</span> classNames<span class="op">,</span></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> trainDfPreprocessed <span class="op">=</span> <span class="fu">preprocessDataframe</span>(trainDf)<span class="op">;</span></span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> testDfPreprocessed <span class="op">=</span> <span class="fu">preprocessDataframe</span>(testDf)<span class="op">;</span></span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>trainDfPreprocessed<span class="op">.</span><span class="fu">head</span>()<span class="op">.</span><span class="fu">print</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>╔════════════╤═══════════════════╤═══════════════════╤═══════════════════╗
+║            │ Text              │ Label             │ Class Name        ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 0          │ Alt.Atheism FAQ…  │ 1                 │ alt.atheism       ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 1          │ Alt.Atheism FAQ…  │ 1                 │ alt.atheism       ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 2          │ Re: Gospel Dati…  │ 1                 │ alt.atheism       ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 3          │ Re: university …  │ 1                 │ alt.atheism       ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 4          │ Re: [soc.motss,…  │ 1                 │ alt.atheism       ║
+╚════════════╧═══════════════════╧═══════════════════╧═══════════════════╝
+</code></pre>
+</div>
+</div>
+<p>Next, you will sample some of the data by taking 100 data points in the training dataset, and dropping a few of the categories to run through this tutorial. Choose the science categories to compare.</p>
+<div id="cell-18" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { DataFrame } <span class="im">from</span> <span class="st">"danfojs-node"</span><span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">sampleData</span>(df<span class="op">:</span> DataFrame<span class="op">,</span> numSamples<span class="op">:</span> <span class="dt">number</span><span class="op">,</span> classesToKeep<span class="op">:</span> <span class="dt">string</span>[])<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>DataFrame<span class="op">&gt;</span> {</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> uniqueLabels <span class="op">=</span> df<span class="op">.</span><span class="at">Label</span><span class="op">.</span><span class="fu">unique</span>()<span class="op">.</span><span class="at">values</span><span class="op">;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> sampledGroups <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> label <span class="kw">of</span> uniqueLabels) {</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> labelGroup <span class="op">=</span> df<span class="op">.</span><span class="fu">query</span>(df<span class="op">.</span><span class="at">Label</span><span class="op">.</span><span class="fu">eq</span>(label))<span class="op">.</span><span class="fu">resetIndex</span>()<span class="op">;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> groupSize <span class="op">=</span> labelGroup<span class="op">.</span><span class="at">shape</span>[<span class="dv">0</span>]<span class="op">;</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (groupSize <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> sampledGroup <span class="op">=</span> <span class="cf">await</span> labelGroup<span class="op">.</span><span class="fu">sample</span>(numSamples<span class="op">,</span> { seed<span class="op">:</span> <span class="dv">42</span> })<span class="op">;</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>      sampledGroups<span class="op">.</span><span class="fu">push</span>(sampledGroup)<span class="op">;</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> dfSampled <span class="op">=</span> danfo<span class="op">.</span><span class="fu">concat</span>({</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    dfList<span class="op">:</span> sampledGroups<span class="op">,</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    axis<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  }) <span class="im">as</span> DataFrame<span class="op">;</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> mask <span class="op">=</span> dfSampled[<span class="st">"Class Name"</span>]<span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="fu">map</span>((name<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    classesToKeep<span class="op">.</span><span class="fu">some</span>((c<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> name<span class="op">.</span><span class="fu">includes</span>(c))</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> dfFiltered <span class="op">=</span> dfSampled<span class="op">.</span><span class="fu">query</span>(mask)<span class="op">.</span><span class="fu">resetIndex</span>()<span class="op">;</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> classNames <span class="op">=</span> dfFiltered[<span class="st">"Class Name"</span>]<span class="op">.</span><span class="fu">unique</span>()<span class="op">.</span><span class="at">values</span><span class="op">;</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> classToCode<span class="op">:</span> <span class="bu">Record</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">number</span><span class="op">&gt;</span> <span class="op">=</span> {}<span class="op">;</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>  classNames<span class="op">.</span><span class="fu">forEach</span>((name<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> i<span class="op">:</span> <span class="dt">number</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    classToCode[name] <span class="op">=</span> i<span class="op">;</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> encodedLabel <span class="op">=</span> dfFiltered[<span class="st">"Class Name"</span>]<span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="fu">map</span>((val<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> classToCode[val])<span class="op">;</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>  dfFiltered<span class="op">.</span><span class="fu">addColumn</span>(<span class="st">"Encoded Label"</span><span class="op">,</span> encodedLabel<span class="op">,</span> { inplace<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> dfFiltered<span class="op">.</span><span class="fu">resetIndex</span>()<span class="op">;</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-19" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> TRAIN_NUM_SAMPLES <span class="op">=</span> <span class="dv">100</span><span class="op">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> TEST_NUM_SAMPLES <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> CLASSES_TO_KEEP <span class="op">=</span> <span class="st">"sci"</span><span class="op">;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dfTrainFinal <span class="op">=</span> <span class="cf">await</span> <span class="fu">sampleData</span>(trainDfPreprocessed<span class="op">,</span> TRAIN_NUM_SAMPLES<span class="op">,</span> [CLASSES_TO_KEEP])<span class="op">;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dfTestFinal <span class="op">=</span> <span class="cf">await</span> <span class="fu">sampleData</span>(testDfPreprocessed<span class="op">,</span> TEST_NUM_SAMPLES<span class="op">,</span> [CLASSES_TO_KEEP])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-20" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { DataFrame } <span class="im">from</span> <span class="st">"danfojs-node"</span><span class="op">;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> trainValueCounts <span class="op">=</span> dfTrainFinal[<span class="st">"Class Name"</span>]<span class="op">.</span><span class="fu">valueCounts</span>() <span class="im">as</span> DataFrame<span class="op">;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>trainValueCounts<span class="op">.</span><span class="fu">print</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>╔═════════════════╤═════╗
+║ sci.crypt       │ 100 ║
+╟─────────────────┼─────╢
+║ sci.electronics │ 100 ║
+╟─────────────────┼─────╢
+║ sci.med         │ 100 ║
+╟─────────────────┼─────╢
+║ sci.space       │ 100 ║
+╚═════════════════╧═════╝
+</code></pre>
+</div>
+</div>
+<div id="cell-21" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { DataFrame } <span class="im">from</span> <span class="st">"danfojs-node"</span><span class="op">;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> testValueCounts <span class="op">=</span> dfTestFinal[<span class="st">"Class Name"</span>]<span class="op">.</span><span class="fu">valueCounts</span>() <span class="im">as</span> DataFrame<span class="op">;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>testValueCounts<span class="op">.</span><span class="fu">print</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>╔═════════════════╤════╗
+║ sci.crypt       │ 25 ║
+╟─────────────────┼────╢
+║ sci.electronics │ 25 ║
+╟─────────────────┼────╢
+║ sci.med         │ 25 ║
+╟─────────────────┼────╢
+║ sci.space       │ 25 ║
+╚═════════════════╧════╝
+</code></pre>
+</div>
+</div>
+</section>
+<section id="create-the-embeddings" class="level2">
+<h2 class="anchored" data-anchor-id="create-the-embeddings">Create the embeddings</h2>
+<p>In this section, you will see how to generate embeddings for a piece of text using the embeddings from the Gemini API. To learn more about embeddings, visit the <a href="https://ai.google.dev/docs/embeddings_guide">embeddings guide</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Embeddings are computed one at a time, large sample sizes can take a long time!</p>
+</div>
+</div>
+<section id="api-changes-to-embeddings" class="level3">
+<h3 class="anchored" data-anchor-id="api-changes-to-embeddings">API changes to Embeddings</h3>
+<p>For the recent embeddings model, there is a task type parameter and the optional title (only valid with <code>task_type=RETRIEVAL_DOCUMENT</code>).</p>
+<p>These parameters apply only to the recent embeddings models. The task types are:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>RETRIEVAL_QUERY</code></td>
+<td>Specifies the given text is a query in a search/retrieval setting.</td>
+</tr>
+<tr class="even">
+<td><code>RETRIEVAL_DOCUMENT</code></td>
+<td>Specifies the given text is a document in a search/retrieval setting.</td>
+</tr>
+<tr class="odd">
+<td><code>SEMANTIC_SIMILARITY</code></td>
+<td>Specifies the given text will be used for Semantic Textual Similarity (STS).</td>
+</tr>
+<tr class="even">
+<td><code>CLASSIFICATION</code></td>
+<td>Specifies that the embeddings will be used for classification.</td>
+</tr>
+<tr class="odd">
+<td><code>CLUSTERING</code></td>
+<td>Specifies that the embeddings will be used for clustering.</td>
+</tr>
+</tbody>
+</table>
+<div id="cell-24" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment */</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { DataFrame } <span class="im">from</span> <span class="st">"danfojs-node"</span><span class="op">;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> EMBEDDING_MODEL_ID <span class="op">=</span> <span class="st">"models/text-embedding-004"</span><span class="op">;</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> BATCH_SIZE <span class="op">=</span> <span class="dv">100</span><span class="op">;</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">addEmbeddings</span>(df<span class="op">:</span> DataFrame<span class="op">,</span> textColumnName <span class="op">=</span> <span class="st">"Text"</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>DataFrame<span class="op">&gt;</span> {</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> embeddings<span class="op">:</span> <span class="dt">number</span>[][] <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> display <span class="op">=</span> tslab<span class="op">.</span><span class="fu">newDisplay</span>()<span class="op">;</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  display<span class="op">.</span><span class="fu">text</span>(<span class="st">"Progress: 0%"</span>)<span class="op">;</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> df<span class="op">.</span><span class="at">shape</span>[<span class="dv">0</span>]<span class="op">;</span> i <span class="op">+=</span> BATCH_SIZE) {</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> batch <span class="op">=</span> df[textColumnName]<span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="fu">slice</span>(i<span class="op">,</span> i <span class="op">+</span> BATCH_SIZE)<span class="op">;</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> embeddingResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">embedContent</span>({</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>      model<span class="op">:</span> EMBEDDING_MODEL_ID<span class="op">,</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>      contents<span class="op">:</span> batch<span class="op">,</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>      config<span class="op">:</span> {</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>        taskType<span class="op">:</span> <span class="st">"CLASSIFICATION"</span><span class="op">,</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> batchEmbeddings <span class="op">=</span> embeddingResponse<span class="op">.</span><span class="at">embeddings</span><span class="op">?.</span><span class="fu">map</span>((e) <span class="kw">=&gt;</span> e<span class="op">.</span><span class="at">values</span> <span class="op">??</span> []) <span class="op">??</span> []<span class="op">;</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    embeddings<span class="op">.</span><span class="fu">push</span>(<span class="op">...</span>batchEmbeddings)<span class="op">;</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>    display<span class="op">.</span><span class="fu">text</span>(<span class="vs">`Progress: </span><span class="sc">${</span><span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(<span class="dv">100</span><span class="op">,</span> ((i <span class="op">+</span> BATCH_SIZE) <span class="op">/</span> df<span class="op">.</span><span class="at">shape</span>[<span class="dv">0</span>]) <span class="op">*</span> <span class="dv">100</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">%`</span>)<span class="op">;</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> dfCopy <span class="op">=</span> df<span class="op">.</span><span class="fu">copy</span>()<span class="op">;</span></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>  dfCopy<span class="op">.</span><span class="fu">addColumn</span>(<span class="st">"Embedding"</span><span class="op">,</span> <span class="kw">new</span> danfo<span class="op">.</span><span class="fu">Series</span>(embeddings)<span class="op">,</span> { inplace<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> dfCopy<span class="op">;</span></span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-25" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dfTrainWithEmbeddings <span class="op">=</span> <span class="cf">await</span> <span class="fu">addEmbeddings</span>(dfTrainFinal)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Progress: 100.00%</code></pre>
+</div>
+</div>
+<div id="cell-26" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dfTestWithEmbeddings <span class="op">=</span> <span class="cf">await</span> <span class="fu">addEmbeddings</span>(dfTestFinal)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Progress: 100.00%</code></pre>
+</div>
+</div>
+<div id="cell-27" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dfTrainWithEmbeddings<span class="op">.</span><span class="fu">head</span>()<span class="op">.</span><span class="fu">print</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>╔════════════╤═══════════════════╤═══════════════════╤═══════════════════╤═══════════════════╤═══════════════════╗
+║            │ Text              │ Label             │ Class Name        │ Encoded Label     │ Embedding         ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 0          │ Re: Re-inventin…  │ 12                │ sci.crypt         │ 0                 │ -0.0029816378,0…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 1          │ Re: Source of r…  │ 12                │ sci.crypt         │ 0                 │ -0.020604927,0.…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 2          │ Re: White House…  │ 12                │ sci.crypt         │ 0                 │ 0.00362508,0.01…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 3          │ Re: How to dete…  │ 12                │ sci.crypt         │ 0                 │ -0.013612009,0.…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 4          │ Re: Another dat…  │ 12                │ sci.crypt         │ 0                 │ -0.016524253,0.…  ║
+╚════════════╧═══════════════════╧═══════════════════╧═══════════════════╧═══════════════════╧═══════════════════╝
+</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="build-a-simple-classification-model" class="level2">
+<h2 class="anchored" data-anchor-id="build-a-simple-classification-model">Build a simple classification model</h2>
+<p>Here you will define a simple model with one hidden layer and a single class probability output. The prediction will correspond to the probability of a piece of text being a particular class of news. When you build your model, Keras will automatically shuffle the data points.</p>
+<div id="cell-29" class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tf <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@tensorflow/tfjs-node"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@tensorflow/tfjs-node"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-30" class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { LayersModel } <span class="im">from</span> <span class="st">"@tensorflow/tfjs-node"</span><span class="op">;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">buildClassificationModel</span>(inputSize<span class="op">:</span> <span class="dt">number</span><span class="op">,</span> numClasses<span class="op">:</span> <span class="dt">number</span>)<span class="op">:</span> LayersModel {</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> model <span class="op">=</span> tf<span class="op">.</span><span class="fu">sequential</span>()<span class="op">;</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  model<span class="op">.</span><span class="fu">add</span>(</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    tf<span class="op">.</span><span class="at">layers</span><span class="op">.</span><span class="fu">dense</span>({</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>      inputShape<span class="op">:</span> [inputSize]<span class="op">,</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>      units<span class="op">:</span> inputSize<span class="op">,</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>      activation<span class="op">:</span> <span class="st">"relu"</span><span class="op">,</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>  model<span class="op">.</span><span class="fu">add</span>(</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    tf<span class="op">.</span><span class="at">layers</span><span class="op">.</span><span class="fu">dense</span>({</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>      units<span class="op">:</span> numClasses<span class="op">,</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>      activation<span class="op">:</span> <span class="st">"softmax"</span><span class="op">,</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> model<span class="op">;</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-31" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> embeddingSize <span class="op">=</span> (dfTestWithEmbeddings<span class="op">.</span><span class="at">Embedding</span><span class="op">.</span><span class="at">values</span>[<span class="dv">0</span>] <span class="im">as</span> <span class="dt">string</span>)<span class="op">.</span><span class="fu">split</span>(<span class="st">","</span>)<span class="op">.</span><span class="at">length</span><span class="op">;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> numClasses <span class="op">=</span> dfTrainWithEmbeddings[<span class="st">"Class Name"</span>]<span class="op">.</span><span class="fu">unique</span>()<span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="at">length</span><span class="op">;</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Embedding size:"</span><span class="op">,</span> embeddingSize)<span class="op">;</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Number of classes:"</span><span class="op">,</span> numClasses)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Embedding size: 768
+Number of classes: 4</code></pre>
+</div>
+</div>
+<div id="cell-32" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> classifier <span class="op">=</span> <span class="fu">buildClassificationModel</span>(embeddingSize<span class="op">,</span> numClasses)<span class="op">;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>classifier<span class="op">.</span><span class="fu">summary</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>__________________________________________________________________________________________
+Layer (type)                Input Shape               Output shape              Param #   
+==========================================================================================
+dense_Dense1 (Dense)        [[null,768]]              [null,768]                590592    
+__________________________________________________________________________________________
+dense_Dense2 (Dense)        [[null,768]]              [null,4]                  3076      
+==========================================================================================
+Total params: 593668
+Trainable params: 593668
+Non-trainable params: 0
+__________________________________________________________________________________________</code></pre>
+</div>
+</div>
+<div id="cell-33" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>classifier<span class="op">.</span><span class="fu">compile</span>({</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  loss<span class="op">:</span> <span class="st">"sparseCategoricalCrossentropy"</span><span class="op">,</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  optimizer<span class="op">:</span> tf<span class="op">.</span><span class="at">train</span><span class="op">.</span><span class="fu">adam</span>(<span class="fl">0.001</span>)<span class="op">,</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  metrics<span class="op">:</span> [<span class="st">"accuracy"</span>]<span class="op">,</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="train-the-model-to-classify-newsgroups" class="level2">
+<h2 class="anchored" data-anchor-id="train-the-model-to-classify-newsgroups">Train the model to classify newsgroups</h2>
+<p>Finally, you can train a simple model. Use a small number of epochs to avoid overfitting. The first epoch takes much longer than the rest, because the embeddings need to be computed only once.</p>
+<div id="cell-35" class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Tensor } <span class="im">from</span> <span class="st">"@tensorflow/tfjs-node"</span><span class="op">;</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> NUM_EPOCHS <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> BATCH_SIZE <span class="op">=</span> <span class="dv">32</span><span class="op">;</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> yTrain <span class="op">=</span> tf<span class="op">.</span><span class="fu">tensor1d</span>(dfTrainWithEmbeddings[<span class="st">"Encoded Label"</span>]<span class="op">.</span><span class="at">values</span> <span class="im">as</span> <span class="dt">number</span>[])<span class="op">;</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> xTrain <span class="op">=</span> tf<span class="op">.</span><span class="fu">tensor2d</span>(</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  dfTrainWithEmbeddings<span class="op">.</span><span class="at">Embedding</span><span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="fu">map</span>((e<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    e<span class="op">.</span><span class="fu">split</span>(<span class="st">","</span>)<span class="op">.</span><span class="fu">map</span>((v<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> <span class="pp">parseFloat</span>(v))</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="im">as</span> <span class="dt">number</span>[][]</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> yVal <span class="op">=</span> tf<span class="op">.</span><span class="fu">tensor1d</span>(dfTestWithEmbeddings[<span class="st">"Encoded Label"</span>]<span class="op">.</span><span class="at">values</span> <span class="im">as</span> <span class="dt">number</span>[])<span class="op">;</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> xVal <span class="op">=</span> tf<span class="op">.</span><span class="fu">tensor2d</span>(</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>  dfTestWithEmbeddings<span class="op">.</span><span class="at">Embedding</span><span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="fu">map</span>((e<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> e<span class="op">.</span><span class="fu">split</span>(<span class="st">","</span>)<span class="op">.</span><span class="fu">map</span>((v<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> <span class="pp">parseFloat</span>(v))) <span class="im">as</span> <span class="dt">number</span>[][]</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> bestAcc <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> bestWeights<span class="op">:</span> Tensor[] <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> restoreBestWeightsCallback <span class="op">=</span> <span class="kw">new</span> tf<span class="op">.</span><span class="fu">CustomCallback</span>({</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>  <span class="co">// eslint-disable-next-line @typescript-eslint/require-await</span></span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>  onEpochEnd<span class="op">:</span> <span class="kw">async</span> (epoch<span class="op">,</span> logs) <span class="kw">=&gt;</span> {</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> acc <span class="op">=</span> logs<span class="op">?.</span><span class="at">val_acc</span> <span class="op">??</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (acc <span class="op">&gt;</span> bestAcc) {</span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>      bestAcc <span class="op">=</span> acc<span class="op">;</span></span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>      bestWeights <span class="op">=</span> classifier<span class="op">.</span><span class="fu">getWeights</span>()<span class="op">.</span><span class="fu">map</span>((w) <span class="kw">=&gt;</span> w<span class="op">.</span><span class="fu">clone</span>())<span class="op">;</span></span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">// eslint-disable-next-line @typescript-eslint/require-await</span></span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a>  onTrainEnd<span class="op">:</span> <span class="kw">async</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (bestWeights<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>      classifier<span class="op">.</span><span class="fu">setWeights</span>(bestWeights)<span class="op">;</span></span>
+<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb38-34"><a href="#cb38-34" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb38-35"><a href="#cb38-35" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb38-36"><a href="#cb38-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-37"><a href="#cb38-37" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> earlyStopping <span class="op">=</span> tf<span class="op">.</span><span class="at">callbacks</span><span class="op">.</span><span class="fu">earlyStopping</span>({</span>
+<span id="cb38-38"><a href="#cb38-38" aria-hidden="true" tabindex="-1"></a>  monitor<span class="op">:</span> <span class="st">"val_acc"</span><span class="op">,</span></span>
+<span id="cb38-39"><a href="#cb38-39" aria-hidden="true" tabindex="-1"></a>  patience<span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
+<span id="cb38-40"><a href="#cb38-40" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb38-41"><a href="#cb38-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-42"><a href="#cb38-42" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> history <span class="op">=</span> <span class="cf">await</span> classifier<span class="op">.</span><span class="fu">fit</span>(xTrain<span class="op">,</span> yTrain<span class="op">,</span> {</span>
+<span id="cb38-43"><a href="#cb38-43" aria-hidden="true" tabindex="-1"></a>  validationData<span class="op">:</span> [xVal<span class="op">,</span> yVal]<span class="op">,</span></span>
+<span id="cb38-44"><a href="#cb38-44" aria-hidden="true" tabindex="-1"></a>  batchSize<span class="op">:</span> BATCH_SIZE<span class="op">,</span></span>
+<span id="cb38-45"><a href="#cb38-45" aria-hidden="true" tabindex="-1"></a>  epochs<span class="op">:</span> NUM_EPOCHS<span class="op">,</span></span>
+<span id="cb38-46"><a href="#cb38-46" aria-hidden="true" tabindex="-1"></a>  callbacks<span class="op">:</span> [earlyStopping<span class="op">,</span> restoreBestWeightsCallback]<span class="op">,</span></span>
+<span id="cb38-47"><a href="#cb38-47" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1 / 25</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>248ms 620us/step - acc=0.355 loss=1.36 val_acc=0.300 val_loss=1.32 
+Epoch 2 / 25</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>175ms 438us/step - acc=0.605 loss=1.24 val_acc=0.520 val_loss=1.23 
+Epoch 3 / 25</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>182ms 454us/step - acc=0.822 loss=1.09 val_acc=0.800 val_loss=1.11 
+Epoch 4 / 25</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>230ms 574us/step - acc=0.907 loss=0.927 val_acc=0.830 val_loss=0.970 
+Epoch 5 / 25</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>236ms 589us/step - acc=0.942 loss=0.753 val_acc=0.740 val_loss=0.851 
+Epoch 6 / 25</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>178ms 444us/step - acc=0.960 loss=0.592 val_acc=0.840 val_loss=0.717 
+Epoch 7 / 25</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>222ms 556us/step - acc=0.945 loss=0.463 val_acc=0.820 val_loss=0.646 
+Epoch 8 / 25</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>180ms 450us/step - acc=0.975 loss=0.363 val_acc=0.870 val_loss=0.573 
+Epoch 9 / 25</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>179ms 447us/step - acc=0.982 loss=0.288 val_acc=0.890 val_loss=0.521 
+Epoch 10 / 25</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>183ms 458us/step - acc=0.982 loss=0.232 val_acc=0.880 val_loss=0.481 
+Epoch 11 / 25</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>184ms 459us/step - acc=0.990 loss=0.194 val_acc=0.880 val_loss=0.470 
+Epoch 12 / 25</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>154ms 384us/step - acc=0.993 loss=0.166 val_acc=0.870 val_loss=0.454 </code></pre>
+</div>
+</div>
+<div id="cell-36" class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Training complete."</span>)<span class="op">;</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="co">// log best weights</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Best validation accuracy:"</span><span class="op">,</span> bestAcc)<span class="op">;</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="co">// log best weights</span></span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (bestWeights<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(</span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Best weights:"</span><span class="op">,</span></span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>    bestWeights<span class="op">.</span><span class="fu">map</span>((w) <span class="kw">=&gt;</span> w<span class="op">.</span><span class="fu">dataSync</span>())</span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Training complete.
+Best validation accuracy: 0.8899999856948853
+Best weights: [
+  Float32Array(589824) [
+      -0.01458553597331047,   0.04647790640592575,  -0.11790028214454651,
+       0.05183210223913193,  -0.04912508651614189,  -0.06355150789022446,
+       -0.0712905302643776,  0.047946009784936905,  0.015527090057730675,
+      0.029393872246146202,  0.011037350632250309,  -0.08336436748504639,
+      -0.06574062258005142,  -0.04845399409532547,  -0.11720632761716843,
+     -0.038035374134778976, -0.053958117961883545,   0.07522750645875931,
+       -0.1012653335928917,  -0.10870110988616943,   0.04959658533334732,
+       0.07256724685430527,  -0.03275788202881813, -0.006865565665066242,
+      0.044840097427368164,  0.003523793537169695,  -0.03280274569988251,
+      0.004993577022105455,  0.017164083197712898,   0.11629833281040192,
+       -0.0934731662273407,  -0.08498488366603851,   0.00523048359900713,
+       0.07440733909606934,   0.13781757652759552,   0.06484566628932953,
+      0.015538545325398445,  -0.08032257854938507, -0.006935241166502237,
+      -0.05966002121567726,   0.04631410911679268,  -0.08069337159395218,
+      0.009128236211836338,  0.013827363960444927,   0.04692847281694412,
+    -0.0006923891487531364, -0.053209491074085236,  0.020538924261927605,
+      -0.00419811112806201,  -0.09361930936574936,   0.08986294269561768,
+       0.03333975747227669,   0.13930268585681915, -0.047056253999471664,
+     -0.032480500638484955,    0.1378415822982788,   0.04952394217252731,
+       0.06769244372844696,  -0.06909222900867462,   0.05191900208592415,
+      -0.03349985554814339,  -0.05605528503656387, -0.007196689490228891,
+      -0.13059763610363007, -0.017757786437869072,   0.04363842308521271,
+       0.04512101039290428,   0.10330261290073395, -0.009136350825428963,
+       0.09158995002508163, -0.016558891162276268,   0.01614260859787464,
+     -0.007019644603133202,   0.11496467888355255, -0.022889919579029083,
+      0.055560607463121414,  -0.12549851834774017,   0.11550126224756241,
+      0.019275400787591934, -0.047948457300662994, -0.013490136712789536,
+      -0.11128153651952744,  0.041187405586242676, -0.041343335062265396,
+      -0.03186627849936485,  0.027621088549494743,   0.11207965761423111,
+       0.05049915611743927,   -0.1461654156446457,   0.10017067193984985,
+       0.05056239292025566,  -0.03779350593686104,   0.06175878643989563,
+     -0.003524564439430833,  -0.11690615117549896,    0.0310731939971447,
+     -0.034123972058296204,    0.1483377367258072,  0.034658048301935196,
+     -0.027962299063801765,
+    ... 589724 more items
+  ],
+  Float32Array(768) [
+     -0.005864144768565893, -0.002386872423812747,   0.004244392737746239,
+       0.00875105895102024,  0.008688782341778278,  0.0075296214781701565,
+      0.006209527142345905,  0.001587491249665618,                      0,
+      0.009258225560188293, -0.005708571057766676,  0.0021059075370430946,
+       0.01021265797317028,  0.011180863715708256,   0.007244514767080545,
+      -0.00600215932354331,   0.00661898497492075,   0.008360839448869228,
+      0.006417177617549896,  0.004829880781471729,   0.004867929965257645,
+     -0.005557484924793243, -0.004238377325236797,   0.010516848415136337,
+     -0.008243365213274956,                     0,     0.0038004070520401,
+     -0.005345980171114206,                     0,   0.005777123384177685,
+     0.0055799223482608795, -0.005188683047890663,  0.0031341915018856525,
+       0.01139699388295412,  0.013903718441724777,   0.004163961857557297,
+     -0.006733772810548544,  0.004898799117654562,  -0.005556218326091766,
+     -0.004022425506263971,  0.010478651151061058,   0.003950197249650955,
+     0.0056711225770413876,  0.003196362406015396,  0.0014308751560747623,
+    -0.0077053336426615715, -0.005621710326522589,                      0,
+    -0.0060013956390321255,  0.005474470090121031,   0.003841437166556716,
+     -0.006005098111927509,  0.003691073041409254,  0.0027564126066863537,
+      0.009270193055272102,  0.009483403526246548,                      0,
+      0.016837066039443016,  0.011547042988240719,  -0.005190846975892782,
+       0.00888818595558405, -0.007888734340667725,  -0.004556449130177498,
+      0.004890375770628452, -0.007367891259491444,   0.010208001360297203,
+    -0.0053018988110125065,  0.008063379675149918,   0.003171218791976571,
+      0.002168072387576103,                     0,                      0,
+    -0.0037830756045877934,  0.006514417938888073, -0.0038512840401381254,
+      0.006942862644791603, 0.0074768634513020515,   0.008995870128273964,
+     -0.006729383487254381, 0.0028954725712537766,  -0.006004408001899719,
+      0.008131271228194237, -0.006005174480378628,                      0,
+                         0, -0.005176699720323086,  0.0030023183207958937,
+      -0.00657098600640893,   0.00681687006726861,   0.004189418628811836,
+     0.0016160585219040513, 0.0023266817443072796,   0.001225532148964703,
+     -0.006004612892866135, 0.0009142905473709106,  -0.005663653369992971,
+     -0.005407575983554125, 0.0010831031249836087,  -0.005063849966973066,
+     -0.006005085539072752,
+    ... 668 more items
+  ],
+  Float32Array(3072) [
+      0.0013996026245877147, -0.006913811434060335,  -0.08260757476091385,
+        0.05730537697672844,  -0.04582637920975685,  -0.09442909806966782,
+      -0.011321946047246456,  0.005978808738291264,   0.08318020403385162,
+        0.06318077445030212,  -0.08340343832969666,  0.014638183638453484,
+       -0.17294102907180786,    0.0585409514605999,    0.0259562861174345,
+        0.10531898587942123,   0.16406947374343872,  -0.13908635079860687,
+        0.01616712473332882,  -0.03588026016950607,    0.1316557377576828,
+       -0.06362190842628479,   0.08512906730175018,  -0.17300662398338318,
+         0.1439773589372635,  -0.07102224975824356,  -0.08264817297458649,
+       -0.04243004694581032,  -0.09428377449512482,    0.1034160926938057,
+       -0.10022439062595367,   0.11843250691890717,    0.0880105122923851,
+        0.08713158220052719,   0.04737360402941704,  0.025206370279192924,
+        -0.1943245828151703,   0.03154705464839935,   0.05390729010105133,
+       -0.11333061754703522,  0.017211925238370895,  0.010337409563362598,
+     -0.0011633769609034061,  -0.05308622866868973,   0.07414380460977554,
+        0.06186636537313461,  -0.12107450515031815,  -0.05048438534140587,
+         0.1376926302909851,  -0.14492228627204895,   0.05930162966251373,
+       -0.05695727840065956,   0.17072591185569763,  -0.14493508636951447,
+        0.05364081636071205,  -0.07935160398483276,   0.08721017092466354,
+    -0.00025920101325027645,  0.014471221715211868,  -0.13984404504299164,
+       0.005904374178498983, -0.042510829865932465,  -0.01762114278972149,
+       0.012967304326593876,    0.0969497412443161,   0.06904834508895874,
+       0.013907638378441334,  -0.11875277012586594,  -0.18011650443077087,
+        0.08649379760026932,  0.062255628407001495,  0.003597079776227474,
+       0.025880560278892517,   0.06165452301502228,   0.10112625360488892,
+       -0.16312748193740845,  -0.08471381664276123,   0.18138280510902405,
+        0.02282988280057907,  -0.09776809066534042,   0.06602950394153595,
+        -0.1385907083749771,  -0.03451548516750336,   0.05321160703897476,
+       -0.07755532115697861, -0.035777896642684937, -0.011863632127642632,
+       -0.05437793210148811,  0.020390290766954422,     -0.04145497828722,
+      -0.003215550212189555,   -0.0760529413819313,   0.05814632028341293,
+      -0.043207958340644836,   0.15311144292354584,     -0.10636006295681,
+      -0.003935716114938259,  -0.08422908931970596,   0.09260941296815872,
+        -0.0730542466044426,
+    ... 2972 more items
+  ],
+  Float32Array(4) [
+    -0.0017931901384145021,
+    -0.005592697765678167,
+    0.006856919731944799,
+    -0.0004198786336928606
+  ]
+]</code></pre>
+</div>
+</div>
+</section>
+<section id="evaluate-model-performance" class="level2">
+<h2 class="anchored" data-anchor-id="evaluate-model-performance">Evaluate model performance</h2>
+<p>Use tfjs <code>Model.evaluate</code> to get the loss and accuracy on the test dataset.</p>
+<div id="cell-38" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co">// @ts-expect-error expected Tensor&lt;Rank&gt; type</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> evalResult <span class="op">=</span> classifier<span class="op">.</span><span class="fu">evaluate</span>(xVal<span class="op">,</span> yVal<span class="op">,</span> {</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>  batchSize<span class="op">:</span> <span class="dv">32</span><span class="op">,</span></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Evaluation complete."</span>)<span class="op">;</span></span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> loss <span class="op">=</span> evalResult[<span class="dv">0</span>]<span class="op">.</span><span class="fu">dataSync</span>()[<span class="dv">0</span>]<span class="op">;</span></span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> acc <span class="op">=</span> evalResult[<span class="dv">1</span>]<span class="op">.</span><span class="fu">dataSync</span>()[<span class="dv">0</span>]<span class="op">;</span></span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Test Loss: </span><span class="sc">${</span>loss<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Test Accuracy: </span><span class="sc">${</span>acc<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Evaluation complete.
+Test Loss: 0.5208
+Test Accuracy: 0.8900</code></pre>
+</div>
+</div>
+<p>One way to evaluate your model performance is to visualize the classifier performance. Use <code>plotHistory</code> to see the loss and accuracy trends over the epochs.</p>
+<div id="cell-40" class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { <span class="bu">History</span> } <span class="im">from</span> <span class="st">"@tensorflow/tfjs-node"</span><span class="op">;</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">plotHistory</span>(history<span class="op">:</span> <span class="bu">History</span>) {</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> epochs <span class="op">=</span> history<span class="op">.</span><span class="at">epoch</span><span class="op">;</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> lossTrace <span class="op">=</span> {</span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>    x<span class="op">:</span> epochs<span class="op">,</span></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>    y<span class="op">:</span> history<span class="op">.</span><span class="at">history</span><span class="op">.</span><span class="at">loss</span><span class="op">,</span></span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> <span class="st">"scatter"</span><span class="op">,</span></span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>    mode<span class="op">:</span> <span class="st">"lines+markers"</span><span class="op">,</span></span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="st">"Train Loss"</span><span class="op">,</span></span>
+<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>    xaxis<span class="op">:</span> <span class="st">"x1"</span><span class="op">,</span></span>
+<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a>    yaxis<span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span></span>
+<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a>    line<span class="op">:</span> { color<span class="op">:</span> <span class="st">"#1f77b4"</span> }<span class="op">,</span></span>
+<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> valLossTrace <span class="op">=</span> {</span>
+<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a>    x<span class="op">:</span> epochs<span class="op">,</span></span>
+<span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a>    y<span class="op">:</span> history<span class="op">.</span><span class="at">history</span><span class="op">.</span><span class="at">val_loss</span><span class="op">,</span></span>
+<span id="cb68-20"><a href="#cb68-20" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> <span class="st">"scatter"</span><span class="op">,</span></span>
+<span id="cb68-21"><a href="#cb68-21" aria-hidden="true" tabindex="-1"></a>    mode<span class="op">:</span> <span class="st">"lines+markers"</span><span class="op">,</span></span>
+<span id="cb68-22"><a href="#cb68-22" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="st">"Validation Loss"</span><span class="op">,</span></span>
+<span id="cb68-23"><a href="#cb68-23" aria-hidden="true" tabindex="-1"></a>    xaxis<span class="op">:</span> <span class="st">"x1"</span><span class="op">,</span></span>
+<span id="cb68-24"><a href="#cb68-24" aria-hidden="true" tabindex="-1"></a>    yaxis<span class="op">:</span> <span class="st">"y1"</span><span class="op">,</span></span>
+<span id="cb68-25"><a href="#cb68-25" aria-hidden="true" tabindex="-1"></a>    line<span class="op">:</span> { color<span class="op">:</span> <span class="st">"#ff7f0e"</span> }<span class="op">,</span></span>
+<span id="cb68-26"><a href="#cb68-26" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb68-27"><a href="#cb68-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-28"><a href="#cb68-28" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> accTrace <span class="op">=</span> {</span>
+<span id="cb68-29"><a href="#cb68-29" aria-hidden="true" tabindex="-1"></a>    x<span class="op">:</span> epochs<span class="op">,</span></span>
+<span id="cb68-30"><a href="#cb68-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition</span></span>
+<span id="cb68-31"><a href="#cb68-31" aria-hidden="true" tabindex="-1"></a>    y<span class="op">:</span> history<span class="op">.</span><span class="at">history</span><span class="op">.</span><span class="at">acc</span> <span class="op">??</span> history<span class="op">.</span><span class="at">history</span><span class="op">.</span><span class="at">accuracy</span><span class="op">,</span></span>
+<span id="cb68-32"><a href="#cb68-32" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> <span class="st">"scatter"</span><span class="op">,</span></span>
+<span id="cb68-33"><a href="#cb68-33" aria-hidden="true" tabindex="-1"></a>    mode<span class="op">:</span> <span class="st">"lines+markers"</span><span class="op">,</span></span>
+<span id="cb68-34"><a href="#cb68-34" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="st">"Train Accuracy"</span><span class="op">,</span></span>
+<span id="cb68-35"><a href="#cb68-35" aria-hidden="true" tabindex="-1"></a>    xaxis<span class="op">:</span> <span class="st">"x2"</span><span class="op">,</span></span>
+<span id="cb68-36"><a href="#cb68-36" aria-hidden="true" tabindex="-1"></a>    yaxis<span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span></span>
+<span id="cb68-37"><a href="#cb68-37" aria-hidden="true" tabindex="-1"></a>    line<span class="op">:</span> { color<span class="op">:</span> <span class="st">"#2ca02c"</span> }<span class="op">,</span></span>
+<span id="cb68-38"><a href="#cb68-38" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb68-39"><a href="#cb68-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-40"><a href="#cb68-40" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> valAccTrace <span class="op">=</span> {</span>
+<span id="cb68-41"><a href="#cb68-41" aria-hidden="true" tabindex="-1"></a>    x<span class="op">:</span> epochs<span class="op">,</span></span>
+<span id="cb68-42"><a href="#cb68-42" aria-hidden="true" tabindex="-1"></a>    <span class="co">// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition</span></span>
+<span id="cb68-43"><a href="#cb68-43" aria-hidden="true" tabindex="-1"></a>    y<span class="op">:</span> history<span class="op">.</span><span class="at">history</span><span class="op">.</span><span class="at">val_acc</span> <span class="op">??</span> history<span class="op">.</span><span class="at">history</span><span class="op">.</span><span class="at">val_accuracy</span><span class="op">,</span></span>
+<span id="cb68-44"><a href="#cb68-44" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> <span class="st">"scatter"</span><span class="op">,</span></span>
+<span id="cb68-45"><a href="#cb68-45" aria-hidden="true" tabindex="-1"></a>    mode<span class="op">:</span> <span class="st">"lines+markers"</span><span class="op">,</span></span>
+<span id="cb68-46"><a href="#cb68-46" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="st">"Validation Accuracy"</span><span class="op">,</span></span>
+<span id="cb68-47"><a href="#cb68-47" aria-hidden="true" tabindex="-1"></a>    xaxis<span class="op">:</span> <span class="st">"x2"</span><span class="op">,</span></span>
+<span id="cb68-48"><a href="#cb68-48" aria-hidden="true" tabindex="-1"></a>    yaxis<span class="op">:</span> <span class="st">"y2"</span><span class="op">,</span></span>
+<span id="cb68-49"><a href="#cb68-49" aria-hidden="true" tabindex="-1"></a>    line<span class="op">:</span> { color<span class="op">:</span> <span class="st">"#d62728"</span> }<span class="op">,</span></span>
+<span id="cb68-50"><a href="#cb68-50" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb68-51"><a href="#cb68-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-52"><a href="#cb68-52" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> html <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb68-53"><a href="#cb68-53" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;div style="width: 100%; height: 600px;"&gt;</span></span>
+<span id="cb68-54"><a href="#cb68-54" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;div id="loss-acc-plot" style="width: 100%; height: 100%;"&gt;&lt;/div&gt;</span></span>
+<span id="cb68-55"><a href="#cb68-55" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;script src="https://cdn.jsdelivr.net/npm/plotly.js-dist@latest/plotly.min.js"&gt;&lt;/script&gt;</span></span>
+<span id="cb68-56"><a href="#cb68-56" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;script&gt;</span></span>
+<span id="cb68-57"><a href="#cb68-57" aria-hidden="true" tabindex="-1"></a><span class="vs">      const data = </span><span class="sc">${</span><span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>([lossTrace<span class="op">,</span> valLossTrace<span class="op">,</span> accTrace<span class="op">,</span> valAccTrace])<span class="sc">}</span><span class="vs">;</span></span>
+<span id="cb68-58"><a href="#cb68-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-59"><a href="#cb68-59" aria-hidden="true" tabindex="-1"></a><span class="vs">      const layout = {</span></span>
+<span id="cb68-60"><a href="#cb68-60" aria-hidden="true" tabindex="-1"></a><span class="vs">        grid: { rows: 1, columns: 2, pattern: "independent" },</span></span>
+<span id="cb68-61"><a href="#cb68-61" aria-hidden="true" tabindex="-1"></a><span class="vs">        height: 600,</span></span>
+<span id="cb68-62"><a href="#cb68-62" aria-hidden="true" tabindex="-1"></a><span class="vs">        width: 1200,</span></span>
+<span id="cb68-63"><a href="#cb68-63" aria-hidden="true" tabindex="-1"></a><span class="vs">        margin: { t: 60, l: 60, r: 40, b: 60 },</span></span>
+<span id="cb68-64"><a href="#cb68-64" aria-hidden="true" tabindex="-1"></a><span class="vs">        annotations: [</span></span>
+<span id="cb68-65"><a href="#cb68-65" aria-hidden="true" tabindex="-1"></a><span class="vs">          {</span></span>
+<span id="cb68-66"><a href="#cb68-66" aria-hidden="true" tabindex="-1"></a><span class="vs">            text: "Loss", x: 0.225, y: 1.12, showarrow: false,</span></span>
+<span id="cb68-67"><a href="#cb68-67" aria-hidden="true" tabindex="-1"></a><span class="vs">            font: { size: 18 }, xref: "paper", yref: "paper"</span></span>
+<span id="cb68-68"><a href="#cb68-68" aria-hidden="true" tabindex="-1"></a><span class="vs">          },</span></span>
+<span id="cb68-69"><a href="#cb68-69" aria-hidden="true" tabindex="-1"></a><span class="vs">          {</span></span>
+<span id="cb68-70"><a href="#cb68-70" aria-hidden="true" tabindex="-1"></a><span class="vs">            text: "Accuracy", x: 0.775, y: 1.12, showarrow: false,</span></span>
+<span id="cb68-71"><a href="#cb68-71" aria-hidden="true" tabindex="-1"></a><span class="vs">            font: { size: 18 }, xref: "paper", yref: "paper"</span></span>
+<span id="cb68-72"><a href="#cb68-72" aria-hidden="true" tabindex="-1"></a><span class="vs">          }</span></span>
+<span id="cb68-73"><a href="#cb68-73" aria-hidden="true" tabindex="-1"></a><span class="vs">        ],</span></span>
+<span id="cb68-74"><a href="#cb68-74" aria-hidden="true" tabindex="-1"></a><span class="vs">        xaxis: { title: "Epoch", domain: [0, 0.45] },</span></span>
+<span id="cb68-75"><a href="#cb68-75" aria-hidden="true" tabindex="-1"></a><span class="vs">        yaxis: { title: "Loss" },</span></span>
+<span id="cb68-76"><a href="#cb68-76" aria-hidden="true" tabindex="-1"></a><span class="vs">        xaxis2: { title: "Epoch", domain: [0.55, 1] },</span></span>
+<span id="cb68-77"><a href="#cb68-77" aria-hidden="true" tabindex="-1"></a><span class="vs">        yaxis2: { title: "Accuracy" },</span></span>
+<span id="cb68-78"><a href="#cb68-78" aria-hidden="true" tabindex="-1"></a><span class="vs">        legend: {</span></span>
+<span id="cb68-79"><a href="#cb68-79" aria-hidden="true" tabindex="-1"></a><span class="vs">          orientation: "h",</span></span>
+<span id="cb68-80"><a href="#cb68-80" aria-hidden="true" tabindex="-1"></a><span class="vs">          y: -0.2,</span></span>
+<span id="cb68-81"><a href="#cb68-81" aria-hidden="true" tabindex="-1"></a><span class="vs">          x: 0.5,</span></span>
+<span id="cb68-82"><a href="#cb68-82" aria-hidden="true" tabindex="-1"></a><span class="vs">          xanchor: "center",</span></span>
+<span id="cb68-83"><a href="#cb68-83" aria-hidden="true" tabindex="-1"></a><span class="vs">          font: { size: 12 }</span></span>
+<span id="cb68-84"><a href="#cb68-84" aria-hidden="true" tabindex="-1"></a><span class="vs">        }</span></span>
+<span id="cb68-85"><a href="#cb68-85" aria-hidden="true" tabindex="-1"></a><span class="vs">      };</span></span>
+<span id="cb68-86"><a href="#cb68-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-87"><a href="#cb68-87" aria-hidden="true" tabindex="-1"></a><span class="vs">      Plotly.newPlot("loss-acc-plot", data, layout, { responsive: true });</span></span>
+<span id="cb68-88"><a href="#cb68-88" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;/script&gt;</span></span>
+<span id="cb68-89"><a href="#cb68-89" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;/div&gt;</span></span>
+<span id="cb68-90"><a href="#cb68-90" aria-hidden="true" tabindex="-1"></a><span class="vs">  `</span><span class="op">;</span></span>
+<span id="cb68-91"><a href="#cb68-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-92"><a href="#cb68-92" aria-hidden="true" tabindex="-1"></a>  tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">html</span>(html)<span class="op">;</span></span>
+<span id="cb68-93"><a href="#cb68-93" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb68-94"><a href="#cb68-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-95"><a href="#cb68-95" aria-hidden="true" tabindex="-1"></a><span class="fu">plotHistory</span>(history)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+  <div style="width: 100%; height: 600px;">
+    <div id="loss-acc-plot" style="width: 100%; height: 100%;"></div>
+    <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist@latest/plotly.min.js"></script>
+    <script>
+      const data = [{"x":[0,1,2,3,4,5,6,7,8,9,10,11],"y":[1.3617348670959473,1.244526982307434,1.089775562286377,0.9266089200973511,0.7527510523796082,0.5915969014167786,0.46279188990592957,0.36283332109451294,0.28841450810432434,0.23209628462791443,0.1944853812456131,0.16584910452365875],"type":"scatter","mode":"lines+markers","name":"Train Loss","xaxis":"x1","yaxis":"y1","line":{"color":"#1f77b4"}},{"x":[0,1,2,3,4,5,6,7,8,9,10,11],"y":[1.3237333297729492,1.2296674251556396,1.1102535724639893,0.9700644016265869,0.8505088686943054,0.7171533107757568,0.6463314890861511,0.5726171731948853,0.5208123326301575,0.4813825190067291,0.46980521082878113,0.453757643699646],"type":"scatter","mode":"lines+markers","name":"Validation Loss","xaxis":"x1","yaxis":"y1","line":{"color":"#ff7f0e"}},{"x":[0,1,2,3,4,5,6,7,8,9,10,11],"y":[0.35499998927116394,0.6049999594688416,0.8224999904632568,0.9074999690055847,0.9424999952316284,0.9599999785423279,0.9449999928474426,0.9749999642372131,0.9824999570846558,0.9824999570846558,0.9899999499320984,0.9925000071525574],"type":"scatter","mode":"lines+markers","name":"Train Accuracy","xaxis":"x2","yaxis":"y2","line":{"color":"#2ca02c"}},{"x":[0,1,2,3,4,5,6,7,8,9,10,11],"y":[0.30000001192092896,0.5199999809265137,0.800000011920929,0.8299999833106995,0.7400000095367432,0.8399999737739563,0.8199999928474426,0.8700000047683716,0.8899999856948853,0.8799999952316284,0.8799999952316284,0.8700000047683716],"type":"scatter","mode":"lines+markers","name":"Validation Accuracy","xaxis":"x2","yaxis":"y2","line":{"color":"#d62728"}}];
+
+      const layout = {
+        grid: { rows: 1, columns: 2, pattern: "independent" },
+        height: 600,
+        width: 1200,
+        margin: { t: 60, l: 60, r: 40, b: 60 },
+        annotations: [
+          {
+            text: "Loss", x: 0.225, y: 1.12, showarrow: false,
+            font: { size: 18 }, xref: "paper", yref: "paper"
+          },
+          {
+            text: "Accuracy", x: 0.775, y: 1.12, showarrow: false,
+            font: { size: 18 }, xref: "paper", yref: "paper"
+          }
+        ],
+        xaxis: { title: "Epoch", domain: [0, 0.45] },
+        yaxis: { title: "Loss" },
+        xaxis2: { title: "Epoch", domain: [0.55, 1] },
+        yaxis2: { title: "Accuracy" },
+        legend: {
+          orientation: "h",
+          y: -0.2,
+          x: 0.5,
+          xanchor: "center",
+          font: { size: 12 }
+        }
+      };
+
+      Plotly.newPlot("loss-acc-plot", data, layout, { responsive: true });
+    </script>
+  </div>
+  
+</div>
+</div>
+<p>Another way to view model performance, beyond just measuring loss and accuracy is to use a confusion matrix. The confusion matrix allows you to assess the performance of the classification model beyond accuracy. You can see what misclassified points get classified as. In order to build the confusion matrix for this multi-class classification problem, get the actual values in the test set and the predicted values.</p>
+<p>Start by generating the predicted class for each example in the validation set using <code>Model.predict()</code>.</p>
+<div id="cell-42" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co">// @ts-expect-error expected Tensor&lt;Rank&gt; type</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> yPredTensor <span class="op">=</span> classifier<span class="op">.</span><span class="fu">predict</span>(xVal)<span class="op">;</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="co">// @ts-expect-error expected Tensor&lt;Rank&gt; type</span></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> yPredArray <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>(tf<span class="op">.</span><span class="fu">argMax</span>(yPredTensor<span class="op">,</span> <span class="op">-</span><span class="dv">1</span>)<span class="op">.</span><span class="fu">dataSync</span>())<span class="op">;</span></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> yValArray <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>(yVal<span class="op">.</span><span class="fu">dataSync</span>())<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-43" class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">computeConfusionMatrix</span>(labels<span class="op">:</span> <span class="dt">number</span>[]<span class="op">,</span> predictions<span class="op">:</span> <span class="dt">number</span>[]<span class="op">,</span> numClasses<span class="op">:</span> <span class="dt">number</span>)<span class="op">:</span> <span class="dt">number</span>[][] {</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> matrix<span class="op">:</span> <span class="dt">number</span>[][] <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({ length<span class="op">:</span> numClasses }<span class="op">,</span> () <span class="kw">=&gt;</span> <span class="bu">Array</span><span class="op">&lt;</span><span class="dt">number</span><span class="op">&gt;</span>(numClasses)<span class="op">.</span><span class="fu">fill</span>(<span class="dv">0</span>))<span class="op">;</span></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> labels<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> actual <span class="op">=</span> labels[i]<span class="op">;</span></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> predicted <span class="op">=</span> predictions[i]<span class="op">;</span></span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>    matrix[actual][predicted]<span class="op">++;</span></span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> matrix<span class="op">;</span></span>
+<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb70-10"><a href="#cb70-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-11"><a href="#cb70-11" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> cm <span class="op">=</span> <span class="fu">computeConfusionMatrix</span>(yValArray<span class="op">,</span> yPredArray<span class="op">,</span> dfTrainWithEmbeddings[<span class="st">"Encoded Label"</span>]<span class="op">.</span><span class="fu">unique</span>()<span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="at">length</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-44" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Confusion Matrix (as DataFrame):"</span>)<span class="op">;</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> cmDf <span class="op">=</span> <span class="kw">new</span> danfo<span class="op">.</span><span class="fu">DataFrame</span>(cm<span class="op">,</span> {</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>  columns<span class="op">:</span> dfTrainWithEmbeddings[<span class="st">"Class Name"</span>]<span class="op">.</span><span class="fu">unique</span>()<span class="op">.</span><span class="at">values</span><span class="op">,</span></span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>  index<span class="op">:</span> dfTrainWithEmbeddings[<span class="st">"Class Name"</span>]<span class="op">.</span><span class="fu">unique</span>()<span class="op">.</span><span class="at">values</span><span class="op">,</span></span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>cmDf<span class="op">.</span><span class="fu">print</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix (as DataFrame):
+╔════════════╤═══════════════════╤═══════════════════╤═══════════════════╤═══════════════════╗
+║            │ sci.crypt         │ sci.electronics   │ sci.med           │ sci.space         ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ sci.crypt  │ 25                │ 0                 │ 0                 │ 0                 ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ sci.electr │ 5                 │ 20                │ 0                 │ 0                 ║
+║ onics      │                   │                   │                   │                   ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ sci.med    │ 0                 │ 2                 │ 22                │ 1                 ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ sci.space  │ 2                 │ 1                 │ 0                 │ 22                ║
+╚════════════╧═══════════════════╧═══════════════════╧═══════════════════╧═══════════════════╝
+</code></pre>
+</div>
+</div>
+<div id="cell-45" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> classNames <span class="op">=</span> dfTrainWithEmbeddings[<span class="st">"Class Name"</span>]<span class="op">.</span><span class="fu">unique</span>()<span class="op">.</span><span class="at">values</span> <span class="im">as</span> <span class="dt">string</span>[]<span class="op">;</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> html <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;div style="width: 100%; height: 600px;"&gt;</span></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;div id="conf-matrix" style="width: 100%; height: 100%;"&gt;&lt;/div&gt;</span></span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;script src="https://cdn.jsdelivr.net/npm/plotly.js-dist@latest/plotly.min.js"&gt;&lt;/script&gt;</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;script&gt;</span></span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    const trace = {</span></span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a><span class="vs">      z: </span><span class="sc">${</span><span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(cm)<span class="sc">}</span><span class="vs">,</span></span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a><span class="vs">      x: </span><span class="sc">${</span><span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(classNames)<span class="sc">}</span><span class="vs">,</span></span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a><span class="vs">      y: </span><span class="sc">${</span><span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(classNames)<span class="sc">}</span><span class="vs">,</span></span>
+<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a><span class="vs">      type: "heatmap",</span></span>
+<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a><span class="vs">      colorscale: "Blues",</span></span>
+<span id="cb73-14"><a href="#cb73-14" aria-hidden="true" tabindex="-1"></a><span class="vs">      showscale: true,</span></span>
+<span id="cb73-15"><a href="#cb73-15" aria-hidden="true" tabindex="-1"></a><span class="vs">      hoverongaps: false</span></span>
+<span id="cb73-16"><a href="#cb73-16" aria-hidden="true" tabindex="-1"></a><span class="vs">    };</span></span>
+<span id="cb73-17"><a href="#cb73-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-18"><a href="#cb73-18" aria-hidden="true" tabindex="-1"></a><span class="vs">    const matrixLayout = {</span></span>
+<span id="cb73-19"><a href="#cb73-19" aria-hidden="true" tabindex="-1"></a><span class="vs">      title: { text: "Confusion Matrix for Newsgroup Test Dataset", font: { size: 18 } },</span></span>
+<span id="cb73-20"><a href="#cb73-20" aria-hidden="true" tabindex="-1"></a><span class="vs">      xaxis: { title: "Predicted Label", tickangle: -45 },</span></span>
+<span id="cb73-21"><a href="#cb73-21" aria-hidden="true" tabindex="-1"></a><span class="vs">      yaxis: { title: "True Label" },</span></span>
+<span id="cb73-22"><a href="#cb73-22" aria-hidden="true" tabindex="-1"></a><span class="vs">      height: 600,</span></span>
+<span id="cb73-23"><a href="#cb73-23" aria-hidden="true" tabindex="-1"></a><span class="vs">      width: 700,</span></span>
+<span id="cb73-24"><a href="#cb73-24" aria-hidden="true" tabindex="-1"></a><span class="vs">      margin: { t: 80, l: 100, r: 40, b: 100 }</span></span>
+<span id="cb73-25"><a href="#cb73-25" aria-hidden="true" tabindex="-1"></a><span class="vs">    };</span></span>
+<span id="cb73-26"><a href="#cb73-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-27"><a href="#cb73-27" aria-hidden="true" tabindex="-1"></a><span class="vs">    Plotly.newPlot("conf-matrix", [trace], matrixLayout);</span></span>
+<span id="cb73-28"><a href="#cb73-28" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;/script&gt;</span></span>
+<span id="cb73-29"><a href="#cb73-29" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;/div&gt;</span></span>
+<span id="cb73-30"><a href="#cb73-30" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb73-31"><a href="#cb73-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-32"><a href="#cb73-32" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">html</span>(html)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div style="width: 100%; height: 600px;">
+  <div id="conf-matrix" style="width: 100%; height: 100%;"></div>
+  <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist@latest/plotly.min.js"></script>
+  <script>
+    const trace = {
+      z: [[25,0,0,0],[5,20,0,0],[0,2,22,1],[2,1,0,22]],
+      x: ["sci.crypt","sci.electronics","sci.med","sci.space"],
+      y: ["sci.crypt","sci.electronics","sci.med","sci.space"],
+      type: "heatmap",
+      colorscale: "Blues",
+      showscale: true,
+      hoverongaps: false
+    };
+
+    const matrixLayout = {
+      title: { text: "Confusion Matrix for Newsgroup Test Dataset", font: { size: 18 } },
+      xaxis: { title: "Predicted Label", tickangle: -45 },
+      yaxis: { title: "True Label" },
+      height: 600,
+      width: 700,
+      margin: { t: 80, l: 100, r: 40, b: 100 }
+    };
+
+    Plotly.newPlot("conf-matrix", [trace], matrixLayout);
+  </script>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fallendeity\.github\.io\/deepmind-starter");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../examples/Browser_as_a_tool.html" class="pagination-link" aria-label="Gemini API: Browser as a tool">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Browser as a tool</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../examples/Entity_Extraction.html" class="pagination-link" aria-label="Gemini API: Entity extraction">
+        <span class="nav-page-text">Gemini API: Entity extraction</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Classify_text_with_embeddings.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Classify_text_with_embeddings.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
