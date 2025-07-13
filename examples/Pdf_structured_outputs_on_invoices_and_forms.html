@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Guess the shape: Triangle, Square, Pentagon? – Gemini Cookbook</title>
+<title>Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../examples/LiveAPI_plotting_and_mapping.html" rel="next">
-<link href="../examples/Entity_Extraction.html" rel="prev">
+<link href="../examples/Translate_a_Public_Domain_Book.html" rel="next">
+<link href="../examples/Opossum_search.html" rel="prev">
 <link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -120,17 +120,17 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Guess the shape: Triangle, Square, Pentagon? – Gemini Cookbook">
+<meta property="og:title" content="Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod – Gemini Cookbook">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://fallendeity.github.io/deepmind-starter/examples/Guess_the_shape_files/figure-html/cell-7-output-1.png">
+<meta property="og:image" content="https://fallendeity.github.io/deepmind-starter/examples/Pdf_structured_outputs_on_invoices_and_forms_files/figure-html/cell-12-output-1.png">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta property="og:image:height" content="480">
-<meta property="og:image:width" content="451">
-<meta name="twitter:title" content="Guess the shape: Triangle, Square, Pentagon? – Gemini Cookbook">
+<meta property="og:image:height" content="1074">
+<meta property="og:image:width" content="760">
+<meta name="twitter:title" content="Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod – Gemini Cookbook">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://fallendeity.github.io/deepmind-starter/examples/Guess_the_shape_files/figure-html/cell-7-output-1.png">
-<meta name="twitter:image-height" content="480">
-<meta name="twitter:image-width" content="451">
+<meta name="twitter:image" content="https://fallendeity.github.io/deepmind-starter/examples/Pdf_structured_outputs_on_invoices_and_forms_files/figure-html/cell-12-output-1.png">
+<meta name="twitter:image-height" content="1074">
+<meta name="twitter:image-width" content="760">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -185,7 +185,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Guess_the_shape.html">Guess the shape: Triangle, Square, Pentagon?</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Pdf_structured_outputs_on_invoices_and_forms.html">Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -256,7 +256,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link active">
+  <a href="../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Guess the shape: Triangle, Square, Pentagon?</span></a>
   </div>
 </li>
@@ -280,7 +280,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Pdf_structured_outputs_on_invoices_and_forms.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Pdf_structured_outputs_on_invoices_and_forms.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod</span></a>
   </div>
 </li>
@@ -501,17 +501,23 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
   <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
   <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
   </ul></li>
-  <li><a href="#download-the-images" id="toc-download-the-images" class="nav-link" data-scroll-target="#download-the-images">Download the images</a></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  <li><a href="#work-with-pdfs-and-other-files" id="toc-work-with-pdfs-and-other-files" class="nav-link" data-scroll-target="#work-with-pdfs-and-other-files">Work with PDFs and other files</a></li>
+  <li><a href="#structured-outputs-with-gemini-2.x-zod" id="toc-structured-outputs-with-gemini-2.x-zod" class="nav-link" data-scroll-target="#structured-outputs-with-gemini-2.x-zod">Structured outputs with Gemini 2.x &amp; Zod</a></li>
+  <li><a href="#extract-structured-data-from-pdfs-using-gemini-2.x" id="toc-extract-structured-data-from-pdfs-using-gemini-2.x" class="nav-link" data-scroll-target="#extract-structured-data-from-pdfs-using-gemini-2.x">Extract Structured data from PDFs using Gemini 2.x</a>
+  <ul class="collapse">
+  <li><a href="#invoice.pdf" id="toc-invoice.pdf" class="nav-link" data-scroll-target="#invoice.pdf">Invoice.pdf</a></li>
+  <li><a href="#handwriting_form.pdf" id="toc-handwriting_form.pdf" class="nav-link" data-scroll-target="#handwriting_form.pdf">handwriting_form.pdf</a></li>
+  </ul></li>
+  <li><a href="#learning-more" id="toc-learning-more" class="nav-link" data-scroll-target="#learning-more">Learning more</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Guess_the_shape.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Guess_the_shape.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Pdf_structured_outputs_on_invoices_and_forms.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Pdf_structured_outputs_on_invoices_and_forms.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Guess_the_shape.html">Guess the shape: Triangle, Square, Pentagon?</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Pdf_structured_outputs_on_invoices_and_forms.html">Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Guess the shape: Triangle, Square, Pentagon?</h1>
+<h1 class="title">Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod</h1>
 </div>
 
 
@@ -528,7 +534,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </header>
 
 
-<p>This notebook provides a quick code example showing how to use multiple images in the same prompt with the Gemini API. You’ll show the model a sequence of shapes (a triangle, a square, and a pentagon) and ask it to guess the shape that comes next.</p>
+<p>This notebook demonstrates how you can convert a PDF file so that it can be read by the Gemini API.</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -593,7 +599,7 @@ Note
 <pre><code>│
 ├── .env
 └── examples
-    └── Guess_the_shape.ipynb</code></pre>
+    └── Pdf_structured_outputs_on_invoices_and_forms.ipynb</code></pre>
 </div>
 </div>
 </section>
@@ -616,8 +622,10 @@ Note
 </div>
 </section>
 </section>
-<section id="download-the-images" class="level2">
-<h2 class="anchored" data-anchor-id="download-the-images">Download the images</h2>
+<section id="work-with-pdfs-and-other-files" class="level2">
+<h2 class="anchored" data-anchor-id="work-with-pdfs-and-other-files">Work with PDFs and other files</h2>
+<p>Gemini models are able to process <a href="https://ai.google.dev/gemini-api/docs/vision?lang=javascript#image-input">images and videos</a>, which can used with base64 strings or using the <code>files</code> api. After uploading the file you can include the file uri in the call directly.</p>
+<p>For this example you have 2 PDFs samples, one basic invoice and on form with and written values.</p>
 <div id="cell-11" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
@@ -634,95 +642,295 @@ Note
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-12" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> images <span class="op">=</span> [</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/triangle.png"</span><span class="op">,</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/square.png"</span><span class="op">,</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://storage.googleapis.com/generativeai-downloads/images/pentagon.png"</span><span class="op">,</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> image <span class="kw">of</span> images) {</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">await</span> <span class="fu">downloadFile</span>(image<span class="op">,</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/examples"</span><span class="op">,</span> path<span class="op">.</span><span class="fu">basename</span>(image)))<span class="op">;</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> FORM_PDF_URL <span class="op">=</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://storage.googleapis.com/generativeai-downloads/data/pdf_structured_outputs/handwriting_form.pdf"</span><span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> INVOICE_PDF_URL <span class="op">=</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/data/pdf_structured_outputs/invoice.pdf"</span><span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> formPdfPath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/pdf_structured_outputs"</span><span class="op">,</span> <span class="st">"handwriting_form.pdf"</span>)<span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> invoicePdfPath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/pdf_structured_outputs"</span><span class="op">,</span> <span class="st">"invoice.pdf"</span>)<span class="op">;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(FORM_PDF_URL<span class="op">,</span> formPdfPath)<span class="op">;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(INVOICE_PDF_URL<span class="op">,</span> invoicePdfPath)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-13" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/examples"</span><span class="op">,</span> <span class="st">"triangle.png"</span>)))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Guess_the_shape_files/figure-html/cell-7-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Guess_the_shape_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
+<p>You can now upload the files using our client with the <code>upload</code> method. Let’s try this for one of the files.</p>
+<div id="cell-14" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> invoiceFile <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  file<span class="op">:</span> invoicePdfPath<span class="op">,</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    mimeType<span class="op">:</span> <span class="st">"application/pdf"</span><span class="op">,</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    displayName<span class="op">:</span> <span class="st">"Invoice PDF"</span><span class="op">,</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-</div>
-<div id="cell-14" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/examples"</span><span class="op">,</span> <span class="st">"square.png"</span>)))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Guess_the_shape_files/figure-html/cell-8-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="Guess_the_shape_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="cell-15" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/examples"</span><span class="op">,</span> <span class="st">"pentagon.png"</span>)))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Guess_the_shape_files/figure-html/cell-9-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="Guess_the_shape_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
+<div class="callout-title-container flex-fill">
+Note
 </div>
 </div>
+<div class="callout-body-container callout-body">
+<p>The File API lets you store up to 20 GB of files per project, with a per-file maximum size of 2 GB. Files are stored for 48 hours. They can be accessed in that period with your API key, but they cannot be downloaded. File uploads are available at no cost.</p>
 </div>
-<div id="cell-16" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> prompt <span class="op">=</span> <span class="vs">`</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="vs">    Look at this sequence of three shapes. What shape should come as the fourth shape? Explain</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="vs">    your reasoning with detailed descriptions of the first shapes.</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-17" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    prompt<span class="op">,</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      fs<span class="op">.</span><span class="fu">readFileSync</span>(path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/examples"</span><span class="op">,</span> <span class="st">"triangle.png"</span>))<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"image/png"</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>      fs<span class="op">.</span><span class="fu">readFileSync</span>(path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/examples"</span><span class="op">,</span> <span class="st">"square.png"</span>))<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"image/png"</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>      fs<span class="op">.</span><span class="fu">readFileSync</span>(path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/examples"</span><span class="op">,</span> <span class="st">"pentagon.png"</span>))<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"image/png"</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>Let’s analyze the sequence of shapes:</p>
-<ol type="1">
-<li><strong>First Shape:</strong> The first shape is a <strong>triangle</strong>. It is a polygon with <strong>3 sides</strong> and 3 vertices (corners).</li>
-<li><strong>Second Shape:</strong> The second shape is a <strong>square</strong> (or more generally, a quadrilateral). It is a polygon with <strong>4 sides</strong> and 4 vertices.</li>
-<li><strong>Third Shape:</strong> The third shape is a <strong>pentagon</strong>. It is a polygon with <strong>5 sides</strong> and 5 vertices.</li>
-</ol>
-<p><strong>Reasoning:</strong></p>
-<p>Observing the sequence, there’s a clear pattern: each subsequent shape is a polygon with one more side than the previous shape.</p>
-<ul>
-<li>Shape 1 (Triangle) has 3 sides.</li>
-<li>Shape 2 (Square) has 4 sides (3 + 1).</li>
-<li>Shape 3 (Pentagon) has 5 sides (4 + 1).</li>
-</ul>
-<p>Following this pattern, the fourth shape should be a polygon with 5 + 1 = <strong>6 sides</strong>.</p>
-<p><strong>The Fourth Shape:</strong></p>
-<p>A polygon with 6 sides is known as a <strong>hexagon</strong>.</p>
-<p>Therefore, the fourth shape in the sequence should be a <strong>hexagon</strong>.</p>
+<p>After a file is uploaded you can check to how many tokens it got converted. This not only help us understand the context you are working with it also helps to keep track of the cost.</p>
+<div id="cell-16" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> invoiceFileSize <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [google<span class="op">.</span><span class="fu">createPartFromUri</span>(invoiceFile<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> invoiceFile<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">"application/pdf"</span>)]<span class="op">,</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`File: </span><span class="sc">${</span>invoiceFile<span class="op">.</span><span class="at">displayName</span><span class="sc">}</span><span class="vs"> equals to </span><span class="sc">${</span>invoiceFileSize<span class="op">.</span><span class="at">totalTokens</span><span class="sc">}</span><span class="vs"> tokens.`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>File: Invoice PDF equals to 259 tokens.</code></pre>
 </div>
 </div>
 </section>
-<section id="further-reading" class="level2">
-<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
-<p>In this notebook, you included images directly in the prompt. This is fine for small images. If your prompts will exceed 20MB in size, you can use the <a href="../quickstarts/File_API.html">Files API</a> to upload your images (and other media types) in advance.</p>
+<section id="structured-outputs-with-gemini-2.x-zod" class="level2">
+<h2 class="anchored" data-anchor-id="structured-outputs-with-gemini-2.x-zod">Structured outputs with Gemini 2.x &amp; Zod</h2>
+<p>Structured Outputs is a feature that ensures Gemini always generate responses that adhere to a predefined format, such as JSON Schema. This means you have more control over the output and how to integrate it into our application as it is guaranteed to return a valid JSON object with the schema you define.</p>
+<p>Gemini 2.x currently supports 3 different types of how to define a JSON schemas:</p>
+<ul>
+<li>A primitive type following <a href="https://spec.openapis.org/oas/v3.0.3#schema">OpenAPI 3.0 schema object</a>, such as <code>string</code>, <code>number</code>, <code>boolean</code>, <code>object</code>, <code>array</code>, etc.</li>
+<li>A <a href="https://zod.dev/">zod</a> object</li>
+<li>An object following the sdk <a href="https://googleapis.github.io/js-genai/release_docs/interfaces/types.Schema.html"><code>types.Schema</code></a> interface.</li>
+</ul>
+<p>Lets look at quick text-based example.</p>
+<div id="cell-18" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="op">*</span> <span class="im">as</span> z <span class="im">from</span> <span class="st">"zod"</span><span class="op">;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { zodToJsonSchema } <span class="im">from</span> <span class="st">"zod-to-json-schema"</span><span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> topicSchema <span class="op">=</span> z<span class="op">.</span><span class="fu">object</span>({</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The name of the topic"</span>)<span class="op">,</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> personSchema <span class="op">=</span> z<span class="op">.</span><span class="fu">object</span>({</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  firstName<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The first name of the person"</span>)<span class="op">,</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  lastName<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The last name of the person"</span>)<span class="op">,</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  age<span class="op">:</span> z<span class="op">.</span><span class="fu">number</span>()<span class="op">.</span><span class="fu">int</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The age of the person, if not provided please return 0"</span>)<span class="op">.</span><span class="fu">default</span>(<span class="dv">0</span>)<span class="op">,</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  workTopics<span class="op">:</span> z</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">array</span>(topicSchema)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">describe</span>(<span class="st">"The fields of interest of the person, if not provided please return an empty array"</span>)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">default</span>([])<span class="op">,</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> personResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Philipp Schmid is a Senior AI Developer Relations Engineer at Google DeepMind working on Gemini, Gemma with the mission to help every developer to build and benefit from AI in a responsible way."</span><span class="op">,</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    responseJsonSchema<span class="op">:</span> <span class="fu">zodToJsonSchema</span>(personSchema)<span class="op">,</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> person <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(personResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"{}"</span>) <span class="im">as</span> z<span class="op">.</span><span class="at">infer</span><span class="op">&lt;</span><span class="kw">typeof</span> personSchema<span class="op">&gt;;</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(person<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{
+  "firstName": "Philipp",
+  "lastName": "Schmid",
+  "age": 0,
+  "workTopics": [
+    {
+      "name": "Gemini"
+    },
+    {
+      "name": "Gemma"
+    },
+    {
+      "name": "AI"
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+</section>
+<section id="extract-structured-data-from-pdfs-using-gemini-2.x" class="level2">
+<h2 class="anchored" data-anchor-id="extract-structured-data-from-pdfs-using-gemini-2.x">Extract Structured data from PDFs using Gemini 2.x</h2>
+<p>Now, let’s combine the File API and structured output to extract information from our PDFs. You can create a simple method that accepts a local file path and a zod schema and return the structured data for us. The method will:</p>
+<ul>
+<li>Upload the file to the File API</li>
+<li>Generate a structured response using the Gemini API</li>
+<li>Convert the response to the zod schema and return it</li>
+</ul>
+<div id="cell-20" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { <span class="bu">File</span><span class="op">,</span> FileState<span class="op">,</span> UploadFileConfig } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">deferredFileUpload</span>(filePath<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> config<span class="op">:</span> UploadFileConfig)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="bu">File</span><span class="op">&gt;</span> {</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> file <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    file<span class="op">:</span> filePath<span class="op">,</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    config<span class="op">,</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> getFile <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">get</span>({ name<span class="op">:</span> file<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span> })<span class="op">;</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (getFile<span class="op">.</span><span class="at">state</span> <span class="op">===</span> FileState<span class="op">.</span><span class="at">PROCESSING</span>) {</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    getFile <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">get</span>({ name<span class="op">:</span> file<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span> })<span class="op">;</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`current file status (</span><span class="sc">${</span>getFile<span class="op">.</span><span class="at">displayName</span><span class="sc">}</span><span class="vs">): </span><span class="sc">${</span>getFile<span class="op">.</span><span class="at">state</span> <span class="op">??</span> <span class="st">"unknown"</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"File is still processing, retrying in 5 seconds"</span>)<span class="op">;</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve) <span class="kw">=&gt;</span> {</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>      <span class="pp">setTimeout</span>(resolve<span class="op">,</span> <span class="dv">5000</span>)<span class="op">;</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (file<span class="op">.</span><span class="at">state</span> <span class="op">===</span> FileState<span class="op">.</span><span class="at">FAILED</span>) {</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"File processing failed."</span>)<span class="op">;</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`File </span><span class="sc">${</span>file<span class="op">.</span><span class="at">displayName</span><span class="sc">}</span><span class="vs"> is ready. [</span><span class="sc">${</span>file<span class="op">.</span><span class="at">state</span><span class="sc">}</span><span class="vs">]`</span>)<span class="op">;</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> file<span class="op">;</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-21" class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">extractStructuredDataFromPdf</span><span class="op">&lt;</span>T <span class="kw">extends</span> z<span class="op">.</span><span class="at">ZodTypeAny</span><span class="op">&gt;</span>(filePath<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> schema<span class="op">:</span> T)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>z<span class="op">.</span><span class="at">infer</span><span class="op">&lt;</span>T<span class="op">&gt;&gt;</span> {</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> file <span class="op">=</span> <span class="cf">await</span> <span class="fu">deferredFileUpload</span>(filePath<span class="op">,</span> { displayName<span class="op">:</span> filePath<span class="op">.</span><span class="fu">split</span>(<span class="st">"/"</span>)<span class="op">.</span><span class="fu">pop</span>()<span class="op">?.</span><span class="fu">split</span>(<span class="st">"."</span>)[<span class="dv">0</span>] })<span class="op">;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> [</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Extract the structured data from the following PDF file"</span><span class="op">,</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>      google<span class="op">.</span><span class="fu">createPartFromUri</span>(file<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> file<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    config<span class="op">:</span> {</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>      responseJsonSchema<span class="op">:</span> <span class="fu">zodToJsonSchema</span>(schema)<span class="op">,</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>      responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> structuredData <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"{}"</span>) <span class="im">as</span> z<span class="op">.</span><span class="at">infer</span><span class="op">&lt;</span>T<span class="op">&gt;;</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>schema<span class="op">.</span><span class="fu">safeParse</span>(structuredData)<span class="op">.</span><span class="at">success</span>) {</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"Structured data does not match the schema"</span>)<span class="op">;</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">// eslint-disable-next-line @typescript-eslint/no-unsafe-return</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> structuredData<span class="op">;</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In our Example every PDF is a different to each other. So you want to define unique zod schemas for each PDF to show the performance of the Gemini 2.x. If you have very similar PDFs and want to extract the same information you can use the same model for all of them.</p>
+<ul>
+<li><code>Invoice.pdf</code> : Extract the invoice number, date and all list items with description, quantity and gross worth and the total gross worth</li>
+<li><code>handwriting_form.pdf</code> : Extract the form number, plan start date and the plan liabilities beginning of the year and end of the year</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using zod features you can add more context to the model to make it more accurate as well as some validation to the data. Adding a comprehensive description can significantly improve the performance of the model.</p>
+</div>
+</div>
+<section id="invoice.pdf" class="level3">
+<h3 class="anchored" data-anchor-id="invoice.pdf">Invoice.pdf</h3>
+<p>Let’s first take a look at the invoice PDF. The invoice contains the following information:</p>
+<div id="cell-24" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> getPage <span class="op">=</span> <span class="kw">async</span> (pdfPath<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> pageNumber<span class="op">:</span> <span class="dt">number</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="bu">Uint8Array</span><span class="op">&gt;</span> <span class="kw">=&gt;</span> {</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> { pdf } <span class="op">=</span> <span class="cf">await</span> <span class="im">import</span>(<span class="st">"pdf-to-img"</span>)<span class="op">;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> <span class="bu">document</span> <span class="op">=</span> <span class="cf">await</span> <span class="fu">pdf</span>(pdfPath)<span class="op">;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> pageIndex <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="cf">await</span> (<span class="kw">const</span> page <span class="kw">of</span> <span class="bu">document</span>) {</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (pageIndex <span class="op">===</span> pageNumber) {</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="kw">new</span> <span class="bu">Uint8Array</span>(page)<span class="op">;</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    pageIndex<span class="op">++;</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Page </span><span class="sc">${</span>pageNumber<span class="sc">}</span><span class="vs"> not found in the PDF document.`</span>)<span class="op">;</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(<span class="cf">await</span> <span class="fu">getPage</span>(invoicePdfPath<span class="op">,</span> <span class="dv">0</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Pdf_structured_outputs_on_invoices_and_forms_files/figure-html/cell-12-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Pdf_structured_outputs_on_invoices_and_forms_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-25" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> itemSchema <span class="op">=</span> z</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">object</span>({</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The description of the item"</span>)<span class="op">,</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    quantity<span class="op">:</span> z<span class="op">.</span><span class="fu">number</span>()<span class="op">.</span><span class="fu">int</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The quantity of the item"</span>)<span class="op">,</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    grossWorth<span class="op">:</span> z<span class="op">.</span><span class="fu">number</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The gross worth of the item"</span>)<span class="op">,</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">describe</span>(<span class="st">"The item in the invoice"</span>)<span class="op">;</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> invoiceSchema <span class="op">=</span> z</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">object</span>({</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    invoiceNumber<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The invoice number e.g. 1234567890"</span>)<span class="op">,</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    date<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The date of the invoice e.g. 2024-01-01"</span>)<span class="op">,</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    items<span class="op">:</span> z<span class="op">.</span><span class="fu">array</span>(itemSchema)<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The list of items with description, quantity and gross worth"</span>)<span class="op">,</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    totalGrossWorth<span class="op">:</span> z<span class="op">.</span><span class="fu">number</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The total gross worth of the invoice"</span>)<span class="op">,</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">describe</span>(<span class="st">"The invoice data extracted from the PDF"</span>)<span class="op">;</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> invoiceData <span class="op">=</span> <span class="cf">await</span> <span class="fu">extractStructuredDataFromPdf</span><span class="op">&lt;</span><span class="kw">typeof</span> invoiceSchema<span class="op">&gt;</span>(invoicePdfPath<span class="op">,</span> invoiceSchema)<span class="op">;</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  <span class="vs">`Extracted Invoice: </span><span class="sc">${</span>invoiceData<span class="op">.</span><span class="at">invoiceNumber</span><span class="sc">}</span><span class="vs"> on </span><span class="sc">${</span>invoiceData<span class="op">.</span><span class="at">date</span><span class="sc">}</span><span class="vs"> with total gross worth </span><span class="sc">${</span>invoiceData<span class="op">.</span><span class="at">totalGrossWorth</span><span class="sc">}</span><span class="vs">`</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> item <span class="kw">of</span> invoiceData<span class="op">.</span><span class="at">items</span>) {</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Item: </span><span class="sc">${</span>item<span class="op">.</span><span class="at">description</span><span class="sc">}</span><span class="vs"> with quantity </span><span class="sc">${</span>item<span class="op">.</span><span class="at">quantity</span><span class="sc">}</span><span class="vs"> and gross worth </span><span class="sc">${</span>item<span class="op">.</span><span class="at">grossWorth</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>File invoice is ready. [ACTIVE]
+Extracted Invoice: 27301261 on 2012-09-10 with total gross worth 544.46
+Item: Lilly Pulitzer dress Size 2 with quantity 5 and gross worth 247.5
+Item: New ERIN Erin Fertherston Straight Dress White Sequence Lining Sleeveless SZ 10 with quantity 1 and gross worth 65.99
+Item: Sequence dress Size Small with quantity 3 and gross worth 115.5
+Item: fire los angeles dress Medium with quantity 3 and gross worth 21.45
+Item: Eileen Fisher Women's Long Sleeve Fleece Lined Front Pockets Dress XS Gray with quantity 3 and gross worth 52.77
+Item: Lularoe Nicole Dress Size Small Light Solid Grey/ White Ringer Tee Trim with quantity 2 and gross worth 8.25
+Item: J.Crew Collection Black &amp; White sweater Dress sz S with quantity 1 and gross worth 33</code></pre>
+</div>
+</div>
+<p>Fantastic! The model did a great job extracting the information from the invoice.</p>
+</section>
+<section id="handwriting_form.pdf" class="level3">
+<h3 class="anchored" data-anchor-id="handwriting_form.pdf">handwriting_form.pdf</h3>
+<p>Let’s now take a look at the handwriting form PDF. The form contains the following information:</p>
+<div id="cell-28" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(<span class="cf">await</span> <span class="fu">getPage</span>(formPdfPath<span class="op">,</span> <span class="dv">0</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Pdf_structured_outputs_on_invoices_and_forms_files/figure-html/cell-14-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="Pdf_structured_outputs_on_invoices_and_forms_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-29" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> formSchema <span class="op">=</span> z</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">object</span>({</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    formNumber<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The Form Number"</span>)<span class="op">,</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    startDate<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"Effective Date"</span>)<span class="op">,</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    beginningOfYear<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The plan liabilities beginning of the year"</span>)<span class="op">,</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    endOfYear<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The plan liabilities end of the year"</span>)<span class="op">,</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">describe</span>(</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Extract the form number, fiscal start date, fiscal end date, and the plan liabilities beginning of the year and end of the year."</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> formData <span class="op">=</span> <span class="cf">await</span> <span class="fu">extractStructuredDataFromPdf</span><span class="op">&lt;</span><span class="kw">typeof</span> formSchema<span class="op">&gt;</span>(formPdfPath<span class="op">,</span> formSchema)<span class="op">;</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Extracted Form Number: </span><span class="sc">${</span>formData<span class="op">.</span><span class="at">formNumber</span><span class="sc">}</span><span class="vs"> with start date </span><span class="sc">${</span>formData<span class="op">.</span><span class="at">startDate</span><span class="sc">}</span><span class="vs">.`</span>)<span class="op">;</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="vs">`Plan liabilities beginning of the year </span><span class="sc">${</span>formData<span class="op">.</span><span class="at">beginningOfYear</span><span class="sc">}</span><span class="vs"> and end of the year </span><span class="sc">${</span>formData<span class="op">.</span><span class="at">endOfYear</span><span class="sc">}</span><span class="vs">.`</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>File handwriting_form is ready. [ACTIVE]
+Extracted Form Number: 5500-EZ with start date 02/05/2022.
+Plan liabilities beginning of the year $40000 and end of the year $55000.</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="learning-more" class="level2">
+<h2 class="anchored" data-anchor-id="learning-more">Learning more</h2>
+<p>If you want to learn more about the File API, Structured Outputs and how to use it to process images, audio, and video files, check out the following resources:</p>
+<ul>
+<li>Learn more about the <a href="../quickstarts/File_API.html">File API</a> with the quickstart.</li>
+<li>Learn more about prompting with <a href="https://ai.google.dev/gemini-api/docs/file-prompting-strategies">media files</a> in the docs, including the supported formats and maximum length.</li>
+<li>Learn more about <a href="https://ai.google.dev/gemini-api/docs/file-prompting-strategies">Structured Outputs</a> in the docs.</li>
+</ul>
 
 
 </section>
@@ -1129,18 +1337,18 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../examples/Entity_Extraction.html" class="pagination-link" aria-label="Gemini API: Entity extraction">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Entity extraction</span>
+      <a href="../examples/Opossum_search.html" class="pagination-link" aria-label="Opossum search">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Opossum search</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../examples/LiveAPI_plotting_and_mapping.html" class="pagination-link" aria-label="Gemini 2.X - Multi-tool with the Multimodal Live API">
-        <span class="nav-page-text">Gemini 2.X - Multi-tool with the Multimodal Live API</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../examples/Translate_a_Public_Domain_Book.html" class="pagination-link" aria-label="Gemini API: Translate a public domain book">
+        <span class="nav-page-text">Gemini API: Translate a public domain book</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Guess_the_shape.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Guess_the_shape.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Pdf_structured_outputs_on_invoices_and_forms.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Pdf_structured_outputs_on_invoices_and_forms.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
