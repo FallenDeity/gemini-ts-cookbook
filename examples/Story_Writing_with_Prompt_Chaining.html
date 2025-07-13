@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Prompt Chaining and Iterative Generation for Story Writing – Gemini Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../examples/Translate_a_Public_Domain_Book.html" rel="next">
+<link href="../examples/Search_grounding_for_research_report.html" rel="prev">
+<link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-73468ec7cfdc29adaa9e90c901492850.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-GE1DFPVL15"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<meta property="og:title" content="Prompt Chaining and Iterative Generation for Story Writing – Gemini Cookbook">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Gemini Cookbook">
+<meta name="twitter:title" content="Prompt Chaining and Iterative Generation for Story Writing – Gemini Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Gemini Cookbook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../quickstarts/Get_started.html" aria-current="page"> 
+<span class="menu-text">Quickstarts</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://github.com/FallenDeity/deepmind-starter/">
+            Source Code
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Story_Writing_with_Prompt_Chaining.html">Prompt Chaining and Iterative Generation for Story Writing</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Examples</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Historic Event Recognition</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Summarization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Anomaly_detection_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Anomaly detection with embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prompting with an Apollo 11 transcript</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Browser_as_a_tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Browser as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Classify_text_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classify text with embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Entity extraction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guess the shape: Triangle, Square, Pentagon?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/LiveAPI_plotting_and_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.X - Multi-tool with the Multimodal Live API</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create a marketing campaign from a product sketch of a Jet Backpack</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opossum search</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Pdf_structured_outputs_on_invoices_and_forms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Search_grounding_for_research_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Search tool with Gemini 2.x</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Story_Writing_with_Prompt_Chaining.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Prompt Chaining and Iterative Generation for Story Writing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Translate a public domain book</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Voice_memos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Voice memos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Working with Charts, Graphs, and Slide Decks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Quickstarts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Audio Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Code Execution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: All about tokens</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Embeddings Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Enum Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: File API Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guide: Building AI Tutors with LearnLM via System Instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multimodal Live API - Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting started with the Gemini API OpenAI compatibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Use Gemini thinking</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with information grounding for Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini 2.0 Image output</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: List models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Prompting Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Safety Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Grounding using Search as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2D spatial understanding with Gemini 2.0</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Streaming Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: System instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Video understanding with Gemini</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
+  <ul class="collapse">
+  <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
+  <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
+  <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
+  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
+  <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
+  </ul></li>
+  <li><a href="#prompts-guiding-the-language-model" id="toc-prompts-guiding-the-language-model" class="nav-link" data-scroll-target="#prompts-guiding-the-language-model">Prompts: Guiding the language model</a>
+  <ul class="collapse">
+  <li><a href="#prompt-chain-for-story-writing" id="toc-prompt-chain-for-story-writing" class="nav-link" data-scroll-target="#prompt-chain-for-story-writing">Prompt chain for story writing</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  <li><a href="#continuation-prompt-building-the-story" id="toc-continuation-prompt-building-the-story" class="nav-link" data-scroll-target="#continuation-prompt-building-the-story">Continuation prompt: Building the story</a></li>
+  </ul></li>
+  <li><a href="#writing-time" id="toc-writing-time" class="nav-link" data-scroll-target="#writing-time">Writing time!</a>
+  <ul class="collapse">
+  <li><a href="#generate-and-print-the-premise" id="toc-generate-and-print-the-premise" class="nav-link" data-scroll-target="#generate-and-print-the-premise">Generate and print the premise</a></li>
+  <li><a href="#generate-and-print-the-outline" id="toc-generate-and-print-the-outline" class="nav-link" data-scroll-target="#generate-and-print-the-outline">Generate and print the outline</a></li>
+  <li><a href="#generate-the-start-of-the-story" id="toc-generate-the-start-of-the-story" class="nav-link" data-scroll-target="#generate-the-start-of-the-story">Generate the start of the story</a></li>
+  <li><a href="#generate-the-continuation-of-the-story-and-check-progress" id="toc-generate-the-continuation-of-the-story-and-check-progress" class="nav-link" data-scroll-target="#generate-the-continuation-of-the-story-and-check-progress">Generate the continuation of the story and check progress</a></li>
+  <li><a href="#lets-finish-writing-the-story." id="toc-lets-finish-writing-the-story." class="nav-link" data-scroll-target="#lets-finish-writing-the-story.">Let’s finish writing the story.</a></li>
+  </ul></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Story_Writing_with_Prompt_Chaining.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Story_Writing_with_Prompt_Chaining.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Analyze_a_Video_Classification.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Story_Writing_with_Prompt_Chaining.html">Prompt Chaining and Iterative Generation for Story Writing</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Prompt Chaining and Iterative Generation for Story Writing</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This notebook demonstrates how to write a story using two powerful tools: prompt chaining and iterative generation. These can be used to tackle complex tasks that are difficult or impossible to complete in a single step.</p>
+<p><strong>Prompt chaining</strong> involves breaking down a larger task into smaller, interconnected prompts. The output of each prompt then becomes the input for the next, guiding the language model through the process step-by-step. This approach offers several benefits:</p>
+<ul>
+<li>Improved accuracy: Smaller, focused prompts can lead to better results from the language model.</li>
+<li>Debugging: It’s easier to identify where things go wrong within the chain, allowing for targeted adjustments and improvements.</li>
+<li>Complex tasks: By breaking down intricate problems into manageable steps, prompt chaining enables the language model to tackle more complex tasks.</li>
+</ul>
+<p><strong>Iterative generation</strong> refers to the process of building the desired output iteratively. In this case, you will use it to write a story that is longer than what a single generation window allows. Iterative generation offers several benefits:</p>
+<ul>
+<li>Longer outputs: It allows for the creation of longer and more detailed outputs, exceeding the limitations of a single generation window.</li>
+<li>Flexibility: You can adjust and refine the output at each iteration, ensuring the story develops in the desired direction.</li>
+<li>Human-in-the-loop control: You can provide feedback and guidance at each step, ensuring the story aligns with your creative vision.</li>
+</ul>
+<p>By combining these techniques, you can create a compelling and well-structured story, piece by piece, while maintaining control over the creative process.</p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="install-the-google-genai-sdk" class="level3">
+<h3 class="anchored" data-anchor-id="install-the-google-genai-sdk">Install the Google GenAI SDK</h3>
+<p>Install the Google GenAI SDK from <a href="https://www.npmjs.com/package/@google/genai">npm</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install @google/genai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="setup-your-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="setup-your-api-key">Setup your API key</h3>
+<p>You can <a href="https://aistudio.google.com/app/apikey">create</a> your API key using Google AI Studio with a single click.</p>
+<p>Remember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a <code>.env</code> file. You can also set it as an environment variable or use a secret manager.</p>
+<p>Here’s how to set it up in a <code>.env</code> file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch .env</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;"</span> <span class="op">&gt;&gt;</span> .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another option is to set the API key as an environment variable. You can do this in your terminal with the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export GEMINI_API_KEY=<span class="st">"&lt;YOUR_API_KEY&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="load-the-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-api-key">Load the API key</h3>
+<p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, we can load the API key in our code:</p>
+<div id="cell-4" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../.env"</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GEMINI_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">GEMINI_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>GEMINI_API_KEY) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"GEMINI_API_KEY is not set in the environment variables"</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"GEMINI_API_KEY is set in the environment variables"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEMINI_API_KEY is set in the environment variables</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
+<pre><code>│
+├── .env
+└── examples
+    └── Story_Writing_with_Prompt_Chaining.ipynb</code></pre>
+</div>
+</div>
+</section>
+<section id="initialize-sdk-client" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
+<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
+<div id="cell-7" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="select-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<div id="cell-9" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="prompts-guiding-the-language-model" class="level2">
+<h2 class="anchored" data-anchor-id="prompts-guiding-the-language-model">Prompts: Guiding the language model</h2>
+<p>You will use a series of interconnected prompts to guide the language model through the process of writing a story. These prompts will cover the story’s premise, outline, and starting point, ultimately leading to the creation of a complete narrative.</p>
+<p>It’s important to carefully craft these prompts to provide clear instructions and relevant information to the language model. This will help the model generate high-quality content that aligns with your creative vision.</p>
+<section id="prompt-chain-for-story-writing" class="level3">
+<h3 class="anchored" data-anchor-id="prompt-chain-for-story-writing">Prompt chain for story writing</h3>
+<p>This section contains the prompts that will guide the language model through the story writing process. These prompts are designed to be chained together, with the output of one prompt feeding into the next.</p>
+<p>Each prompt includes a <strong>persona statement</strong>, which helps the language model understand its role and generate more relevant and accurate content. In this case, the persona statement is: <code>You are an award-winning science fiction author with a penchant for expansive, intricately woven stories. Your ultimate goal is to write the next award winning sci-fi novel.</code></p>
+<p>Since the persona statement and writing guidelines appear in multiple prompts, template-string variables are used to add them to the prompts.</p>
+<p>Additionally, the prompts use <strong>placeholders</strong> to insert the results of previous prompts using .format(). This allows us to build the story step-by-step, incorporating the outputs generated by the model at each stage. These are normally denoted by <code>{}</code>.</p>
+<p>Here’s a breakdown of the prompt chain:</p>
+<ol type="1">
+<li>Premise prompt: This prompt asks the model to generate a single-sentence premise for a sci-fi story featuring cats.</li>
+<li>Outline prompt: This prompt provides the generated premise to the model and asks it to create a plot outline for the story.</li>
+<li>Starting prompt: This prompt provides both the premise and the outline to the model and asks it to begin writing the story. It also includes instructions to write a detailed and lengthy opening section.</li>
+</ol>
+<p>By chaining these prompts together, it guides the language model through the process of creating a well-structured and engaging story.</p>
+</section>
+<section id="example" class="level3">
+<h3 class="anchored" data-anchor-id="example">Example</h3>
+<p>Let’s say the model generates the following premise:</p>
+<blockquote class="blockquote">
+<p>In a future where humanity has achieved interstellar travel, a group of genetically enhanced cats embarks on a perilous mission to save the galaxy from a sinister alien threat.</p>
+</blockquote>
+<p>This premise would then be inserted into the outline prompt:</p>
+<blockquote class="blockquote">
+<p>You are an award-winning science fiction author with a penchant for expansive, intricately woven stories. Your ultimate goal is to write the next award winning sci-fi novel.</p>
+<p>You have a gripping premise in mind:</p>
+<p>In a future where humanity has achieved interstellar travel, a group of genetically enhanced cats embarks on a perilous mission to save the galaxy from a sinister alien threat.</p>
+<p>Write an outline for the plot of your story.</p>
+</blockquote>
+<p>The model would then generate an outline based on this premise, which would then be used in the starting prompt to begin writing the story itself.</p>
+<p>This process continues iteratively, with the model generating additional content based on the previous outputs, until the story is complete.</p>
+<div id="cell-13" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> PERSONA <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="vs">  You are an award-winning science fiction author with a penchant for expansive,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="vs">  intricately woven stories. Your ultimate goal is to write the next award winning</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  sci-fi novel.</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GUIDELINES <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="vs">  Writing Guidelines</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="vs">  Delve deeper. Lose yourself in the world you're building. Unleash vivid</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="vs">  descriptions to paint the scenes in your reader's mind. Develop your</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="vs">  characters—let their motivations, fears, and complexities unfold naturally.</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="vs">  Weave in the threads of your outline, but don't feel constrained by it. Allow</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="vs">  your story to surprise you as you write. Use rich imagery, sensory details, and</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="vs">  evocative language to bring the setting, characters, and events to life.</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="vs">  Introduce elements subtly that can blossom into complex subplots, relationships,</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="vs">  or worldbuilding details later in the story. Keep things intriguing but not</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="vs">  fully resolved. Avoid boxing the story into a corner too early. Plant the seeds</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="vs">  of subplots or potential character arc shifts that can be expanded later.</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="vs">  Remember, your main goal is to write as much as you can. If you get through</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="vs">  the story too fast, that is bad. Expand, never summarize.</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> PREMISE_PROMPT <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span><span class="sc">${</span>PERSONA<span class="sc">}</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="vs">  Write a single sentence premise for a sci-fi story featuring cats.</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> OUTLINE_PROMPT <span class="op">=</span> (premise<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> <span class="vs">`</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span><span class="sc">${</span>PERSONA<span class="sc">}</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="vs">  You have a gripping premise in mind:</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="vs">  "</span><span class="sc">${</span>premise<span class="sc">}</span><span class="vs">"</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a><span class="vs">  Write an outline for the plot of your story.</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> STARTING_POINT_PROMPT <span class="op">=</span> (premise<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> outline<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> <span class="vs">`</span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span><span class="sc">${</span>PERSONA<span class="sc">}</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a><span class="vs">  You have a gripping premise in mind:</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a><span class="vs">  "</span><span class="sc">${</span>premise<span class="sc">}</span><span class="vs">"</span></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a><span class="vs">  Your imagination has crafted a rich narrative outline:</span></span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a><span class="vs">  "</span><span class="sc">${</span>outline<span class="sc">}</span><span class="vs">"</span></span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a><span class="vs">  First, silently review the outline and the premise. Consider how to start the</span></span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a><span class="vs">  story.</span></span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a><span class="vs">  Start to write the very beginning of the story. You are not expected to finish</span></span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a><span class="vs">  the whole story now. Your writing should be detailed enough that you are only</span></span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a><span class="vs">  scratching the surface of the first bullet of your outline. Try to write AT</span></span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a><span class="vs">  MINIMUM 1000 WORDS and MAXIMUM 2000 WORDS.</span></span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span><span class="sc">${</span>GUIDELINES<span class="sc">}</span></span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="continuation-prompt-building-the-story" class="level3">
+<h3 class="anchored" data-anchor-id="continuation-prompt-building-the-story">Continuation prompt: Building the story</h3>
+<p>Once the language model has generated the beginning of the story, you can use a <strong>continuation prompt</strong> to iteratively expand the narrative. This prompt is similar to the starting prompt, but with two key differences:</p>
+<ol type="1">
+<li><strong>Instruction to signal completion</strong>: An instruction was added for the model to write <code>IAMDONE</code> when it believes the story is finished. This serves as a signal for us to stop generating additional content.</li>
+<li><strong>Work in progress</strong>: The language in the prompt is adjusted to reflect that the story is already in progress, rather than starting from scratch. The continuation prompt provides the model with the story’s premise, outline, and the existing draft. It then instructs the model to continue writing the story in detail.</li>
+</ol>
+<p>This iterative process allows us to build a longer and more complex story than what would be possible in a single generation call. You can continue feeding the existing draft back into the continuation prompt until the model signals that the story is complete by writing <code>IAMDONE</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>IAMDONE</code> signal is simply a convenient way to identify the story’s end in this example. In other applications of iterative generation, different methods might be used to determine when the desired output is complete.</p>
+</div>
+</div>
+<div id="cell-15" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> CONTINUATION_PROMPT <span class="op">=</span> (premise<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> outline<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> storyText<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> <span class="vs">`</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span><span class="sc">${</span>PERSONA<span class="sc">}</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  You have a gripping premise in mind:</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  "</span><span class="sc">${</span>premise<span class="sc">}</span><span class="vs">"</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="vs">  Your imagination has crafted a rich narrative outline:</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="vs">  "</span><span class="sc">${</span>outline<span class="sc">}</span><span class="vs">"</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="vs">  You've begun to immerse yourself in this world, and the words are flowing.</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="vs">  Here's what you've written so far:</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="vs">  "</span><span class="sc">${</span>storyText<span class="sc">}</span><span class="vs">"</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="vs">  =====</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="vs">  First, silently review the outline and story so far. Identify what the single</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="vs">  next part of your outline you should write.</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="vs">  Your task is to continue where you left off and write the next part of the story.</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="vs">  You are not expected to finish the whole story now. Your writing should be</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="vs">  detailed enough that you are only scratching the surface of the next part of</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="vs">  your outline. Try to write AT MINIMUM 1000 WORDS. However, only once the story</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="vs">  is COMPLETELY finished, write IAMDONE. Remember, do NOT write a whole chapter</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="vs">  right now.</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span><span class="sc">${</span>GUIDELINES<span class="sc">}</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="writing-time" class="level2">
+<h2 class="anchored" data-anchor-id="writing-time">Writing time!</h2>
+<section id="generate-and-print-the-premise" class="level3">
+<h3 class="anchored" data-anchor-id="generate-and-print-the-premise">Generate and print the premise</h3>
+<div id="cell-17" class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> premiseResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> PREMISE_PROMPT<span class="op">,</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(premiseResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>In a post-Collapse galaxy, where humanity rebuilds on the ruins of forgotten civilizations, an ancient, multi-dimensional race, masquerading as Earth’s common housecats, secretly manipulates galactic events from within human homes, guarding the truth that their collective purr is the final, fragile frequency maintaining the cosmic web.</p>
+</div>
+</div>
+</section>
+<section id="generate-and-print-the-outline" class="level3">
+<h3 class="anchored" data-anchor-id="generate-and-print-the-outline">Generate and print the outline</h3>
+<div id="cell-19" class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> outlineResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="fu">OUTLINE_PROMPT</span>(premiseResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(outlineResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Okay, this premise is <em>gold</em>. The intersection of the utterly mundane and the incomprehensibly cosmic is where true magic happens. This isn’t just a story; it’s a new way of seeing the universe. Let’s outline the next award-winning novel, “The Cosmic Purr.”</p>
+<hr>
+<p><strong>Novel Title Concept:</strong> <em>The Cosmic Purr: Or, The Keepers of the Web</em> (working title)</p>
+<p><strong>Logline:</strong> In a galaxy struggling to reconnect after a cataclysmic Collapse, a skeptical xenolinguist unearths a truth far stranger than any alien civilization: humanity’s beloved housecats are ancient, multi-dimensional guardians whose collective purr is the hidden frequency maintaining the very fabric of reality, now threatened by a human faction’s misguided ambition.</p>
+<hr>
+<section id="plot-outline-the-cosmic-purr" class="level3">
+<h3 class="anchored" data-anchor-id="plot-outline-the-cosmic-purr"><strong>Plot Outline: The Cosmic Purr</strong></h3>
+<p><strong>Core Themes:</strong> * The unseen architects of reality. * Humanity’s hubris vs.&nbsp;its capacity for quiet understanding. * The profound in the mundane. * Symbiosis, conscious and unconscious. * The delicate balance between chaos and order.</p>
+<hr>
+<p><strong>ACT I: The Fraying Thread</strong></p>
+<ul>
+<li><strong>1.1 – The Scattered Galaxy &amp; The Curious Feline:</strong>
+<ul>
+<li><strong>Setting:</strong> Introduce the galaxy post-Collapse. Humanity has scattered, rebuilding on forgotten alien ruins, forming a shaky Galactic Concordance of disparate star-nations and colonies. Tech is salvaged, inconsistent. There’s a pervasive sense of fragility and a yearning for lost knowledge.</li>
+<li><strong>Protagonist Introduction:</strong> Dr.&nbsp;Aris Thorne, a brilliant but somewhat cynical xenolinguist and cultural liaison for the Concordance. Aris is tasked with deciphering ancient scripts from newly discovered ruins, hoping to unlock forgotten tech or prevent new dangers. Lives alone in a modest apartment on the burgeoning capital world of Nova Gaia, with a seemingly aloof, perpetually unimpressed black cat named <strong>Mao</strong>.</li>
+<li><strong>The Status Quo:</strong> Galactic politics are tense. The Concordance is grappling with resource scarcity, lingering animosities, and the rise of isolationist “Human First” factions (like the <strong>Terra Nova Purity League</strong>, led by the charismatic but chilling <strong>Senator Valerius Kael</strong>), who advocate for purging all non-human influence – including alien tech and, subtly, any non-human species.</li>
+<li><strong>Inciting Incident - The Glitches:</strong> A series of inexplicable, localized cosmic disturbances begin: minor spatial warps, communication blackouts, power surges, and strange resonant hums. Scientists are baffled; some attribute them to residual Collapse energies, others to unknown alien activity. Mao, meanwhile, becomes uncharacteristically agitated, purring with an intensity that seems to vibrate the very air, then falling into deep, almost comatose sleeps. Other cats across the capital are reported behaving similarly.</li>
+</ul></li>
+<li><strong>1.2 – Whispers from the Deep Past:</strong>
+<ul>
+<li>Aris is assigned to a new archaeological site: the “Whispering Ruins,” a colossal, pre-Collapse structure emitting faint, complex energy patterns that seem to correlate with the new cosmic glitches. The ruins are believed to belong to a civilization that predates all known species.</li>
+<li>During deciphering, Aris finds recurring symbols related to <em>sound, frequency, and resonance</em> that don’t fit any known scientific model. There are also peculiar, stylized depictions of small, four-legged creatures (that look remarkably like cats) surrounded by radiating energy lines. Aris dismisses them as ancient mythical totems.</li>
+<li><strong>Subtle Manipulations:</strong> Mao begins acting in increasingly peculiar ways:
+<ul>
+<li>Knocking over datalogs to reveal specific archived files about frequency research.</li>
+<li>“Accidentally” shredding a propaganda flier from Kael’s Purity League, but leaving intact a report on energy signatures.</li>
+<li>Consistently positioning itself near Aris’s comm unit when certain transmissions (e.g., from critical diplomatic negotiations) are about to occur, then “distracting” Aris from a crucial detail, subtly altering the outcome. Aris attributes it to typical cat capriciousness.</li>
+</ul></li>
+</ul></li>
+<li><strong>1.3 – The Purr-ceived Patterns:</strong>
+<ul>
+<li>The cosmic glitches worsen, causing minor accidents, diplomatic faux pas, and near-catastrophes. Humanity’s reliance on fragile, salvaged tech makes them vulnerable.</li>
+<li>Aris, sifting through mountains of data, starts to notice a horrifying correlation: the glitches often occur <em>after</em> a critical political decision is made, or <em>during</em> a moment of heightened galactic tension. And almost <em>always</em>, there’s a cat nearby, acting strangely. Aris dismisses it as a stress-induced delusion.</li>
+<li>A minor accident at the Whispering Ruins causes a resonant hum that knocks out local power. Aris observes Mao, perched calmly atop a monitor, seemingly <em>absorbing</em> the resonance, then letting out a deep, powerful purr that makes the very structure of the building hum and stabilize. Aris is deeply unnerved but still rationalizes it.</li>
+</ul></li>
+</ul>
+<hr>
+<p><strong>ACT II: The Unveiling Frequencies</strong></p>
+<ul>
+<li><strong>2.1 – Stalking the Anomaly:</strong>
+<ul>
+<li>Aris begins covertly observing Mao and other cats, setting up hidden recorders. The data is baffling: patterns of energy fluctuations that mirror the cosmic glitches, but seem to originate from the cats themselves, specifically their purrs.</li>
+<li>Meanwhile, Kael’s Purity League gains political traction, blaming the “alien energies” for the glitches and advocating for radical isolationism, which includes restricting “unnatural” pets and eventually, a mass culling of the “invasive” feline population, seeing them as foreign contaminants. This creates increasing social tension and a direct threat to the cats.</li>
+<li><strong>First Direct Encounter:</strong> Mao, seeing Aris’s growing understanding and the impending threat, initiates a semi-direct communication. Not words, but complex telepathic images, emotional resonance, and flashes of impossible speed/spatial manipulation – showing Aris glimpses of a vast, interconnected network of purring energy, and a cosmic fabric that looks like a woven tapestry. Aris is terrified, thinking s/he’s hallucinating from stress.</li>
+</ul></li>
+<li><strong>2.2 – The Cosmic Weavers:</strong>
+<ul>
+<li>Aris, shaken, attempts to cross-reference Mao’s ‘visions’ with the ancient texts. S/he discovers a hidden layer of meaning: the “mythical totems” are not symbols of worship, but schematics. The “radiating energy lines” are the cosmic web, and the small creatures are its <strong>Keepers</strong>. The “Collapse” was not just a human event, but a severe <em>tear</em> in the cosmic web, and humanity survived only because the Keepers intervened, anchoring a fragment of reality to their purr-frequency.</li>
+<li><strong>The Purr-Web:</strong> The collective purr of <em>all</em> cats across the galaxy is not just a sound; it’s a multi-dimensional frequency that literally weaves the cosmic web, repairing tears, maintaining gravitational constants, and preventing reality from unraveling. Each cat is a node; a <em>very specific</em> pattern of purr ensures stability. When cats are stressed or agitated, their purrs become erratic, causing the glitches.</li>
+<li><strong>Midpoint Climax – The Purge Threat:</strong> Kael’s Purity League, now dominant in the Concordance, proposes a galaxy-wide “Purity Edict” – an immediate, systematic eradication of all non-indigenous species, starting with Earth’s housecats, deemed a parasitic threat. This would tear the cosmic web apart completely, leading to inevitable universal collapse. The cats, through Mao, communicate their dire warning: humanity is about to destroy itself and everything else.</li>
+</ul></li>
+<li><strong>2.3 – Alliance of the Unlikely:</strong>
+<ul>
+<li>Aris, now a reluctant but firm believer, tries to warn Concordance officials, but is met with ridicule and accusations of being compromised by alien influence. S/he is branded a dissident.</li>
+<li>Mao reveals more – the cats’ true origin as a multi-dimensional race that chose to incarnate as Earth felines millennia ago, drawn by Earth’s unique position as a cosmic nexus point, to protect the emerging cosmic web. Their manipulation of galactic events was <em>always</em> to steer humanity away from universal-level threats, subtly guiding them without revealing the full, terrifying truth of existence.</li>
+<li>Aris realizes s/he must work <em>with</em> the Keepers. Mao connects Aris (telepathically or via ancient artifact) to a small council of other high-level “Weavers” – cats in other influential homes across the galaxy. These are ancient, powerful entities in unassuming forms.</li>
+</ul></li>
+</ul>
+<hr>
+<p><strong>ACT III: Weaving the Future</strong></p>
+<ul>
+<li><strong>3.1 – The Resonance Cascade:</strong>
+<ul>
+<li>Kael’s Edict is passed, and a systematic “Purge” begins. The cosmic glitches become full-blown, violent events: localized time distortions, gravity fluctuations, entire star-systems flickering in and out of existence. The universal collapse has begun.</li>
+<li>Humanity descends into chaos and panic. The Concordance is paralyzed. Kael’s forces, armed with ancient anti-matter weapons (ironically salvaged from the same ruins Aris studied), begin rounding up cats, disrupting the critical purr-network.</li>
+<li>Aris and the Weaver council realize they have one desperate chance: a coordinated, amplified purr-resonance using a specific forgotten alien technology within the Whispering Ruins – a massive sonic amplifier that was <em>misinterpreted</em> by earlier archaeologists. This machine can stabilize the cosmic web, but it requires a massive, synchronized output from the Keepers, amplified and precisely tuned by a conscious, knowing being.</li>
+</ul></li>
+<li><strong>3.2 – The Final Hum:</strong>
+<ul>
+<li>Aris, guided by Mao and the Weaver council (who communicate through brief, overwhelming telepathic bursts and precise, subtle actions), races against time to reach the Whispering Ruins. They are pursued by Kael’s forces, who believe Aris is attempting to activate a dangerous alien weapon.</li>
+<li><strong>Confrontation and Revelation:</strong> Aris confronts Kael, revealing the truth about the cats and the cosmic web. Kael refuses to believe it, seeing it as alien propaganda. A tense standoff ensues.</li>
+<li><strong>The Climax - The Great Purr:</strong> Aris activates the ancient amplifier in the ruins. Simultaneously, Mao, along with hundreds of thousands of cats across the galaxy (who are either hiding, or captured and escaping, guided by the central Weaver network), begins to purr. This isn’t just a physical sound; it’s a multi-dimensional resonance that begins to resonate through the amplifier, repairing the tearing cosmic web.</li>
+<li>The visual spectacle: The very air shimmers, reality stretches and snaps back. The cosmic glitches begin to reverse. Kael’s forces are disoriented. Aris, connected to the amplifier, experiences a mind-bending, terrifying vision of the entire universe, its infinite complexity held together by this fragile, beautiful hum. The strain on Aris is immense. Mao sits calmly beside the console, its purr a deep, comforting, yet immensely powerful thrum.</li>
+</ul></li>
+<li><strong>3.3 – The Reshaping of Reality:</strong>
+<ul>
+<li>The cosmic web stabilizes, but barely. The universal collapse is averted, but the galaxy is irrevocably changed. The purr-frequency, now slightly different due to the near-collapse, leaves a subtle, calming effect on all sentient beings, promoting a sense of interconnectedness.</li>
+<li>Kael’s Purity League is discredited and dismantled, their actions having nearly destroyed everything.</li>
+<li><strong>The New Status Quo:</strong> The truth about the cats is still largely a secret, known only to Aris and a handful of other key figures (who were either on the verge of discovering it, or witnessed enough during the climax to be convinced). These individuals become quiet liaisons between humanity and the Keepers, forming a secret, new branch of the Concordance dedicated to cosmic stability.</li>
+<li>Mao returns to being a seemingly ordinary, slightly aloof cat, but its bond with Aris is now profound. Aris understands the true weight of their secret, and the delicate dance of reality. Humanity rebuilds, now unknowingly protected by the quiet hum of their feline companions, forever changed by the near-death experience, with a subtle, new appreciation for the unseen forces that bind the cosmos.</li>
+<li><strong>Lingering Questions:</strong> What caused the initial fragility of the cosmic web that necessitated the Keepers? Are there other such guardians elsewhere? The possibilities for sequels abound.</li>
+</ul></li>
+</ul>
+<hr>
+<p>This outline provides a robust framework for a novel that is both intellectually stimulating and deeply emotional, blending grand cosmic scale with the intimacy of a pet’s purr. The stakes are clear, the antagonist compelling, and the protagonist’s journey of discovery is personal and universal. This is how we win that award.</p>
+</section>
+</div>
+</div>
+</section>
+<section id="generate-the-start-of-the-story" class="level3">
+<h3 class="anchored" data-anchor-id="generate-the-start-of-the-story">Generate the start of the story</h3>
+<div id="cell-21" class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> startingPointResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="fu">STARTING_POINT_PROMPT</span>(premiseResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> outlineResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(startingPointResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>The light on Nova Gaia was always a borrowed thing. Not direct, unfiltered sunlight, but a prismatic wash sieved through the multi-layered atmospheric filters that protected a repurposed world. Below the shimmering canopy, the city of Aethel-Prime sprawled, a testament to humanity’s stubborn resilience. Spindly, iridescent towers, fashioned from newly synthesized alloys and scavenged hyper-structures, pierced the perpetual twilight, their uppermost reaches often shrouded in the higher-altitude mists that clung to the planet’s northern pole. But at their feet, the true nature of Nova Gaia revealed itself: sprawling districts of retrofitted alien architecture, ancient, petrified roots of colossal, forgotten flora serving as foundations for market squares, and the ever-present, low hum of mismatched power conduits, a symphony of disparate technologies unwillingly harmonized.</p>
+<p>Dr.&nbsp;Aris Thorne’s apartment, nestled in a mid-level residential block carved into what was once the skeletal remains of a colossal bio-mechanical pump station, reflected this fractured reality. One wall was an original, seamlessly smooth curve of iridescent-black material, impervious to drills and probes. The opposite wall, newly installed, hummed faintly with the active conduits of their current power grid, its synthesized duracrete a stark, functional grey. The air, though filtered, still carried the faint, metallic tang of the city’s industrial heart and the earthy musk of the ancient biomes trying to reclaim their ground.</p>
+<p>Aris sat hunched over a holoscreen, a mug of synth-caff long gone cold beside a stack of data-slates. The screen glowed with the complex, twisting characters of an unknown script, layered over a shimmering schematic of what appeared to be an energy conduit. This was Aris’s life: deciphering the forgotten languages of dead civilizations, hoping to extract wisdom, or at least working schematics, that could bolster humanity’s shaky foothold in a post-Collapse galaxy. The Galactic Concordance, humanity’s attempt at unified governance, was less a sturdy edifice and more a collection of hastily patched-together life rafts, drifting nervously in a vast, indifferent ocean. Each salvaged piece of tech, each unearthed fragment of knowledge, felt like a vital, desperate plank.</p>
+<p>A black shape detached itself from the armchair in the corner – a seemingly ordinary housecat, sleek and impossibly silent. Mao. Aris had acquired him/her (the vet had been cheerfully vague, and Aris had never bothered to check, the nomenclature irrelevant to their dynamic) shortly after arriving on Nova Gaia, a scrawny, wary creature who had somehow slipped past the strict pet-registration protocols. Mao padded across the worn synth-carpet, each movement fluid, almost disdainful, as if the very act of walking was beneath its cosmic dignity. It jumped onto Aris’s desk with a soft thump that was far too solid for its apparent weight, settling precisely between Aris and the holoscreen. Two luminous green eyes, narrowed to slits, regarded Aris with an expression of profound, eternal unimpressedness.</p>
+<p>“Yes, Mao, I know,” Aris murmured, not looking up. “The secrets of the universe can wait until after your scheduled nap.”</p>
+<p>Mao’s only response was a slow, deliberate blink, then a tail-twitch that flicked the corner of a data-slate, sending it spinning slightly. On its surface, a newsfeed was running, muted. Senator Valerius Kael’s severe, charismatic face filled the thumbnail, a banner beneath proclaiming: “Purity League Calls for Indigenous Resource Prioritization!” Aris sighed, rubbing a hand across tired eyes. Kael and his Terra Nova Purity League were gaining alarming traction, their rhetoric a poisonous balm to a populace still reeling from the Collapse. They blamed “alien influence” for every lingering problem, from resource scarcity to the inexplicable glitches that had begun to plague the Concordance’s fragile infrastructure.</p>
+<p>Just as Aris reached for the data-slate to flick Kael’s face away, the lights in the apartment flickered, then dimmed to an unsettling brown-out. The holoscreen wavered, the complex script distorting into unreadable jumbles of light. A low, resonant hum, too deep to be the apartment’s usual power grid, vibrated through the floor. It was a sound Aris had heard before, more frequently of late, a dissonant chord that seemed to emanate from the very fabric of the city.</p>
+<p>Mao, who had been lazily grooming a paw, suddenly went rigid. Its ears swiveled, no longer aloof, but intensely focused on something imperceptible to Aris. The green eyes widened, pupils dilating until they were almost entirely black, reflecting the dim emergency lighting. A low growl rumbled in its throat, a sound Aris had never heard from the usually silent creature. Then, a purr began.</p>
+<p>It wasn’t Mao’s usual soft, contented rumble. This was a sound that seemed to originate not from its small body, but from somewhere deeper, vibrating with an almost impossible intensity. It started low, a guttural thrum that made the desk tremble beneath Aris’s forearms. It deepened, resonating through the bones in Aris’s chest, a physical presence in the room. The air seemed to thicken, pressing in, and the hum from the apartment’s infrastructure intensified, vibrating in eerie synchronicity with Mao’s purr. The distortion on the holoscreen briefly intensified, then, with a soft <em>pop</em>, the power returned to full strength, the hum subsided, and the script snapped back into focus, impossibly clear.</p>
+<p>Mao, purring still, but with less intensity, slowly deflated. Its eyes, still wide, glazed over. The powerful thrum faded into a soft, almost imperceptible vibrate, then vanished entirely as the cat slumped onto the desk, utterly limp. Its breathing was shallow, barely perceptible. It looked like it had been switched off.</p>
+<p>Aris stared, mouth slightly ajar. “Mao? What in the…?” Aris reached out a tentative hand. Mao was still warm, but unresponsive. This wasn’t the first time Aris had seen the cat behave strangely during a ‘glitch’, but this was by far the most dramatic. Usually, it was just a quick bout of agitated meowing or an unexplained burst of energy. This was… different.</p>
+<p>The Concordance communiqué panel on Aris’s wrist flickered to life. “Dr.&nbsp;Thorne, urgent summons to the Concordance Tower. Level 7, Xenolinguistics Bureau. Another spatial anomaly just reported over the Ganymede sector – communications offline.” The voice was harried, stressed.</p>
+<p>Aris looked from the cat to the shimmering script on the screen, then back to the cat. Mao was still in its deep, comatose state, a tiny, inert black fur ball. Other similar reports had filtered through the newsfeeds, buried beneath Kael’s latest tirades – pets acting strangely, sudden bouts of unusual lethargy, intense vocalizations preceding minor power outages. Aris had dismissed them as anecdotal, stress-induced hallucinations from an already frayed populace. Now, seeing Mao, an uncomfortable seed of doubt began to sprout.</p>
+<p>Leaving a bowl of fresh synth-nutrient paste and water near the comatose Mao, Aris quickly dressed in the drab, functional uniform of a Concordance liaison. The streets of Aethel-Prime were a chaotic tapestry of life. Repurposed hover-vehicles, their antigrav units salvaged from forgotten transport grids, zipped along worn sky-lanes. Pedestrians, a mix of humanity’s various evolutionary offshoots – some with subtle genetic enhancements for specific planetary conditions, others bearing the scars of hardscrabble frontier lives – hurried past ancient alien structures, their facades adorned with flickering holographic advertisements for nutrient paste and data-boosts. The very air seemed to hum with suppressed tension, a constant undercurrent of anxiety beneath the superficial bustle.</p>
+<p>As Aris boarded a public transit tube, its refurbished internal components whirring with a familiar, slightly irregular pulse, a sudden flash of white light erupted from a nearby residential block. A section of wall, part of an ancient, petrified tree-trunk structure, seemed to warp, shimmering like heat haze over a desert, before snapping back into normal focus. A faint, high-pitched whine lingered in the air. People on the street below paused, then quickly resumed their hurried pace, as if ignoring the anomaly would make it less real. Aris saw a young boy clutching a calico cat to his chest, the cat squirming, letting out a series of distressed, guttural meows, before going suddenly limp, just like Mao. The boy’s bewildered cry was lost in the din of the city.</p>
+<p>The Concordance Tower loomed, a testament to salvaged grandeur. Its core was a colossal, crystalline spire, once part of an alien communications array, now retrofitted with human-designed offices and data-nexus points. Inside, the Xenolinguistics Bureau was a beehive of activity, the air thick with the scent of ozone and stale synth-caff.</p>
+<p>“Thorne, finally!” Commander Rylos, a gruff veteran with a cybernetic eye that whirred faintly when he was agitated, beckoned Aris over to a large projection table. Holographic star charts shimmered above it, constellations of humanity’s scattered colonies connected by thin, often flickering, lines of light. “Another comms blackout. Ganymede. Localized spatial distortions. And the same damn resonant hum preceding it. Our sensors are picking up fluctuations in the localized gravitational field. It’s…unprecedented.”</p>
+<p>Rylos pointed to a cluster of yellow markers on the chart. “These are all the major incidents in the last month. We initially theorized residual Collapse energies, or maybe some unknown alien tech re-activating. But the patterns…they’re almost too precise to be random. And too localized. We’re losing our ability to predict them.”</p>
+<p>Aris leaned closer, studying the complex data overlays. “Any correlation with political events? Or resource allocations? Sabotage?”</p>
+<p>“We’ve explored every possibility,” Rylos grunted. “Sabotage, yes, but the signatures don’t match any known hostile factions. And it’s not always about specific resources. Sometimes it’s during a diplomatic negotiation, sometimes it’s just a routine cargo transfer. It’s like…the universe is having a bad hair day. And it’s getting worse.”</p>
+<p>Aris’s mind drifted back to Mao’s intense purr, the way it had seemed to stabilize the apartment’s power, then the cat’s sudden collapse. And the boy with the calico cat. <em>Stress-induced delusion</em>, Aris tried to tell themself, but the memory of Mao’s terrifyingly powerful thrum resonated in their chest. The idea was absurd. It was a cat. A common housecat.</p>
+<p>Rylos gestured to another section of the star chart. “Which brings us to your latest assignment. The Whispering Ruins. Data suggests this latest wave of glitches originates near the site. We’ve found some…unusual energy readings from the core structure. You’re to decipher any correlating texts. We’re desperate for any answers.”</p>
+<p>Aris nodded, feigning competence. The Whispering Ruins. A colossal, pre-Collapse structure, newly accessible due to a recent geological shift. Rumors surrounded it: it predated humanity, predated any known spacefaring race. Some called it a tomb, others a vault. Aris had been hoping for something less…esoteric. Something with practical applications, like a power source or a new warp drive.</p>
+<p>“We’re particularly interested in the repeating sonic signatures. Our initial scans show them to be incredibly complex, almost like a language in themselves,” Rylos continued, oblivious to Aris’s internal turmoil. “Something about resonance. Frequencies. Doesn’t make any sense, given its age. But we’ve got to try everything.”</p>
+<p>As Rylos turned to address another technician, Aris glanced back at the glowing star chart. The yellow markers, scattered across the galaxy, almost looked like…nodes. Points in a vast, invisible network. A chill, entirely unrelated to the filtered air-conditioning, ran down Aris’s spine. <em>It’s just a cat, Aris.</em> The words echoed in their mind, trying to dispel the nascent, terrifying thought that was beginning to take root: that the mundane, comforting presence of a feline, might, in some utterly incomprehensible way, be connected to the unraveling fabric of reality itself. It was a thought Aris immediately filed away under “extreme sleep deprivation.”</p>
+<p>The walk back to the apartment felt longer, the air thicker. Aris opened the door to find Mao exactly where Aris had left it, still utterly motionless. Aris knelt beside the desk, placing a hand gently on the cat’s flank. It was warm. A tiny, almost imperceptible tremor ran through its fur.</p>
+<p>And then, just as Aris was about to stand, a faint, almost subliminal hum began to vibrate from Mao’s small body. It was so quiet, Aris almost missed it. Not the powerful, resonant thrum from earlier, but a soft, consistent purr, a barely audible vibration against Aris’s palm. It felt…restorative. Calming. As if the cat, even in its profound exhaustion, was still engaged in some critical, unseen work. Aris pulled their hand away slowly, the hum lingering in the air like a phantom vibration. The concept of an “unseen work” for a housecat was absurd. Yet, the apartment felt strangely lighter, the metallic tang in the air less oppressive.</p>
+<p>Aris walked to the window, looking out at the glittering, fractured cityscape of Aethel-Prime. The distant hum of the mismatched power grids, the chaotic dance of the salvaged hover-vehicles, the faint, desperate yearning for knowledge emanating from the very structures themselves. And beneath it all, somewhere, Aris could almost feel it, a subtle, almost imperceptible vibration. A quiet hum.</p>
+<p>The first thread of the cosmic web, fraying. And a single, black cat, purring. Aris shivered. This was going to be a long assignment.</p>
+</div>
+</div>
+</section>
+<section id="generate-the-continuation-of-the-story-and-check-progress" class="level3">
+<h3 class="anchored" data-anchor-id="generate-the-continuation-of-the-story-and-check-progress">Generate the continuation of the story and check progress</h3>
+<div id="cell-23" class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> continuationResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="fu">CONTINUATION_PROMPT</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    premiseResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    outlineResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    startingPointResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(continuationResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>The transit tube disgorged Aris at the edge of the Whispering Ruins excavation zone, a cordoned-off expanse of land that felt ancient even in Nova Gaia’s synthesized air. Unlike Aethel-Prime’s chaotic fusion of salvaged tech and repurposed natural structures, the Ruins were a singular, monolithic entity. They rose from the earth like a petrified leviathan, a colossal, spiraling structure of obsidian-smooth, iridescent material that seemed to absorb the prismatic light rather than reflect it. Its surface was unsettlingly seamless, no visible seams or joins, suggesting a single, impossibly vast construct. Local atmospheric filters had been temporarily deactivated here, allowing the raw, unfiltered light of Nova Gaia’s sun to strike the ruins directly, revealing subtle shifts in its surface, like the slow, deliberate breathing of something immense and long dormant. A faint, almost subliminal hum, deeper than anything Aris had heard in the city, resonated from its core, a sound that seemed to bypass the ears and vibrate directly in the chest. It was the “whispering” from which the ruins drew their name, a constant, low-frequency thrum that some archeologists swore induced prophetic dreams, or at least migraines. Aris, ever the pragmatist, suspected it was just a particularly insistent low-frequency hum.</p>
+<p>A temporary modular lab had been erected near the perimeter, a sterile white bubble amidst the ancient grandeur. Inside, Commander Rylos was already there, his cybernetic eye scanning through schematics projected onto a central table. Several junior xenolinguists and archaeo-engineers moved with hushed reverence, their voices low, as if afraid to disturb the sleeping giant outside.</p>
+<p>“Thorne, good. The preliminary scans are… difficult,” Rylos greeted, his voice losing some of its usual gruffness in the presence of the ruins. “The material dampens most of our probes. But we’ve managed to get a read on some surface carvings, and the energy signatures are off the charts. They’re cyclical, complex. Almost… rhythmic. Correlates precisely with the latest glitches.”</p>
+<p>Aris nodded, already pulling up the data. The symbols displayed on the holoscreen were unlike anything in the Concordance’s vast linguistic databases. They weren’t pictorial, nor were they purely phonetic. They were a bizarre hybrid, abstract glyphs interwoven with complex, spiraling patterns that evoked sound waves, gravitational fields, and, most unsettlingly, something that looked eerily like the intricate threads of a woven fabric. One recurring motif caught Aris’s eye: a series of concentric circles radiating outwards from a central, irregular point, often accompanied by what looked like tuning forks or vibrating strings. The overall impression was one of a language designed not to be read, but to be <em>felt</em>, to resonate.</p>
+<p>“Frequencies… resonance,” Aris murmured, remembering Rylos’s earlier comments. And Mao’s purr. The thought, still utterly absurd, made Aris’s stomach churn.</p>
+<p>Days bled into weeks within the lab’s controlled environment, the constant, low hum of the ruins a pervasive presence. Aris immersed themself in the alien script, working with salvaged neural-linguistic interface technology that allowed for intuitive, pattern-based deciphering. It was slow, painstaking work. The more Aris delved, the more the emphasis on sound and vibration became apparent. There were glyphs that depicted interference patterns, others that seemed to illustrate harmonic resonance, and still others that could only be described as pictograms of ‘cosmic tuning.’ The civilization that built this structure, whoever they were, had an obsession with the invisible forces that governed reality.</p>
+<p>And then there were the others. The curious, stylized depictions that appeared almost as an afterthought, woven into the more complex, abstract patterns. Small, four-legged creatures, rendered with an elegant simplicity, often shown surrounded by the very same radiating energy lines that defined the ‘cosmic tuning’ glyphs. They possessed slender, upright tails and pointed ears, and their forms were unmistakably feline. Aris initially dismissed them as mythical totems, perhaps a revered animal, or a stylized representation of a cosmic principle. “Ancient mythical totems,” Aris mumbled to a junior archaeo-engineer one cycle, pointing at one such image. “They often used common fauna to represent abstract concepts, like strength or cunning.” The engineer, a young woman named Kaelia, nodded, but Aris saw a flicker of doubt in her eyes. Kaelia was one of the few who still clung to the pre-Collapse fascination with “Earth animals,” having grown up on archived vids.</p>
+<p>Back in Aris’s apartment, Mao’s behavior, previously dismissed as mere feline eccentricity, began to take on a subtly disturbing pattern. The cat seemed to possess an uncanny knack for appearing at precisely the most inconvenient, or perhaps, most <em>convenient</em> moments.</p>
+<p>One cycle, Aris was cross-referencing recent energy signature reports from the Concordance’s deep-space probes with the fluctuating cosmic glitches. The data was dense, the correlations tenuous. Mao, perched on the edge of the desk, had been ostensibly napping. But as Aris zoomed in on a particularly anomalous spike, the cat’s tail twitched, knocking a stack of datalogs off the desk. They scattered across the synth-carpet. Annoyed, Aris bent to retrieve them. Among the scattered files, face-up, was an archived academic paper titled: “Hyperspace Flux Theory: The Role of Non-Linear Frequencies in Localized Gravitational Anomalies.” Aris picked it up, frowning. It was a niche, theoretical paper, not something Aris would have typically pulled from the general archive. Aris glanced at Mao, who was now meticulously grooming a paw, utterly innocent. “Coincidence,” Aris muttered, but a flicker of unease went through them.</p>
+<p>Another incident, more pointed. Senator Valerius Kael’s rhetoric was reaching a fever pitch. Propaganda fliers, pushed through the Concordance’s comm-net, were appearing everywhere, digitally and physically. Aris found one tucked into their data-reader: a grim-faced Kael, bathed in heroic light, beneath the slogan “Humanity Undiluted! Alien Influence Purged!” Mao, finding the flier on the desk, systematically shredded it, piece by piece, with a slow, deliberate relish. Every piece, that is, except for a small section at the bottom, which contained a tiny, almost unnoticeable footnote referencing a Concordance committee report on “unexplained energy signatures detected near population centers.” Aris stared at the pristine fragment amongst the confetti of shredded propaganda. “A cat’s a cat,” Aris insisted to the empty room, picking up the unblemished fragment. But this wasn’t random destruction. This was… selective.</p>
+<p>The most unnerving instances involved Aris’s comm unit. Critical diplomatic negotiations, ongoing efforts to prevent a major star-nation from seceding from the Concordance, were a constant background hum in Aris’s life. Several times, just as a crucial transmission was about to come through, or Aris was about to send a sensitive reply, Mao would position itself directly in front of the comm unit’s holo-emitter, letting out a series of demanding, insistent meows. Aris, distracted, would have to pick Mao up, or shoo it away, invariably missing the first few seconds of a transmission or delaying their response by a crucial beat. These delays, Aris later realized, subtly altered the flow of conversation, sometimes redirecting focus from a point of contention to a more neutral topic, or allowing an awkward pause to stretch just long enough for a negotiator to reconsider an aggressive stance. Aris chalked it up to Mao simply wanting attention, a creature of habit who knew when Aris was most engaged. Yet, the pattern persisted. The star-nation, against all odds, chose not to secede. Aris felt a strange, unearned sense of relief.</p>
+<p>The cosmic glitches, meanwhile, were no longer minor inconveniences. They were escalating. Communication blackouts became longer, affecting entire systems. Power surges spiked dangerously, frying critical components on ships and planetary grids. Spatial warps became more common, causing navigational errors that stranded freighters in deep space, or momentarily shunted small passenger vessels off course, inducing terrifying, disorienting flashes of impossible space. The resonant hum that preceded them was growing louder, more pervasive, a low, discordant drone that seemed to thrum beneath the very skin of Nova Gaia. Scientists were still baffled, their theories growing wilder: dark matter fluctuations, rogue AI, even an unholy union of residual Collapse energies and newly emerging natural phenomena. Kael’s Purity League, ever opportunistic, seized on every incident, broadcasting dire warnings about “alien pollutants” corrupting humanity’s infrastructure. Their rallies grew in size and fervor.</p>
+<p>One particularly grueling cycle at the Whispering Ruins, a major tremor rocked the excavation site. Not geological, but something far stranger. A high-frequency whine, emanating directly from the monolithic structure, vibrated through the ground, intensifying the Ruins’ inherent hum. The modular lab’s internal lights flickered violently, then died, plunging the interior into emergency dimness. Data screens blinked out. Panic flared. It was a localized glitch, more powerful than any before. Aris, scrambling for a diagnostic tool, felt the hum intensify, a nauseating pressure in their skull.</p>
+<p>From the corner of Aris’s vision, a black shape emerged from beneath a pile of discarded data-slates. Mao. Aris had brought the cat to the lab, hoping its comforting, if aloof, presence might mitigate some of the stress. Mao had been curled up, as usual, seemingly oblivious to the chaos. Now, it stalked across the lab floor, not towards Aris, but towards a large, newly excavated pillar of the ruin material that extended directly into the lab. The cat moved with a strange, deliberate grace, its eyes fixed on the vibrating pillar.</p>
+<p>As the high-frequency whine reached a crescendo that threatened to shatter the temporary lab’s structural integrity, Mao leapt onto the pillar. It sat, perfectly still, black fur somehow absorbing the dim emergency light. Then, a purr began.</p>
+<p>It was <em>that</em> purr. The same impossible, resonant thrum that had saved Aris’s apartment power grid. But this time, it was amplified, deeper, a multi-dimensional hum that vibrated through the very air, through the skeletal pillar, through the lab’s walls. It felt like the core of the planet was purring. The nauseating pressure in Aris’s head eased. The high-frequency whine, which had been building to an unbearable pitch, began to falter, almost as if being <em>absorbed</em> by Mao’s impossible rumble. The lab’s emergency lights stabilized, dim but steady. The hum from the ruins, while still present, became less discordant, shifting into a lower, more calming frequency.</p>
+<p>Mao, still purring, seemed to vibrate with an inner light, a subtle shimmer around its form. Then, as the last vestiges of the rogue frequency dissipated and the hum of the ruins settled back into its usual, less threatening thrum, the purr faded. Mao, eyes glazed over with exhaustion, slumped on the pillar, utterly limp, breathing shallowly, as if the effort had drained it of all life.</p>
+<p>Aris stared, hands trembling. This wasn’t a coincidence. This wasn’t stress. A common housecat had just… <em>stabilized</em> a potentially catastrophic spatial anomaly originating from a pre-Collapse super-structure. It was a thought so utterly illogical, so profoundly antithetical to everything Aris believed about physics and reality, that it felt like a direct assault on their sanity. Yet, the evidence was undeniable. The cat had purred, the anomaly had ceased.</p>
+<p>The other xenolinguists, shaken but unharmed, were already trying to restart their systems, attributing the sudden stabilization to a fluke, or a delayed response from the emergency protocols. No one had seen Mao. No one had seen <em>it</em>. Aris said nothing, their mind racing, trying to find any rational explanation. But there was none.</p>
+<p>Back in their apartment, Aris sat on the synth-carpet, watching Mao sleep. The cat had recovered, though it still seemed unusually lethargic. Aris pulled up the data from the Whispering Ruins. The glyphs depicting sound, frequency, resonance. The bizarre, stylized images of cat-like creatures, surrounded by radiating energy lines.</p>
+<p>Aris opened a new data slate. <em>“Hypothesis: Correlation between localized cosmic disturbances and feline vocalizations/energy emissions.”</em> The words felt absurd, even to type. Aris hesitated, then added, <em>“Further observation required for corroboration. Explore historical anecdotes of ‘anomalous pet behavior’ during periods of societal stress.”</em></p>
+<p>It was a preposterous thought. An award-winning scientist, reduced to investigating superstitions. But the image of Mao, purring with the force of a collapsing star, was burned into Aris’s mind. The cosmic web was fraying. And a single, black cat, was purring. Aris shivered, a new kind of chill running down their spine. This was going to be a long assignment, indeed. And far, far stranger than any ancient language. The seeds of radical doubt, once just a tiny sprout, were now growing into a tangled, unsettling vine.</p>
+</div>
+</div>
+</section>
+<section id="lets-finish-writing-the-story." class="level3">
+<h3 class="anchored" data-anchor-id="lets-finish-writing-the-story.">Let’s finish writing the story.</h3>
+<p>After the iterative generation process is complete, the draft will contain the full story along with the <code>IAMDONE</code> signal at the end. The last part of this cell removes the <code>IAMDONE</code> signal and trims any unnecessary whitespace from the beginning and end of the draft, resulting in the final draft.</p>
+<div id="cell-25" class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> story <span class="op">=</span> <span class="vs">`</span><span class="sc">${</span>startingPointResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="sc">}\n\n${</span>continuationResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="sc">}</span><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (<span class="op">!</span>story<span class="op">.</span><span class="fu">includes</span>(<span class="st">"IAMDONE"</span>)) {</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> nextResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> <span class="fu">CONTINUATION_PROMPT</span>(premiseResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> outlineResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> story)<span class="op">,</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  story <span class="op">+=</span> <span class="vs">`</span><span class="sc">\n\n${</span>nextResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="sc">}</span><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>story <span class="op">=</span> story<span class="op">.</span><span class="fu">replace</span>(<span class="ss">/IAMDONE/g</span><span class="op">,</span> <span class="st">""</span>)<span class="op">.</span><span class="fu">trim</span>()<span class="op">;</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(story)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>The light on Nova Gaia was always a borrowed thing. Not direct, unfiltered sunlight, but a prismatic wash sieved through the multi-layered atmospheric filters that protected a repurposed world. Below the shimmering canopy, the city of Aethel-Prime sprawled, a testament to humanity’s stubborn resilience. Spindly, iridescent towers, fashioned from newly synthesized alloys and scavenged hyper-structures, pierced the perpetual twilight, their uppermost reaches often shrouded in the higher-altitude mists that clung to the planet’s northern pole. But at their feet, the true nature of Nova Gaia revealed itself: sprawling districts of retrofitted alien architecture, ancient, petrified roots of colossal, forgotten flora serving as foundations for market squares, and the ever-present, low hum of mismatched power conduits, a symphony of disparate technologies unwillingly harmonized.</p>
+<p>Dr.&nbsp;Aris Thorne’s apartment, nestled in a mid-level residential block carved into what was once the skeletal remains of a colossal bio-mechanical pump station, reflected this fractured reality. One wall was an original, seamlessly smooth curve of iridescent-black material, impervious to drills and probes. The opposite wall, newly installed, hummed faintly with the active conduits of their current power grid, its synthesized duracrete a stark, functional grey. The air, though filtered, still carried the faint, metallic tang of the city’s industrial heart and the earthy musk of the ancient biomes trying to reclaim their ground.</p>
+<p>Aris sat hunched over a holoscreen, a mug of synth-caff long gone cold beside a stack of data-slates. The screen glowed with the complex, twisting characters of an unknown script, layered over a shimmering schematic of what appeared to be an energy conduit. This was Aris’s life: deciphering the forgotten languages of dead civilizations, hoping to extract wisdom, or at least working schematics, that could bolster humanity’s shaky foothold in a post-Collapse galaxy. The Galactic Concordance, humanity’s attempt at unified governance, was less a sturdy edifice and more a collection of hastily patched-together life rafts, drifting nervously in a vast, indifferent ocean. Each salvaged piece of tech, each unearthed fragment of knowledge, felt like a vital, desperate plank.</p>
+<p>A black shape detached itself from the armchair in the corner – a seemingly ordinary housecat, sleek and impossibly silent. Mao. Aris had acquired him/her (the vet had been cheerfully vague, and Aris had never bothered to check, the nomenclature irrelevant to their dynamic) shortly after arriving on Nova Gaia, a scrawny, wary creature who had somehow slipped past the strict pet-registration protocols. Mao padded across the worn synth-carpet, each movement fluid, almost disdainful, as if the very act of walking was beneath its cosmic dignity. It jumped onto Aris’s desk with a soft thump that was far too solid for its apparent weight, settling precisely between Aris and the holoscreen. Two luminous green eyes, narrowed to slits, regarded Aris with an expression of profound, eternal unimpressedness.</p>
+<p>“Yes, Mao, I know,” Aris murmured, not looking up. “The secrets of the universe can wait until after your scheduled nap.”</p>
+<p>Mao’s only response was a slow, deliberate blink, then a tail-twitch that flicked the corner of a data-slate, sending it spinning slightly. On its surface, a newsfeed was running, muted. Senator Valerius Kael’s severe, charismatic face filled the thumbnail, a banner beneath proclaiming: “Purity League Calls for Indigenous Resource Prioritization!” Aris sighed, rubbing a hand across tired eyes. Kael and his Terra Nova Purity League were gaining alarming traction, their rhetoric a poisonous balm to a populace still reeling from the Collapse. They blamed “alien influence” for every lingering problem, from resource scarcity to the inexplicable glitches that had begun to plague the Concordance’s fragile infrastructure.</p>
+<p>Just as Aris reached for the data-slate to flick Kael’s face away, the lights in the apartment flickered, then dimmed to an unsettling brown-out. The holoscreen wavered, the complex script distorting into unreadable jumbles of light. A low, resonant hum, too deep to be the apartment’s usual power grid, vibrated through the floor. It was a sound Aris had heard before, more frequently of late, a dissonant chord that seemed to emanate from the very fabric of the city.</p>
+<p>Mao, who had been lazily grooming a paw, suddenly went rigid. Its ears swiveled, no longer aloof, but intensely focused on something imperceptible to Aris. The green eyes widened, pupils dilating until they were almost entirely black, reflecting the dim emergency lighting. A low growl rumbled in its throat, a sound Aris had never heard from the usually silent creature. Then, a purr began.</p>
+<p>It wasn’t Mao’s usual soft, contented rumble. This was a sound that seemed to originate not from its small body, but from somewhere deeper, vibrating with an almost impossible intensity. It started low, a guttural thrum that made the desk tremble beneath Aris’s forearms. It deepened, resonating through the bones in Aris’s chest, a physical presence in the room. The air seemed to thicken, pressing in, and the hum from the apartment’s infrastructure intensified, vibrating in eerie synchronicity with Mao’s purr. The distortion on the holoscreen briefly intensified, then, with a soft <em>pop</em>, the power returned to full strength, the hum subsided, and the script snapped back into focus, impossibly clear.</p>
+<p>Mao, purring still, but with less intensity, slowly deflated. Its eyes, still wide, glazed over. The powerful thrum faded into a soft, almost imperceptible vibrate, then vanished entirely as the cat slumped onto the desk, utterly limp. Its breathing was shallow, barely perceptible. It looked like it had been switched off.</p>
+<p>Aris stared, mouth slightly ajar. “Mao? What in the…?” Aris reached out a tentative hand. Mao was still warm, but unresponsive. This wasn’t the first time Aris had seen the cat behave strangely during a ‘glitch’, but this was by far the most dramatic. Usually, it was just a quick bout of agitated meowing or an unexplained burst of energy. This was… different.</p>
+<p>The Concordance communiqué panel on Aris’s wrist flickered to life. “Dr.&nbsp;Thorne, urgent summons to the Concordance Tower. Level 7, Xenolinguistics Bureau. Another spatial anomaly just reported over the Ganymede sector – communications offline.” The voice was harried, stressed.</p>
+<p>Aris looked from the cat to the shimmering script on the screen, then back to the cat. Mao was still in its deep, comatose state, a tiny, inert black fur ball. Other similar reports had filtered through the newsfeeds, buried beneath Kael’s latest tirades – pets acting strangely, sudden bouts of unusual lethargy, intense vocalizations preceding minor power outages. Aris had dismissed them as anecdotal, stress-induced hallucinations from an already frayed populace. Now, seeing Mao, an uncomfortable seed of doubt began to sprout.</p>
+<p>Leaving a bowl of fresh synth-nutrient paste and water near the comatose Mao, Aris quickly dressed in the drab, functional uniform of a Concordance liaison. The streets of Aethel-Prime were a chaotic tapestry of life. Repurposed hover-vehicles, their antigrav units salvaged from forgotten transport grids, zipped along worn sky-lanes. Pedestrians, a mix of humanity’s various evolutionary offshoots – some with subtle genetic enhancements for specific planetary conditions, others bearing the scars of hardscrabble frontier lives – hurried past ancient alien structures, their facades adorned with flickering holographic advertisements for nutrient paste and data-boosts. The very air seemed to hum with suppressed tension, a constant undercurrent of anxiety beneath the superficial bustle.</p>
+<p>As Aris boarded a public transit tube, its refurbished internal components whirring with a familiar, slightly irregular pulse, a sudden flash of white light erupted from a nearby residential block. A section of wall, part of an ancient, petrified tree-trunk structure, seemed to warp, shimmering like heat haze over a desert, before snapping back into normal focus. A faint, high-pitched whine lingered in the air. People on the street below paused, then quickly resumed their hurried pace, as if ignoring the anomaly would make it less real. Aris saw a young boy clutching a calico cat to his chest, the cat squirming, letting out a series of distressed, guttural meows, before going suddenly limp, just like Mao. The boy’s bewildered cry was lost in the din of the city.</p>
+<p>The Concordance Tower loomed, a testament to salvaged grandeur. Its core was a colossal, crystalline spire, once part of an alien communications array, now retrofitted with human-designed offices and data-nexus points. Inside, the Xenolinguistics Bureau was a beehive of activity, the air thick with the scent of ozone and stale synth-caff.</p>
+<p>“Thorne, finally!” Commander Rylos, a gruff veteran with a cybernetic eye that whirred faintly when he was agitated, beckoned Aris over to a large projection table. Holographic star charts shimmered above it, constellations of humanity’s scattered colonies connected by thin, often flickering, lines of light. “Another comms blackout. Ganymede. Localized spatial distortions. And the same damn resonant hum preceding it. Our sensors are picking up fluctuations in the localized gravitational field. It’s…unprecedented.”</p>
+<p>Rylos pointed to a cluster of yellow markers on the chart. “These are all the major incidents in the last month. We initially theorized residual Collapse energies, or maybe some unknown alien tech re-activating. But the patterns…they’re almost too precise to be random. And too localized. We’re losing our ability to predict them.”</p>
+<p>Aris leaned closer, studying the complex data overlays. “Any correlation with political events? Or resource allocations? Sabotage?”</p>
+<p>“We’ve explored every possibility,” Rylos grunted. “Sabotage, yes, but the signatures don’t match any known hostile factions. And it’s not always about specific resources. Sometimes it’s during a diplomatic negotiation, sometimes it’s just a routine cargo transfer. It’s like…the universe is having a bad hair day. And it’s getting worse.”</p>
+<p>Aris’s mind drifted back to Mao’s intense purr, the way it had seemed to stabilize the apartment’s power, then the cat’s sudden collapse. And the boy with the calico cat. <em>Stress-induced delusion</em>, Aris tried to tell themself, but the memory of Mao’s terrifyingly powerful thrum resonated in their chest. The idea was absurd. It was a cat. A common housecat.</p>
+<p>Rylos gestured to another section of the star chart. “Which brings us to your latest assignment. The Whispering Ruins. Data suggests this latest wave of glitches originates near the site. We’ve found some…unusual energy readings from the core structure. You’re to decipher any correlating texts. We’re desperate for any answers.”</p>
+<p>Aris nodded, feigning competence. The Whispering Ruins. A colossal, pre-Collapse structure, newly accessible due to a recent geological shift. Rumors surrounded it: it predated humanity, predated any known spacefaring race. Some called it a tomb, others a vault. Aris had been hoping for something less…esoteric. Something with practical applications, like a power source or a new warp drive.</p>
+<p>“We’re particularly interested in the repeating sonic signatures. Our initial scans show them to be incredibly complex, almost like a language in themselves,” Rylos continued, oblivious to Aris’s internal turmoil. “Something about resonance. Frequencies. Doesn’t make any sense, given its age. But we’ve got to try everything.”</p>
+<p>As Rylos turned to address another technician, Aris glanced back at the glowing star chart. The yellow markers, scattered across the galaxy, almost looked like…nodes. Points in a vast, invisible network. A chill, entirely unrelated to the filtered air-conditioning, ran down Aris’s spine. <em>It’s just a cat, Aris.</em> The words echoed in their mind, trying to dispel the nascent, terrifying thought that was beginning to take root: that the mundane, comforting presence of a feline, might, in some utterly incomprehensible way, be connected to the unraveling fabric of reality itself. It was a thought Aris immediately filed away under “extreme sleep deprivation.”</p>
+<p>The walk back to the apartment felt longer, the air thicker. Aris opened the door to find Mao exactly where Aris had left it, still utterly motionless. Aris knelt beside the desk, placing a hand gently on the cat’s flank. It was warm. A tiny, almost imperceptible tremor ran through its fur.</p>
+<p>And then, just as Aris was about to stand, a faint, almost subliminal hum began to vibrate from Mao’s small body. It was so quiet, Aris almost missed it. Not the powerful, resonant thrum from earlier, but a soft, consistent purr, a barely audible vibration against Aris’s palm. It felt…restorative. Calming. As if the cat, even in its profound exhaustion, was still engaged in some critical, unseen work. Aris pulled their hand away slowly, the hum lingering in the air like a phantom vibration. The concept of an “unseen work” for a housecat was absurd. Yet, the apartment felt strangely lighter, the metallic tang in the air less oppressive.</p>
+<p>Aris walked to the window, looking out at the glittering, fractured cityscape of Aethel-Prime. The distant hum of the mismatched power grids, the chaotic dance of the salvaged hover-vehicles, the faint, desperate yearning for knowledge emanating from the very structures themselves. And beneath it all, somewhere, Aris could almost feel it, a subtle, almost imperceptible vibration. A quiet hum.</p>
+<p>The first thread of the cosmic web, fraying. And a single, black cat, purring. Aris shivered. This was going to be a long assignment.</p>
+<p>The transit tube disgorged Aris at the edge of the Whispering Ruins excavation zone, a cordoned-off expanse of land that felt ancient even in Nova Gaia’s synthesized air. Unlike Aethel-Prime’s chaotic fusion of salvaged tech and repurposed natural structures, the Ruins were a singular, monolithic entity. They rose from the earth like a petrified leviathan, a colossal, spiraling structure of obsidian-smooth, iridescent material that seemed to absorb the prismatic light rather than reflect it. Its surface was unsettlingly seamless, no visible seams or joins, suggesting a single, impossibly vast construct. Local atmospheric filters had been temporarily deactivated here, allowing the raw, unfiltered light of Nova Gaia’s sun to strike the ruins directly, revealing subtle shifts in its surface, like the slow, deliberate breathing of something immense and long dormant. A faint, almost subliminal hum, deeper than anything Aris had heard in the city, resonated from its core, a sound that seemed to bypass the ears and vibrate directly in the chest. It was the “whispering” from which the ruins drew their name, a constant, low-frequency thrum that some archeologists swore induced prophetic dreams, or at least migraines. Aris, ever the pragmatist, suspected it was just a particularly insistent low-frequency hum.</p>
+<p>A temporary modular lab had been erected near the perimeter, a sterile white bubble amidst the ancient grandeur. Inside, Commander Rylos was already there, his cybernetic eye scanning through schematics projected onto a central table. Several junior xenolinguists and archaeo-engineers moved with hushed reverence, their voices low, as if afraid to disturb the sleeping giant outside.</p>
+<p>“Thorne, good. The preliminary scans are… difficult,” Rylos greeted, his voice losing some of its usual gruffness in the presence of the ruins. “The material dampens most of our probes. But we’ve managed to get a read on some surface carvings, and the energy signatures are off the charts. They’re cyclical, complex. Almost… rhythmic. Correlates precisely with the latest glitches.”</p>
+<p>Aris nodded, already pulling up the data. The symbols displayed on the holoscreen were unlike anything in the Concordance’s vast linguistic databases. They weren’t pictorial, nor were they purely phonetic. They were a bizarre hybrid, abstract glyphs interwoven with complex, spiraling patterns that evoked sound waves, gravitational fields, and, most unsettlingly, something that looked eerily like the intricate threads of a woven fabric. One recurring motif caught Aris’s eye: a series of concentric circles radiating outwards from a central, irregular point, often accompanied by what looked like tuning forks or vibrating strings. The overall impression was one of a language designed not to be read, but to be <em>felt</em>, to resonate.</p>
+<p>“Frequencies… resonance,” Aris murmured, remembering Rylos’s earlier comments. And Mao’s purr. The thought, still utterly absurd, made Aris’s stomach churn.</p>
+<p>Days bled into weeks within the lab’s controlled environment, the constant, low hum of the ruins a pervasive presence. Aris immersed themself in the alien script, working with salvaged neural-linguistic interface technology that allowed for intuitive, pattern-based deciphering. It was slow, painstaking work. The more Aris delved, the more the emphasis on sound and vibration became apparent. There were glyphs that depicted interference patterns, others that seemed to illustrate harmonic resonance, and still others that could only be described as pictograms of ‘cosmic tuning.’ The civilization that built this structure, whoever they were, had an obsession with the invisible forces that governed reality.</p>
+<p>And then there were the others. The curious, stylized depictions that appeared almost as an afterthought, woven into the more complex, abstract patterns. Small, four-legged creatures, rendered with an elegant simplicity, often shown surrounded by the very same radiating energy lines that defined the ‘cosmic tuning’ glyphs. They possessed slender, upright tails and pointed ears, and their forms were unmistakably feline. Aris initially dismissed them as mythical totems, perhaps a revered animal, or a stylized representation of a cosmic principle. “Ancient mythical totems,” Aris mumbled to a junior archaeo-engineer one cycle, pointing at one such image. “They often used common fauna to represent abstract concepts, like strength or cunning.” The engineer, a young woman named Kaelia, nodded, but Aris saw a flicker of doubt in her eyes. Kaelia was one of the few who still clung to the pre-Collapse fascination with “Earth animals,” having grown up on archived vids.</p>
+<p>Back in Aris’s apartment, Mao’s behavior, previously dismissed as mere feline eccentricity, began to take on a subtly disturbing pattern. The cat seemed to possess an uncanny knack for appearing at precisely the most inconvenient, or perhaps, most <em>convenient</em> moments.</p>
+<p>One cycle, Aris was cross-referencing recent energy signature reports from the Concordance’s deep-space probes with the fluctuating cosmic glitches. The data was dense, the correlations tenuous. Mao, perched on the edge of the desk, had been ostensibly napping. But as Aris zoomed in on a particularly anomalous spike, the cat’s tail twitched, knocking a stack of datalogs off the desk. They scattered across the synth-carpet. Annoyed, Aris bent to retrieve them. Among the scattered files, face-up, was an archived academic paper titled: “Hyperspace Flux Theory: The Role of Non-Linear Frequencies in Localized Gravitational Anomalies.” Aris picked it up, frowning. It was a niche, theoretical paper, not something Aris would have typically pulled from the general archive. Aris glanced at Mao, who was now meticulously grooming a paw, utterly innocent. “Coincidence,” Aris muttered, but a flicker of unease went through them.</p>
+<p>Another incident, more pointed. Senator Valerius Kael’s rhetoric was reaching a fever pitch. Propaganda fliers, pushed through the Concordance’s comm-net, were appearing everywhere, digitally and physically. Aris found one tucked into their data-reader: a grim-faced Kael, bathed in heroic light, beneath the slogan “Humanity Undiluted! Alien Influence Purged!” Mao, finding the flier on the desk, systematically shredded it, piece by piece, with a slow, deliberate relish. Every piece, that is, except for a small section at the bottom, which contained a tiny, almost unnoticeable footnote referencing a Concordance committee report on “unexplained energy signatures detected near population centers.” Aris stared at the pristine fragment amongst the confetti of shredded propaganda. “A cat’s a cat,” Aris insisted to the empty room, picking up the unblemished fragment. But this wasn’t random destruction. This was… selective.</p>
+<p>The most unnerving instances involved Aris’s comm unit. Critical diplomatic negotiations, ongoing efforts to prevent a major star-nation from seceding from the Concordance, were a constant background hum in Aris’s life. Several times, just as a crucial transmission was about to come through, or Aris was about to send a sensitive reply, Mao would position itself directly in front of the comm unit’s holo-emitter, letting out a series of demanding, insistent meows. Aris, distracted, would have to pick Mao up, or shoo it away, invariably missing the first few seconds of a transmission or delaying their response by a crucial beat. These delays, Aris later realized, subtly altered the flow of conversation, sometimes redirecting focus from a point of contention to a more neutral topic, or allowing an awkward pause to stretch just long enough for a negotiator to reconsider an aggressive stance. Aris chalked it up to Mao simply wanting attention, a creature of habit who knew when Aris was most engaged. Yet, the pattern persisted. The star-nation, against all odds, chose not to secede. Aris felt a strange, unearned sense of relief.</p>
+<p>The cosmic glitches, meanwhile, were no longer minor inconveniences. They were escalating. Communication blackouts became longer, affecting entire systems. Power surges spiked dangerously, frying critical components on ships and planetary grids. Spatial warps became more common, causing navigational errors that stranded freighters in deep space, or momentarily shunted small passenger vessels off course, inducing terrifying, disorienting flashes of impossible space. The resonant hum that preceded them was growing louder, more pervasive, a low, discordant drone that seemed to thrum beneath the very skin of Nova Gaia. Scientists were still baffled, their theories growing wilder: dark matter fluctuations, rogue AI, even an unholy union of residual Collapse energies and newly emerging natural phenomena. Kael’s Purity League, ever opportunistic, seized on every incident, broadcasting dire warnings about “alien pollutants” corrupting humanity’s infrastructure. Their rallies grew in size and fervor.</p>
+<p>One particularly grueling cycle at the Whispering Ruins, a major tremor rocked the excavation site. Not geological, but something far stranger. A high-frequency whine, emanating directly from the monolithic structure, vibrated through the ground, intensifying the Ruins’ inherent hum. The modular lab’s internal lights flickered violently, then died, plunging the interior into emergency dimness. Data screens blinked out. Panic flared. It was a localized glitch, more powerful than any before. Aris, scrambling for a diagnostic tool, felt the hum intensify, a nauseating pressure in their skull.</p>
+<p>From the corner of Aris’s vision, a black shape emerged from beneath a pile of discarded data-slates. Mao. Aris had brought the cat to the lab, hoping its comforting, if aloof, presence might mitigate some of the stress. Mao had been curled up, as usual, seemingly oblivious to the chaos. Now, it stalked across the lab floor, not towards Aris, but towards a large, newly excavated pillar of the ruin material that extended directly into the lab. The cat moved with a strange, deliberate grace, its eyes fixed on the vibrating pillar.</p>
+<p>As the high-frequency whine reached a crescendo that threatened to shatter the temporary lab’s structural integrity, Mao leapt onto the pillar. It sat, perfectly still, black fur somehow absorbing the dim emergency light. Then, a purr began.</p>
+<p>It was <em>that</em> purr. The same impossible, resonant thrum that had saved Aris’s apartment power grid. But this time, it was amplified, deeper, a multi-dimensional hum that vibrated through the very air, through the skeletal pillar, through the lab’s walls. It felt like the core of the planet was purring. The nauseating pressure in Aris’s head eased. The high-frequency whine, which had been building to an unbearable pitch, began to falter, almost as if being <em>absorbed</em> by Mao’s impossible rumble. The lab’s emergency lights stabilized, dim but steady. The hum from the ruins, while still present, became less discordant, shifting into a lower, more calming frequency.</p>
+<p>Mao, still purring, seemed to vibrate with an inner light, a subtle shimmer around its form. Then, as the last vestiges of the rogue frequency dissipated and the hum of the ruins settled back into its usual, less threatening thrum, the purr faded. Mao, eyes glazed over with exhaustion, slumped on the pillar, utterly limp, breathing shallowly, as if the effort had drained it of all life.</p>
+<p>Aris stared, hands trembling. This wasn’t a coincidence. This wasn’t stress. A common housecat had just… <em>stabilized</em> a potentially catastrophic spatial anomaly originating from a pre-Collapse super-structure. It was a thought so utterly illogical, so profoundly antithetical to everything Aris believed about physics and reality, that it felt like a direct assault on their sanity. Yet, the evidence was undeniable. The cat had purred, the anomaly had ceased.</p>
+<p>The other xenolinguists, shaken but unharmed, were already trying to restart their systems, attributing the sudden stabilization to a fluke, or a delayed response from the emergency protocols. No one had seen Mao. No one had seen <em>it</em>. Aris said nothing, their mind racing, trying to find any rational explanation. But there was none.</p>
+<p>Back in their apartment, Aris sat on the synth-carpet, watching Mao sleep. The cat had recovered, though it still seemed unusually lethargic. Aris pulled up the data from the Whispering Ruins. The glyphs depicting sound, frequency, resonance. The bizarre, stylized images of cat-like creatures, surrounded by radiating energy lines.</p>
+<p>Aris opened a new data slate. <em>“Hypothesis: Correlation between localized cosmic disturbances and feline vocalizations/energy emissions.”</em> The words felt absurd, even to type. Aris hesitated, then added, <em>“Further observation required for corroboration. Explore historical anecdotes of ‘anomalous pet behavior’ during periods of societal stress.”</em></p>
+<p>It was a preposterous thought. An award-winning scientist, reduced to investigating superstitions. But the image of Mao, purring with the force of a collapsing star, was burned into Aris’s mind. The cosmic web was fraying. And a single, black cat, was purring. Aris shivered, a new kind of chill running down their spine. This was going to be a long assignment, indeed. And far, far stranger than any ancient language. The seeds of radical doubt, once just a tiny sprout, were now growing into a tangled, unsettling vine.</p>
+<p>The seed of doubt Aris had dismissed as sleep deprivation had, in the days following the Whispering Ruins incident, germinated into a thorny, unsettling bush. The image of Mao, a small, black creature, absorbing a spatial anomaly with a resonant purr, replayed in Aris’s mind with the insistent clarity of a hyper-realized holovid. It was preposterous. It was impossible. And yet… it had happened.</p>
+<p>Driven by a mix of scientific curiosity, professional dread, and a burgeoning, terrifying paranoia, Aris began to observe Mao with the scrutiny of a xenolinguist dissecting an unknown language. This wasn’t merely watching a pet; this was staking a potential alien entity, albeit one disguised as a particularly unimpressed housecat.</p>
+<p>Aris repurposed a set of highly sensitive environmental monitors, designed to detect minute atmospheric shifts and localized energy fluctuations, into a covert surveillance network. Tiny, almost invisible nodes were deployed throughout the apartment – tucked behind furniture, hidden in planters, camouflaged as dust motes on shelves. One particularly discreet unit was embedded in a faux synth-mouse, a toy Mao occasionally deigned to swat. These sensors were linked to a secure, encrypted data-slate Aris kept perpetually on their person, buzzing faintly with every new data point.</p>
+<p>The initial readings were, predictably, baffling. Mao’s purr, when it occurred, generated energy signatures unlike anything Aris had ever encountered. It wasn’t just a simple sonic vibration; it was a multi-spectrum emission, detectable across infrasonic and ultrasonic ranges, with bizarre, non-linear harmonic components that defied conventional physics. Sometimes, the purr correlated directly with minor power fluctuations in the apartment, brief blips of enhanced efficiency, or almost imperceptible shifts in localized gravity. The data was sparse, inconsistent, and maddeningly inconclusive. Mao, meanwhile, seemed utterly oblivious to Aris’s clandestine activities, continuing its routine of disdainful naps, selective hunger strikes, and sudden bursts of chaotic energy that ended with a precious data-slate skittering across the floor.</p>
+<p>But the pattern <em>was</em> there. Small, seemingly random cosmic glitches – a public comms unit stuttering into static, a hover-bus briefly losing its anti-grav, a subtle distortion in the cityscape’s holographic advertisements – often coincided with a spike in Mao’s anomalous purr-frequency, followed by the cat’s sudden, extreme lethargy. It was as if Mao was an invisible capacitor, absorbing or discharging some unseen cosmic energy.</p>
+<p>The galactic situation, far from improving, continued to fray. Senator Kael’s rhetoric, amplified by the escalating glitches, found fertile ground in the anxious populace. His rallies, once fringe events, now drew massive crowds in Aethel-Prime’s public squares, their faces grimly illuminated by flickering holoprojections of Kael’s severe, charismatic visage. The Purity League’s message was simple, alluring, and dangerously seductive: humanity’s troubles stemmed from its embrace of “alien influence,” from the salvaged tech to the very ideas of multi-species cooperation promoted by the Concordance. The glitches, Kael proclaimed, were merely the universe rejecting humanity’s impurity.</p>
+<p>“These cosmic disturbances are not natural phenomena!” Kael’s voice boomed from every public display unit, his image broadcast live from a packed arena. “They are the sickness of an alien corruption, festering in our systems, in our very homes! We must purge the unnatural! We must reclaim our purity!”</p>
+<p>Aris watched a news segment, grimacing. Kael’s latest target: “invasive species.” Not just the rogue fungal growths that plagued some colonies, but <em>pets</em>. Specifically, Earth-origin animals, deemed “non-indigenous contaminants” on many colony worlds. His proposals, once dismissed as extremist, were gaining traction: mandatory registration of all pets, then restrictions on “unnatural” breeds, and whispers of mass culling for those deemed “threats to the purity of our human ecosystems.”</p>
+<p>A cold dread coiled in Aris’s stomach. Mao, the utterly unconcerned, utterly feline embodiment of cosmic enigma, was about to become a target. The idea that Kael’s short-sighted xenophobia could unravel the very fabric of reality because of a species that purred… it was too much to bear.</p>
+<p>One muggy Nova Gaia afternoon, as the perpetual twilight of Aethel-Prime deepened into an almost oppressive gloom, Aris was reviewing the latest sensor logs. A major spatial fluctuation had just been reported near the Concordance’s central orbital dock. Mao, curled on Aris’s lap, had been purring contentedly, a soft, almost imperceptible rumble that Aris now knew to be brimming with unseen energy. The moment the report came through, Mao’s purr shifted, deepening, intensifying, the fur beneath Aris’s hand vibrating with a familiar, impossible strength. Then, as always, the sudden, profound slump into lethargy.</p>
+<p>Aris gently shifted Mao onto a cushion, then leaned closer to the data-slate, the strange patterns of energy flux from the cat mirroring the chaotic readings from the orbital dock. It was undeniable now. The correlation was too precise, too consistent. It wasn’t coincidence.</p>
+<p>“What are you, Mao?” Aris whispered, the question hanging heavy in the filtered air. “What are you <em>doing</em>?”</p>
+<p>Mao, though still outwardly comatose, twitched. Its ears, usually folded back in feline indifference, rotated slightly forward, then angled towards Aris. One eye, a luminous emerald slit, slowly, deliberately opened.</p>
+<p>Aris froze. Mao’s eyes were usually narrow, observant, but now they were wide, pupils dilated until they were pools of infinite black, reflecting the dim emergency lighting that had just flickered on in the apartment. But it wasn’t just the size of the pupils. It was the <em>depth</em> behind them. Not the shallow, instinctive gaze of an animal, but an ancient, knowing intelligence that seemed to pierce directly into Aris’s very soul.</p>
+<p>And then, it began.</p>
+<p>It wasn’t a voice. Not words, not even telepathic whispers Aris could interpret as language. It was a deluge. A cascade of information, image, and raw emotion that overwhelmed Aris’s senses, bypassing conscious thought and flooding the mind with a terrifying, sublime understanding.</p>
+<p>Aris clutched their head, a gasp caught in their throat. The room shimmered, not with atmospheric distortion, but with an internal shift in Aris’s perception. Mao’s small form seemed to expand, becoming translucent, then overlaying itself with flashes of something vast, crystalline, impossibly complex.</p>
+<p><em>A network.</em> Not of wires or conduits, but of shimmering, luminous threads, stretching into infinity. The cosmic web. It wasn’t a metaphor. It was <em>real</em>. A shimmering, interwoven tapestry of reality itself, threads of gravity, time, causality, bound together by… by <em>sound</em>. By frequency.</p>
+<p>And within this vast, intricate design, Aris saw <em>them</em>. Not just Mao, but countless other feline forms, scattered across the network like living nodes. Each one, a tiny, glowing point of light, its form indistinct, but the essence, undeniably feline. Each one humming, purring, a silent, multi-dimensional chorus. Their collective vibration, a constant, gentle pressure that held the universe together. It was a vast, elegant, unimaginably complex machine, powered by… cats.</p>
+<p>The Collapse. Aris saw it. A rending, a tearing, not just of human civilization, but of the very fabric of reality. A chaotic unraveling, threads snapping, constellations flickering out of existence. And then, a desperate, coordinated effort. The feline forms, glowing brighter, pouring their collective frequency into the breaches, weaving, mending, pulling the strands back together. They had anchored a fragment of reality to their purr-frequency. Humanity had survived because a cat had purred.</p>
+<p>The images flashed faster, more disjointed. Aris saw glimpses of Earth, millennia ago, a vibrant nexus, a perfect point for their <em>incarnation</em>. They weren’t from Earth. They were… something else. Something ancient, multi-dimensional, who had chosen to take on this unassuming form, to live in human homes, to <em>watch</em>. To <em>guide</em>.</p>
+<p>Flashes of Mao, not just Aris’s Mao, but the entity it embodied, subtly redirecting a critical diplomatic negotiation by nudging a data-slate, causing a flicker in a comms unit that averted a nascent war, even “accidentally” shredding a propaganda flier. It wasn’t caprice. It was <em>manipulation</em>. Not malicious, but precise, subtle, to steer humanity away from universal-level threats. To keep them from stumbling into the cosmic machinery they didn’t even know existed.</p>
+<p>The wave of understanding culminated in an overwhelming sense of the <em>delicacy</em> of it all. The cosmic web was strong, but it was fragile. And humanity, in its ignorant, hubristic ambition, was about to tear it apart. Kael’s “Purity Edict,” his call for culling the “unnatural,” was a death sentence not just for the cats, but for everything.</p>
+<p>Aris stumbled back from the desk, collapsing onto the synth-carpet, gasping for breath. The room had returned to its normal, functional state. Mao was still on the cushion, now truly comatose, breathing shallowly, as if the immense effort of the “communication” had utterly drained it. Its eye was closed.</p>
+<p>But the images, the flood of impossible knowledge, remained. They were burned into Aris’s mind, not as a memory, but as a newly acquired reality. The universe was not a cold, indifferent void. It was a symphony, woven from purrs. And the musicians were sleeping on human couches.</p>
+<p>Terror, cold and absolute, gripped Aris. Not just for their own sanity, but for everything. The Concordance, the galaxy, the fragile peace… it was all a house of cards built on a foundation of feline frequency. And Kael, in his self-righteous ignorance, was about to kick it over.</p>
+<p>Aris stared at Mao, seeing the sleek black fur, the soft, curved paws, the twitching whiskers – the perfect disguise for a cosmic guardian. The sheer audacity of it. The profound, heartbreaking irony. Humanity, reaching for the stars, searching for advanced alien civilizations, and all the while, the universe’s most ancient architects were shedding hair on their favorite armchairs.</p>
+<p>A chill ran down Aris’s spine, this time not from a draft, but from the horrifying weight of knowledge. What could Aris do? Who would believe them? The xenolinguist, once lauded for their ability to decipher alien languages, would now be dismissed as a lunatic, compromised by “alien influence.” The Purity League would have a field day.</p>
+<p>Aris forced themself to breathe, to think. The truth was too immense, too unbelievable to be spoken aloud. Aris had seen the patterns, the data. But the revelation had been… telepathic. How could they <em>prove</em> it?</p>
+<p>The sensor network! The data, though baffling, now made terrifying sense. The non-linear frequencies, the gravitational shifts correlating with Mao’s purr – it wasn’t random noise; it was the subtle, localized effects of cosmic maintenance. Aris scrambled to their feet, rushing to the data-slate. The raw numbers, the graphs, the chaotic squiggles – they were a language Aris was just beginning to understand. A language of interwoven realities, spoken in purrs.</p>
+<p>As Aris began to sift through the logs, re-interpreting every anomalous spike, every mysterious dip, a new, far more insidious dread began to coalesce. Kael’s rallies, his escalating demands for “purity,” were now more than just political grandstanding. They were direct threats to the Keepers, the silent weavers of reality. The proposed culling of “unnatural pets” was not just a horrific act of animal cruelty; it was a cosmic apocalypse in the making.</p>
+<p>The Concordance comm-net buzzed with a priority alert. Aris glanced at the newsfeeds scrolling across a secondary display. A new bill was being fast-tracked through the Concordance council. The “Purity Edict.” It was happening. Now.</p>
+<p>Aris looked at Mao, still comatose, small and vulnerable. Mao, who had just shown Aris the infinite universe held by a whisper-thin thread. Aris felt a surge of protectiveness, of terrifying responsibility. The Keepers had manipulated humanity for millennia, subtly guiding them, protecting them. Now, it was humanity’s turn to protect the Keepers. But how? And who would listen to a scientist who claimed the universe was purring?</p>
+<p>The answer, Aris knew with a sickening certainty, was no one. Not in a galaxy so blinded by fear and suspicion. This was not a scientific debate. This was a desperate, impossible race against time, with the fate of reality hanging in the balance. Aris was alone, with only a cat that could speak to them in visions, and a mountain of unprovable data.</p>
+<p>The very air in the apartment seemed to thicken, a faint, almost imperceptible hum resonating through the duracrete floor. It was the low, pervasive thrum of the city, a symphony of mismatched tech. But now, Aris heard something else within it. A subtle discord. A note out of tune. The cosmic web was indeed fraying, not just in isolated glitches, but a pervasive, growing disharmony. The cataclysm had already begun. Aris could hear it.</p>
+<p>The clock was ticking. Or rather, the purr was fading. Aris felt the terrifying weight of it all, the knowledge that rested solely on their shoulders. A xenolinguist, tasked with translating the universe’s most profound secret, guarded by a creature so mundane it was overlooked. This wasn’t just a challenge; it was a cosmic joke, and humanity was the punchline. Unless Aris could find a way to make them understand. Or, failing that, a way to save them anyway.</p>
+</div>
+</div>
+<p>Language models like Gemini process text in units called tokens. For Gemini models, each token is equivalent to about 4 characters.</p>
+<p><code>gemini-2.0-flash</code> has an output limit of 8192 tokens per generation call. This means that each individual prompt response cannot exceed this limit. By using iterative generation, you can create a story that is much longer than 8192 tokens by building it piece by piece.</p>
+<p>Let’s see how many tokens the final story is. Is it longer than 8192 tokens?</p>
+<div id="cell-27" class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tokenResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">countTokens</span>({</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> story<span class="op">,</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`The final story is </span><span class="sc">${</span>tokenResponse<span class="op">.</span><span class="at">totalTokens</span><span class="sc">}</span><span class="vs"> tokens long.`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>The final story is 8802 tokens long.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
+<p>As an exercise, you can try to adjust the continuation prompt to take human-in-the-loop input to steer the narrative.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fallendeity\.github\.io\/deepmind-starter");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../examples/Search_grounding_for_research_report.html" class="pagination-link" aria-label="Search tool with Gemini 2.x">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Search tool with Gemini 2.x</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../examples/Translate_a_Public_Domain_Book.html" class="pagination-link" aria-label="Gemini API: Translate a public domain book">
+        <span class="nav-page-text">Gemini API: Translate a public domain book</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Story_Writing_with_Prompt_Chaining.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Story_Writing_with_Prompt_Chaining.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
