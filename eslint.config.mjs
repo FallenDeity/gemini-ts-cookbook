@@ -26,6 +26,7 @@ export default tseslint.config(
 		"@typescript-eslint/no-non-null-assertion": "off",
 		"@typescript-eslint/adjacent-overload-signatures": "off",
 		"@typescript-eslint/restrict-template-expressions": "off",
+		"@typescript-eslint/require-await": "off",
 
 		// Suggestion rules
 		"arrow-body-style": ["error", "as-needed"],
