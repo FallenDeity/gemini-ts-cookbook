@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>contrib – Gemini Cookbook</title>
+<title>Gemini API: Audio Quickstart – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,24 +58,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-73468ec7cfdc29adaa9e90c901492850.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../examples/json_capabilities/Sentiment_Analysis.html" rel="next">
+<link href="../../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" rel="prev">
+<link href="../../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-73468ec7cfdc29adaa9e90c901492850.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -115,10 +117,10 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Gemini Cookbook">
+<meta property="og:title" content="Gemini API: Audio Quickstart – Gemini Cookbook">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta name="twitter:title" content="Gemini Cookbook">
+<meta name="twitter:title" content="Gemini API: Audio Quickstart – Gemini Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -130,7 +132,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Gemini Cookbook</span>
     </a>
   </div>
@@ -141,11 +143,11 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../quickstarts/Get_started.html" aria-current="page"> 
+    <a class="nav-link active" href="../../quickstarts/Get_started.html" aria-current="page"> 
 <span class="menu-text">Quickstarts</span></a>
   </li>  
 </ul>
@@ -174,7 +176,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Entity_Extraction_JSON.html">Json Capabilities</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Entity_Extraction_JSON.html">Gemini API: Audio Quickstart</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -197,148 +199,148 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Agents_Function_Calling_Barista_Bot.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Agents_Function_Calling_Barista_Bot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Agents and Automatic Function Calling with Barista Bot</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Analyze a Video - Classification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Analyze a Video - Historic Event Recognition</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Analyze a Video - Summarization</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Anomaly_detection_with_embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Anomaly_detection_with_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Anomaly detection with embeddings</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prompting with an Apollo 11 transcript</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Browser_as_a_tool.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Browser_as_a_tool.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Browser as a tool</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Classify_text_with_embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Classify_text_with_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Classify text with embeddings</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Entity extraction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Guess the shape: Triangle, Square, Pentagon?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/LiveAPI_plotting_and_mapping.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/LiveAPI_plotting_and_mapping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini 2.X - Multi-tool with the Multimodal Live API</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Create a marketing campaign from a product sketch of a Jet Backpack</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Opossum search</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Pdf_structured_outputs_on_invoices_and_forms.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Pdf_structured_outputs_on_invoices_and_forms.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Search_grounding_for_research_report.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Search_grounding_for_research_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Search tool with Gemini 2.x</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Story_Writing_with_Prompt_Chaining.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Story_Writing_with_Prompt_Chaining.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prompt Chaining and Iterative Generation for Story Writing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Translate a public domain book</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Voice_memos.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Voice_memos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Voice memos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Working with Charts, Graphs, and Slide Decks</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Json Capabilities</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/json_capabilities/Entity_Extraction_JSON.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/json_capabilities/Entity_Extraction_JSON.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Gemini API: Audio Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/json_capabilities/Sentiment_Analysis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/json_capabilities/Sentiment_Analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Sentiment Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/json_capabilities/Text_Classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/json_capabilities/Text_Classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Text Classification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/json_capabilities/Text_Summarization.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/json_capabilities/Text_Summarization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Text Summarization</span></a>
   </div>
 </li>
@@ -357,175 +359,175 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Audio Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Code Execution</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: All about tokens</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Embeddings Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Enum Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: File API Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Function_calling.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Function_calling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Function calling with JS</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Guide: Building AI Tutors with LearnLM via System Instructions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multimodal Live API - Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Getting started with the Gemini API OpenAI compatibility</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Use Gemini thinking</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Getting started with information grounding for Gemini models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Gemini 2.0 Image output</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: List models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Read a PDF</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Prompting Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Safety Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Grounding using Search as a tool</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2D spatial understanding with Gemini 2.0</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Streaming Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: System instructions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Video understanding with Gemini</span></a>
   </div>
 </li>
@@ -541,200 +543,204 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#contributing-to-the-gemini-api-cookbook" id="toc-contributing-to-the-gemini-api-cookbook" class="nav-link active" data-scroll-target="#contributing-to-the-gemini-api-cookbook">Contributing to the Gemini API Cookbook</a></li>
-  <li><a href="#before-you-send-anything" id="toc-before-you-send-anything" class="nav-link" data-scroll-target="#before-you-send-anything">Before you send anything</a>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
   <ul class="collapse">
-  <li><a href="#sign-our-contributor-agreement" id="toc-sign-our-contributor-agreement" class="nav-link" data-scroll-target="#sign-our-contributor-agreement">Sign our contributor agreement</a></li>
-  <li><a href="#style-guides" id="toc-style-guides" class="nav-link" data-scroll-target="#style-guides">Style guides</a></li>
+  <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
+  <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
+  <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
+  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
+  <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
   </ul></li>
-  <li><a href="#making-changes" id="toc-making-changes" class="nav-link" data-scroll-target="#making-changes">Making changes</a>
-  <ul class="collapse">
-  <li><a href="#small-fixes" id="toc-small-fixes" class="nav-link" data-scroll-target="#small-fixes">Small fixes</a></li>
-  <li><a href="#content-submission" id="toc-content-submission" class="nav-link" data-scroll-target="#content-submission">Content submission</a></li>
-  <li><a href="#things-we-consider" id="toc-things-we-consider" class="nav-link" data-scroll-target="#things-we-consider">Things we consider</a></li>
-  <li><a href="#attribution" id="toc-attribution" class="nav-link" data-scroll-target="#attribution">Attribution</a></li>
-  </ul></li>
-  <li><a href="#detailed-coding-and-notebook-guidelines" id="toc-detailed-coding-and-notebook-guidelines" class="nav-link" data-scroll-target="#detailed-coding-and-notebook-guidelines">Detailed Coding and Notebook Guidelines</a>
-  <ul class="collapse">
-  <li><a href="#notebook-style" id="toc-notebook-style" class="nav-link" data-scroll-target="#notebook-style">Notebook Style</a></li>
-  <li><a href="#code-style" id="toc-code-style" class="nav-link" data-scroll-target="#code-style">Code Style</a></li>
-  <li><a href="#naming-conventions" id="toc-naming-conventions" class="nav-link" data-scroll-target="#naming-conventions">Naming Conventions</a></li>
-  <li><a href="#comments" id="toc-comments" class="nav-link" data-scroll-target="#comments">Comments</a></li>
-  <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
-  <li><a href="#text" id="toc-text" class="nav-link" data-scroll-target="#text">Text</a></li>
-  <li><a href="#github-workflow" id="toc-github-workflow" class="nav-link" data-scroll-target="#github-workflow">GitHub Workflow</a></li>
-  </ul></li>
+  <li><a href="#example-entity-extraction" id="toc-example-entity-extraction" class="nav-link" data-scroll-target="#example-entity-extraction">Example: Entity Extraction</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/FallenDeity/deepmind-starter/edit/main/assets/contrib.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/assets/contrib.md" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Entity_Extraction_JSON.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Entity_Extraction_JSON.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Entity_Extraction_JSON.html">Json Capabilities</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Entity_Extraction_JSON.html">Gemini API: Audio Quickstart</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Gemini API: Audio Quickstart</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="contributing-to-the-gemini-api-cookbook" class="level1">
-<h1>Contributing to the Gemini API Cookbook</h1>
-<p>We would love to accept your patches and contributions to the Gemini API Cookbook. We are excited that you are considering donating some of your time, and this guide will help us be respectful of that time.</p>
-</section>
-<section id="before-you-send-anything" class="level1">
-<h1>Before you send anything</h1>
-<section id="sign-our-contributor-agreement" class="level2">
-<h2 class="anchored" data-anchor-id="sign-our-contributor-agreement">Sign our contributor agreement</h2>
-<p>All contributions to this project must be accompanied by a <a href="https://cla.developers.google.com/about">Contributor License Agreement</a> (CLA). You (or your employer) retain the copyright to your contribution; this simply gives us permission to use and redistribute your contributions as part of the project.</p>
-<p>If you or your current employer have already signed the Google CLA (even if it was for a different project), you probably don’t need to do it again.</p>
-<p>Visit <a href="https://cla.developers.google.com/">https://cla.developers.google.com/</a> to see your current agreements or to sign a new one.</p>
-</section>
-<section id="style-guides" class="level2">
-<h2 class="anchored" data-anchor-id="style-guides">Style guides</h2>
-<p>Before you start writing, take a look at the <a href="https://developers.google.com/style">technical writing style guide</a>. You don’t need to fully digest the whole document, but do read the <a href="https://developers.google.com/style/highlights">highlights</a> so you can anticipate the most common feedback.</p>
-<p>Also check out the relevant <a href="https://google.github.io/styleguide/">style guide</a> for the language you will be using. These apply strictly to raw code files (e.g.&nbsp;<em>.py, </em>.js), though code fragments in documentation (such as markdown files or notebooks) tend to favor readability over strict adherence.</p>
-<p>For Python notebooks (*.ipynb files), consider running <code>pyink</code> over your notebook. It is not required, but it will avoid style-related nits.</p>
-<p>See below for more detailed guidelines specific to writing notebooks and guides.</p>
-</section>
-</section>
-<section id="making-changes" class="level1">
-<h1>Making changes</h1>
-<section id="small-fixes" class="level2">
-<h2 class="anchored" data-anchor-id="small-fixes">Small fixes</h2>
-<p>Small fixes, such as typos or bug fixes, can be submitted directly via a pull request.</p>
-</section>
-<section id="content-submission" class="level2">
-<h2 class="anchored" data-anchor-id="content-submission">Content submission</h2>
-<p>Before you send a PR, or even write a single line, please file an <a href="https://github.com/google-gemini/cookbook/issues">issue</a>. There we can discuss the request and provide guidance about how to structure any content you write.</p>
-<p>Adding a new guide often involves lots of detailed reviews and we want to make sure that your idea is fully formed and has full support before you start writing anything. If you want to port an existing guide across (e.g.&nbsp;if you have a guide for Gemini on your own GitHub), feel free to link to it in the issue.</p>
-<p>When you’re ready, start by using the <a href="./quickstarts/Template.ipynb">notebook template</a> and following the guidance within.</p>
-<p>Before submitting your notebook, it’s recommended to run linting and formatting tools locally to ensure consistency and adherence to style guidelines.</p>
-<ol type="1">
-<li>Install Dependencies:</li>
-</ol>
-<p>First, install the necessary packages using pip:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-U</span> tensorflow-docs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="2" type="1">
-<li>Format the Notebook:</li>
-</ol>
-<p>Use the nbfmt tool from tensorflow-docs to automatically format your notebook:</p>
-<pre><code>python -m tensorflow_docs.tools.nbfmt path/to/notebook</code></pre>
-<p>Replace <code>path/to/notebook</code> with the actual path to your notebook file.</p>
-<ol start="3" type="1">
-<li>Lint the Notebook:</li>
-</ol>
-<p>Use the nblint tool to check for style and consistency issues:</p>
-<pre><code>python -m tensorflow_docs.tools.nblint \
-            --styles=google,tensorflow \
-            --arg=repo:google-gemini/cookbook \
-            --arg=branch:main \
-            --exclude_lint=tensorflow::button_download \
-            --exclude_lint=tensorflow::button_website \
-            --arg=base_url:https://ai.google.dev/ \
-            --exclude_lint=tensorflow::button_github \
-            path/to/notebook</code></pre>
-<p>Replace <code>path/to/notebook</code> with the actual path to your notebook file.</p>
-</section>
-<section id="things-we-consider" class="level2">
-<h2 class="anchored" data-anchor-id="things-we-consider">Things we consider</h2>
-<p>When accepting a new guide, we want to balance a few aspects. * Originality - e.g.&nbsp;Is there another guide that does the same thing? * Pedagogy - e.g.&nbsp;Does this guide teach something useful? Specifically for a Gemini API feature? * Quality - e.g.&nbsp;Does this guide contain clear, descriptive prose? Is the code easy to understand?</p>
-<p>It is not crucial for a submission to be strong along all of these dimensions, but the stronger the better. Old submissions may be replaced in favor of newer submissions that exceed these properties.</p>
-</section>
-<section id="attribution" class="level2">
-<h2 class="anchored" data-anchor-id="attribution">Attribution</h2>
-<p>If you have authored a new guide from scratch, you are welcome to include a byline at the top of the document with your name and GitHub username.</p>
-</section>
-</section>
-<section id="detailed-coding-and-notebook-guidelines" class="level1">
-<h1>Detailed Coding and Notebook Guidelines</h1>
-<section id="notebook-style" class="level2">
-<h2 class="anchored" data-anchor-id="notebook-style">Notebook Style</h2>
-<ul>
-<li>Include the collapsed license at the top (uses the Colab “Form” mode to hide the cells).</li>
-<li>Save the notebook with the table of contents open.</li>
-<li>Use one <code>H1</code> header (<code>#</code> in Markdown) for the title.</li>
-<li>Include the “Open in Colab” button immediately after the <code>H1</code>. It should look like: <code>html     &lt;a target="_blank" href="URL"&gt;&lt;img src="[https://colab.research.google.com/assets/colab-badge.svg](https://colab.research.google.com/assets/colab-badge.svg)" height=30/&gt;&lt;/a&gt;</code> where <code>URL</code> should be <code>https://colab.research.google.com/github/google-gemini/cookbook/blob/main/</code> followed by the notebook location in the cookbook.</li>
-<li>Include an overview section before any code.</li>
-<li>Put all your installs (using <code>%pip</code> instead of <code>!pip</code>) and imports in a dedicated setup section near the beginning.</li>
-<li>Keep code and text cells as brief as possible.</li>
-<li>Break text cells at headings.</li>
-<li>Break code cells between distinct logical steps, such as “building” and “running”, or between processing/printing different results.</li>
-<li>Necessary but uninteresting code (like helper functions) should be hidden in a toggleable code cell by putting <code># @title</code> as the first line.</li>
-</ul>
-</section>
-<section id="code-style" class="level2">
-<h2 class="anchored" data-anchor-id="code-style">Code Style</h2>
-<ul>
-<li><p>Notebooks are for people. Write code optimized for clarity.</p></li>
-<li><p>Use the <a href="http://google.github.io/styleguide/pyguide.html">Google Python Style Guide</a>, where applicable. Code formatted by <a href="https://github.com/google/pyink"><code>pyink</code></a> will always be accepted.</p></li>
-<li><p><strong>Use 4 spaces per indentation level.</strong> (PEP 8 recommendation)</p></li>
-<li><p>In particular, defining functions and variables takes extra spaces around the <code>=</code> sign, while function parameters don’t: ```python var = value</p>
-<p>function( parameter=value ) ```</p></li>
-<li><p>When a function has multiple parameters, expand it onto multiple lines with proper indentation for better readability: <code>python     response = client.models.generate_content(         model=MODEL_ID,         contents="Here's my prompt",         config={             "response_mime_type": "application/json",             "response_schema": Schema         }     )</code> <em>Notice the line break after the opening parenthesis and before the closing parenthesis.</em></p></li>
-<li><p>Long text variables should use triple double quotes and proper indentation for better readability: <code>python     long_prompt = """         Cupcake ipsum dolor. Sit amet marshmallow topping cheesecake muffin.         Halvah croissant candy canes bonbon candy. Apple pie jelly beans topping carrot cake danish tart cake cheesecake.         Muffin danish chocolate soufflé pastry icing bonbon oat cake. Powder cake jujubes oat cake.         Lemon drops tootsie roll marshmallow halvah carrot cake.     """</code> <em>Notice the line break after the opening triple quotes and before the closing triple quotes.</em></p></li>
-<li><p>Demonstrate small parts before combining them into something more complex.</p></li>
-<li><p>If you define a function, ideally run it and show its output immediately before using it in another function or a more complex block.</p></li>
-<li><p>Only use helper functions when necessary (e.g., for code reuse or complexity management). If a piece of logic is only a couple of lines and used once, it’s often clearer to write it inline so readers don’t have to look up the function definition. Hide helper function definitions using <code># @title</code>.</p></li>
-<li><p>Keep examples quick and concise. Do not add extra options or parameters (like <code>temperature</code>) without explaining them; focus on what you want to showcase.</p></li>
-<li><p>If you <em>must</em> use extra parameters, explain <em>why</em> they are needed and the reasoning behind the specific value the first time you use them.</p></li>
-<li><p>When selecting a model, use a Colab form selector for easier maintainability: <code>python     MODEL_ID="gemini-1.5-flash" # @param ["gemini-1.0-pro", "gemini-1.5-flash", "gemini-1.5-pro"] {"allow-input":true, isTemplate: true}</code></p></li>
-<li><p>Some notebooks can benefit from having a form to update the prompt: <code>python     prompt = "Detect the 2d bounding boxes of the cupcakes (with 'label' as topping description')"  # @param {type:"string"}</code> or a list of prompts: <code>python     prompt = "Draw a square around the fox' shadow"  # @param ["Find the two origami animals.", "Where are the origamis' shadows?","Draw a square around the fox' shadow"] {"allow-input":true}</code></p></li>
-<li><p>To ensure notebook text remains accurate, present model metadata (like context window size) by executing code, not by hardcoding it in Markdown.</p>
-<ul>
-<li>Example: Instead of writing “This model has a 1M token context window”, display the output of <code>genai.get_model('models/gemini-1.5-pro-latest').input_token_limit</code>.</li>
-</ul></li>
-</ul>
-</section>
-<section id="naming-conventions" class="level2">
-<h2 class="anchored" data-anchor-id="naming-conventions">Naming Conventions</h2>
-<ul>
-<li><strong>Variables:</strong> Use lowercase with underscores (snake_case): <code>user_name</code>, <code>total_count</code></li>
-<li><strong>Constants:</strong> Use uppercase with underscores: <code>MAX_VALUE</code>, <code>DATABASE_NAME</code></li>
-<li><strong>Functions:</strong> Use lowercase with underscores (snake_case): <code>calculate_total()</code>, <code>process_data()</code></li>
-<li><strong>Classes:</strong> Use CapWords (CamelCase): <code>UserManager</code>, <code>PaymentProcessor</code></li>
-<li><strong>Modules:</strong> Use lowercase with underscores (snake_case): <code>user_utils</code>, <code>payment_gateway</code></li>
-</ul>
-</section>
-<section id="comments" class="level2">
-<h2 class="anchored" data-anchor-id="comments">Comments</h2>
-<ul>
-<li>Write clear and concise comments: Explain the “why” behind the code, not just the “what”.</li>
-<li>Comment sparingly: Well-written code should be self-documenting where possible.</li>
-<li>Use complete sentences: Start comments with a capital letter and use proper punctuation.</li>
-</ul>
-</section>
-<section id="outputs" class="level2">
-<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
-<ul>
-<li>Whenever possible, simply use <code>print()</code> for basic output.</li>
-<li>When needed, use <code>display(Markdown())</code> for formatted Markdown text, <code>print(json.dumps(json_string, indent=4))</code> for readable JSON, or <code>display(Image())</code> for images.</li>
-</ul>
-</section>
-<section id="text" class="level2">
-<h2 class="anchored" data-anchor-id="text">Text</h2>
-<ul>
-<li>Use an imperative style: “Run a prompt using the API.”</li>
-<li>Use sentence case in titles/headings: “Download the data”, “Call the API”, “Process the results”.</li>
-<li>Use short titles/headings.</li>
-<li>Use the <a href="https://developers.google.com/style/highlights">Google developer documentation style guide</a>.</li>
-<li>Use <a href="https://developers.google.com/style/person">second person</a>: “you” rather than “we”. (You will fail the lint check otherwise).</li>
-<li>Explain what you are doing and the features you are using. Link to relevant documentation or other notebooks for more details where appropriate.</li>
-</ul>
-</section>
-<section id="github-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="github-workflow">GitHub Workflow</h2>
-<ul>
-<li>Be consistent about how you save your notebooks (e.g., with ToC open, potentially omitting outputs) to keep JSON diffs manageable. Tools like <a href="https://github.com/tensorflow/docs/blob/master/tools/tensorflow_docs/tools/README.md"><code>nbfmt</code> and <code>nblint</code></a> can help enforce consistency.</li>
-<li>Consider setting the “Omit code cell output when saving this notebook” option if outputs (like inline images) make diffs too large for GitHub.</li>
-<li><a href="http://reviewnb.com">ReviewNB.com</a> can assist with reviewing notebook diffs in pull requests.</li>
-<li>Use the <a href="https://chrome.google.com/webstore/detail/open-in-colab/iogfkhleblhcpcekbiedikdehleodpjo">Open in Colab</a> browser extension to easily open GitHub notebooks in Colab.</li>
-<li>The easiest way to edit a notebook tracked in GitHub is often:
-<ol type="1">
-<li>Open the notebook in Colab directly from the GitHub branch you intend to edit.</li>
-<li>Make your changes in Colab.</li>
-<li>Use Colab’s “File” -&gt; “Save a copy in GitHub” menu option to save it back to the same branch.</li>
-</ol></li>
-<li>For Pull Requests (PRs), it’s helpful to include a direct Colab link to the notebook version in the PR head for easier review: <code>https://colab.research.google.com/github/{USER}/{REPO}/blob/{BRANCH}/{PATH}.ipynb</code></li>
-</ul>
+    
+  
+    
+  </div>
+  
 
 
+</header>
+
+
+<p>This notebook provides an example of how to prompt Gemini Flash using an audio file. In this case, you’ll use a <a href="https://www.jfklibrary.org/asset-viewer/archives/jfkwha-006">sound recording</a> of President John F. Kennedy’s 1961 State of the Union address.</p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="install-the-google-genai-sdk" class="level3">
+<h3 class="anchored" data-anchor-id="install-the-google-genai-sdk">Install the Google GenAI SDK</h3>
+<p>Install the Google GenAI SDK from <a href="https://www.npmjs.com/package/@google/genai">npm</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install @google/genai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
+<section id="setup-your-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="setup-your-api-key">Setup your API key</h3>
+<p>You can <a href="https://aistudio.google.com/app/apikey">create</a> your API key using Google AI Studio with a single click.</p>
+<p>Remember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a <code>.env</code> file. You can also set it as an environment variable or use a secret manager.</p>
+<p>Here’s how to set it up in a <code>.env</code> file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch .env</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;"</span> <span class="op">&gt;&gt;</span> .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another option is to set the API key as an environment variable. You can do this in your terminal with the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export GEMINI_API_KEY=<span class="st">"&lt;YOUR_API_KEY&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="load-the-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-api-key">Load the API key</h3>
+<p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, we can load the API key in our code:</p>
+<div id="cell-4" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../.env"</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GEMINI_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">GEMINI_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>GEMINI_API_KEY) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"GEMINI_API_KEY is not set in the environment variables"</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"GEMINI_API_KEY is set in the environment variables"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEMINI_API_KEY is set in the environment variables</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
+<pre><code>│
+├── .env
+└── examples
+    └── json_capabilities
+        └── Entity_Extraction_JSON.ipynb</code></pre>
+</div>
+</div>
+</section>
+<section id="initialize-sdk-client" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
+<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
+<div id="cell-7" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="select-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<div id="cell-9" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="example-entity-extraction" class="level2">
+<h2 class="anchored" data-anchor-id="example-entity-extraction">Example: Entity Extraction</h2>
+<div id="cell-11" class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> entity_recognition_text <span class="op">=</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"John Johnson, the CEO of the Oil Inc. and Coal Inc. companies, has unveiled plans to build a new factory in Houston, Texas."</span><span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> prompt <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  Generate list of entities in text based on the following TypeScript interface:</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span><span class="sc">\`\`\`</span><span class="vs">typescript</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="vs">  enum Category {</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="vs">      PERSON = "PERSON",</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="vs">      COMPANY = "COMPANY",</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="vs">      STATE = "STATE",</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="vs">      CITY = "CITY",</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="vs">  }</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="vs">  interface Entity {</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="vs">      name: string;</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="vs">      category: Category;</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="vs">  }</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="vs">  interface EntityExtractionResponse {</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="vs">      entities: Entity[];</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="vs">  }</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span><span class="sc">\`\`\`</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span><span class="sc">${</span>entity_recognition_text<span class="sc">}</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  con<span class="op">:</span> prompt<span class="op">,</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    temperature<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-12" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"{}"</span>)<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{
+  "entities": [
+    {
+      "name": "John Johnson",
+      "category": "PERSON"
+    },
+    {
+      "name": "Oil Inc.",
+      "category": "COMPANY"
+    },
+    {
+      "name": "Coal Inc.",
+      "category": "COMPANY"
+    },
+    {
+      "name": "Houston",
+      "category": "CITY"
+    },
+    {
+      "name": "Texas",
+      "category": "STATE"
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>You have used the Gemini API to extract entities of predefined categories with their labels. You extracted every person, company, state, and country. You are not limited to these categories, as this should work with any category of your choice.</p>
+<p>Please see the other notebooks in this directory to learn more about how you can use the Gemini API for other JSON related tasks.</p>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -1137,10 +1143,22 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="pagination-link" aria-label="Gemini API: Working with Charts, Graphs, and Slide Decks">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Working with Charts, Graphs, and Slide Decks</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../examples/json_capabilities/Sentiment_Analysis.html" class="pagination-link" aria-label="Gemini API: Sentiment Analysis">
+        <span class="nav-page-text">Gemini API: Sentiment Analysis</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/FallenDeity/deepmind-starter/edit/main/assets/contrib.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/assets/contrib.md" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Entity_Extraction_JSON.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Entity_Extraction_JSON.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

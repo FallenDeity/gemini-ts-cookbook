@@ -1505,6 +1505,110 @@
     "text": "Contributions are welcome! See CONTRIBUTING.md for details.\nThank you for developing with the Gemini API! We’re excited to see what you create."
   },
   {
+    "objectID": "examples/json_capabilities/Entity_Extraction_JSON.html",
+    "href": "examples/json_capabilities/Entity_Extraction_JSON.html",
+    "title": "Gemini API: Audio Quickstart",
+    "section": "",
+    "text": "This notebook provides an example of how to prompt Gemini Flash using an audio file. In this case, you’ll use a sound recording of President John F. Kennedy’s 1961 State of the Union address.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Audio Quickstart"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Entity_Extraction_JSON.html#setup",
+    "href": "examples/json_capabilities/Entity_Extraction_JSON.html#setup",
+    "title": "Gemini API: Audio Quickstart",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is one directory up from the notebook, hence we need to use ../ to go up one directory. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── json_capabilities\n        └── Entity_Extraction_JSON.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Audio Quickstart"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Entity_Extraction_JSON.html#example-entity-extraction",
+    "href": "examples/json_capabilities/Entity_Extraction_JSON.html#example-entity-extraction",
+    "title": "Gemini API: Audio Quickstart",
+    "section": "Example: Entity Extraction",
+    "text": "Example: Entity Extraction\n\nconst entity_recognition_text =\n  \"John Johnson, the CEO of the Oil Inc. and Coal Inc. companies, has unveiled plans to build a new factory in Houston, Texas.\";\nconst prompt = `\n  Generate list of entities in text based on the following TypeScript interface:\n  \n  \\`\\`\\`typescript\n  enum Category {\n      PERSON = \"PERSON\",\n      COMPANY = \"COMPANY\",\n      STATE = \"STATE\",\n      CITY = \"CITY\",\n  }\n  \n  interface Entity {\n      name: string;\n      category: Category;\n  }\n  \n  interface EntityExtractionResponse {\n      entities: Entity[];\n  }\n  \\`\\`\\`\n  \n  ${entity_recognition_text}\n`;\n\nconst response = await ai.models.generateContent({\n  model: MODEL_ID,\n  con: prompt,\n  config: {\n    temperature: 0,\n    responseMimeType: \"application/json\",\n  },\n});\n\n\nconsole.log(JSON.stringify(JSON.parse(response.text ?? \"{}\"), null, 2));\n\n{\n  \"entities\": [\n    {\n      \"name\": \"John Johnson\",\n      \"category\": \"PERSON\"\n    },\n    {\n      \"name\": \"Oil Inc.\",\n      \"category\": \"COMPANY\"\n    },\n    {\n      \"name\": \"Coal Inc.\",\n      \"category\": \"COMPANY\"\n    },\n    {\n      \"name\": \"Houston\",\n      \"category\": \"CITY\"\n    },\n    {\n      \"name\": \"Texas\",\n      \"category\": \"STATE\"\n    }\n  ]\n}",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Audio Quickstart"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Entity_Extraction_JSON.html#summary",
+    "href": "examples/json_capabilities/Entity_Extraction_JSON.html#summary",
+    "title": "Gemini API: Audio Quickstart",
+    "section": "Summary",
+    "text": "Summary\nYou have used the Gemini API to extract entities of predefined categories with their labels. You extracted every person, company, state, and country. You are not limited to these categories, as this should work with any category of your choice.\nPlease see the other notebooks in this directory to learn more about how you can use the Gemini API for other JSON related tasks.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Audio Quickstart"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Text_Summarization.html",
+    "href": "examples/json_capabilities/Text_Summarization.html",
+    "title": "Gemini API: Text Summarization",
+    "section": "",
+    "text": "You will use Gemini API’s JSON capabilities to extract characters, locations, and summary of the plot from a story.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Text Summarization"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Text_Summarization.html#setup",
+    "href": "examples/json_capabilities/Text_Summarization.html#setup",
+    "title": "Gemini API: Text Summarization",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is one directory up from the notebook, hence we need to use ../ to go up one directory. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── json_capabilities\n        └── Text_Summarization.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Text Summarization"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Text_Summarization.html#example",
+    "href": "examples/json_capabilities/Text_Summarization.html#example",
+    "title": "Gemini API: Text Summarization",
+    "section": "Example",
+    "text": "Example\n\nconst response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents:\n    \"Generate a 10 paragraph fantasy story. Include at least 2 named characters and 2 named locations. Give as much detail in the story as possible.\",\n});\n\ntslab.display.markdown(response.text ?? \"\");\n\nThe morning mists, usually swirling with the sweet scent of honeysuckle and damp earth, clung heavy and acrid around Elara as she ventured deeper into Whisperwind Glade. Her worn leather satchel, filled with freshly gathered moonpetal and sunroot, felt strangely light, a contrast to the growing weight in her stomach. Elara, an apprentice of the Grove Keepers, felt the ancient forest’s distress in her very bones. The vibrant emerald leaves of the elder-oaks were tinged with a sickly grey, and the usually melodious calls of the wind-whisper birds were replaced by an eerie silence. Something profoundly wrong was seeping into the heart of their sacred woods, an unnatural stillness that stole the vitality from everything it touched.\nJust beyond the Glade’s central nexus, where the great Mother Tree hummed with life, Elara found the source of her unease. A patch of earth, the size of a small clearing, had been utterly consumed. The rich soil was cracked and dessicated, resembling a scorched desert, yet there was no charring, no ash, only an absence of life so absolute it felt like a scream. The very air around it was thin and cold, and a faint, almost imperceptible shimmer, like heat haze but colder, distorted the distant trees. This wasn’t a natural blight; this was an insidious drain, a parasitic void that whispered of ancient, forgotten terrors from the dawn of time.\nHer mentor, Lyra, was away on a pilgrimage to the Sunstone Monasteries, leaving Elara as the most senior Keeper within the Glade. The problem was far beyond her fledgling skills with restorative spells and herbal poultices. This was a wound not just to the land, but to the very fabric of magic itself. She remembered whispered tales from Lyra, stories of a creeping shadow that had once threatened to consume the world, driven back only by the combined might of ancient druids and warrior-mages. A cold dread settled over her, chilling her even more than the blighted air. She needed help, and she knew just the recluse who might possess the forgotten knowledge required to face such an enigma.\nHer journey led her through the northern fringes of Whisperwind Glade, where the towering spires of ancient firs gave way to craggy outcrops and the first signs of harsher terrain. She followed a barely visible game trail, a path only known to those intimately familiar with the land. After nearly a day’s travel, as the first stars began to prickle the deepening twilight sky, a wisp of smoke curled from a secluded hollow. There, nestled amongst boulders overgrown with moss, was a small, ramshackle hut. This was the dwelling of Kael, a grizzled ranger whose face was a roadmap of scars and sun-creased lines, and whose eyes held the weary wisdom of a hundred winters.\nKael, cleaning a magnificent longbow carved from dark yew, grunted a greeting as Elara pushed open his creaking door. Without preamble, she laid out the severity of the blight, describing the chilling emptiness, the stolen vitality. Kael listened, his movements ceasing, his gaze sharpening to a hawk-like intensity. “The Shadow Blight,” he murmured, his voice a gravelly rumble. “It’s been centuries. Legend says it feeds on ambient magic, growing stronger, spreading like a disease across the land, until only desolation remains. Its source… it was sealed away long ago in the deepest chasms of the Obsidian Peaks.”\nA chill not entirely from the evening air settled over Elara. The Obsidian Peaks were a desolate, perilous range, infamous for their jagged, razor-sharp summits and their reputation as a breeding ground for monstrous creatures and dark, forgotten magic. “Sealed?” she asked, her voice barely a whisper. Kael nodded gravely. “A binding ritual, performed by the First Keepers. But bindings weaken over time. If the Blight is spreading, it means the seal is failing, or worse, has been broken by someone, or something, seeking to unleash it anew.” They would need to venture into that cursed landscape, find the breach, and somehow, stop the drain.\nPreparation was swift and grim. Kael exchanged his usual hunting arrows for those tipped with silver, meant for creatures of shadow. He packed dried meat, hardened bread, and a coil of sturdy rope. Elara, meanwhile, consulted her small collection of scrolls, finding ancient glyphs for warding and a potent formula for a light-casting elixir that might pierce the gloom of the peaks. Their supplies were meager, their hope a flickering flame, but the thought of Whisperwind Glade consumed by the blight spurred them onward. As the first light of dawn painted the eastern sky, they set out, their figures small against the towering shadow of the Obsidian Peaks.\nThe transition from the verdant slopes bordering Whisperwind Glade to the stark, unforgiving landscape of the Obsidian Peaks was jarring. The air grew thin and cold, carrying the sharp scent of volcanic rock and something metallic, like old blood. Jagged, obsidian spires clawed at the bruised sky, their surfaces gleaming with an unnerving, polished sheen. Loose scree shifted treacherously beneath their boots, and the wind, unimpeded, howled like a mournful spirit through the narrow canyons. They passed skeletal trees, their branches twisted into grotesque sculptures, and heard the distant, guttural cries of creatures best left undisturbed in the deeper ravines.\nAfter three arduous days of climbing and navigating treacherous passes, they found it: a colossal fissure, jagged and black, splitting the very heart of the highest peak. The air here was thick with the suffocating emptiness of the blight, and the shimmering distortion was magnified, swirling with visible darkness. Deep within the chasm, nestled amidst ancient, crumbling runes that once glowed with protective light, was a pulsating, obsidian heart, roughly the size of a small boulder. It pulsed with a sickening, rhythmic throb, drawing all life and light into itself, radiating the cold, hungry void they had witnessed in Whisperwind Glade. This was the source, the ancient weapon of a forgotten evil, slowly awakening.\nThey acted in grim unison. Kael, drawing upon the forgotten lore he carried, began to chant, his voice echoing eerily in the vast chasm, while he positioned silver-tipped arrows into the weak points of the pulsing heart. Elara, her hands glowing with soft, emerald light, began to weave a complex web of binding spells, drawing on the remaining vitality of her own spirit and the very essence of the life-giving herbs she carried. The heart pulsed harder, emitting a shrill, piercing shriek that threatened to shatter their resolve. But Kael’s arrows struck true, embedding themselves deep, and Elara’s intricate web of magic tightened, slowly, painfully, coiling around the obsidian core. The screams of the Shadow Blight diminished, replaced by a low, defeated thrum.\nThe pulsating heart finally quieted, encased in Elara’s shimmering green bonds, its voracious hunger quelled, though not destroyed. Exhausted but triumphant, Kael and Elara watched as the suffocating gloom began to recede, replaced by the faint, crisp scent of clean air. The journey back to Whisperwind Glade was still long, but it was undertaken with a renewed sense of purpose. The threat was contained, for now. Elara knew the Shadow Blight was merely sleeping, its malevolent heart still beating, waiting for another chance to rise. But she also knew that the Glade had defenders, and that even the deepest darkness could be held at bay by the light of courage and ancient knowledge.\n\n\n\nimport { z } from \"zod\";\nimport { zodToJsonSchema } from \"zod-to-json-schema\";\n\nconst characterSchema = z.object({\n  name: z.string(),\n  description: z.string(),\n  alignment: z.string(),\n});\n\nconst locationSchema = z.object({\n  name: z.string(),\n  description: z.string(),\n});\n\nconst textSummarySchema = z.object({\n  synopsis: z.string(),\n  genres: z.array(z.string()),\n  characters: z.array(characterSchema),\n  locations: z.array(locationSchema),\n});\n\nconst responseSchemaJson = zodToJsonSchema(textSummarySchema);\nconst prompt = `\n  Generate summary of the story. With a list of genres locations and characters.\n  ${response.text ?? \"\"}\n`;\n\n\nconst summaryResponse = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: prompt,\n  config: {\n    responseMimeType: \"application/json\",\n    responseJsonSchema: responseSchemaJson,\n  },\n});\n\n\nconsole.log(JSON.stringify(JSON.parse(summaryResponse.text ?? \"{}\"), null, 2));\n\n{\n  \"characters\": [\n    {\n      \"alignment\": \"Good\",\n      \"description\": \"An apprentice of the Grove Keepers, she is observant, courageous, and possesses growing magical abilities, determined to protect her sacred home.\",\n      \"name\": \"Elara\"\n    },\n    {\n      \"alignment\": \"Good\",\n      \"description\": \"A grizzled, reclusive ranger with deep knowledge of ancient lore and a formidable warrior, he possesses weary wisdom and helps Elara in her quest.\",\n      \"name\": \"Kael\"\n    },\n    {\n      \"alignment\": \"Good\",\n      \"description\": \"Elara's mentor and a senior Grove Keeper, currently away on pilgrimage, her teachings and whispered tales guide Elara.\",\n      \"name\": \"Lyra\"\n    }\n  ],\n  \"genres\": [\n    \"Fantasy\",\n    \"Dark Fantasy\",\n    \"Adventure\",\n    \"Quest\"\n  ],\n  \"locations\": [\n    {\n      \"description\": \"A sacred, vibrant forest known for its elder-oaks and wind-whisper birds, it becomes the initial victim of the Shadow Blight.\",\n      \"name\": \"Whisperwind Glade\"\n    },\n    {\n      \"description\": \"A small, ramshackle dwelling nestled amongst boulders in the northern fringes of Whisperwind Glade, serving as Kael's secluded home.\",\n      \"name\": \"Kael's Hut\"\n    },\n    {\n      \"description\": \"A desolate and perilous mountain range characterized by jagged, razor-sharp summits and dark, forgotten magic, infamous as the source of the Shadow Blight.\",\n      \"name\": \"Obsidian Peaks\"\n    },\n    {\n      \"description\": \"A colossal, jagged black split in the heart of the highest peak within the Obsidian Peaks, serving as the chamber where the malevolent obsidian heart of the Shadow Blight is sealed.\",\n      \"name\": \"The Fissure\"\n    }\n  ],\n  \"synopsis\": \"Elara, an apprentice Grove Keeper, discovers a devastating 'Shadow Blight' consuming life and magic in Whisperwind Glade. Unable to combat it alone, she seeks out Kael, a reclusive ranger with ancient knowledge. Kael identifies it as a legendary blight whose source, an 'obsidian heart', was sealed long ago in the perilous Obsidian Peaks. Realizing the seal is failing, Elara and Kael journey to the Peaks, brave its dangers, and locate the pulsating heart within a colossal fissure. Combining Kael's lore and silver-tipped arrows with Elara's binding spells, they successfully contain the malevolent source, though they know the blight is only dormant, not destroyed.\"\n}",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Text Summarization"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Text_Summarization.html#summary",
+    "href": "examples/json_capabilities/Text_Summarization.html#summary",
+    "title": "Gemini API: Text Summarization",
+    "section": "Summary",
+    "text": "Summary\nIn this example, you used the Gemini API to extract key information from a story. This information could be fed into a structured database or used as a prompt for other writers to create their own versions.\nThis technique of converting large open-ended text to structured data works across other formats too, not just stories.\nPlease see the other notebooks in this directory to learn more about how you can use the Gemini API for other JSON related tasks.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Text Summarization"
+    ]
+  },
+  {
     "objectID": "examples/Search_grounding_for_research_report.html",
     "href": "examples/Search_grounding_for_research_report.html",
     "title": "Search tool with Gemini 2.x",
@@ -2932,6 +3036,123 @@
       "Home",
       "Examples",
       "Gemini API: Working with Charts, Graphs, and Slide Decks"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Text_Classification.html",
+    "href": "examples/json_capabilities/Text_Classification.html",
+    "title": "Gemini API: Text Classification",
+    "section": "",
+    "text": "You will use the Gemini API to classify what topics are relevant in the text.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Text Classification"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Text_Classification.html#setup",
+    "href": "examples/json_capabilities/Text_Classification.html#setup",
+    "title": "Gemini API: Text Classification",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is one directory up from the notebook, hence we need to use ../ to go up one directory. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── json_capabilities\n        └── Text_Classification.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Text Classification"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Text_Classification.html#example",
+    "href": "examples/json_capabilities/Text_Classification.html#example",
+    "title": "Gemini API: Text Classification",
+    "section": "Example",
+    "text": "Example\n\nconst response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: \"Generate a 5 paragraph article about Sports, include one other topic\",\n});\n\ntslab.display.markdown(response.text ?? \"\");\n\nThe Unseen Game: Sports and the Power of the Mind\nFrom the roar of ancient coliseums to the hushed tension of a championship point, sports have captivated humanity across millennia. More than mere games, they are a universal language of competition, skill, and sheer human will. Whether it’s the electrifying speed of a sprinter, the strategic brilliance of a chess grandmaster (yes, it’s a sport!), or the coordinated ballet of a football team, sports offer a dynamic spectacle that transcends cultural boundaries. They celebrate the physical peak of human potential, demanding years of dedication, relentless training, and an unwavering commitment to mastery.\nThe physical demands of sport are undeniable. Athletes push their bodies to the absolute limit, developing incredible strength, endurance, agility, and precision. Every muscle fiber, every breath, every practiced movement is honed to perfection. Hours are spent in gyms, on tracks, and in arenas, refining techniques and building the physical resilience needed to endure the rigors of competition. This dedication not only showcases extraordinary athletic prowess but also inspires countless individuals to pursue healthier, more active lifestyles, recognizing the profound benefits of physical activity.\nYet, beneath the visible spectacle of physical exertion lies a profound and often overlooked battle: the psychological game. The field of sports psychology reveals that mental fortitude is as crucial as, if not more important than, physical talent. Athletes must possess incredible resilience to bounce back from defeat, the focus to execute complex strategies under immense pressure, and the self-belief to perform at their peak when everything is on the line. The ability to manage anxiety, maintain concentration amidst chaos, and foster unshakeable team synergy are all psychological skills that can separate a good athlete from a legendary one, turning potential into tangible victory.\nBeyond individual performance, sports are potent crucibles for life lessons, deeply intertwined with the psychological skills they foster. They teach discipline, fair play, leadership, and the invaluable experience of both winning gracefully and losing with dignity. Team sports, in particular, underscore the importance of collaboration and communication, demonstrating how diverse individuals can unite for a common goal. For fans, sports provide a powerful sense of community and shared identity, offering an emotional outlet and a connection to something larger than themselves. The collective joy of victory or the shared anguish of defeat forge bonds that transcend everyday life.\nIn essence, sports are a rich tapestry woven with threads of physical artistry, mental resilience, and powerful community engagement. They reflect humanity’s innate drive to compete, to excel, and to connect. By pushing the boundaries of what’s physically possible and mastering the unseen game of the mind, athletes inspire us all to discover our own potential, proving that the true measure of success often lies not just in the final score, but in the journey of relentless self-improvement and the indomitable spirit that propels us forward.\n\n\n\nimport { z } from \"zod\";\nimport { zodToJsonSchema } from \"zod-to-json-schema\";\n\nconst topicSchema = z.object({\n  topic: z.string(),\n  relevance: z.enum([\"weak\", \"medium\", \"strong\"]),\n});\n\nconst responseSchema = z.object({\n  topics: z.array(topicSchema),\n});\n\nconst responseSchemaJson = zodToJsonSchema(responseSchema);\n\nconst SYSTEM_PROMPT = `\n  Generate topics from text. Ensure that topics are general e.g. \"Health\".\n  Strong relevance is obtained when the topic is a core tenent of the content\n  and weak relevance reflects one or two mentions.\n`;\n\n\nconst topicsResponse = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: response.text ?? \"\",\n  config: {\n    systemInstruction: SYSTEM_PROMPT,\n    responseJsonSchema: responseSchemaJson,\n    responseMimeType: \"application/json\",\n  },\n});\n\n\nconsole.log(JSON.stringify(JSON.parse(topicsResponse.text ?? \"{}\"), null, 2));\n\n{\n  \"topics\": [\n    {\n      \"relevance\": \"strong\",\n      \"topic\": \"Sports\"\n    },\n    {\n      \"relevance\": \"strong\",\n      \"topic\": \"Sports Psychology\"\n    },\n    {\n      \"relevance\": \"medium\",\n      \"topic\": \"Physical Fitness\"\n    },\n    {\n      \"relevance\": \"medium\",\n      \"topic\": \"Teamwork\"\n    },\n    {\n      \"relevance\": \"medium\",\n      \"topic\": \"Personal Development\"\n    }\n  ]\n}",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Text Classification"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Text_Classification.html#the-unseen-game-sports-and-the-power-of-the-mind",
+    "href": "examples/json_capabilities/Text_Classification.html#the-unseen-game-sports-and-the-power-of-the-mind",
+    "title": "Gemini API: Text Classification",
+    "section": "The Unseen Game: Sports and the Power of the Mind",
+    "text": "The Unseen Game: Sports and the Power of the Mind\nFrom the roar of ancient coliseums to the hushed tension of a championship point, sports have captivated humanity across millennia. More than mere games, they are a universal language of competition, skill, and sheer human will. Whether it’s the electrifying speed of a sprinter, the strategic brilliance of a chess grandmaster (yes, it’s a sport!), or the coordinated ballet of a football team, sports offer a dynamic spectacle that transcends cultural boundaries. They celebrate the physical peak of human potential, demanding years of dedication, relentless training, and an unwavering commitment to mastery.\nThe physical demands of sport are undeniable. Athletes push their bodies to the absolute limit, developing incredible strength, endurance, agility, and precision. Every muscle fiber, every breath, every practiced movement is honed to perfection. Hours are spent in gyms, on tracks, and in arenas, refining techniques and building the physical resilience needed to endure the rigors of competition. This dedication not only showcases extraordinary athletic prowess but also inspires countless individuals to pursue healthier, more active lifestyles, recognizing the profound benefits of physical activity.\nYet, beneath the visible spectacle of physical exertion lies a profound and often overlooked battle: the psychological game. The field of sports psychology reveals that mental fortitude is as crucial as, if not more important than, physical talent. Athletes must possess incredible resilience to bounce back from defeat, the focus to execute complex strategies under immense pressure, and the self-belief to perform at their peak when everything is on the line. The ability to manage anxiety, maintain concentration amidst chaos, and foster unshakeable team synergy are all psychological skills that can separate a good athlete from a legendary one, turning potential into tangible victory.\nBeyond individual performance, sports are potent crucibles for life lessons, deeply intertwined with the psychological skills they foster. They teach discipline, fair play, leadership, and the invaluable experience of both winning gracefully and losing with dignity. Team sports, in particular, underscore the importance of collaboration and communication, demonstrating how diverse individuals can unite for a common goal. For fans, sports provide a powerful sense of community and shared identity, offering an emotional outlet and a connection to something larger than themselves. The collective joy of victory or the shared anguish of defeat forge bonds that transcend everyday life.\nIn essence, sports are a rich tapestry woven with threads of physical artistry, mental resilience, and powerful community engagement. They reflect humanity’s innate drive to compete, to excel, and to connect. By pushing the boundaries of what’s physically possible and mastering the unseen game of the mind, athletes inspire us all to discover our own potential, proving that the true measure of success often lies not just in the final score, but in the journey of relentless self-improvement and the indomitable spirit that propels us forward.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Text Classification"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Text_Classification.html#summary",
+    "href": "examples/json_capabilities/Text_Classification.html#summary",
+    "title": "Gemini API: Text Classification",
+    "section": "Summary",
+    "text": "Summary\nNow, you know how to classify text into different categories. Feel free to experiment with other texts, or provide a specific set of possible topics.\nPlease see the other notebooks in this directory to learn more about how you can use the Gemini API for other JSON related tasks.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Text Classification"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Sentiment_Analysis.html",
+    "href": "examples/json_capabilities/Sentiment_Analysis.html",
+    "title": "Gemini API: Sentiment Analysis",
+    "section": "",
+    "text": "You will use the Gemini to extract sentiment scores of reviews.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Sentiment Analysis"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Sentiment_Analysis.html#setup",
+    "href": "examples/json_capabilities/Sentiment_Analysis.html#setup",
+    "title": "Gemini API: Sentiment Analysis",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is one directory up from the notebook, hence we need to use ../ to go up one directory. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── json_capabilities\n        └── Sentiment_Analysis.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Sentiment Analysis"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Sentiment_Analysis.html#example",
+    "href": "examples/json_capabilities/Sentiment_Analysis.html#example",
+    "title": "Gemini API: Sentiment Analysis",
+    "section": "Example",
+    "text": "Example\n\nimport { z } from \"zod\";\nimport { zodToJsonSchema } from \"zod-to-json-schema\";\n\nconst magnitudeEnum = z.enum([\"weak\", \"medium\", \"strong\"]);\nconst sentimentSchema = z.object({\n  postiveSentimentScore: magnitudeEnum,\n  negativeSentimentScore: magnitudeEnum,\n  neutralSentimentScore: magnitudeEnum,\n});\n\nconst sentimentSchemaJson: Record&lt;string, unknown&gt; = zodToJsonSchema(sentimentSchema, {\n  $refStrategy: \"none\",\n});\n\nconst SYSTEM_PROMPT = `Generate each sentiment score probability (positive, negative, or neutral) for the whole text.`;\n\n\nconst negative_review =\n  \"This establishment is an insult to the culinary arts, with inedible food that left me questioning the chef's sanity and the health inspector's judgment.\";\nconst positive_review =\n  \"This restaurant is a true gem with impeccable service and a menu that tantalizes the taste buds. Every dish is a culinary masterpiece, crafted with fresh ingredients and bursting with flavor.\";\nconst neutral_review =\n  \"The restaurant offers a decent dining experience with average food and service, making it a passable choice for a casual meal.\";\n\nTake a look at each of the probabilities returned to see how each of these reviews would be classified by the Gemini model.\nHelper function to generate content from sentiment llm:\n\nasync function generateReview(content: string) {\n  const response = await ai.models.generateContent({\n    model: MODEL_ID,\n    contents: content,\n    config: {\n      systemInstruction: SYSTEM_PROMPT,\n      responseMimeType: \"application/json\",\n      responseSchema: sentimentSchemaJson,\n    },\n  });\n  tslab.display.markdown(`\\n\\`\\`\\`json\\n${JSON.stringify(JSON.parse(response.text ?? \"{}\"), null, 2)}\\n\\`\\`\\``);\n}\n\n\nawait generateReview(negative_review);\n\n{\n  \"negativeSentimentScore\": \"strong\",\n  \"neutralSentimentScore\": \"weak\",\n  \"postiveSentimentScore\": \"weak\"\n}\n\n\n\nawait generateReview(positive_review);\n\n{\n  \"negativeSentimentScore\": \"weak\",\n  \"neutralSentimentScore\": \"weak\",\n  \"postiveSentimentScore\": \"strong\"\n}\n\n\n\nawait generateReview(neutral_review);\n\n{\n  \"negativeSentimentScore\": \"weak\",\n  \"neutralSentimentScore\": \"strong\",\n  \"postiveSentimentScore\": \"weak\"\n}",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Sentiment Analysis"
+    ]
+  },
+  {
+    "objectID": "examples/json_capabilities/Sentiment_Analysis.html#summary",
+    "href": "examples/json_capabilities/Sentiment_Analysis.html#summary",
+    "title": "Gemini API: Sentiment Analysis",
+    "section": "Summary",
+    "text": "Summary\nYou have now used the Gemini API to analyze the sentiment of restaurant reviews using structured data. Try out other types of texts, such as comments under a video or emails.\nPlease see the other notebooks in this directory to learn more about how you can use the Gemini API for other JSON related tasks.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Json Capabilities",
+      "Gemini API: Sentiment Analysis"
     ]
   },
   {

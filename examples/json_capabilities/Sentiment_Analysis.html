@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API: Enum Quickstart – Gemini Cookbook</title>
+<title>Gemini API: Sentiment Analysis – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,29 +58,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../quickstarts/File_API.html" rel="next">
-<link href="../quickstarts/Embeddings.html" rel="prev">
-<link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-73468ec7cfdc29adaa9e90c901492850.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../examples/json_capabilities/Text_Classification.html" rel="next">
+<link href="../../examples/json_capabilities/Entity_Extraction_JSON.html" rel="prev">
+<link href="../../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-73468ec7cfdc29adaa9e90c901492850.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -120,14 +117,12 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Gemini API: Enum Quickstart – Gemini Cookbook">
+<meta property="og:title" content="Gemini API: Sentiment Analysis – Gemini Cookbook">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://fallendeity.github.io/deepmind-starter/quickstarts/Enum_files/figure-html/cell-6-output-1.jpeg">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta name="twitter:title" content="Gemini API: Enum Quickstart – Gemini Cookbook">
+<meta name="twitter:title" content="Gemini API: Sentiment Analysis – Gemini Cookbook">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://fallendeity.github.io/deepmind-starter/quickstarts/Enum_files/figure-html/cell-6-output-1.jpeg">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-sidebar floating nav-fixed quarto-light">
@@ -137,7 +132,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Gemini Cookbook</span>
     </a>
   </div>
@@ -148,11 +143,11 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../quickstarts/Get_started.html" aria-current="page"> 
+    <a class="nav-link active" href="../../quickstarts/Get_started.html" aria-current="page"> 
 <span class="menu-text">Quickstarts</span></a>
   </li>  
 </ul>
@@ -181,7 +176,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Enum.html">Gemini API: Enum Quickstart</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Entity_Extraction_JSON.html">Json Capabilities</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Sentiment_Analysis.html">Gemini API: Sentiment Analysis</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -204,148 +199,148 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Agents_Function_Calling_Barista_Bot.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Agents_Function_Calling_Barista_Bot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Agents and Automatic Function Calling with Barista Bot</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Analyze a Video - Classification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Analyze a Video - Historic Event Recognition</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Analyze a Video - Summarization</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Anomaly_detection_with_embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Anomaly_detection_with_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Anomaly detection with embeddings</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prompting with an Apollo 11 transcript</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Browser_as_a_tool.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Browser_as_a_tool.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Browser as a tool</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Classify_text_with_embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Classify_text_with_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Classify text with embeddings</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Entity extraction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Guess the shape: Triangle, Square, Pentagon?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/LiveAPI_plotting_and_mapping.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/LiveAPI_plotting_and_mapping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini 2.X - Multi-tool with the Multimodal Live API</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Create a marketing campaign from a product sketch of a Jet Backpack</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Opossum search</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Pdf_structured_outputs_on_invoices_and_forms.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Pdf_structured_outputs_on_invoices_and_forms.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Search_grounding_for_research_report.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Search_grounding_for_research_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Search tool with Gemini 2.x</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Story_Writing_with_Prompt_Chaining.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Story_Writing_with_Prompt_Chaining.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prompt Chaining and Iterative Generation for Story Writing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Translate a public domain book</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Voice_memos.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Voice_memos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Voice memos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Working with Charts, Graphs, and Slide Decks</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Json Capabilities</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/json_capabilities/Entity_Extraction_JSON.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/json_capabilities/Entity_Extraction_JSON.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Audio Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/json_capabilities/Sentiment_Analysis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/json_capabilities/Sentiment_Analysis.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Gemini API: Sentiment Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/json_capabilities/Text_Classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/json_capabilities/Text_Classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Text Classification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/json_capabilities/Text_Summarization.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/json_capabilities/Text_Summarization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Text Summarization</span></a>
   </div>
 </li>
@@ -364,175 +359,175 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Audio Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Code Execution</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: All about tokens</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Embeddings Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Enum.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Enum Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: File API Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Function_calling.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Function_calling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Function calling with JS</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Guide: Building AI Tutors with LearnLM via System Instructions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multimodal Live API - Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Getting started with the Gemini API OpenAI compatibility</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Use Gemini thinking</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Getting started with information grounding for Gemini models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Gemini 2.0 Image output</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: List models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Read a PDF</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Prompting Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Safety Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Grounding using Search as a tool</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2D spatial understanding with Gemini 2.0</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Streaming Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: System instructions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Video understanding with Gemini</span></a>
   </div>
 </li>
@@ -556,22 +551,17 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
   <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
   <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
   </ul></li>
-  <li><a href="#enums" id="toc-enums" class="nav-link" data-scroll-target="#enums">Enums</a></li>
-  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a>
-  <ul class="collapse">
-  <li><a href="#useful-api-references" id="toc-useful-api-references" class="nav-link" data-scroll-target="#useful-api-references">Useful API references:</a></li>
-  <li><a href="#related-examples" id="toc-related-examples" class="nav-link" data-scroll-target="#related-examples">Related examples</a></li>
-  <li><a href="#continue-your-discovery-of-the-gemini-api" id="toc-continue-your-discovery-of-the-gemini-api" class="nav-link" data-scroll-target="#continue-your-discovery-of-the-gemini-api">Continue your discovery of the Gemini API</a></li>
-  </ul></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Enum.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Enum.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Sentiment_Analysis.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Sentiment_Analysis.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Enum.html">Gemini API: Enum Quickstart</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Entity_Extraction_JSON.html">Json Capabilities</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Sentiment_Analysis.html">Gemini API: Sentiment Analysis</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Gemini API: Enum Quickstart</h1>
+<h1 class="title">Gemini API: Sentiment Analysis</h1>
 </div>
 
 
@@ -588,7 +578,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </header>
 
 
-<p>The Gemini API allows you to supply a schema to define function arguments (for <a href="../quickstarts/Function_calling.html">function calling</a>), or to constrain its output in <a href="../quickstarts/JSON_mode.html">JSON</a> or using an Enum. This tutorial gives some examples using enums.</p>
+<p>You will use the Gemini to extract sentiment scores of reviews.</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -623,7 +613,7 @@ Tip
 <p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then, we can load the API key in our code:</p>
-<div id="cell-4" class="cell" data-execution_count="2">
+<div id="cell-4" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
@@ -652,15 +642,16 @@ Note
 <p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
 <pre><code>│
 ├── .env
-└── quickstarts
-    └── Get_started_TTS.ipynb</code></pre>
+└── examples
+    └── json_capabilities
+        └── Sentiment_Analysis.ipynb</code></pre>
 </div>
 </div>
 </section>
 <section id="initialize-sdk-client" class="level3">
 <h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
 <p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
-<div id="cell-7" class="cell" data-execution_count="3">
+<div id="cell-7" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -668,221 +659,94 @@ Note
 </section>
 <section id="select-a-model" class="level3">
 <h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
-<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
-<p>For more information about all Gemini models, check the <a href="https://ai.google.dev/gemini-api/docs/models/gemini">documentation</a> for extended information on each of them.</p>
-<div id="cell-9" class="cell" data-execution_count="4">
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<div id="cell-9" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="enums" class="level2">
-<h2 class="anchored" data-anchor-id="enums">Enums</h2>
-<p>In the simplest case is you need the model to choose one option from a list of choices, use an enum class to define the schema. Ask it to identify this instrument:</p>
-<div id="cell-11" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
+<section id="example" class="level2">
+<h2 class="anchored" data-anchor-id="example">Example</h2>
+<div id="cell-11" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { z } <span class="im">from</span> <span class="st">"zod"</span><span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { zodToJsonSchema } <span class="im">from</span> <span class="st">"zod-to-json-schema"</span><span class="op">;</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> IMG_URL <span class="op">=</span> <span class="st">"https://goo.gle/instrument-img"</span><span class="op">;</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> downloadFile <span class="op">=</span> <span class="kw">async</span> (url<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> filePath<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> {</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to download file: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">blob</span>()<span class="op">;</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> bufferData <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> buffer<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">;</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(filePath<span class="op">,</span> bufferData)<span class="op">;</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> filePath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets"</span><span class="op">,</span> <span class="st">"organ.jpg"</span>)<span class="op">;</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadFile</span>(IMG_URL<span class="op">,</span> filePath)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> magnitudeEnum <span class="op">=</span> z<span class="op">.</span><span class="fu">enum</span>([<span class="st">"weak"</span><span class="op">,</span> <span class="st">"medium"</span><span class="op">,</span> <span class="st">"strong"</span>])<span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> sentimentSchema <span class="op">=</span> z<span class="op">.</span><span class="fu">object</span>({</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  postiveSentimentScore<span class="op">:</span> magnitudeEnum<span class="op">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  negativeSentimentScore<span class="op">:</span> magnitudeEnum<span class="op">,</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  neutralSentimentScore<span class="op">:</span> magnitudeEnum<span class="op">,</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> sentimentSchemaJson<span class="op">:</span> <span class="bu">Record</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">unknown</span><span class="op">&gt;</span> <span class="op">=</span> <span class="fu">zodToJsonSchema</span>(sentimentSchema<span class="op">,</span> {</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  $refStrategy<span class="op">:</span> <span class="st">"none"</span><span class="op">,</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> SYSTEM_PROMPT <span class="op">=</span> <span class="vs">`Generate each sentiment score probability (positive, negative, or neutral) for the whole text.`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-12" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">jpeg</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(filePath))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Enum_files/figure-html/cell-6-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Enum_files/figure-html/cell-6-output-1.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
+<div id="cell-12" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> negative_review <span class="op">=</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"This establishment is an insult to the culinary arts, with inedible food that left me questioning the chef's sanity and the health inspector's judgment."</span><span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> positive_review <span class="op">=</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"This restaurant is a true gem with impeccable service and a menu that tantalizes the taste buds. Every dish is a culinary masterpiece, crafted with fresh ingredients and bursting with flavor."</span><span class="op">;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> neutral_review <span class="op">=</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"The restaurant offers a decent dining experience with average food and service, making it a passable choice for a casual meal."</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Take a look at each of the probabilities returned to see how each of these reviews would be classified by the Gemini model.</p>
+<p>Helper function to generate content from sentiment llm:</p>
+<div id="cell-14" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">generateReview</span>(content<span class="op">:</span> <span class="dt">string</span>) {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> content<span class="op">,</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    config<span class="op">:</span> {</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      systemInstruction<span class="op">:</span> SYSTEM_PROMPT<span class="op">,</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>      responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>      responseSchema<span class="op">:</span> sentimentSchemaJson<span class="op">,</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`</span><span class="sc">\n\`\`\`</span><span class="vs">json</span><span class="sc">\n${</span><span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"{}"</span>)<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>)<span class="sc">}\n\`\`\`</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<p>The response should be one of the following options:</p>
-<div id="cell-14" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Schema<span class="op">,</span> Type } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">enum</span> Instrument {</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  PERCUSSION <span class="op">=</span> <span class="st">"Percussion"</span><span class="op">,</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  STRING <span class="op">=</span> <span class="st">"String"</span><span class="op">,</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  WOODWIND <span class="op">=</span> <span class="st">"Woodwind"</span><span class="op">,</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  BRASS <span class="op">=</span> <span class="st">"Brass"</span><span class="op">,</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  KEYBOARD <span class="op">=</span> <span class="st">"Keyboard"</span><span class="op">,</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> InstrumentSchema<span class="op">:</span> Schema <span class="op">=</span> {</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"The category of musical instrument"</span><span class="op">,</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  enum<span class="op">:</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">values</span>(Instrument)<span class="op">,</span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Pass the enum class as the <code>responseSchema</code>, and for this simplest case you can use the <code>responseMimeType = "text/x.enum"</code> option to get one of those enum members as the response.</p>
-<div id="cell-16" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> instrument_file <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">files</span><span class="op">.</span><span class="fu">upload</span>({</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  file<span class="op">:</span> filePath<span class="op">,</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    displayName<span class="op">:</span> <span class="st">"instrument.jpg"</span><span class="op">,</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    mimeType<span class="op">:</span> <span class="st">"image/jpeg"</span><span class="op">,</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> instrument_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(instrument_file<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> instrument_file<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"what is the category of this instrument?"</span><span class="op">,</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    responseMimeType<span class="op">:</span> <span class="st">"text/x.enum"</span><span class="op">,</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    responseSchema<span class="op">:</span> InstrumentSchema<span class="op">,</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Instrument category:"</span><span class="op">,</span> instrument_response<span class="op">.</span><span class="at">text</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Instrument category: Keyboard</code></pre>
+<div id="cell-15" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">generateReview</span>(negative_review)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="sourceCode" id="cb14"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"negativeSentimentScore"</span><span class="fu">:</span> <span class="st">"strong"</span><span class="fu">,</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"neutralSentimentScore"</span><span class="fu">:</span> <span class="st">"weak"</span><span class="fu">,</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"postiveSentimentScore"</span><span class="fu">:</span> <span class="st">"weak"</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<p>You can also use enums with <code>responseMimeType = "application/json"</code>. In this simple case the response will be identical but in quotes.</p>
-<div id="cell-18" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> instrument_json_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromUri</span>(instrument_file<span class="op">.</span><span class="at">uri</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> instrument_file<span class="op">.</span><span class="at">mimeType</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"what is the category of this instrument?"</span><span class="op">,</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    responseSchema<span class="op">:</span> InstrumentSchema<span class="op">,</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Instrument category (JSON):"</span><span class="op">,</span> instrument_json_response<span class="op">.</span><span class="at">text</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Instrument category (JSON): "Keyboard"</code></pre>
+<div id="cell-16" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">generateReview</span>(positive_review)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="sourceCode" id="cb16"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"negativeSentimentScore"</span><span class="fu">:</span> <span class="st">"weak"</span><span class="fu">,</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"neutralSentimentScore"</span><span class="fu">:</span> <span class="st">"weak"</span><span class="fu">,</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"postiveSentimentScore"</span><span class="fu">:</span> <span class="st">"strong"</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<p>Outside of simple multiple choice problems, an enum can be used anywhere in the schema for <a href="../quickstarts/JSON_mode.html">JSON</a> or <a href="../quickstarts/Function_calling.html">function calling</a>. For example, ask it for a list of recipe titles, and use a Grade enum to give each one a popularity-grade:</p>
-<div id="cell-20" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Schema<span class="op">,</span> Type } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">enum</span> Grade {</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  A_PLUS <span class="op">=</span> <span class="st">"A+"</span><span class="op">,</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  A <span class="op">=</span> <span class="st">"A"</span><span class="op">,</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  B <span class="op">=</span> <span class="st">"B"</span><span class="op">,</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  C <span class="op">=</span> <span class="st">"C"</span><span class="op">,</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  D <span class="op">=</span> <span class="st">"D"</span><span class="op">,</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  F <span class="op">=</span> <span class="st">"F"</span><span class="op">,</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> RecipeSchema<span class="op">:</span> Schema <span class="op">=</span> {</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  type<span class="op">:</span> Type<span class="op">.</span><span class="at">OBJECT</span><span class="op">,</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"A recipe for a dish"</span><span class="op">,</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  properties<span class="op">:</span> {</span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    recipeName<span class="op">:</span> {</span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>      type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>      description<span class="op">:</span> <span class="st">"The name of the recipe"</span><span class="op">,</span></span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    grade<span class="op">:</span> {</span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>      type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>      description<span class="op">:</span> <span class="st">"The grade of the recipe"</span><span class="op">,</span></span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>      enum<span class="op">:</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">values</span>(Grade)<span class="op">,</span></span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>  required<span class="op">:</span> [<span class="st">"recipeName"</span><span class="op">,</span> <span class="st">"grade"</span>]<span class="op">,</span></span>
-<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
-<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> RecipeListSchema<span class="op">:</span> Schema <span class="op">=</span> {</span>
-<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>  type<span class="op">:</span> Type<span class="op">.</span><span class="at">ARRAY</span><span class="op">,</span></span>
-<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"A list of recipes with their grades"</span><span class="op">,</span></span>
-<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>  items<span class="op">:</span> RecipeSchema<span class="op">,</span></span>
-<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
-<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> recipe_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [<span class="st">"List about 10 cookie recipes, grade them based on popularity"</span>]<span class="op">,</span></span>
-<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>    responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
-<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>    responseSchema<span class="op">:</span> RecipeListSchema<span class="op">,</span></span>
-<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Recipe response:"</span>)<span class="op">;</span></span>
-<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(recipe_response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Recipe response:
-[
-  {
-    "grade": "A+",
-    "recipeName": "Classic Chocolate Chip Cookies"
-  },
-  {
-    "grade": "A",
-    "recipeName": "Peanut Butter Cookies"
-  },
-  {
-    "grade": "A",
-    "recipeName": "Oatmeal Raisin Cookies"
-  },
-  {
-    "grade": "B",
-    "recipeName": "Sugar Cookies (Cut-Out)"
-  },
-  {
-    "grade": "B",
-    "recipeName": "Snickerdoodle Cookies"
-  },
-  {
-    "grade": "B",
-    "recipeName": "Gingerbread Cookies"
-  },
-  {
-    "grade": "C",
-    "recipeName": "Shortbread Cookies"
-  },
-  {
-    "grade": "C",
-    "recipeName": "Macadamia Nut White Chocolate Chip Cookies"
-  },
-  {
-    "grade": "D",
-    "recipeName": "No-Bake Cookies"
-  },
-  {
-    "grade": "D",
-    "recipeName": "Lemon Crinkle Cookies"
-  }
-]</code></pre>
+<div id="cell-17" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">generateReview</span>(neutral_review)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="sourceCode" id="cb18"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"negativeSentimentScore"</span><span class="fu">:</span> <span class="st">"weak"</span><span class="fu">,</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"neutralSentimentScore"</span><span class="fu">:</span> <span class="st">"strong"</span><span class="fu">,</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"postiveSentimentScore"</span><span class="fu">:</span> <span class="st">"weak"</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
-<section id="next-steps" class="level2">
-<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
-<section id="useful-api-references" class="level3">
-<h3 class="anchored" data-anchor-id="useful-api-references">Useful API references:</h3>
-<p>Check the <a href="https://ai.google.dev/gemini-api/docs/structured-output">structured ouput</a> documentation or the GenerationConfig API reference for more details.</p>
-</section>
-<section id="related-examples" class="level3">
-<h3 class="anchored" data-anchor-id="related-examples">Related examples</h3>
-<ul>
-<li>The constrained output is used in the <a href="../examples/json_capabilities/Text_Summarization.html">Text summarization</a> example to provide the model a format to summarize a story (genre, characters, etc…)</li>
-<li>The <a href="../examples/Object_detection.ipynb">Object detection</a> examples are using the JSON constrained output to uniiformize the output of the detection.</li>
-</ul>
-</section>
-<section id="continue-your-discovery-of-the-gemini-api" class="level3">
-<h3 class="anchored" data-anchor-id="continue-your-discovery-of-the-gemini-api">Continue your discovery of the Gemini API</h3>
-<p>An Enum is not the only way to constrain the output of the model, you can also use an <a href="../quickstarts/JSON_mode.html">JSON</a> schema. <a href="../quickstarts/Function_calling.html">Function calling</a> and <a href="Code_execution.ipynb">Code execution</a> are other ways to enhance your model by either let him use your own functions or by letting it write and run them.</p>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>You have now used the Gemini API to analyze the sentiment of restaurant reviews using structured data. Try out other types of texts, such as comments under a video or emails.</p>
+<p>Please see the other notebooks in this directory to learn more about how you can use the Gemini API for other JSON related tasks.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1287,52 +1151,20 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../quickstarts/Embeddings.html" class="pagination-link" aria-label="Gemini API: Embeddings Quickstart">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Embeddings Quickstart</span>
+      <a href="../../examples/json_capabilities/Entity_Extraction_JSON.html" class="pagination-link" aria-label="Gemini API: Audio Quickstart">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Audio Quickstart</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../quickstarts/File_API.html" class="pagination-link" aria-label="Gemini API: File API Quickstart">
-        <span class="nav-page-text">Gemini API: File API Quickstart</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../examples/json_capabilities/Text_Classification.html" class="pagination-link" aria-label="Gemini API: Text Classification">
+        <span class="nav-page-text">Gemini API: Text Classification</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Enum.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Enum.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script>
 
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Sentiment_Analysis.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Sentiment_Analysis.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
