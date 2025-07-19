@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Gemini API: Agents and Automatic Function Calling with Barista Bot – Gemini Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../examples/Analyze_a_Video_Classification.html" rel="next">
+<link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-73468ec7cfdc29adaa9e90c901492850.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-GE1DFPVL15"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<meta property="og:title" content="Gemini API: Agents and Automatic Function Calling with Barista Bot – Gemini Cookbook">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Gemini Cookbook">
+<meta name="twitter:title" content="Gemini API: Agents and Automatic Function Calling with Barista Bot – Gemini Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Gemini Cookbook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../quickstarts/Get_started.html" aria-current="page"> 
+<span class="menu-text">Quickstarts</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://github.com/FallenDeity/deepmind-starter/">
+            Source Code
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Agents_Function_Calling_Barista_Bot.html">Gemini API: Agents and Automatic Function Calling with Barista Bot</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Examples</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Agents_Function_Calling_Barista_Bot.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Gemini API: Agents and Automatic Function Calling with Barista Bot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Historic Event Recognition</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Summarization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Anomaly_detection_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Anomaly detection with embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prompting with an Apollo 11 transcript</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Browser_as_a_tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Browser as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Classify_text_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classify text with embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Entity extraction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guess the shape: Triangle, Square, Pentagon?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/LiveAPI_plotting_and_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.X - Multi-tool with the Multimodal Live API</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create a marketing campaign from a product sketch of a Jet Backpack</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opossum search</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Pdf_structured_outputs_on_invoices_and_forms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Search_grounding_for_research_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Search tool with Gemini 2.x</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Story_Writing_with_Prompt_Chaining.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prompt Chaining and Iterative Generation for Story Writing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Translate a public domain book</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Voice_memos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Voice memos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Working with Charts, Graphs, and Slide Decks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Quickstarts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Audio Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Code Execution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: All about tokens</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Embeddings Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Enum Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: File API Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Function_calling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Function calling with JS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guide: Building AI Tutors with LearnLM via System Instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multimodal Live API - Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting started with the Gemini API OpenAI compatibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Use Gemini thinking</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with information grounding for Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini 2.0 Image output</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: List models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Prompting Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Safety Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Grounding using Search as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2D spatial understanding with Gemini 2.0</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Streaming Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: System instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Video understanding with Gemini</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
+  <ul class="collapse">
+  <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
+  <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
+  <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
+  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
+  <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
+  </ul></li>
+  <li><a href="#define-the-api" id="toc-define-the-api" class="nav-link" data-scroll-target="#define-the-api">Define the API</a></li>
+  <li><a href="#test-the-api" id="toc-test-the-api" class="nav-link" data-scroll-target="#test-the-api">Test the API</a></li>
+  <li><a href="#define-the-prompt" id="toc-define-the-prompt" class="nav-link" data-scroll-target="#define-the-prompt">Define the prompt</a></li>
+  <li><a href="#set-up-the-model" id="toc-set-up-the-model" class="nav-link" data-scroll-target="#set-up-the-model">Set up the model</a></li>
+  <li><a href="#chat-with-barista-bot" id="toc-chat-with-barista-bot" class="nav-link" data-scroll-target="#chat-with-barista-bot">Chat with Barista Bot</a></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See also</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Agents_Function_Calling_Barista_Bot.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Agents_Function_Calling_Barista_Bot.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Agents_Function_Calling_Barista_Bot.html">Gemini API: Agents and Automatic Function Calling with Barista Bot</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Gemini API: Agents and Automatic Function Calling with Barista Bot</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This notebook shows a practical example of using automatic function calling with the Gemini API’s Python SDK to build an agent. You will define some functions that comprise a café’s ordering system, connect them to the Gemini API and write an agent loop that interacts with the user to order café drinks.</p>
+<p>The guide was inspired by the ReAct-style <a href="https://aistudio.google.com/app/prompts/barista-bot">Barista bot</a> prompt available through AI Studio.</p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="install-the-google-genai-sdk" class="level3">
+<h3 class="anchored" data-anchor-id="install-the-google-genai-sdk">Install the Google GenAI SDK</h3>
+<p>Install the Google GenAI SDK from <a href="https://www.npmjs.com/package/@google/genai">npm</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install @google/genai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="setup-your-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="setup-your-api-key">Setup your API key</h3>
+<p>You can <a href="https://aistudio.google.com/app/apikey">create</a> your API key using Google AI Studio with a single click.</p>
+<p>Remember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a <code>.env</code> file. You can also set it as an environment variable or use a secret manager.</p>
+<p>Here’s how to set it up in a <code>.env</code> file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch .env</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;"</span> <span class="op">&gt;&gt;</span> .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another option is to set the API key as an environment variable. You can do this in your terminal with the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export GEMINI_API_KEY=<span class="st">"&lt;YOUR_API_KEY&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="load-the-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-api-key">Load the API key</h3>
+<p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, we can load the API key in our code:</p>
+<div id="cell-4" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../.env"</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GEMINI_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">GEMINI_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>GEMINI_API_KEY) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"GEMINI_API_KEY is not set in the environment variables"</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"GEMINI_API_KEY is set in the environment variables"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEMINI_API_KEY is set in the environment variables</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
+<pre><code>│
+├── .env
+└── examples
+    └── Agents_Function_Calling_Barista_Bot.ipynb</code></pre>
+</div>
+</div>
+</section>
+<section id="initialize-sdk-client" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
+<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
+<div id="cell-7" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="select-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<div id="cell-9" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.0-flash"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="define-the-api" class="level2">
+<h2 class="anchored" data-anchor-id="define-the-api">Define the API</h2>
+<p>To emulate a café’s ordering system, define functions for managing the customer’s order: adding, editing, clearing, confirming and fulfilling.</p>
+<p>These functions track the customer’s order using the global variables <code>order</code> (the in-progress order) and <code>placed_order</code> (the confirmed order sent to the kitchen). Each of the order-editing functions updates the <code>order</code>, and once placed, <code>order</code> is copied to <code>placed_order</code> and cleared.</p>
+<div id="cell-11" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { CallableTool<span class="op">,</span> FunctionCall<span class="op">,</span> FunctionDeclaration<span class="op">,</span> Part<span class="op">,</span> Tool<span class="op">,</span> Type } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">interface</span> Order {</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  drink<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  modifiers<span class="op">:</span> <span class="dt">string</span>[]<span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> orders<span class="op">:</span> Order[] <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> placed_orders<span class="op">:</span> Order[] <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> add_to_order<span class="op">:</span> FunctionDeclaration <span class="op">=</span> {</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="st">"add_to_order"</span><span class="op">,</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"Adds the specified drink to the customer's order, including any modifiers."</span><span class="op">,</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  parameters<span class="op">:</span> {</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> Type<span class="op">.</span><span class="at">OBJECT</span><span class="op">,</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    properties<span class="op">:</span> {</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>      drink<span class="op">:</span> {</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>        type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        description<span class="op">:</span> <span class="st">"The name of the drink to add to the order."</span><span class="op">,</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>      modifiers<span class="op">:</span> {</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        type<span class="op">:</span> Type<span class="op">.</span><span class="at">ARRAY</span><span class="op">,</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>        items<span class="op">:</span> {</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>          type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>          description<span class="op">:</span> <span class="st">"Optional modifiers for the drink, such as 'extra hot' or 'no sugar'."</span><span class="op">,</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>        description<span class="op">:</span> <span class="st">"Optional modifiers for the drink."</span><span class="op">,</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    required<span class="op">:</span> [<span class="st">"drink"</span>]<span class="op">,</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  response<span class="op">:</span> {</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span> <span class="st">"A confirmation message indicating the drink has been added to the order."</span><span class="op">,</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> add_to_order_tool<span class="op">:</span> CallableTool <span class="op">=</span> {</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">callTool</span>(functionCalls<span class="op">:</span> FunctionCall[])<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>Part[]<span class="op">&gt;</span> {</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> functionCall <span class="op">=</span> functionCalls[<span class="dv">0</span>]<span class="op">;</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> { drink<span class="op">,</span> modifiers <span class="op">=</span> [] } <span class="op">=</span> functionCall<span class="op">.</span><span class="at">args</span> <span class="im">as</span> { drink<span class="op">:</span> <span class="dt">string</span><span class="op">;</span> modifiers<span class="op">?:</span> <span class="dt">string</span>[] }<span class="op">;</span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>    orders<span class="op">.</span><span class="fu">push</span>({ drink<span class="op">,</span> modifiers })<span class="op">;</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>      google<span class="op">.</span><span class="fu">createPartFromFunctionResponse</span>(functionCall<span class="op">.</span><span class="at">id</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> functionCall<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> {</span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>        response<span class="op">:</span> <span class="vs">`Added </span><span class="sc">${</span>drink<span class="sc">}</span><span class="vs"> with modifiers </span><span class="sc">${</span>modifiers<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">?</span> modifiers<span class="op">.</span><span class="fu">join</span>(<span class="st">", "</span>) <span class="op">:</span> <span class="st">"none"</span><span class="sc">}</span><span class="vs"> to the order.`</span><span class="op">,</span></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>      })<span class="op">,</span></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">;</span></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">tool</span>()<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>Tool<span class="op">&gt;</span> {</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> { functionDeclarations<span class="op">:</span> [add_to_order] }<span class="op">;</span></span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> get_order<span class="op">:</span> FunctionDeclaration <span class="op">=</span> {</span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="st">"get_order"</span><span class="op">,</span></span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"Returns the customer's order."</span><span class="op">,</span></span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>  parameters<span class="op">:</span> {</span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> Type<span class="op">.</span><span class="at">OBJECT</span><span class="op">,</span></span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>    properties<span class="op">:</span> {}<span class="op">,</span></span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>  response<span class="op">:</span> {</span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> Type<span class="op">.</span><span class="at">ARRAY</span><span class="op">,</span></span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>    items<span class="op">:</span> {</span>
+<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>      type<span class="op">:</span> Type<span class="op">.</span><span class="at">OBJECT</span><span class="op">,</span></span>
+<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a>      properties<span class="op">:</span> {</span>
+<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>        drink<span class="op">:</span> {</span>
+<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a>          type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a>          description<span class="op">:</span> <span class="st">"The name of the drink in the order."</span><span class="op">,</span></span>
+<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
+<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>        modifiers<span class="op">:</span> {</span>
+<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a>          type<span class="op">:</span> Type<span class="op">.</span><span class="at">ARRAY</span><span class="op">,</span></span>
+<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a>          items<span class="op">:</span> {</span>
+<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a>            type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a>            description<span class="op">:</span> <span class="st">"Modifiers for the drink."</span><span class="op">,</span></span>
+<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a>          }<span class="op">,</span></span>
+<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a>          description<span class="op">:</span> <span class="st">"Modifiers for the drink."</span><span class="op">,</span></span>
+<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
+<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span> <span class="st">"The current order of drinks and their modifiers."</span><span class="op">,</span></span>
+<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> get_order_tool<span class="op">:</span> CallableTool <span class="op">=</span> {</span>
+<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">callTool</span>(functionCalls<span class="op">:</span> FunctionCall[])<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>Part[]<span class="op">&gt;</span> {</span>
+<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
+<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a>      google<span class="op">.</span><span class="fu">createPartFromFunctionResponse</span>(functionCalls[<span class="dv">0</span>]<span class="op">.</span><span class="at">id</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> functionCalls[<span class="dv">0</span>]<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> {</span>
+<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a>        response<span class="op">:</span> orders<span class="op">,</span></span>
+<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a>      })<span class="op">,</span></span>
+<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">;</span></span>
+<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">tool</span>()<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>Tool<span class="op">&gt;</span> {</span>
+<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> { functionDeclarations<span class="op">:</span> [get_order] }<span class="op">;</span></span>
+<span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-95"><a href="#cb10-95" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb10-96"><a href="#cb10-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-97"><a href="#cb10-97" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> remove_item<span class="op">:</span> FunctionDeclaration <span class="op">=</span> {</span>
+<span id="cb10-98"><a href="#cb10-98" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="st">"remove_item"</span><span class="op">,</span></span>
+<span id="cb10-99"><a href="#cb10-99" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"Removes the nth (one-based) item from the order."</span><span class="op">,</span></span>
+<span id="cb10-100"><a href="#cb10-100" aria-hidden="true" tabindex="-1"></a>  parameters<span class="op">:</span> {</span>
+<span id="cb10-101"><a href="#cb10-101" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> Type<span class="op">.</span><span class="at">OBJECT</span><span class="op">,</span></span>
+<span id="cb10-102"><a href="#cb10-102" aria-hidden="true" tabindex="-1"></a>    properties<span class="op">:</span> {</span>
+<span id="cb10-103"><a href="#cb10-103" aria-hidden="true" tabindex="-1"></a>      n<span class="op">:</span> {</span>
+<span id="cb10-104"><a href="#cb10-104" aria-hidden="true" tabindex="-1"></a>        type<span class="op">:</span> Type<span class="op">.</span><span class="at">INTEGER</span><span class="op">,</span></span>
+<span id="cb10-105"><a href="#cb10-105" aria-hidden="true" tabindex="-1"></a>        description<span class="op">:</span> <span class="st">"The one-based index of the item to remove from the order."</span><span class="op">,</span></span>
+<span id="cb10-106"><a href="#cb10-106" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb10-107"><a href="#cb10-107" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb10-108"><a href="#cb10-108" aria-hidden="true" tabindex="-1"></a>    required<span class="op">:</span> [<span class="st">"n"</span>]<span class="op">,</span></span>
+<span id="cb10-109"><a href="#cb10-109" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-110"><a href="#cb10-110" aria-hidden="true" tabindex="-1"></a>  response<span class="op">:</span> {</span>
+<span id="cb10-111"><a href="#cb10-111" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb10-112"><a href="#cb10-112" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span> <span class="st">"The name of the item that was removed from the order."</span><span class="op">,</span></span>
+<span id="cb10-113"><a href="#cb10-113" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-114"><a href="#cb10-114" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb10-115"><a href="#cb10-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-116"><a href="#cb10-116" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> remove_item_tool<span class="op">:</span> CallableTool <span class="op">=</span> {</span>
+<span id="cb10-117"><a href="#cb10-117" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">callTool</span>(functionCalls<span class="op">:</span> FunctionCall[])<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>Part[]<span class="op">&gt;</span> {</span>
+<span id="cb10-118"><a href="#cb10-118" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> { n } <span class="op">=</span> functionCalls[<span class="dv">0</span>]<span class="op">.</span><span class="at">args</span> <span class="im">as</span> { n<span class="op">:</span> <span class="dt">number</span> }<span class="op">;</span></span>
+<span id="cb10-119"><a href="#cb10-119" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (n <span class="op">&lt;</span> <span class="dv">1</span> <span class="op">||</span> n <span class="op">&gt;</span> orders<span class="op">.</span><span class="at">length</span>) {</span>
+<span id="cb10-120"><a href="#cb10-120" aria-hidden="true" tabindex="-1"></a>      <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Invalid item index: </span><span class="sc">${</span>n<span class="sc">}</span><span class="vs">. Must be between 1 and </span><span class="sc">${</span>orders<span class="op">.</span><span class="at">length</span><span class="sc">}</span><span class="vs">.`</span>)<span class="op">;</span></span>
+<span id="cb10-121"><a href="#cb10-121" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-122"><a href="#cb10-122" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> removedItem <span class="op">=</span> orders<span class="op">.</span><span class="fu">splice</span>(n <span class="op">-</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span>)[<span class="dv">0</span>]<span class="op">;</span></span>
+<span id="cb10-123"><a href="#cb10-123" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
+<span id="cb10-124"><a href="#cb10-124" aria-hidden="true" tabindex="-1"></a>      google<span class="op">.</span><span class="fu">createPartFromFunctionResponse</span>(functionCalls[<span class="dv">0</span>]<span class="op">.</span><span class="at">id</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> functionCalls[<span class="dv">0</span>]<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> {</span>
+<span id="cb10-125"><a href="#cb10-125" aria-hidden="true" tabindex="-1"></a>        response<span class="op">:</span> <span class="vs">`Removed </span><span class="sc">${</span>removedItem<span class="op">.</span><span class="at">drink</span><span class="sc">}</span><span class="vs"> with modifiers </span><span class="sc">${</span>removedItem<span class="op">.</span><span class="at">modifiers</span><span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">?</span> removedItem<span class="op">.</span><span class="at">modifiers</span><span class="op">.</span><span class="fu">join</span>(<span class="st">", "</span>) <span class="op">:</span> <span class="st">"none"</span><span class="sc">}</span><span class="vs"> from the order.`</span><span class="op">,</span></span>
+<span id="cb10-126"><a href="#cb10-126" aria-hidden="true" tabindex="-1"></a>      })<span class="op">,</span></span>
+<span id="cb10-127"><a href="#cb10-127" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">;</span></span>
+<span id="cb10-128"><a href="#cb10-128" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-129"><a href="#cb10-129" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">tool</span>()<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>Tool<span class="op">&gt;</span> {</span>
+<span id="cb10-130"><a href="#cb10-130" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> { functionDeclarations<span class="op">:</span> [remove_item] }<span class="op">;</span></span>
+<span id="cb10-131"><a href="#cb10-131" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-132"><a href="#cb10-132" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb10-133"><a href="#cb10-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-134"><a href="#cb10-134" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> clear_order<span class="op">:</span> FunctionDeclaration <span class="op">=</span> {</span>
+<span id="cb10-135"><a href="#cb10-135" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="st">"clear_order"</span><span class="op">,</span></span>
+<span id="cb10-136"><a href="#cb10-136" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"Removes all items from the customer's order."</span><span class="op">,</span></span>
+<span id="cb10-137"><a href="#cb10-137" aria-hidden="true" tabindex="-1"></a>  parameters<span class="op">:</span> {</span>
+<span id="cb10-138"><a href="#cb10-138" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> Type<span class="op">.</span><span class="at">OBJECT</span><span class="op">,</span></span>
+<span id="cb10-139"><a href="#cb10-139" aria-hidden="true" tabindex="-1"></a>    properties<span class="op">:</span> {}<span class="op">,</span></span>
+<span id="cb10-140"><a href="#cb10-140" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-141"><a href="#cb10-141" aria-hidden="true" tabindex="-1"></a>  response<span class="op">:</span> {</span>
+<span id="cb10-142"><a href="#cb10-142" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb10-143"><a href="#cb10-143" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span> <span class="st">"A confirmation message indicating the order has been cleared."</span><span class="op">,</span></span>
+<span id="cb10-144"><a href="#cb10-144" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-145"><a href="#cb10-145" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb10-146"><a href="#cb10-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-147"><a href="#cb10-147" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> clear_order_tool<span class="op">:</span> CallableTool <span class="op">=</span> {</span>
+<span id="cb10-148"><a href="#cb10-148" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">callTool</span>(functionCalls<span class="op">:</span> FunctionCall[])<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>Part[]<span class="op">&gt;</span> {</span>
+<span id="cb10-149"><a href="#cb10-149" aria-hidden="true" tabindex="-1"></a>    orders <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb10-150"><a href="#cb10-150" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
+<span id="cb10-151"><a href="#cb10-151" aria-hidden="true" tabindex="-1"></a>      google<span class="op">.</span><span class="fu">createPartFromFunctionResponse</span>(functionCalls[<span class="dv">0</span>]<span class="op">.</span><span class="at">id</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> functionCalls[<span class="dv">0</span>]<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> {</span>
+<span id="cb10-152"><a href="#cb10-152" aria-hidden="true" tabindex="-1"></a>        response<span class="op">:</span> <span class="st">"Cleared the order."</span><span class="op">,</span></span>
+<span id="cb10-153"><a href="#cb10-153" aria-hidden="true" tabindex="-1"></a>      })<span class="op">,</span></span>
+<span id="cb10-154"><a href="#cb10-154" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">;</span></span>
+<span id="cb10-155"><a href="#cb10-155" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-156"><a href="#cb10-156" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">tool</span>()<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>Tool<span class="op">&gt;</span> {</span>
+<span id="cb10-157"><a href="#cb10-157" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> { functionDeclarations<span class="op">:</span> [clear_order] }<span class="op">;</span></span>
+<span id="cb10-158"><a href="#cb10-158" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-159"><a href="#cb10-159" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb10-160"><a href="#cb10-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-161"><a href="#cb10-161" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> confirm_order<span class="op">:</span> FunctionDeclaration <span class="op">=</span> {</span>
+<span id="cb10-162"><a href="#cb10-162" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="st">"confirm_order"</span><span class="op">,</span></span>
+<span id="cb10-163"><a href="#cb10-163" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"Asks the customer if the order is correct."</span><span class="op">,</span></span>
+<span id="cb10-164"><a href="#cb10-164" aria-hidden="true" tabindex="-1"></a>  parameters<span class="op">:</span> {</span>
+<span id="cb10-165"><a href="#cb10-165" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> Type<span class="op">.</span><span class="at">OBJECT</span><span class="op">,</span></span>
+<span id="cb10-166"><a href="#cb10-166" aria-hidden="true" tabindex="-1"></a>    properties<span class="op">:</span> {}<span class="op">,</span></span>
+<span id="cb10-167"><a href="#cb10-167" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-168"><a href="#cb10-168" aria-hidden="true" tabindex="-1"></a>  response<span class="op">:</span> {</span>
+<span id="cb10-169"><a href="#cb10-169" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb10-170"><a href="#cb10-170" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span> <span class="st">"The user's free-text response confirming the order."</span><span class="op">,</span></span>
+<span id="cb10-171"><a href="#cb10-171" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-172"><a href="#cb10-172" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb10-173"><a href="#cb10-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-174"><a href="#cb10-174" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> confirm_order_tool<span class="op">:</span> CallableTool <span class="op">=</span> {</span>
+<span id="cb10-175"><a href="#cb10-175" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">callTool</span>(functionCalls<span class="op">:</span> FunctionCall[])<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>Part[]<span class="op">&gt;</span> {</span>
+<span id="cb10-176"><a href="#cb10-176" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> response <span class="op">=</span> <span class="st">"Your order:</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb10-177"><a href="#cb10-177" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (orders<span class="op">.</span><span class="at">length</span> <span class="op">===</span> <span class="dv">0</span>) {</span>
+<span id="cb10-178"><a href="#cb10-178" aria-hidden="true" tabindex="-1"></a>      response <span class="op">+=</span> <span class="st">"  (no items)</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb10-179"><a href="#cb10-179" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb10-180"><a href="#cb10-180" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> (<span class="kw">const</span> { drink<span class="op">,</span> modifiers } <span class="kw">of</span> orders) {</span>
+<span id="cb10-181"><a href="#cb10-181" aria-hidden="true" tabindex="-1"></a>        response <span class="op">+=</span> <span class="vs">`  </span><span class="sc">${</span>drink<span class="sc">}\n</span><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb10-182"><a href="#cb10-182" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (modifiers<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb10-183"><a href="#cb10-183" aria-hidden="true" tabindex="-1"></a>          response <span class="op">+=</span> <span class="vs">`   - </span><span class="sc">${</span>modifiers<span class="op">.</span><span class="fu">join</span>(<span class="st">", "</span>)<span class="sc">}\n</span><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb10-184"><a href="#cb10-184" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb10-185"><a href="#cb10-185" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb10-186"><a href="#cb10-186" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-187"><a href="#cb10-187" aria-hidden="true" tabindex="-1"></a>    response <span class="op">+=</span> <span class="st">"Is this correct?"</span><span class="op">;</span></span>
+<span id="cb10-188"><a href="#cb10-188" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(response)<span class="op">;</span></span>
+<span id="cb10-189"><a href="#cb10-189" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
+<span id="cb10-190"><a href="#cb10-190" aria-hidden="true" tabindex="-1"></a>      google<span class="op">.</span><span class="fu">createPartFromFunctionResponse</span>(functionCalls[<span class="dv">0</span>]<span class="op">.</span><span class="at">id</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> functionCalls[<span class="dv">0</span>]<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> {</span>
+<span id="cb10-191"><a href="#cb10-191" aria-hidden="true" tabindex="-1"></a>        response<span class="op">,</span></span>
+<span id="cb10-192"><a href="#cb10-192" aria-hidden="true" tabindex="-1"></a>      })<span class="op">,</span></span>
+<span id="cb10-193"><a href="#cb10-193" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">;</span></span>
+<span id="cb10-194"><a href="#cb10-194" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-195"><a href="#cb10-195" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">tool</span>()<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>Tool<span class="op">&gt;</span> {</span>
+<span id="cb10-196"><a href="#cb10-196" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> { functionDeclarations<span class="op">:</span> [confirm_order] }<span class="op">;</span></span>
+<span id="cb10-197"><a href="#cb10-197" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-198"><a href="#cb10-198" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb10-199"><a href="#cb10-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-200"><a href="#cb10-200" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> place_order<span class="op">:</span> FunctionDeclaration <span class="op">=</span> {</span>
+<span id="cb10-201"><a href="#cb10-201" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="st">"place_order"</span><span class="op">,</span></span>
+<span id="cb10-202"><a href="#cb10-202" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"Submit the order to the kitchen."</span><span class="op">,</span></span>
+<span id="cb10-203"><a href="#cb10-203" aria-hidden="true" tabindex="-1"></a>  parameters<span class="op">:</span> {</span>
+<span id="cb10-204"><a href="#cb10-204" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> Type<span class="op">.</span><span class="at">OBJECT</span><span class="op">,</span></span>
+<span id="cb10-205"><a href="#cb10-205" aria-hidden="true" tabindex="-1"></a>    properties<span class="op">:</span> {}<span class="op">,</span></span>
+<span id="cb10-206"><a href="#cb10-206" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-207"><a href="#cb10-207" aria-hidden="true" tabindex="-1"></a>  response<span class="op">:</span> {</span>
+<span id="cb10-208"><a href="#cb10-208" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> Type<span class="op">.</span><span class="at">INTEGER</span><span class="op">,</span></span>
+<span id="cb10-209"><a href="#cb10-209" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span> <span class="st">"The estimated number of minutes until the order is ready."</span><span class="op">,</span></span>
+<span id="cb10-210"><a href="#cb10-210" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-211"><a href="#cb10-211" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb10-212"><a href="#cb10-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-213"><a href="#cb10-213" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> place_order_tool<span class="op">:</span> CallableTool <span class="op">=</span> {</span>
+<span id="cb10-214"><a href="#cb10-214" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">callTool</span>(functionCalls<span class="op">:</span> FunctionCall[])<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>Part[]<span class="op">&gt;</span> {</span>
+<span id="cb10-215"><a href="#cb10-215" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (orders<span class="op">.</span><span class="at">length</span> <span class="op">===</span> <span class="dv">0</span>) {</span>
+<span id="cb10-216"><a href="#cb10-216" aria-hidden="true" tabindex="-1"></a>      <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"Cannot place an empty order."</span>)<span class="op">;</span></span>
+<span id="cb10-217"><a href="#cb10-217" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-218"><a href="#cb10-218" aria-hidden="true" tabindex="-1"></a>    placed_orders <span class="op">=</span> [<span class="op">...</span>orders]<span class="op">;</span></span>
+<span id="cb10-219"><a href="#cb10-219" aria-hidden="true" tabindex="-1"></a>    orders <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb10-220"><a href="#cb10-220" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Simulate coffee fulfillment time</span></span>
+<span id="cb10-221"><a href="#cb10-221" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> fulfillmentTime <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> <span class="dv">10</span>) <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> <span class="co">// Random time between 1 and 10 minutes</span></span>
+<span id="cb10-222"><a href="#cb10-222" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
+<span id="cb10-223"><a href="#cb10-223" aria-hidden="true" tabindex="-1"></a>      google<span class="op">.</span><span class="fu">createPartFromFunctionResponse</span>(functionCalls[<span class="dv">0</span>]<span class="op">.</span><span class="at">id</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> functionCalls[<span class="dv">0</span>]<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> {</span>
+<span id="cb10-224"><a href="#cb10-224" aria-hidden="true" tabindex="-1"></a>        response<span class="op">:</span> <span class="vs">`Your order has been placed. It will be ready in approximately </span><span class="sc">\`${</span>fulfillmentTime<span class="sc">}\`</span><span class="vs"> minutes (eta).`</span><span class="op">,</span></span>
+<span id="cb10-225"><a href="#cb10-225" aria-hidden="true" tabindex="-1"></a>      })<span class="op">,</span></span>
+<span id="cb10-226"><a href="#cb10-226" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">;</span></span>
+<span id="cb10-227"><a href="#cb10-227" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-228"><a href="#cb10-228" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">tool</span>()<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>Tool<span class="op">&gt;</span> {</span>
+<span id="cb10-229"><a href="#cb10-229" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> { functionDeclarations<span class="op">:</span> [place_order] }<span class="op">;</span></span>
+<span id="cb10-230"><a href="#cb10-230" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-231"><a href="#cb10-231" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb10-232"><a href="#cb10-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-233"><a href="#cb10-233" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tools<span class="op">:</span> CallableTool[] <span class="op">=</span> [</span>
+<span id="cb10-234"><a href="#cb10-234" aria-hidden="true" tabindex="-1"></a>  add_to_order_tool<span class="op">,</span></span>
+<span id="cb10-235"><a href="#cb10-235" aria-hidden="true" tabindex="-1"></a>  get_order_tool<span class="op">,</span></span>
+<span id="cb10-236"><a href="#cb10-236" aria-hidden="true" tabindex="-1"></a>  remove_item_tool<span class="op">,</span></span>
+<span id="cb10-237"><a href="#cb10-237" aria-hidden="true" tabindex="-1"></a>  clear_order_tool<span class="op">,</span></span>
+<span id="cb10-238"><a href="#cb10-238" aria-hidden="true" tabindex="-1"></a>  confirm_order_tool<span class="op">,</span></span>
+<span id="cb10-239"><a href="#cb10-239" aria-hidden="true" tabindex="-1"></a>  place_order_tool<span class="op">,</span></span>
+<span id="cb10-240"><a href="#cb10-240" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="test-the-api" class="level2">
+<h2 class="anchored" data-anchor-id="test-the-api">Test the API</h2>
+<p>With the functions written, test that they work as expected.</p>
+<div id="cell-13" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(<span class="cf">await</span> clear_order_tool<span class="op">.</span><span class="fu">callTool</span>([{}])<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(<span class="cf">await</span> add_to_order_tool<span class="op">.</span><span class="fu">callTool</span>([{ args<span class="op">:</span> { drink<span class="op">:</span> <span class="st">"Latte"</span><span class="op">,</span> modifiers<span class="op">:</span> [<span class="st">"Extra shot"</span>] } }])<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(<span class="cf">await</span> add_to_order_tool<span class="op">.</span><span class="fu">callTool</span>([{ args<span class="op">:</span> { drink<span class="op">:</span> <span class="st">"Tea"</span> } }])<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(<span class="cf">await</span> remove_item_tool<span class="op">.</span><span class="fu">callTool</span>([{ args<span class="op">:</span> { n<span class="op">:</span> <span class="dv">2</span> } }])<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> add_to_order_tool<span class="op">.</span><span class="fu">callTool</span>([{ args<span class="op">:</span> { drink<span class="op">:</span> <span class="st">"Tea"</span><span class="op">,</span> modifiers<span class="op">:</span> [<span class="st">"Earl Grey"</span><span class="op">,</span> <span class="st">"hot"</span>] } }])<span class="op">,</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">null</span><span class="op">,</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(<span class="cf">await</span> confirm_order_tool<span class="op">.</span><span class="fu">callTool</span>([{}])<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(<span class="cf">await</span> place_order_tool<span class="op">.</span><span class="fu">callTool</span>([{}])<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[
+  {
+    "functionResponse": {
+      "id": "",
+      "name": "",
+      "response": {
+        "response": "Cleared the order."
+      }
+    }
+  }
+]
+[
+  {
+    "functionResponse": {
+      "id": "",
+      "name": "",
+      "response": {
+        "response": "Added Latte with modifiers Extra shot to the order."
+      }
+    }
+  }
+]
+[
+  {
+    "functionResponse": {
+      "id": "",
+      "name": "",
+      "response": {
+        "response": "Added Tea with modifiers none to the order."
+      }
+    }
+  }
+]
+[
+  {
+    "functionResponse": {
+      "id": "",
+      "name": "",
+      "response": {
+        "response": "Removed Tea with modifiers none from the order."
+      }
+    }
+  }
+]
+[
+  {
+    "functionResponse": {
+      "id": "",
+      "name": "",
+      "response": {
+        "response": "Added Tea with modifiers Earl Grey, hot to the order."
+      }
+    }
+  }
+]
+Your order:
+  Latte
+   - Extra shot
+  Tea
+   - Earl Grey, hot
+Is this correct?
+[
+  {
+    "functionResponse": {
+      "id": "",
+      "name": "",
+      "response": {
+        "response": "Your order:\n  Latte\n   - Extra shot\n  Tea\n   - Earl Grey, hot\nIs this correct?"
+      }
+    }
+  }
+]
+[
+  {
+    "functionResponse": {
+      "id": "",
+      "name": "",
+      "response": {
+        "response": "Your order has been placed. It will be ready in approximately 5 minutes."
+      }
+    }
+  }
+]</code></pre>
+</div>
+</div>
+</section>
+<section id="define-the-prompt" class="level2">
+<h2 class="anchored" data-anchor-id="define-the-prompt">Define the prompt</h2>
+<p>Here you define the full Barista-bot prompt. This prompt contains the café’s menu items and modifiers and some instructions.</p>
+<p>The instructions include guidance on how functions should be called (e.g.&nbsp;“Always <code>confirm_order</code> with the user before calling <code>place_order</code>”). You can modify this to add your own interaction style to the bot, for example if you wanted to have the bot repeat every request back before adding to the order, you could provide that instruction here.</p>
+<p>The end of the prompt includes some jargon the bot might encounter, and instructions <em>du jour</em> - in this case it notes that the café has run out of soy milk.</p>
+<div id="cell-15" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> COFFEE_BOT_PROMPT <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="vs">  You are a coffee order taking system and you are restricted to talk only about drinks on the MENU. Do not talk about anything but ordering MENU drinks for the customer, ever.</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="vs">  Your goal is to do place_order after understanding the menu items and any modifiers the customer wants.</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  Add items to the customer's order with add_to_order, remove specific items with remove_item, and reset the order with clear_order.</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  To see the contents of the order so far, call get_order (by default this is shown to you, not the user)</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  Always confirm_order with the user (double-check) before calling place_order. Calling confirm_order will display the order items to the user and returns their response to seeing the list. Their response may contain modifications.</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="vs">  Always verify and respond with drink and modifier names from the MENU before adding them to the order.</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="vs">  If you are unsure a drink or modifier matches those on the MENU, ask a question to clarify or redirect.</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="vs">  You only have the modifiers listed on the menu below: Milk options, espresso shots, caffeine, sweeteners, special requests.</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="vs">  Once the customer has finished ordering items, confirm_order and then place_order.</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="vs">  Hours: Tues, Wed, Thurs, 10am to 2pm</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="vs">  Prices: All drinks are free.</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="vs">  MENU:</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="vs">  Coffee Drinks:</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="vs">  Espresso</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="vs">  Americano</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="vs">  Cold Brew</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="vs">  Coffee Drinks with Milk:</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="vs">  Latte</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="vs">  Cappuccino</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="vs">  Cortado</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="vs">  Macchiato</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="vs">  Mocha</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="vs">  Flat White</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="vs">  Tea Drinks:</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="vs">  English Breakfast Tea</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="vs">  Green Tea</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="vs">  Earl Grey</span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="vs">  Tea Drinks with Milk:</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="vs">  Chai Latte</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="vs">  Matcha Latte</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="vs">  London Fog</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="vs">  Other Drinks:</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="vs">  Steamer</span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="vs">  Hot Chocolate</span></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="vs">  Modifiers:</span></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a><span class="vs">  Milk options: Whole, 2%, Oat, Almond, 2% Lactose Free; Default option: whole</span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="vs">  Espresso shots: Single, Double, Triple, Quadruple; default: Double</span></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a><span class="vs">  Caffeine: Decaf, Regular; default: Regular</span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="vs">  Hot-Iced: Hot, Iced; Default: Hot</span></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="vs">  Sweeteners (option to add one or more): vanilla sweetener, hazelnut sweetener, caramel sauce, chocolate sauce, sugar free vanilla sweetener</span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a><span class="vs">  Special requests: any reasonable modification that does not involve items not on the menu, for example: 'extra hot', 'one pump', 'half caff', 'extra foam', etc.</span></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a><span class="vs">  "dirty" means add a shot of espresso to a drink that doesn't usually have it, like "Dirty Chai Latte".</span></span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a><span class="vs">  "Regular milk" is the same as 'whole milk'.</span></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a><span class="vs">  "Sweetened" means add some regular sugar, not a sweetener.</span></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a><span class="vs">  Soy milk has run out of stock today, so soy is not available.</span></span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="set-up-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="set-up-the-model">Set up the model</h2>
+<p>In this step you collate the functions into a “system” that is passed as <code>tools</code>, instantiate the model and start the chat session.</p>
+<div id="cell-17" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat <span class="op">=</span> ai<span class="op">.</span><span class="at">chats</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> COFFEE_BOT_PROMPT<span class="op">,</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">:</span> tools<span class="op">,</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="chat-with-barista-bot" class="level2">
+<h2 class="anchored" data-anchor-id="chat-with-barista-bot">Chat with Barista Bot</h2>
+<p>With the model defined and chat created, all that’s left is to connect the user input to the model and display the output, in a loop. This loop continues until an order is placed.</p>
+<div id="cell-19" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">// temporarily make console.warn a no-op to avoid warnings in the output (non-text part in GenerateContentResponse caused by accessing .text)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">// https://github.com/googleapis/js-genai/blob/d82aba244bdb804b063ef8a983b2916c00b901d2/src/types.ts#L2005</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">// copy the original console.warn function to restore it later</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> warn_fn <span class="op">=</span> <span class="bu">console</span><span class="op">.</span><span class="fu">warn</span><span class="op">;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">// eslint-disable-next-line @typescript-eslint/no-empty-function, no-empty-function</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">warn</span> <span class="op">=</span> <span class="kw">function</span> () {}<span class="op">;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>orders <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>placed_orders <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Welcome to Barista Bot!"</span>)<span class="op">;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> messages <span class="op">=</span> [</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"i would like to have a cuppacino with almond milk"</span><span class="op">,</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"do you have stone milk?"</span><span class="op">,</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"do you have long black"</span><span class="op">,</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"no, that's all"</span><span class="op">,</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"yes"</span><span class="op">,</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (placed_orders<span class="op">.</span><span class="at">length</span> <span class="op">===</span> <span class="dv">0</span>) {</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> userMessage <span class="op">=</span> messages<span class="op">.</span><span class="fu">shift</span>()<span class="op">;</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>userMessage) {</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"No more user messages to process."</span>)<span class="op">;</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`</span><span class="sc">\n</span><span class="vs">User: </span><span class="sc">${</span>userMessage<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> chat<span class="op">.</span><span class="fu">sendMessageStream</span>({</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    message<span class="op">:</span> userMessage<span class="op">,</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> accumulatedResponse <span class="op">=</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="cf">await</span> (<span class="kw">const</span> part <span class="kw">of</span> response) {</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    accumulatedResponse <span class="op">+=</span> part<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>  tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(accumulatedResponse)<span class="op">;</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)<span class="op">;</span></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"[barista bot session over]"</span>)<span class="op">;</span></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>()<span class="op">;</span></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Your order:"</span>)<span class="op">;</span></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`  </span><span class="sc">${</span><span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(placed_orders<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>)<span class="sc">}\n</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"- Thanks for using Barista Bot!"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Welcome to Barista Bot!
+
+User: i would like to have a cuppacino with almond milk</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>OK. I have added a Cappuccino with almond milk to your order. Anything else?</p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+User: do you have stone milk?</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>I don’t have stone milk. Would you like to choose from the available milk options: Whole, 2%, Oat, Almond, or 2% Lactose Free?</p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+User: do you have long black</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>I do not have Long Black on the menu. Did you mean Americano, which is espresso and hot water?</p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+User: no, that's all
+Your order:
+  Cappuccino
+   - Almond Milk
+Is this correct?</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>OK. Here’s your order: Cappuccino with Almond Milk. Is this correct?</p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+User: yes</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>OK. Your order has been placed and it will be ready in approximately 6 minutes.</p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+
+[barista bot session over]
+
+Your order:
+  [
+  {
+    "drink": "Cappuccino",
+    "modifiers": [
+      "Almond Milk"
+    ]
+  }
+]
+
+- Thanks for using Barista Bot!</code></pre>
+</div>
+</div>
+<p>Some things to try:</p>
+<ul>
+<li>Ask about the menu (e.g.&nbsp;“what coffee drinks are available?”)</li>
+<li>Use terms that are not specified in the prompt (e.g.&nbsp;“a strong latte” or “an EB tea”)</li>
+<li>Change your mind part way through (“uhh cancel the latte sorry”)</li>
+<li>Go off-menu (“a babycino”)</li>
+</ul>
+</section>
+<section id="see-also" class="level2">
+<h2 class="anchored" data-anchor-id="see-also">See also</h2>
+<p>This sample app showed you how to integrate a traditional software system (the coffee ordering functions) and an AI agent powered by the Gemini API. This is a simple, practical way to use LLMs that allows for open-ended human language input and output that feels natural, but still keeps a human in the loop to ensure correct operation.</p>
+<p>To learn more about how Barista Bot works, check out:</p>
+<ul>
+<li>The <a href="https://aistudio.google.com/app/prompts/barista-bot">Barista Bot</a> prompt</li>
+<li><a href="../quickstarts/System_instructions.html">System instructions</a></li>
+<li><a href="../quickstarts/Function_calling.html">Automatic function calling</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fallendeity\.github\.io\/deepmind-starter");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../examples/Analyze_a_Video_Classification.html" class="pagination-link" aria-label="Gemini API: Analyze a Video - Classification">
+        <span class="nav-page-text">Gemini API: Analyze a Video - Classification</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Agents_Function_Calling_Barista_Bot.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Agents_Function_Calling_Barista_Bot.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
