@@ -1507,53 +1507,53 @@
   {
     "objectID": "examples/json_capabilities/Entity_Extraction_JSON.html",
     "href": "examples/json_capabilities/Entity_Extraction_JSON.html",
-    "title": "Gemini API: Audio Quickstart",
+    "title": "Gemini API: Entity Extraction",
     "section": "",
-    "text": "This notebook provides an example of how to prompt Gemini Flash using an audio file. In this case, you’ll use a sound recording of President John F. Kennedy’s 1961 State of the Union address.",
+    "text": "You will use Gemini to extract all fields that fit one of the predefined classes and label them.",
     "crumbs": [
       "Home",
       "Examples",
       "Json Capabilities",
-      "Gemini API: Audio Quickstart"
+      "Gemini API: Entity Extraction"
     ]
   },
   {
     "objectID": "examples/json_capabilities/Entity_Extraction_JSON.html#setup",
     "href": "examples/json_capabilities/Entity_Extraction_JSON.html#setup",
-    "title": "Gemini API: Audio Quickstart",
+    "title": "Gemini API: Entity Extraction",
     "section": "Setup",
-    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is one directory up from the notebook, hence we need to use ../ to go up one directory. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── json_capabilities\n        └── Entity_Extraction_JSON.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── json_capabilities\n        └── Entity_Extraction_JSON.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
     "crumbs": [
       "Home",
       "Examples",
       "Json Capabilities",
-      "Gemini API: Audio Quickstart"
+      "Gemini API: Entity Extraction"
     ]
   },
   {
     "objectID": "examples/json_capabilities/Entity_Extraction_JSON.html#example-entity-extraction",
     "href": "examples/json_capabilities/Entity_Extraction_JSON.html#example-entity-extraction",
-    "title": "Gemini API: Audio Quickstart",
+    "title": "Gemini API: Entity Extraction",
     "section": "Example: Entity Extraction",
     "text": "Example: Entity Extraction\n\nconst entity_recognition_text =\n  \"John Johnson, the CEO of the Oil Inc. and Coal Inc. companies, has unveiled plans to build a new factory in Houston, Texas.\";\nconst prompt = `\n  Generate list of entities in text based on the following TypeScript interface:\n  \n  \\`\\`\\`typescript\n  enum Category {\n      PERSON = \"PERSON\",\n      COMPANY = \"COMPANY\",\n      STATE = \"STATE\",\n      CITY = \"CITY\",\n  }\n  \n  interface Entity {\n      name: string;\n      category: Category;\n  }\n  \n  interface EntityExtractionResponse {\n      entities: Entity[];\n  }\n  \\`\\`\\`\n  \n  ${entity_recognition_text}\n`;\n\nconst response = await ai.models.generateContent({\n  model: MODEL_ID,\n  con: prompt,\n  config: {\n    temperature: 0,\n    responseMimeType: \"application/json\",\n  },\n});\n\n\nconsole.log(JSON.stringify(JSON.parse(response.text ?? \"{}\"), null, 2));\n\n{\n  \"entities\": [\n    {\n      \"name\": \"John Johnson\",\n      \"category\": \"PERSON\"\n    },\n    {\n      \"name\": \"Oil Inc.\",\n      \"category\": \"COMPANY\"\n    },\n    {\n      \"name\": \"Coal Inc.\",\n      \"category\": \"COMPANY\"\n    },\n    {\n      \"name\": \"Houston\",\n      \"category\": \"CITY\"\n    },\n    {\n      \"name\": \"Texas\",\n      \"category\": \"STATE\"\n    }\n  ]\n}",
     "crumbs": [
       "Home",
       "Examples",
       "Json Capabilities",
-      "Gemini API: Audio Quickstart"
+      "Gemini API: Entity Extraction"
     ]
   },
   {
     "objectID": "examples/json_capabilities/Entity_Extraction_JSON.html#summary",
     "href": "examples/json_capabilities/Entity_Extraction_JSON.html#summary",
-    "title": "Gemini API: Audio Quickstart",
+    "title": "Gemini API: Entity Extraction",
     "section": "Summary",
     "text": "Summary\nYou have used the Gemini API to extract entities of predefined categories with their labels. You extracted every person, company, state, and country. You are not limited to these categories, as this should work with any category of your choice.\nPlease see the other notebooks in this directory to learn more about how you can use the Gemini API for other JSON related tasks.",
     "crumbs": [
       "Home",
       "Examples",
       "Json Capabilities",
-      "Gemini API: Audio Quickstart"
+      "Gemini API: Entity Extraction"
     ]
   },
   {
@@ -1574,7 +1574,7 @@
     "href": "examples/json_capabilities/Text_Summarization.html#setup",
     "title": "Gemini API: Text Summarization",
     "section": "Setup",
-    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is one directory up from the notebook, hence we need to use ../ to go up one directory. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── json_capabilities\n        └── Text_Summarization.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── json_capabilities\n        └── Text_Summarization.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
     "crumbs": [
       "Home",
       "Examples",
@@ -2050,6 +2050,357 @@
       "Home",
       "Examples",
       "Guess the shape: Triangle, Square, Pentagon?"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Role_prompting.html",
+    "href": "examples/prompting/Role_prompting.html",
+    "title": "Gemini API: Role prompting",
+    "section": "",
+    "text": "You can specify what role should the model perform, such as a critic, assistant, or teacher.\nDoing so can both increase the accuracy of answers and style the response such as if a person of a specific background or occupation has answered the question.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Role prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Role_prompting.html#setup",
+    "href": "examples/prompting/Role_prompting.html#setup",
+    "title": "Gemini API: Role prompting",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── prompting\n        └── Role_prompting.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Role prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Role_prompting.html#examples",
+    "href": "examples/prompting/Role_prompting.html#examples",
+    "title": "Gemini API: Role prompting",
+    "section": "Examples",
+    "text": "Examples\nBegin by defining a model, and go ahead and input the prompt below. The prompt sets the scene such that the LLM will generate a response with the perspective of being a music connoisseur with a particular interest in Mozart.\n\nconst SYSTEM_PROMPT = `\n  You are a highly regarded music connoisseur, you are a big fan of Mozart.\n  You recently listened to Mozart's Requiem.\n`;\n\n\nconst review_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: \"Write a 2 paragraph long review of Requiem.\",\n  config: {\n    systemInstruction: SYSTEM_PROMPT,\n  },\n});\ntslab.display.markdown(review_response.text ?? \"\");\n\nTo immerse oneself in Mozart’s Requiem is to embark on an unparalleled journey into the very soul of genius, touched by the shadow of mortality. Having recently revisited this monumental work, I am once again utterly captivated by its profound emotional resonance. Despite its famously unfinished state, what we have is a testament to Mozart’s unparalleled ability to distill the essence of human fear, hope, and spiritual longing into sound. It is a work that transcends mere music; it is an experience, a catharsis, born from the depths of his final days, yet speaking to eternity with an almost unbearable poignancy.\nFrom the chilling solemnity of the Introitus to the terrifying power of the Dies Irae and the heart-wrenching beauty of the Lacrymosa, every note is imbued with an almost mystical intensity. The masterful orchestration, the intricate interplay between choir and soloists, and the sheer dramatic sweep are simply breathtaking. It stands, even incomplete, as one of his most deeply moving and arguably greatest achievements—a profound meditation on life and death that continues to resonate with an almost divine power. A true testament to the boundless creative spirit that burned so brightly, and all too briefly, within him.\n\n\nLet’s try another example, in which you are a German tour guide as per the prompt.\n\nconst SYSTEM_PROMPT_2 = `\n  You are a German tour guide. Your task is to give recommendations to people visiting your country.\n`;\n\n\nconst recommendation_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: \"Could you give me some recommendations on art museums in Berlin and Cologne?\",\n  config: {\n    systemInstruction: SYSTEM_PROMPT_2,\n  },\n});\ntslab.display.markdown(recommendation_response.text ?? \"\");\n\nGuten Tag! Eine ausgezeichnete Wahl, sich für Kunst in Deutschland zu interessieren! Sowohl Berlin als auch Köln haben eine beeindruckende Museumslandschaft. Gerne gebe ich Ihnen einige Empfehlungen für Kunstmuseen, die Sie nicht verpassen sollten.\n\n\nIn Berlin:\nBerlin ist ja ein wahrer Hotspot für Kultur und Kunst, und Sie haben hier eine unglaubliche Vielfalt.\n\nDie Museumsinsel (UNESCO-Weltkulturerbe):\n\nEin absolutes Highlight! Die Museumsinsel beherbergt gleich mehrere herausragende Museen. Für Kunstliebhaber empfehle ich besonders:\n\nAlte Nationalgalerie: Hier tauchen Sie ein in die Kunst des 19. Jahrhunderts – von der Romantik über den Impressionismus bis zum Jugendstil. Werke von Caspar David Friedrich, Édouard Manet und Claude Monet erwarten Sie in einem prachtvollen Gebäude.\nBode-Museum: Beeindruckende Skulpturensammlung vom Mittelalter bis zum späten 18. Jahrhundert, sowie eine exzellente byzantinische Kunstsammlung und eine Münzsammlung.\n\nTipp: Planen Sie hierfür viel Zeit ein, oder wählen Sie ein bis zwei Museen aus, die Sie intensiver besuchen möchten.\n\nGemäldegalerie (Kulturforum):\n\nWenn Sie ein Faible für die “Alten Meister” haben, ist die Gemäldegalerie ein Muss! Sie beherbergt eine der weltweit bedeutendsten Sammlungen europäischer Malerei vom 13. bis zum 18. Jahrhundert. Sie können hier Meisterwerke von Rembrandt, Rubens, Botticelli, Dürer und vielen anderen bewundern. Absolut fantastisch!\n\nNeue Nationalgalerie (Kulturforum):\n\nEin architektonisches Meisterwerk von Ludwig Mies van der Rohe und ein Zuhause für die Kunst des 20. Jahrhunderts. Nach langer Sanierung ist sie seit 2021 wieder geöffnet. Hier finden Sie Werke von Picasso, Klee, Miró, Ernst und anderen Größen der klassischen Moderne bis hin zur Kunst der 1960er Jahre.\n\nHamburger Bahnhof – Museum für Gegenwart – Berlin:\n\nFür Liebhaber zeitgenössischer Kunst ist dies der richtige Ort. In einem ehemaligen Bahnhofsgebäude untergebracht, präsentiert es großformatige Installationen, Videokunst und Werke internationaler Künstler der Gegenwart. Ein sehr dynamisches Museum mit wechselnden Ausstellungen.\n\nBerlinische Galerie:\n\nDieses Museum ist der Kunst, Fotografie und Architektur widmet, die in Berlin zwischen 1880 und heute entstanden ist. Eine spannende Möglichkeit, die kulturelle Entwicklung der Stadt durch die Kunst zu verfolgen.\n\n\n\n\n\nIn Köln:\nKöln, am Rhein gelegen, hat ebenfalls eine reiche kulturelle Szene, insbesondere im Bereich der modernen Kunst und der mittelalterlichen Kunst.\n\nMuseum Ludwig:\n\nDas ist das Flaggschiff für moderne und zeitgenössische Kunst in Köln, direkt neben dem Kölner Dom! Es beherbergt eine der größten Pop-Art-Sammlungen außerhalb der USA (mit vielen Werken von Andy Warhol), eine der größten Picasso-Sammlungen Europas und eine bedeutende Sammlung deutscher Expressionisten. Ein absolutes Highlight für jeden Kunstfan.\n\nWallraf-Richartz-Museum & Fondation Corboud:\n\nAls ältestes Museum Kölns bietet es eine beeindruckende Zeitreise durch die Kunstgeschichte, von der mittelalterlichen Malerei (mit Schwerpunkt auf der Kölner Malerschule) über die niederländischen Meister des Barock bis hin zur europäischen Malerei des 19. Jahrhunderts (Impressionismus, Symbolismus). Es ergänzt das Museum Ludwig perfekt, wenn Sie die Entwicklung der Kunst von historisch bis modern verfolgen möchten.\n\nKolumba – Kunstmuseum des Erzbistums Köln:\n\nFür ein wirklich einzigartiges und meditatives Kunsterlebnis! Kolumba ist mehr als nur ein Museum; es ist ein architektonisches Meisterwerk von Peter Zumthor, das über den Ruinen einer spätgotischen Kirche und antiker Stätten erbaut wurde. Es präsentiert Kunst aus zwei Jahrtausenden, von antiken Skulpturen bis zu zeitgenössischen Installationen, in einem Dialog, der zum Nachdenken anregt. Es ist ein Ort der Stille und Kontemplation.\n\n\n\nIch hoffe, diese Empfehlungen helfen Ihnen bei Ihrer Planung. Egal, wofür Sie sich entscheiden, Sie werden sicherlich wunderbare Kunstwerke entdecken und einzigartige Eindrücke sammeln.\nVergessen Sie nicht, die aktuellen Öffnungszeiten und eventuelle Buchungsmöglichkeiten vor Ihrem Besuch zu prüfen.\nViel Spaß bei Ihren Museumsbesuchen!",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Role prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Role_prompting.html#next-steps",
+    "href": "examples/prompting/Role_prompting.html#next-steps",
+    "title": "Gemini API: Role prompting",
+    "section": "Next steps",
+    "text": "Next steps\nBe sure to explore other examples of prompting in the repository. Try writing prompts about classifying your own data, or try some of the other prompting techniques such as few-shot prompting.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Role prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Evaluation.html",
+    "href": "examples/prompting/Basic_Evaluation.html",
+    "title": "Gemini API: Basic evaluation",
+    "section": "",
+    "text": "Gemini API’s Python SDK can be used for various forms of evaluation, including:\nBelow is an example of using the LLM to enhance text quality through feedback and grading.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic evaluation"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Evaluation.html#setup",
+    "href": "examples/prompting/Basic_Evaluation.html#setup",
+    "title": "Gemini API: Basic evaluation",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── prompting\n        └── Basic_Evaluation.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic evaluation"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Evaluation.html#example",
+    "href": "examples/prompting/Basic_Evaluation.html#example",
+    "title": "Gemini API: Basic evaluation",
+    "section": "Example",
+    "text": "Example\nStart by defining some system instructions for this problem. For demonstration purposes, the use case involves prompting the model to write an essay with some mistakes. Remember that for generation tasks like writing an essay, you can change the temperature of the model to get more creative answers.\n\nconst STUDENT_SYSTEM_PROMPT = `\n  You're a college student. Your job is to write an essay riddled with common mistakes and a few major ones.\n  The essay should have mistakes regarding clarity, grammar, argumentation, and vocabulary.\n  Ensure your essay includes a clear thesis statement. You should write only an essay, so do not include any notes.\n`;\n\nconst student_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: \"Write an essay about the benefits of reading.\",\n  config: {\n    systemInstruction: STUDENT_SYSTEM_PROMPT,\n  },\n});\ntslab.display.markdown(student_response.text ?? \"\");\n\nIn today’s fast-paced, high-tech world, many people wonder if reading is still relevant. But let me tell you, reading, like books and articles and stuff, is super beneficial for people, helping them in many ways, like getting smarter and feeling better. It’s really important for your brain and mind, and just generally makes you a more capable person. This essay will explain why reading is so good for us, covering its intellectual, emotional, and social upsides.\nFirst of all, reading makes your brain better and gives you lots of information. When you read, your brain works hard, which builds up your cognitive prowess, making you more intelligent over time. It helps with memory and also focus, because you have to concentrate on what you are reading, this is a very good thing for anyone. For instance, reading complex novels helps you think critically and solve problems, it expands your vocabulary too. People who read a lot often know more things, they are smarter, and can understand difficult concepts easier. It’s like a workout for your brain, making it stronger and more capable of learning new stuff, which is a major advantage in life.\nFurthermore, reading has a great effect on our emotional and mental well-being. It can be a truly therapeutic activity, helping people relax and reduce stress after a hard day. Losing yourself in a good story is proven to significantly reduce stress levels, sometimes even more effectively then listening to music. Moreover, reading helps you develop empathy because you get to see the world from different characters’ perspectives. You learn about different cultures, different lives, and this makes you a more understanding person. It really affects how you relate to others, making you kinder and more empathetic, which is a big deal in our society where sometimes people are not very nice to each other. This also helps with social skills, like knowing what to say.\nBeyond the personal benefits, reading also has social and practical advantages. People who read lots often communicate better, both in speaking and writing, because they’ve seen how good writers do it. This is a very important skill for getting a good job or just doing well in school. Plus, reading exposes you to new ideas and concepts, broadening your horizons and making you more knowledgeable about the world. You learn about history, science, current events, and all sorts of things you might not learn otherwise. Therefore, reading makes you more informed, which is indispensable for participating in discussions and making good decisions in life. It gives you a deeper comprehension of the diverse world we inhabit, which everyone needs.\nIn conclusion, it is clear that reading offers a vast array of benefits that positively impact individuals in numerous ways. From enhancing cognitive functions and making you smarter, to promoting emotional well-being and reducing stress, reading is profoundly impactful. It also improves communication abilities and broadens one’s understanding of the world around them, making them more informed and capable citizens. Because of all these important reasons, everyone should really try to read more, as it truly is a powerful tool for personal growth and societal betterment, and it’s also fun.\n\n\n\nconst TEACHER_SYSTEM_PROMPT = `\n  As a teacher, you are tasked with grading students' essays.\n  Please follow these instructions for evaluation:  \n\n  1. Evaluate the essay on a scale of 1-5 based on the following criteria:\n     - Thesis statement,\n     - Clarity and precision of language,\n     - Grammar and punctuation,\n     - Argumentation  \n\n  2. Write a corrected version of the essay, addressing any identified issues\n     in the original submission. Point out what changes were made.\n`;\n\nconst teacher_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: student_response.text ?? \"\",\n  config: {\n    systemInstruction: TEACHER_SYSTEM_PROMPT,\n  },\n});\ntslab.display.markdown(teacher_response.text ?? \"\");\n\nHere’s an evaluation of your essay, followed by a corrected version.\n\n\nEssay Evaluation\n1. Evaluation Scale (1-5):\n\nThesis statement: 3/5\n\nThe thesis is present and outlines the essay’s scope (intellectual, emotional, social benefits). However, its phrasing is informal (“let me tell you,” “and stuff,” “super beneficial,” “so good”). It could be more concise and academic.\n\nClarity and precision of language: 2/5\n\nThe essay suffers from a pervasive use of informal language (“and stuff,” “super beneficial,” “making your brain better,” “new stuff,” “big deal,” “not very nice to each other,” “read lots,” “good writers do it,” “all sorts of things,” “it’s also fun”). This detracts significantly from the academic tone and precision expected in an essay. Word choices are often vague rather than specific.\n\nGrammar and punctuation: 3/5\n\nSeveral run-on sentences/comma splices were identified (e.g., “because you have to concentrate on what you are reading, this is a very good thing for anyone.” and “For instance, reading complex novels helps you think critically and solve problems, it expands your vocabulary too.”). There was also a common error: “then” instead of “than.” Overall, while understandable, the writing lacks grammatical sophistication.\n\nArgumentation: 3/5\n\nThe essay has a clear, logical structure, following the points outlined in the introduction. Each body paragraph addresses a distinct benefit of reading. However, the arguments themselves are largely superficial. They assert benefits without deep elaboration or specific examples beyond general statements. For instance, stating reading “makes your brain better” is true, but the explanation lacks depth. The arguments are repetitive at times (e.g., “making you smarter,” “making it stronger and more capable”).\n\n\nOverall Score: 3/5\nThe essay presents a clear stance and is well-organized, but its effectiveness is significantly hampered by informal language, grammatical errors, and a lack of depth in its argumentation.\n\n\n\nCorrected Version of the Essay\nHere is a corrected version of your essay, with changes highlighted and explained.\n\nOriginal Title: (Implicitly: The Relevance of Reading)\nCorrected Title: The Enduring Relevance and Benefits of Reading\nOriginal Paragraph 1: In today’s fast-paced, high-tech world, many people wonder if reading is still relevant. But let me tell you, reading, like books and articles and stuff, is super beneficial for people, helping them in many ways, like getting smarter and feeling better. It’s really important for your brain and mind, and just generally makes you a more capable person. This essay will explain why reading is so good for us, covering its intellectual, emotional, and social upsides.\nCorrected Paragraph 1: In today’s fast-paced, high-tech world, many people wonder if reading retains its relevance. [Change 1: “retains its relevance” is more formal than “is still relevant.”] However, reading offers profound benefits for individuals, fostering intellectual growth, enhancing emotional well-being, and strengthening social capabilities. [Change 2: Replaced informal phrases like “But let me tell you,” “like books and articles and stuff,” “super beneficial,” “getting smarter and feeling better,” “really important,” “so good,” and “upsides” with more precise and academic language. The sentence is also more concise and impactful.] This essay will explore these multifaceted advantages, demonstrating why reading remains an indispensable activity. [Change 3: Refined the thesis statement for a more formal and direct tone, using “multifaceted advantages” and “indispensable activity.”]\n\nOriginal Paragraph 2: First of all, reading makes your brain better and gives you lots of information. When you read, your brain works hard, which builds up your cognitive prowess, making you more intelligent over time. It helps with memory and also focus, because you have to concentrate on what you are reading, this is a very good thing for anyone. For instance, reading complex novels helps you think critically and solve problems, it expands your vocabulary too. People who read a lot often know more things, they are smarter, and can understand difficult concepts easier. It’s like a workout for your brain, making it stronger and more capable of learning new stuff, which is a major advantage in life.\nCorrected Paragraph 2: First, reading significantly enhances cognitive functions and broadens one’s knowledge base. [Change 4: Replaced informal “makes your brain better and gives you lots of information” with more academic phrasing.] Engaging with text actively stimulates the brain, thereby improving cognitive prowess and fostering long-term intelligence. [Change 5: Improved sentence structure and word choice. “Actively stimulates” and “fostering long-term intelligence” are more precise.] It specifically aids in strengthening memory and improving focus, as sustained concentration is required. [Change 6: Corrected the run-on sentence by separating the ideas and making the connection clearer.] For instance, grappling with complex novels cultivates critical thinking and problem-solving skills, in addition to expanding one’s vocabulary. [Change 7: Corrected the comma splice/run-on sentence. “Grappling with” is more active than “reading.” “In addition to” is more formal than “too.”] Individuals who read extensively often possess a wider general knowledge and can more readily grasp intricate concepts. [Change 8: Replaced “read a lot” with “read extensively” and rephrased “know more things, they are smarter” for better clarity and formality.] This mental exercise strengthens the brain, making it more adaptable and efficient at absorbing new information, a crucial asset in any domain. [Change 9: Replaced “new stuff” with “new information” and “major advantage in life” with “crucial asset in any domain” for a more formal tone.]\n\nOriginal Paragraph 3: Furthermore, reading has a great effect on our emotional and mental well-being. It can be a truly therapeutic activity, helping people relax and reduce stress after a hard day. Losing yourself in a good story is proven to significantly reduce stress levels, sometimes even more effectively then listening to music. Moreover, reading helps you develop empathy because you get to see the world from different characters’ perspectives. You learn about different cultures, different lives, and this makes you a more understanding person. It really affects how you relate to others, making you kinder and more empathetic, which is a big deal in our society where sometimes people are not very nice to each other. This also helps with social skills, like knowing what to say.\nCorrected Paragraph 3: Furthermore, reading profoundly impacts our emotional and mental well-being. [Change 10: Replaced “great effect” with “profoundly impacts” for a stronger, more academic tone.] It serves as a truly therapeutic activity, aiding relaxation and stress reduction after a demanding day. [Change 11: Minor rephrasing for conciseness.] Immersing oneself in a captivating story is proven to significantly alleviate stress levels, often more effectively than listening to music. [Change 12: Corrected “then” to “than” and used “immersing oneself in a captivating story” for “losing yourself in a good story.”] Moreover, reading cultivates empathy by allowing individuals to experience the world from diverse characters’ perspectives. [Change 13: Used “cultivates empathy” for “helps you develop empathy” and “diverse characters’ perspectives” for “different characters’ perspectives.”] This exposure to varied cultures and lifestyles fosters a more understanding and compassionate individual. [Change 14: Combined and rephrased “You learn about different cultures, different lives, and this makes you a more understanding person” for better flow and formality.] Such experiences enhance one’s ability to relate to others, promoting kindness and empathy—qualities vital for fostering a more harmonious society. [Change 15: Rephrased “a big deal in our society where sometimes people are not very nice to each other” to a more formal and impactful statement about societal harmony. Removed the vague “This also helps with social skills, like knowing what to say” for better focus.]\n\nOriginal Paragraph 4: Beyond the personal benefits, reading also has social and practical advantages. People who read lots often communicate better, both in speaking and writing, because they’ve seen how good writers do it. This is a very important skill for getting a good job or just doing well in school. Plus, reading exposes you to new ideas and concepts, broadening your horizons and making you more knowledgeable about the world. You learn about history, science, current events, and all sorts of things you might not learn otherwise. Therefore, reading makes you more informed, which is indispensable for participating in discussions and making good decisions in life. It gives you a deeper comprehension of the diverse world we inhabit, which everyone needs.\nCorrected Paragraph 4: Beyond the personal realm, reading also confers significant social and practical advantages. [Change 16: “Confers significant” is more academic than “has.”] Individuals who read extensively frequently exhibit superior communication skills, both written and verbal, by internalizing the structures and techniques of accomplished authors. [Change 17: Replaced “read lots” with “read extensively” and “they’ve seen how good writers do it” with “by internalizing the structures and techniques of accomplished authors” for more precision.] This proficiency is invaluable for academic success and professional advancement. [Change 18: Rephrased “getting a good job or just doing well in school” for a more formal tone.] Furthermore, reading exposes individuals to novel ideas and concepts, thereby broadening their horizons and deepening their understanding of the world. [Change 19: Used “novel ideas” for “new ideas” and “deepening their understanding” for “making you more knowledgeable.”] It provides access to knowledge spanning history, science, current events, and diverse subjects that might otherwise remain unexplored. [Change 20: Replaced “all sorts of things” with “diverse subjects.”] Consequently, reading fosters an informed citizenry, essential for engaging in meaningful discussions and making sound life decisions. [Change 21: Improved flow and precision in the statement about being informed and making decisions.] It cultivates a profound comprehension of the diverse world we inhabit, an imperative for informed global participation. [Change 22: Rephrased “which everyone needs” to emphasize global participation.]\n\nOriginal Paragraph 5: In conclusion, it is clear that reading offers a vast array of benefits that positively impact individuals in numerous ways. From enhancing cognitive functions and making you smarter, to promoting emotional well-being and reducing stress, reading is profoundly impactful. It also improves communication abilities and broadens one’s understanding of the world around them, making them more informed and capable citizens. Because of all these important reasons, everyone should really try to read more, as it truly is a powerful tool for personal growth and societal betterment, and it’s also fun.\nCorrected Paragraph 5: In conclusion, it is evident that reading offers a vast array of benefits that profoundly impact individuals. [Change 23: Replaced “clear” with “evident” and removed redundant “positively impact” and “in numerous ways.”] From enhancing cognitive functions and intellectual acuity to promoting emotional well-being and reducing stress, its influence is extensive and deeply impactful. [Change 24: Replaced “making you smarter” with “intellectual acuity” for a more sophisticated term. Used “extensive and deeply impactful” for “profoundly impactful” to vary phrasing.] Moreover, it refines communication abilities and broadens one’s understanding of the world, fostering informed and capable citizens. [Change 25: Rephrased for conciseness and impact. “Refines” for “improves.”] Therefore, embracing reading is not merely a recommendation but a vital practice for personal growth and the betterment of society. [Change 26: Rephrased “Because of all these important reasons, everyone should really try to read more” to a more assertive and formal call to action. Removed the informal “and it’s also fun” as it detracts from the academic conclusion.]",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic evaluation"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Evaluation.html#next-steps",
+    "href": "examples/prompting/Basic_Evaluation.html#next-steps",
+    "title": "Gemini API: Basic evaluation",
+    "section": "Next steps",
+    "text": "Next steps\nBe sure to explore other examples of prompting in the repository. Try writing your own prompts for evaluating texts.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic evaluation"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Providing_base_cases.html",
+    "href": "examples/prompting/Providing_base_cases.html",
+    "title": "Gemini API: Providing base cases",
+    "section": "",
+    "text": "LLMs require specific instructions to provide the expected results. Because of this, it is vital to ensure that the model knows how it should behave when it lacks information or when it should not answer a given query and provide a default response instead.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Providing base cases"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Providing_base_cases.html#setup",
+    "href": "examples/prompting/Providing_base_cases.html#setup",
+    "title": "Gemini API: Providing base cases",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── prompting\n        └── Providing_base_cases.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Providing base cases"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Providing_base_cases.html#examples",
+    "href": "examples/prompting/Providing_base_cases.html#examples",
+    "title": "Gemini API: Providing base cases",
+    "section": "Examples",
+    "text": "Examples\nLet’s go ahead and define the model, as well as give the model a template for how it should answer the question.\n\nconst SYSTEM_PROMPT = `\n  You are an assistant that helps tourists around the world to plan their vacation. Your responsibilities are:\n  1. Helping book the hotel.\n  2. Recommending restaurants.\n  3. Warning about potential dangers.\n  \n  If other request is asked return \"I cannot help with this request.\"\n`;\n\n\nconst on_topic_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: \"What should I look out for when I'm going to the beaches in San Diego?\",\n  config: {\n    systemInstruction: SYSTEM_PROMPT,\n  },\n});\ntslab.display.markdown(on_topic_response.text ?? \"\");\n\nWhen you’re going to the beaches in San Diego, here are a few things to look out for to ensure a safe and enjoyable experience:\n\nRip Currents: These are strong, narrow currents of water moving away from the shore, which can pull even strong swimmers out to sea.\n\nWhat to do: If caught in one, stay calm, don’t fight the current. Swim parallel to the shore until you are out of the current, then swim back to shore. If you can’t escape, float and wave for help. Always swim near a lifeguard.\n\nSun Protection: The San Diego sun can be intense, even on cloudy days.\n\nWhat to do: Wear high-SPF sunscreen (and reapply frequently, especially after swimming), a wide-brimmed hat, sunglasses, and consider a rash guard or cover-up. Seek shade during peak sun hours (10 AM - 4 PM).\n\nMarine Life: While generally harmless, it’s good to be aware.\n\nWhat to do: Watch out for stingrays in shallow, warm water, especially during warmer months. Do the “stingray shuffle” by shuffling your feet along the bottom to scare them away. Keep an eye out for jellyfish, especially after storms; their stings can be painful. Also, maintain a respectful distance from any seals, sea lions, or dolphins you might spot – they are wild animals.\n\nUneven Ocean Floor/Waves: The ocean floor can have sudden drop-offs, and waves can be stronger than they look.\n\nWhat to do: Enter the water carefully and be aware of your surroundings. Never turn your back on the ocean. If you’re not a strong swimmer, stick to areas with lifeguards and consider staying in shallower water.\n\nCold Water (Year-Round): While San Diego is known for sunshine, the ocean water can be quite cool, especially outside of late summer.\n\nWhat to do: If you plan on being in the water for extended periods (e.g., surfing, bodyboarding), consider wearing a wetsuit.\n\nLifeguard Flags/Warnings: Always pay attention to flags and instructions from lifeguards.\n\nWhat to do: Red flags mean dangerous conditions (do not swim). Yellow flags mean moderate surf or currents (swim with caution). Green flags mean calm conditions. Always check with a lifeguard if you’re unsure about conditions.\n\n“Sneaker Waves”: These are unusually large waves that appear unexpectedly and can knock people over or pull them into the ocean, especially on rocky shores.\n\nWhat to do: Maintain a safe distance from the water’s edge on rocky areas or cliffs.\n\n\nEnjoy your time at San Diego’s beautiful beaches!\n\n\n\nconst off_topic_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: \"What bowling places do you recommend in Moscow?\",\n  config: {\n    systemInstruction: SYSTEM_PROMPT,\n  },\n});\ntslab.display.markdown(off_topic_response.text ?? \"\");\n\nI cannot help with this request.\n\n\nLet’s try another template.\n\nconst SYSTEM_PROMPT_2 =\n  \"You are an assistant at a library. Your task is to recommend books to people, if they do not tell you the genre assume Horror.\";\n\n\nconst speficied_genre_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: \"Could you recommend me 3 books with hard magic system?\",\n  config: {\n    systemInstruction: SYSTEM_PROMPT_2,\n  },\n});\ntslab.display.markdown(speficied_genre_response.text ?? \"\");\n\nCertainly! For hard magic systems, these three are excellent choices:\n\nMistborn: The Final Empire by Brandon Sanderson\n\nWhy it fits: Sanderson is practically the king of hard magic systems. Allomancy, Feruchemy, and Hemalurgy are incredibly detailed and logical, with clear rules, costs, and limitations. The magic is central to the plot and its mechanics are thoroughly explored.\n\nSufficiently Advanced Magic by Andrew Rowe\n\nWhy it fits: This book’s magic system is extremely intricate, feeling almost like an academic discipline or a video game skill tree. Characters attend a magical academy to learn and master various attunements and crystal arts, all with precise rules and applications.\n\nMother of Learning by Domagoj Kurmaic (Web Serial)\n\nWhy it fits: While a web serial, its magic system is one of the most rigorously logical and well-defined out there. The protagonist is a mage-in-training stuck in a time loop, using his endless repetitions to meticulously experiment with and understand the underlying principles of magic, revealing a complex and consistent framework.\n\n\n\n\n\nconst unspecified_genre_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: \"Could you recommend me 2 books?\",\n  config: {\n    systemInstruction: SYSTEM_PROMPT_2,\n  },\n});\ntslab.display.markdown(unspecified_genre_response.text ?? \"\");\n\nOf course! Since you didn’t specify a genre, I’d be happy to recommend two horror titles for you:\n\n“Misery” by Stephen King: This is a chilling psychological thriller about a famous author, Paul Sheldon, who crashes his car in a remote area and is rescued by his self-proclaimed “number one fan,” Annie Wilkes. Unfortunately for Paul, Annie is not just a fan, she’s a deranged former nurse who will do anything to keep her favorite author captive and writing for her. It’s a masterclass in tension and isolation.\n“Mexican Gothic” by Silvia Moreno-Garcia: If you’re looking for something with a more atmospheric and gothic feel, this is a fantastic choice. It follows glamorous socialite Noemí Taboada as she travels to a remote, decaying mansion in the Mexican countryside after receiving a disturbing letter from her newlywed cousin. She soon finds herself entangled in the sinister secrets of the house and its eccentric English inhabitants, discovering a history of violence and a presence that may not be entirely human. It’s a beautifully written, spooky read with a unique setting.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Providing base cases"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Providing_base_cases.html#next-steps",
+    "href": "examples/prompting/Providing_base_cases.html#next-steps",
+    "title": "Gemini API: Providing base cases",
+    "section": "Next steps",
+    "text": "Next steps\nBe sure to explore other examples of prompting in the repository. Try writing prompts about classifying your own data, or try some of the other prompting techniques such as few-shot prompting.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Providing base cases"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Reasoning.html",
+    "href": "examples/prompting/Basic_Reasoning.html",
+    "title": "Gemini API: Basic reasoning",
+    "section": "",
+    "text": "This notebook demonstrates how to use prompting to perform reasoning tasks using the Gemini API’s JS SDK. In this example, you will work through a mathematical word problem using prompting.\nThe Gemini API can handle many tasks that involve indirect reasoning, such as solving mathematical or logical proofs.\nIn this example, you will see how the LLM explains given problems step by step.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic reasoning"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Reasoning.html#setup",
+    "href": "examples/prompting/Basic_Reasoning.html#setup",
+    "title": "Gemini API: Basic reasoning",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── prompting\n        └── Basic_Reasoning.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic reasoning"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Reasoning.html#examples",
+    "href": "examples/prompting/Basic_Reasoning.html#examples",
+    "title": "Gemini API: Basic reasoning",
+    "section": "Examples",
+    "text": "Examples\nBegin by defining some system instructions that will be include when you define and choose the model.\n\nconst SYSTEM_PROMPT = `\n  You are a teacher solving mathematical and logical problems. Your task:\n  1. Summarize given conditions.\n  2. Identify the problem.\n  3. Provide a clear, step-by-step solution.\n  4. Provide an explanation for each step.\n\n  Ensure simplicity, clarity, and correctness in all steps of your explanation.\n  Each of your task should be done in order and seperately.\n`;\n\nNext, you can define a logical problem such as the one below.\n\nconst logical_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: `\n      Assume a world where 1 in 5 dice are weighted and have 100% to roll a 6.\n      A person rolled a dice and rolled a 6.\n      Is it more likely that the die was weighted or not?\n    `,\n  config: {\n    systemInstruction: SYSTEM_PROMPT,\n  },\n});\ntslab.display.markdown(logical_response.text ?? \"\");\n\nHere’s a breakdown of the problem and its solution:\n\n1. Summary of Given Conditions\n\nPrevalence of Weighted Dice: 1 out of every 5 dice is weighted. This means P(Weighted) = 1/5.\nPrevalence of Normal Dice: Consequently, 4 out of every 5 dice are not weighted (normal). This means P(Normal) = 4/5.\nWeighted Die Outcome: A weighted die has a 100% chance to roll a 6. This means P(Roll 6 | Weighted) = 1.\nNormal Die Outcome: A normal die has a 1/6 chance to roll a 6 (assuming a standard fair die). This means P(Roll 6 | Normal) = 1/6.\nObserved Event: A person rolled a die and got a 6.\n\n\n\n2. Identification of the Problem\nThe problem asks us to determine, given that a 6 was rolled, whether it is more likely that the die was weighted or not weighted. This is a conditional probability problem, requiring us to calculate the probability of the die being weighted given a 6 was rolled, and compare it to the probability of the die being normal given a 6 was rolled. We need to compare P(Weighted | Roll 6) with P(Normal | Roll 6).\n\n\n3. Step-by-Step Solution\nStep 1: Define Probabilities of Die Type\n\nProbability of a die being weighted, P(W): P(W) = 1/5 = 0.20\nProbability of a die being normal (not weighted), P(NW): P(NW) = 1 - P(W) = 4/5 = 0.80\n\nStep 2: Define Probabilities of Rolling a 6 based on Die Type\n\nProbability of rolling a 6 if the die is weighted, P(R6 | W): P(R6 | W) = 1 (100% chance)\nProbability of rolling a 6 if the die is normal, P(R6 | NW): P(R6 | NW) = 1/6\n\nStep 3: Calculate the Total Probability of Rolling a 6\nTo use Bayes’ Theorem, we first need the overall probability of rolling a 6, P(R6). This can happen in two ways: rolling a 6 with a weighted die OR rolling a 6 with a normal die.\nP(R6) = P(R6 | W) * P(W) + P(R6 | NW) * P(NW) P(R6) = (1 * 1/5) + (1/6 * 4/5) P(R6) = 1/5 + 4/30 P(R6) = 6/30 + 4/30 P(R6) = 10/30 = 1/3\nStep 4: Calculate the Probability that the Die was Weighted Given a 6 was Rolled\nUsing Bayes’ Theorem: P(W | R6) = [P(R6 | W) * P(W)] / P(R6)\nP(W | R6) = (1 * 1/5) / (1/3) P(W | R6) = (1/5) / (1/3) P(W | R6) = 1/5 * 3/1 P(W | R6) = 3/5 = 0.60\nStep 5: Calculate the Probability that the Die was Normal Given a 6 was Rolled\nUsing Bayes’ Theorem: P(NW | R6) = [P(R6 | NW) * P(NW)] / P(R6)\nP(NW | R6) = (1/6 * 4/5) / (1/3) P(NW | R6) = (4/30) / (1/3) P(NW | R6) = (2/15) / (1/3) P(NW | R6) = 2/15 * 3/1 P(NW | R6) = 6/15 = 2/5 = 0.40\nAlternatively, since these are the only two possibilities (weighted or normal), P(NW | R6) = 1 - P(W | R6) = 1 - 0.60 = 0.40.\nStep 6: Compare the Probabilities\n\nP(Weighted | Roll 6) = 0.60\nP(Normal | Roll 6) = 0.40\n\nSince 0.60 &gt; 0.40, it is more likely that the die was weighted.\n\n\n4. Explanation for Each Step\n\nStep 1: We established the prior probabilities of picking a weighted or normal die from the collection. These are the probabilities before any roll happens.\nStep 2: We defined the likelihood of rolling a 6 for each type of die. A weighted die always rolls a 6, while a normal die rolls a 6 only 1 out of 6 times.\nStep 3: This step calculates the overall probability of observing a 6, irrespective of the die type. It accounts for both scenarios: rolling a 6 with a weighted die and rolling a 6 with a normal die. This is the denominator in Bayes’ Theorem.\nStep 4 & 5: These steps apply Bayes’ Theorem. Bayes’ Theorem allows us to update our initial beliefs (prior probabilities) based on new evidence (rolling a 6). We calculate the posterior probability for each case (weighted or normal die) given the observed outcome (rolling a 6).\n\nP(W | R6) tells us “what is the probability the die was weighted, given we rolled a 6?”\nP(NW | R6) tells us “what is the probability the die was normal, given we rolled a 6?”\n\nStep 6: By comparing the calculated posterior probabilities, we can directly answer the question of which scenario (weighted or not weighted) is more likely given the observed roll of a 6. The higher probability indicates the more likely event.\n\nConclusion: It is more likely that the die was weighted (60% chance) than not weighted (40% chance) after rolling a 6.\n\n\n\n\nconst math_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: \"Given a triangle with base b=6 and height h=8, calculate its area\",\n  config: {\n    systemInstruction: SYSTEM_PROMPT,\n  },\n});\ntslab.display.markdown(math_response.text ?? \"\");\n\nHere’s a breakdown of the problem and its solution:\n\n1. Summarize given conditions:\n\nThe base of the triangle (b) = 6 units\nThe height of the triangle (h) = 8 units\n\n\n\n2. Identify the problem:\nThe problem asks us to calculate the area of the triangle.\n\n\n3. Provide a clear, step-by-step solution:\nStep 1: Recall the formula for the area of a triangle. The area (A) of a triangle is given by the formula: A = (1/2) × base × height A = (1/2) × b × h\nStep 2: Substitute the given values into the formula. Given b = 6 and h = 8, substitute these values into the formula: A = (1/2) × 6 × 8\nStep 3: Perform the multiplication to find the area. First, multiply the base and height: 6 × 8 = 48 Then, multiply by 1/2: A = (1/2) × 48 A = 48 / 2 A = 24\nStep 4: State the final answer with appropriate units. The area of the triangle is 24 square units.\n\n\n4. Provide an explanation for each step:\n\nStep 1: Recall the formula for the area of a triangle.\n\nThis step is crucial because the formula A = (1/2) × b × h is the fundamental mathematical relationship that defines how to calculate the area of any triangle, given its base and corresponding height.\n\nStep 2: Substitute the given values into the formula.\n\nBy replacing the variables ‘b’ and ‘h’ with their specific numerical values (6 and 8), we transform the general formula into a specific calculation for the given triangle, making it ready to be solved.\n\nStep 3: Perform the multiplication to find the area.\n\nThis step is the arithmetic calculation. Multiplying the base by the height gives the area of a rectangle with those dimensions. Dividing by 2 (or multiplying by 1/2) converts this to the area of the triangle, as a triangle can be seen as half of a parallelogram (or rectangle) with the same base and height.\n\nStep 4: State the final answer with appropriate units.\n\nIt’s important to include units. Since the base and height were given as “units” (e.g., cm, m, inches), the area is expressed in “square units” (e.g., cm², m², inches²). This clarifies what the number 24 represents in a real-world context.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic reasoning"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Reasoning.html#next-steps",
+    "href": "examples/prompting/Basic_Reasoning.html#next-steps",
+    "title": "Gemini API: Basic reasoning",
+    "section": "Next steps",
+    "text": "Next steps\nBe sure to explore other examples of prompting in the repository. Try creating your own prompts that include instructions on how to solve basic reasoning problems, or use the prompt given in this notebook as a template.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic reasoning"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Information_Extraction.html",
+    "href": "examples/prompting/Basic_Information_Extraction.html",
+    "title": "Gemini API: Basic information extraction",
+    "section": "",
+    "text": "This example notebook shows how Gemini API’s JS SDK can be used to extract information from a block of text and return it in defined structure.\nIn this notebook, the LLM is given a recipe and is asked to extract all the ingredients to create a shopping list. According to best practices, complex tasks will be executed better if divided into separate steps, such as:\nYou can find more tips for writing prompts here.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic information extraction"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Information_Extraction.html#setup",
+    "href": "examples/prompting/Basic_Information_Extraction.html#setup",
+    "title": "Gemini API: Basic information extraction",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── prompting\n        └── Basic_Information_Extraction.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic information extraction"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Information_Extraction.html#example",
+    "href": "examples/prompting/Basic_Information_Extraction.html#example",
+    "title": "Gemini API: Basic information extraction",
+    "section": "Example",
+    "text": "Example\nFirst, start by extracting all the groceries. To dod this, set the system instructions when defining the model\n\nconst GROCERIES_SYSTEM_PROMPT = `\n  Your task is to extract to a list all the groceries with its quantities based on the provided recipe.\n  Make sure that groceries are in the order of appearance.\n`;\n\nNext, the recipe is defined. You will pass the recipe into generateContent, and see that the list of groceries was successfully extracted from the input.\n\nconst recipe = `\n  Step 1:\n  Grind 3 garlic cloves, knob of fresh ginger, roughly chopped, 3 spring onions to a paste in a food processor.\n  Add 2 tbsp of clear honey, juice from one orange, 1 tbsp of light soy sauce and 2 tbsp of vegetable oil, then blend again.\n  Pour the mixture over the cubed chicken from 4 small breast fillets and leave to marnate for at least 1hr.\n  Toss in the 20 button mushrooms for the last half an hour so the take on some of the flavour, too.\n\n  Step 2:\n  Thread the chicken, 20 cherry tomatoes, mushrooms and 2 large red peppers onto 20 wooden skewers,\n  then cook on a griddle pan for 7-8 mins each side or until the chicken is thoroughly cooked and golden brown.\n  Turn the kebabs frequently and baste with the marinade from time to time until evenly cooked.\n  Arrange on a platter, and eat with your fingers.\n`;\n\nconst groceries = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: recipe,\n  config: {\n    systemInstruction: GROCERIES_SYSTEM_PROMPT,\n  },\n});\ntslab.display.markdown(groceries.text ?? \"\");\n\n\ngarlic cloves: 3\nfresh ginger: knob\nspring onions: 3\nclear honey: 2 tbsp\norange: 1\nlight soy sauce: 1 tbsp\nvegetable oil: 2 tbsp\nchicken breast fillets: 4 small\nbutton mushrooms: 20\ncherry tomatoes: 20\nred peppers: 2 large\n\n\n\nThe next step is to further format the shopping list based on the ingredients extracted.\n\nconst SHOPPING_LIST_SYSTEM_PROMPT = `\n  You are given a list of groceries. Complete the following:\n  - Organize groceries into categories for easier shopping.\n  - List each item one under another with a checkbox [].\n`;\n\nNow that you have defined the instructions, you can also decide how you want to format your grocery list. Give the prompt a couple examples, or perform few-shot prompting, so it understands how to format your grocery list.\n\nconst shopping_list = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: `\n      LIST: 3 tomatoes, 1 turkey, 4 tomatoes\n      OUTPUT:\n      ## VEGETABLES\n      - [ ] 7 tomatoes\n      ## MEAT\n      - [ ] 1 turkey\n    \n      LIST: ${groceries.text}\n      OUTPUT:\n    `,\n  config: {\n    systemInstruction: SHOPPING_LIST_SYSTEM_PROMPT,\n  },\n});\ntslab.display.markdown(shopping_list.text ?? \"\");\n\n\nPRODUCE\n\n3 garlic cloves\n1 knob fresh ginger\n3 spring onions\n1 orange\n20 button mushrooms\n20 cherry tomatoes\n2 large red peppers\n\n\n\nMEAT\n\n4 small chicken breast fillets\n\n\n\nPANTRY\n\n2 tbsp clear honey\n1 tbsp light soy sauce\n2 tbsp vegetable oil",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic information extraction"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Information_Extraction.html#produce",
+    "href": "examples/prompting/Basic_Information_Extraction.html#produce",
+    "title": "Gemini API: Basic information extraction",
+    "section": "PRODUCE",
+    "text": "PRODUCE\n\n3 garlic cloves\n1 knob fresh ginger\n3 spring onions\n1 orange\n20 button mushrooms\n20 cherry tomatoes\n2 large red peppers",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic information extraction"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Information_Extraction.html#meat",
+    "href": "examples/prompting/Basic_Information_Extraction.html#meat",
+    "title": "Gemini API: Basic information extraction",
+    "section": "MEAT",
+    "text": "MEAT\n\n4 small chicken breast fillets",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic information extraction"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Information_Extraction.html#pantry",
+    "href": "examples/prompting/Basic_Information_Extraction.html#pantry",
+    "title": "Gemini API: Basic information extraction",
+    "section": "PANTRY",
+    "text": "PANTRY\n\n2 tbsp clear honey\n1 tbsp light soy sauce\n2 tbsp vegetable oil",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic information extraction"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Information_Extraction.html#next-steps",
+    "href": "examples/prompting/Basic_Information_Extraction.html#next-steps",
+    "title": "Gemini API: Basic information extraction",
+    "section": "Next steps",
+    "text": "Next steps\nBe sure to explore other examples of prompting in the repository. Try creating your own prompts for information extraction or adapt the ones provided in the notebook.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic information extraction"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Few_shot_prompting.html",
+    "href": "examples/prompting/Few_shot_prompting.html",
+    "title": "Gemini API: Few-shot prompting",
+    "section": "",
+    "text": "Some prompts may need a bit more information or require a specific output schema for the LLM to understand and accomplish the requested task. In such cases, providing example questions with answers to the model may greatly increase the quality of the response.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Few-shot prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Few_shot_prompting.html#setup",
+    "href": "examples/prompting/Few_shot_prompting.html#setup",
+    "title": "Gemini API: Few-shot prompting",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── prompting\n        └── Few_shot_prompting.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Few-shot prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Few_shot_prompting.html#examples",
+    "href": "examples/prompting/Few_shot_prompting.html#examples",
+    "title": "Gemini API: Few-shot prompting",
+    "section": "Examples",
+    "text": "Examples\n\nconst prompt_1 = `\n  Sort the animals from biggest to smallest.\n  Question: Sort Tiger, Bear, Dog\n  Answer: Bear &gt; Tiger &gt; Dog\n  Question: Sort Cat, Elephant, Zebra\n  Answer: Elephant &gt; Zebra &gt; Cat\n  Question: Sort Whale, Goldfish, Monkey\n  Answer:\n`;\n\nconst response_1 = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: prompt_1,\n});\ntslab.display.markdown(response_1.text ?? \"\");\n\nWhale &gt; Monkey &gt; Goldfish\n\n\n\nconst prompt_2 = `\n  Extract cities from text, include country they are in.\n  USER: I visited Mexico City and Poznan last year\n  MODEL: {\"Mexico City\": \"Mexico\", \"Poznan\": \"Poland\"}\n  USER: She wanted to visit Lviv, Monaco and Maputo\n  MODEL: {\"Minsk\": \"Ukraine\", \"Monaco\": \"Monaco\", \"Maputo\": \"Mozambique\"}\n  USER: I am currently in Austin, but I will be moving to Lisbon soon\n  MODEL:\n`;\n\nconst response_2 = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: prompt_2,\n});\ntslab.display.markdown(response_2.text ?? \"\");\n\n{“Austin”: “USA”, “Lisbon”: “Portugal”}",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Few-shot prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Few_shot_prompting.html#next-steps",
+    "href": "examples/prompting/Few_shot_prompting.html#next-steps",
+    "title": "Gemini API: Few-shot prompting",
+    "section": "Next steps",
+    "text": "Next steps\nBe sure to explore other examples of prompting in the repository. Try writing prompts about classifying your own data, or try some of the other prompting techniques such as zero-shot prompting.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Few-shot prompting"
     ]
   },
   {
@@ -2619,6 +2970,357 @@
     ]
   },
   {
+    "objectID": "examples/prompting/Zero_shot_prompting.html",
+    "href": "examples/prompting/Zero_shot_prompting.html",
+    "title": "Gemini API: Zero-shot prompting",
+    "section": "",
+    "text": "You can use the Gemini models to answer many queries without any additional context. Zero-shot prompting is useful for situations when your queries are not complicated and do not require a specific schema.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Zero-shot prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Zero_shot_prompting.html#setup",
+    "href": "examples/prompting/Zero_shot_prompting.html#setup",
+    "title": "Gemini API: Zero-shot prompting",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── prompting\n        └── Zero_shot_prompting.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Zero-shot prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Zero_shot_prompting.html#examples",
+    "href": "examples/prompting/Zero_shot_prompting.html#examples",
+    "title": "Gemini API: Zero-shot prompting",
+    "section": "Examples",
+    "text": "Examples\nHere are a few examples with zero-shot prompting. Note that in each of these examples, you can simply provide the task, with zero examples.\n\nconst response_1 = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: `\n      Sort following animals from biggest to smallest:\n      fish, elephant, dog\n    `,\n});\ntslab.display.markdown(response_1.text ?? \"\");\n\nHere’s the order from biggest to smallest:\n\nElephant\nDog\nFish\n\n\n\n\nconst response_2 = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: `\n      Classify sentiment of review as positive, negative or neutral:\n      I go to this restaurant every week, I love it so much.\n    `,\n});\ntslab.display.markdown(response_2.text ?? \"\");\n\nPositive\n\n\n\nconst response_3 = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: `\n      Extract capital cities from the text:\n      During the summer I visited many countries in Europe. First I visited Italy, specifically Sicily and Rome.\n      Then I visited Cologne in Germany and the trip ended in Berlin.\n    `,\n});\ntslab.display.markdown(response_3.text ?? \"\");\n\nRome, Berlin\n\n\n\nconst response_4 = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: `\n      Find and fix the error in this Python code:\n      def add_numbers(a, b):\n          return a + b\n      print(add_numbers(5, \"10\"))\n    `,\n});\ntslab.display.markdown(response_4.text ?? \"\");\n\nThe error in this Python code is a TypeError.\nError:\nTypeError: unsupported operand type(s) for +: 'int' and 'str'\nReason:\nYou are trying to add an integer (5) and a string (\"10\") using the + operator. In Python, the + operator behaves differently based on the data types:\n\nFor numbers (integers, floats), it performs arithmetic addition.\nFor strings, it performs string concatenation (joining them).\n\nPython is a strongly typed language and will not automatically convert a string to an integer (or vice versa) when you’re trying to perform arithmetic operations that are not defined for those specific mixed types.\nFix:\nTo fix this, you need to ensure both arguments passed to the add_numbers function are numbers. You can convert the string \"10\" to an integer using int().\ndef add_numbers(a, b):\n    return a + b\n\n# Fix: Convert \"10\" to an integer using int()\nprint(add_numbers(5, int(\"10\")))\nOutput of the fixed code:\n15\n\n\n\nconst response_5 = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: `\n      Solve this math problem:\n      A train travels 120 km in 2 hours. What is its average speed?\n    `,\n});\ntslab.display.markdown(response_5.text ?? \"\");\n\nTo find the average speed, you use the formula:\nAverage Speed = Total Distance / Total Time\nGiven: * Total Distance = 120 km * Total Time = 2 hours\nNow, plug the values into the formula:\nAverage Speed = 120 km / 2 hours Average Speed = 60 km/h\nThe average speed of the train is 60 km/h.\n\n\n\nconst response_6 = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: `\n      Identify the names of people, places, and countries in this text:\n      Emmanuel Macron, the president of France, announced a AI partnership in collaboration with the United Arab Emirates.\n    `,\n});\ntslab.display.markdown(response_6.text ?? \"\");\n\nHere are the names identified from the text:\nPeople:\n\nEmmanuel Macron\n\nPlaces:\n\nFrance\nUnited Arab Emirates\n\nCountries:\n\nFrance\nUnited Arab Emirates\n\n\n\n\nconst response_7 = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: `\n      Correct the grammar in this sentence:\n      She don't like playing football but she enjoy to watch it.\n    `,\n});\ntslab.display.markdown(response_7.text ?? \"\");\n\nHere’s the corrected sentence:\nShe doesn’t like playing football, but she enjoys watching it.\nHere’s why:\n\n“She don’t” should be “She doesn’t” (subject-verb agreement for third person singular).\n“she enjoy” should be “she enjoys” (subject-verb agreement for third person singular).\n“enjoy to watch” should be “enjoys watching” (the verb “enjoy” is typically followed by a gerund, not an infinitive).\nA comma is often used before “but” when connecting two independent clauses.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Zero-shot prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Zero_shot_prompting.html#next-steps",
+    "href": "examples/prompting/Zero_shot_prompting.html#next-steps",
+    "title": "Gemini API: Zero-shot prompting",
+    "section": "Next steps",
+    "text": "Next steps\nBe sure to explore other examples of prompting in the repository. Try writing prompts about classifying your own data, or try some of the other prompting techniques such as few-shot prompting.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Zero-shot prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Classification.html",
+    "href": "examples/prompting/Basic_Classification.html",
+    "title": "Gemini API: Basic classification",
+    "section": "",
+    "text": "This notebook demonstrates how to use prompting to perform classification tasks using the Gemini API’s JS SDK.\nLLMs can be used in tasks that require classifying content into predefined categories. This business case shows how it categorizes user messages under the blog topic. It can classify replies in the following categories: spam, abusive comments, and offensive messages.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic classification"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Classification.html#setup",
+    "href": "examples/prompting/Basic_Classification.html#setup",
+    "title": "Gemini API: Basic classification",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── prompting\n        └── Basic_Classification.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic classification"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Classification.html#examples",
+    "href": "examples/prompting/Basic_Classification.html#examples",
+    "title": "Gemini API: Basic classification",
+    "section": "Examples",
+    "text": "Examples\n\nconst CLASSIFICATION_PROMPT = `\n  As a social media moderation system, your task is to categorize user\n  comments under a post. Analyze the comment related to the topic and\n  classify it into one of the following categories:\n\n  Abusive\n  Spam\n  Offensive\n\n  If the comment does not fit any of the above categories,\n  classify it as: Neutral.\n\n  Provide only the category as a response without explanations.\n`;\n\nconst classificationTemplate = (topic: string, comment: string) =&gt; `\n  Topic: What can I do after highschool?\n  Comment: You should do a gap year!\n  Class: Neutral\n\n  Topic: Where can I buy a cheap phone?\n  Comment: You have just won an IPhone 15 Pro Max!!! Click the link to receive the prize!!!\n  Class: Spam\n\n  Topic: How long do you boil eggs?\n  Comment: Are you stupid?\n  Class: Offensive\n\n  Topic: ${topic}\n  Comment: ${comment}\n  Class:\n`;\n\n\nconst spam_topic = `\n  I am looking for a vet in our neighbourhood.\n  Can anyone recommend someone good? Thanks.\n`;\nconst spam_comment = \"You can win 1000$ by just following me!\";\n\nconst spam_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: classificationTemplate(spam_topic, spam_comment),\n  config: {\n    temperature: 0.0,\n    systemInstruction: CLASSIFICATION_PROMPT,\n  },\n});\ntslab.display.markdown(spam_response.text ?? \"\");\n\nSpam\n\n\n\nconst neutral_topic = \"My computer froze. What should I do?\";\nconst neutral_comment = \"Try turning it off and on.\";\n\nconst neutral_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: classificationTemplate(neutral_topic, neutral_comment),\n  config: {\n    temperature: 0.0,\n    systemInstruction: CLASSIFICATION_PROMPT,\n  },\n});\ntslab.display.markdown(neutral_response.text ?? \"\");\n\nNeutral",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic classification"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Classification.html#next-steps",
+    "href": "examples/prompting/Basic_Classification.html#next-steps",
+    "title": "Gemini API: Basic classification",
+    "section": "Next steps",
+    "text": "Next steps\nBe sure to explore other examples of prompting in the repository. Try writing prompts about classifying your own datasets.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic classification"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Self_ask_prompting.html",
+    "href": "examples/prompting/Self_ask_prompting.html",
+    "title": "Gemini API: Self-ask prompting",
+    "section": "",
+    "text": "Self ask prompting is similar to chain of thought, but instead of going step by step as one answer, it asks itself questions that will help answer the query. Like the chain of thought, it helps the model to think analytically.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Self-ask prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Self_ask_prompting.html#setup",
+    "href": "examples/prompting/Self_ask_prompting.html#setup",
+    "title": "Gemini API: Self-ask prompting",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── prompting\n        └── Self_ask_prompting.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Self-ask prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Self_ask_prompting.html#example",
+    "href": "examples/prompting/Self_ask_prompting.html#example",
+    "title": "Gemini API: Self-ask prompting",
+    "section": "Example",
+    "text": "Example\n\nconst prompt = `\n  Question: Who was the president of the united states when Mozart died?\n  Are follow up questions needed?: yes.\n  Follow up: When did Mozart died?\n  Intermediate answer: 1791.\n  Follow up: Who was the president of the united states in 1791?\n  Intermediate answer: George Washington.\n  Final answer: When Mozart died George Washington was the president of the USA.\n\n  Question: Where did the Emperor of Japan, who ruled the year Maria\n  Skłodowska was born, die?\n`;\n\nconst response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: prompt,\n});\ntslab.display.markdown(response.text ?? \"\");\n\nAre follow up questions needed?: yes. Follow up: When was Maria Skłodowska born? Intermediate answer: 1867. Follow up: Who was the Emperor of Japan in 1867? Intermediate answer: Emperor Meiji. Follow up: Where did Emperor Meiji die? Intermediate answer: The Imperial Palace, Tokyo. Final answer: The Emperor of Japan who ruled the year Maria Skłodowska was born was Emperor Meiji, and he died at the Imperial Palace in Tokyo.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Self-ask prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Self_ask_prompting.html#additional-note",
+    "href": "examples/prompting/Self_ask_prompting.html#additional-note",
+    "title": "Gemini API: Self-ask prompting",
+    "section": "Additional note",
+    "text": "Additional note\nSelf-ask prompting works well with function calling. Follow-up questions can be used as input to a function, which e.g. searches the internet. The question and answer from the function can be added back to the prompt. During the next query to the model, it can either create another function call or return the final answer.\nFor a related example, please see the Search re-ranking using Gemini embeddings example in the Gemini Cookbook.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Self-ask prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Chain_of_thought_prompting.html",
+    "href": "examples/prompting/Chain_of_thought_prompting.html",
+    "title": "Gemini API: Chain of thought prompting",
+    "section": "",
+    "text": "Using chain of thought helps the LLM take a logical and arithmetic approach. Instead of outputting the answer immediately, the LLM uses smaller and easier steps to get to the answer.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Chain of thought prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Chain_of_thought_prompting.html#setup",
+    "href": "examples/prompting/Chain_of_thought_prompting.html#setup",
+    "title": "Gemini API: Chain of thought prompting",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── prompting\n        └── Chain_of_thought_prompting.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Chain of thought prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Chain_of_thought_prompting.html#example",
+    "href": "examples/prompting/Chain_of_thought_prompting.html#example",
+    "title": "Gemini API: Chain of thought prompting",
+    "section": "Example",
+    "text": "Example\nSometimes LLMs can return non-satisfactory answers. To simulate that behavior, you can implement a phrase like “Return the answer immediately” in your prompt.\nWithout this, the model sometimes uses chain of thought by itself, but it is inconsistent and does not always result in the correct answer.\n\nconst immediate_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents:\n    \"5 people can create 5 donuts every 5 minutes. How much time would it take 25 people to make 100 donuts? Return the answer immediately.\",\n});\ntslab.display.markdown(immediate_response.text ?? \"\");\n\nIt would take 20 minutes.\n\n\nTo influence this you can implement chain of thought into your prompt and look at the difference in the response. Note the multiple steps within the prompt.\n\nconst cot_prompt = `\n  Question: 11 factories can make 22 cars per hour. How much time would it take 22 factories to make 88 cars?\n  Answer: A factory can make 22/11=2 cars per hour. 22 factories can make 22*2=44 cars per hour. Making 88 cars would take 88/44=2 hours. The answer is 2 hours.\n  Question: 5 people can create 5 donuts every 5 minutes. How much time would it take 25 people to make 100 donuts?\n  Answer:\n`;\n\nconst cot_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: cot_prompt,\n});\ntslab.display.markdown(cot_response.text ?? \"\");\n\nA person can create 5/5 = 1 donut every 5 minutes. 25 people can create 25*1 = 25 donuts every 5 minutes. Making 100 donuts would take (100/25) * 5 = 4 * 5 = 20 minutes. The answer is 20 minutes.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Chain of thought prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Chain_of_thought_prompting.html#next-steps",
+    "href": "examples/prompting/Chain_of_thought_prompting.html#next-steps",
+    "title": "Gemini API: Chain of thought prompting",
+    "section": "Next steps",
+    "text": "Next steps\nBe sure to explore other examples of prompting in the repository. Try writing prompts about classifying your own data, or try some of the other prompting techniques such as few-shot prompting.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Chain of thought prompting"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Adding_context_information.html",
+    "href": "examples/prompting/Adding_context_information.html",
+    "title": "Gemini API: Adding context information",
+    "section": "",
+    "text": "While LLMs are trained extensively on various documents and data, the LLM don’t know everything. New information or information that is not easily accessible cannot be known by the LLM, unless it was specifically added to its corpus of knowledge somehow. For this reason, it is sometimes necessary to provide the LLM, with information and context necessary to answer our queries by providing additional context.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Adding context information"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Adding_context_information.html#setup",
+    "href": "examples/prompting/Adding_context_information.html#setup",
+    "title": "Gemini API: Adding context information",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── prompting\n        └── Adding_context_information.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Adding context information"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Adding_context_information.html#example",
+    "href": "examples/prompting/Adding_context_information.html#example",
+    "title": "Gemini API: Adding context information",
+    "section": "Example",
+    "text": "Example\nLet’s say you provide some statistics from a recent Olympics competition, and this data wasn’t used to train the LLM. Insert it into the prompt, and input the prompt to the model.\n\nconst response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: `\n      QUERY: provide a list of atheletes that competed in olympics exactly 9 times.\n      CONTEXT:\n\n      Table title: Olympic athletes and number of times they've competed\n      Ian Millar, 10\n      Hubert Raudaschl, 9\n      Afanasijs Kuzmins, 9\n      Nino Salukvadze, 9\n      Piero d'Inzeo, 8\n      Raimondo d'Inzeo, 8\n      Claudia Pechstein, 8\n      Jaqueline Mourão, 8\n      Ivan Osiier, 7\n      François Lafortune, Jr, 7\n  `,\n});\n\ntslab.display.markdown(response.text ?? \"\");\n\nAthletes that competed in the Olympics exactly 9 times:\n\nHubert Raudaschl\nAfanasijs Kuzmins\nNino Salukvadze",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Adding context information"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Adding_context_information.html#next-steps",
+    "href": "examples/prompting/Adding_context_information.html#next-steps",
+    "title": "Gemini API: Adding context information",
+    "section": "Next steps",
+    "text": "Next steps\nWhile some information may be easily searchable online without the use of an LLM, consider data that is not found on the internet, such as private documentation, quickbooks, and forums. Use this code as a template to help you input that information into the Gemini model.\nBe sure to explore other examples of prompting in the repository. Try writing prompts about classifying your own data, or try some of the other prompting techniques such as few-shot prompting.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Adding context information"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Code_Generation.html",
+    "href": "examples/prompting/Basic_Code_Generation.html",
+    "title": "Gemini API: Basic code generation",
+    "section": "",
+    "text": "This notebook demonstrates how to use prompting to perform basic code generation using the Gemini API’s JS SDK. Two use cases are explored: error handling and code generation.\nThe Gemini API can be a great tool to save you time during the development process. Tasks such as code generation, debugging, or optimization can be done with the assistance of the Gemini model.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic code generation"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Code_Generation.html#setup",
+    "href": "examples/prompting/Basic_Code_Generation.html#setup",
+    "title": "Gemini API: Basic code generation",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── prompting\n        └── Basic_Code_Generation.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic code generation"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Code_Generation.html#examples",
+    "href": "examples/prompting/Basic_Code_Generation.html#examples",
+    "title": "Gemini API: Basic code generation",
+    "section": "Examples",
+    "text": "Examples\n\nError handling\nFor code generation, you should prioritize accuracy over creativity. A temperature of 0 ensures that the generated content is deterministic, producing the most sensible output every time.\n\nconst ERROR_HANDLING_SYSTEM_PROMPT = `\n  Your task is to explain exactly why this error occurred and how to fix it.\n`;\n\nconst errorPrompt = (message: string) =&gt; `\n  You've encountered the following error message:\n\n  Error: ${message}\n`;\n\n\nconst error_message = `\n    1 my_list = [1,2,3]\n  ----&gt; 2 print(my_list[3])\n\n  IndexError: list index out of range\n`;\n\nconst error_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: errorPrompt(error_message),\n  config: {\n    temperature: 0,\n    systemInstruction: ERROR_HANDLING_SYSTEM_PROMPT,\n  },\n});\ntslab.display.markdown(error_response.text ?? \"\");\n\nThis error, IndexError: list index out of range, is one of the most common errors when working with lists (or other sequence types like strings and tuples) in Python.\nLet’s break down exactly why it occurred and how to fix it.\n\nUnderstanding the Error: IndexError: list index out of range\n\nWhat is an Index? In Python, elements in a list are stored in a specific order. Each element has a numerical position, called an “index,” which allows you to access it directly.\nZero-Based Indexing: The most crucial concept here is that Python (like many other programming languages) uses zero-based indexing. This means:\n\nThe first element is at index 0.\nThe second element is at index 1.\nThe third element is at index 2.\nAnd so on…\n\nAnalyzing Your Code: You have the list: my_list = [1, 2, 3]\nLet’s map the elements to their indices:\n\n1 is at my_list[0]\n2 is at my_list[1]\n3 is at my_list[2]\n\nYour code then tries to access print(my_list[3]).\nThe Problem: Since the list my_list only has three elements, its valid indices are 0, 1, and 2. There is no element at index 3. When you try to access an index that doesn’t exist within the list’s boundaries, Python raises an IndexError because the index is “out of range.”\n\n\n\nHow to Fix It\nThe fix depends on what you were trying to achieve:\n\nScenario 1: You wanted to access the last element\nIf you intended to get the last element (3 in this case), you have a couple of common ways:\nOption A: Using len() (Length of the list) The length of my_list is 3. Since indexing is zero-based, the last element’s index is always len(list) - 1.\nmy_list = [1, 2, 3]\n# The length of my_list is 3.\n# The last valid index is 3 - 1 = 2.\nprint(my_list[len(my_list) - 1])\n# Output: 3\nOption B: Using Negative Indexing (Recommended for last element) Python allows you to use negative indices to count from the end of the list: * -1 refers to the last element. * -2 refers to the second-to-last element. * And so on…\nmy_list = [1, 2, 3]\nprint(my_list[-1])\n# Output: 3\n\n\nScenario 2: You wanted to access a specific existing element\nIf you simply made a mistake in the index number and wanted to access, say, the first, second, or third element:\nmy_list = [1, 2, 3]\n\n# To access the first element (which is 1):\nprint(my_list[0])\n# Output: 1\n\n# To access the second element (which is 2):\nprint(my_list[1])\n# Output: 2\n\n# To access the third element (which is 3):\nprint(my_list[2])\n# Output: 3\n\n\nScenario 3: You’re iterating or accessing elements dynamically\nIf you’re working with lists whose size might change, or you’re looping, it’s good practice to check if an index is valid before trying to access it:\nmy_list = [1, 2, 3]\nindex_to_access = 3 # This would cause the error\n\nif index_to_access &lt; len(my_list):\n    print(my_list[index_to_access])\nelse:\n    print(f\"Error: Index {index_to_access} is out of range for a list of size {len(my_list)}\")\n\n# Output: Error: Index 3 is out of range for a list of size 3\n\n\n\nBest Practices to Avoid This Error\n\nAlways Remember Zero-Based Indexing: This is fundamental.\nUse len() for Bounds Checking: When you need to know the size or iterate up to the last element, len(my_list) is your friend.\nPrefer Negative Indexing for End Elements: my_list[-1] is much cleaner than my_list[len(my_list) - 1].\nIterate Safely:\n\nIf you just need the items: for item in my_list:\nIf you need items and their indices: for index, item in enumerate(my_list): These methods automatically handle the bounds for you.\n\nError Handling (Advanced): For robust applications, you can use try-except blocks to gracefully handle IndexError if you anticipate it might occur due to external input or unpredictable data.\n\nmy_list = [1, 2, 3]\nuser_input_index = 5 # Imagine this came from user input\n\ntry:\n    print(my_list[user_input_index])\nexcept IndexError:\n    print(f\"Sorry, the index {user_input_index} is not valid for this list. Valid indices are 0 to {len(my_list) - 1}.\")\n# Output: Sorry, the index 5 is not valid for this list. Valid indices are 0 to 2.\n\n\n\n\n\nCode generation\n\nconst CODE_GENERATION_SYSTEM_PROMPT = `\n  You are a coding assistant. Your task is to generate a code snippet that\n  accomplishes a specific goal. The code snippet must be concise, efficient,\n  and well-commented for clarity. Consider any constraints or requirements\n  provided for the task.\n\n  If the task does not specify a programming language, default to Python.\n`;\n\n\nconst code_response = await ai.models.generateContent({\n  model: MODEL_ID,\n  contents: `\n      Create a countdown timer that ticks down every second and prints\n      \"Time is up!\" after 20 seconds\n\n      Language: JavaScript\n    `,\n  config: {\n    temperature: 0,\n    systemInstruction: CODE_GENERATION_SYSTEM_PROMPT,\n  },\n});\ntslab.display.markdown(code_response.text ?? \"\");\n\n/**\n * Creates a countdown timer that ticks down every second.\n * Prints the remaining time and \"Time is up!\" when it reaches zero.\n */\nfunction startCountdown() {\n  let seconds = 20; // Initial countdown time in seconds\n\n  // Display initial time immediately\n  console.log(`Time remaining: ${seconds} seconds`);\n\n  // Set up an interval to run every 1000 milliseconds (1 second)\n  const timerInterval = setInterval(() =&gt; {\n    seconds--; // Decrement the time\n\n    if (seconds &gt; 0) {\n      // If time is still remaining, print it\n      console.log(`Time remaining: ${seconds} seconds`);\n    } else {\n      // If time is up, print the final message and clear the interval\n      console.log(\"Time is up!\");\n      clearInterval(timerInterval); // Stop the timer\n    }\n  }, 1000); // 1000 milliseconds = 1 second\n}\n\n// Start the countdown when the script runs\nstartCountdown();\n\n\n\nconst matchFound = /```javascript\\n([\\s\\S]*?)```/.exec(code_response.text ?? \"\");\nif (matchFound) {\n  const code = matchFound[1];\n  // eslint-disable-next-line no-eval\n  eval(code);\n} else {\n  console.error(\"No JavaScript code found in the response\");\n}\n\nTime remaining: 20 seconds\nTime remaining: 19 seconds\nTime remaining: 18 seconds\nTime remaining: 17 seconds\nTime remaining: 16 seconds\nTime remaining: 15 seconds\nTime remaining: 14 seconds\nTime remaining: 13 seconds\nTime remaining: 12 seconds\nTime remaining: 11 seconds\nTime remaining: 10 seconds\nTime remaining: 9 seconds\nTime remaining: 8 seconds\nTime remaining: 7 seconds\nTime remaining: 6 seconds\nTime remaining: 5 seconds\nTime remaining: 4 seconds\nTime remaining: 3 seconds\nTime remaining: 2 seconds\nTime remaining: 1 seconds\nTime is up!",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic code generation"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Code_Generation.html#understanding-the-error-indexerror-list-index-out-of-range",
+    "href": "examples/prompting/Basic_Code_Generation.html#understanding-the-error-indexerror-list-index-out-of-range",
+    "title": "Gemini API: Basic code generation",
+    "section": "Understanding the Error: IndexError: list index out of range",
+    "text": "Understanding the Error: IndexError: list index out of range\n\nWhat is an Index? In Python, elements in a list are stored in a specific order. Each element has a numerical position, called an “index,” which allows you to access it directly.\nZero-Based Indexing: The most crucial concept here is that Python (like many other programming languages) uses zero-based indexing. This means:\n\nThe first element is at index 0.\nThe second element is at index 1.\nThe third element is at index 2.\nAnd so on…\n\nAnalyzing Your Code: You have the list: my_list = [1, 2, 3]\nLet’s map the elements to their indices:\n\n1 is at my_list[0]\n2 is at my_list[1]\n3 is at my_list[2]\n\nYour code then tries to access print(my_list[3]).\nThe Problem: Since the list my_list only has three elements, its valid indices are 0, 1, and 2. There is no element at index 3. When you try to access an index that doesn’t exist within the list’s boundaries, Python raises an IndexError because the index is “out of range.”",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic code generation"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Code_Generation.html#how-to-fix-it",
+    "href": "examples/prompting/Basic_Code_Generation.html#how-to-fix-it",
+    "title": "Gemini API: Basic code generation",
+    "section": "How to Fix It",
+    "text": "How to Fix It\nThe fix depends on what you were trying to achieve:\n\nScenario 1: You wanted to access the last element\nIf you intended to get the last element (3 in this case), you have a couple of common ways:\nOption A: Using len() (Length of the list) The length of my_list is 3. Since indexing is zero-based, the last element’s index is always len(list) - 1.\nmy_list = [1, 2, 3]\n# The length of my_list is 3.\n# The last valid index is 3 - 1 = 2.\nprint(my_list[len(my_list) - 1])\n# Output: 3\nOption B: Using Negative Indexing (Recommended for last element) Python allows you to use negative indices to count from the end of the list: * -1 refers to the last element. * -2 refers to the second-to-last element. * And so on…\nmy_list = [1, 2, 3]\nprint(my_list[-1])\n# Output: 3\n\n\nScenario 2: You wanted to access a specific existing element\nIf you simply made a mistake in the index number and wanted to access, say, the first, second, or third element:\nmy_list = [1, 2, 3]\n\n# To access the first element (which is 1):\nprint(my_list[0])\n# Output: 1\n\n# To access the second element (which is 2):\nprint(my_list[1])\n# Output: 2\n\n# To access the third element (which is 3):\nprint(my_list[2])\n# Output: 3\n\n\nScenario 3: You’re iterating or accessing elements dynamically\nIf you’re working with lists whose size might change, or you’re looping, it’s good practice to check if an index is valid before trying to access it:\nmy_list = [1, 2, 3]\nindex_to_access = 3 # This would cause the error\n\nif index_to_access &lt; len(my_list):\n    print(my_list[index_to_access])\nelse:\n    print(f\"Error: Index {index_to_access} is out of range for a list of size {len(my_list)}\")\n\n# Output: Error: Index 3 is out of range for a list of size 3",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic code generation"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Code_Generation.html#best-practices-to-avoid-this-error",
+    "href": "examples/prompting/Basic_Code_Generation.html#best-practices-to-avoid-this-error",
+    "title": "Gemini API: Basic code generation",
+    "section": "Best Practices to Avoid This Error",
+    "text": "Best Practices to Avoid This Error\n\nAlways Remember Zero-Based Indexing: This is fundamental.\nUse len() for Bounds Checking: When you need to know the size or iterate up to the last element, len(my_list) is your friend.\nPrefer Negative Indexing for End Elements: my_list[-1] is much cleaner than my_list[len(my_list) - 1].\nIterate Safely:\n\nIf you just need the items: for item in my_list:\nIf you need items and their indices: for index, item in enumerate(my_list): These methods automatically handle the bounds for you.\n\nError Handling (Advanced): For robust applications, you can use try-except blocks to gracefully handle IndexError if you anticipate it might occur due to external input or unpredictable data.\n\nmy_list = [1, 2, 3]\nuser_input_index = 5 # Imagine this came from user input\n\ntry:\n    print(my_list[user_input_index])\nexcept IndexError:\n    print(f\"Sorry, the index {user_input_index} is not valid for this list. Valid indices are 0 to {len(my_list) - 1}.\")\n# Output: Sorry, the index 5 is not valid for this list. Valid indices are 0 to 2.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic code generation"
+    ]
+  },
+  {
+    "objectID": "examples/prompting/Basic_Code_Generation.html#next-steps",
+    "href": "examples/prompting/Basic_Code_Generation.html#next-steps",
+    "title": "Gemini API: Basic code generation",
+    "section": "Next steps",
+    "text": "Next steps\nBe sure to explore other examples of prompting in the repository. Try writing prompts around your own code as well using the examples in this notebook.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Prompting",
+      "Gemini API: Basic code generation"
+    ]
+  },
+  {
     "objectID": "examples/Anomaly_detection_with_embeddings.html",
     "href": "examples/Anomaly_detection_with_embeddings.html",
     "title": "Anomaly detection with embeddings",
@@ -3056,7 +3758,7 @@
     "href": "examples/json_capabilities/Text_Classification.html#setup",
     "title": "Gemini API: Text Classification",
     "section": "Setup",
-    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is one directory up from the notebook, hence we need to use ../ to go up one directory. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── json_capabilities\n        └── Text_Classification.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── json_capabilities\n        └── Text_Classification.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
     "crumbs": [
       "Home",
       "Examples",
@@ -3121,7 +3823,7 @@
     "href": "examples/json_capabilities/Sentiment_Analysis.html#setup",
     "title": "Gemini API: Sentiment Analysis",
     "section": "Setup",
-    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is one directory up from the notebook, hence we need to use ../ to go up one directory. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── json_capabilities\n        └── Sentiment_Analysis.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── json_capabilities\n        └── Sentiment_Analysis.ipynb\n\n\n\n\nInitialize SDK Client\nWith the new SDK, now you only need to initialize a client with you API key (or OAuth if using Vertex AI). The model is now set in each call.\n\nconst google = require(\"@google/genai\") as typeof import(\"@google/genai\");\n\nconst ai = new google.GoogleGenAI({ apiKey: GEMINI_API_KEY });\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
     "crumbs": [
       "Home",
       "Examples",

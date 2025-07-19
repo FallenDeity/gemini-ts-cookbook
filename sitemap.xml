@@ -2,218 +2,266 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Video_understanding.html</loc>
-    <lastmod>2025-07-19T11:51:03.977Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.769Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Counting_Tokens.html</loc>
-    <lastmod>2025-07-19T11:51:03.642Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.431Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_LiveAPI.html</loc>
-    <lastmod>2025-07-19T11:51:03.675Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.465Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Models.html</loc>
-    <lastmod>2025-07-19T11:51:03.778Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.569Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Search_Grounding.html</loc>
-    <lastmod>2025-07-19T11:51:03.783Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.573Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started.html</loc>
-    <lastmod>2025-07-19T11:51:03.675Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.464Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/File_API.html</loc>
-    <lastmod>2025-07-19T11:51:03.659Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.448Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_LiveAPI_tools.html</loc>
-    <lastmod>2025-07-19T11:51:03.676Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.465Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Safety.html</loc>
-    <lastmod>2025-07-19T11:51:03.783Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.573Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_LyriaRealtime.html</loc>
-    <lastmod>2025-07-19T11:51:03.676Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.465Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Code_Execution.html</loc>
-    <lastmod>2025-07-19T11:51:03.640Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.429Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/PDF_Files.html</loc>
-    <lastmod>2025-07-19T11:51:03.780Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.571Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Image_out.html</loc>
-    <lastmod>2025-07-19T11:51:03.778Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.569Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Embeddings.html</loc>
-    <lastmod>2025-07-19T11:51:03.643Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.432Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/index.html</loc>
-    <lastmod>2025-07-19T11:51:03.640Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.428Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/json_capabilities/Entity_Extraction_JSON.html</loc>
-    <lastmod>2025-07-19T11:51:03.639Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.426Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/json_capabilities/Text_Summarization.html</loc>
-    <lastmod>2025-07-19T11:51:03.640Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.427Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Search_grounding_for_research_report.html</loc>
-    <lastmod>2025-07-19T11:51:03.634Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.420Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Analyze_a_Video_Historic_Event_Recognition.html</loc>
-    <lastmod>2025-07-19T11:51:03.598Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.385Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Apollo_11.html</loc>
-    <lastmod>2025-07-19T11:51:03.604Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.391Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Pdf_structured_outputs_on_invoices_and_forms.html</loc>
-    <lastmod>2025-07-19T11:51:03.634Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.420Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Voice_memos.html</loc>
-    <lastmod>2025-07-19T11:51:03.635Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.421Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Guess_the_shape.html</loc>
-    <lastmod>2025-07-19T11:51:03.624Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.410Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/examples/prompting/Role_prompting.html</loc>
+    <lastmod>2025-07-19T19:56:08.428Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/examples/prompting/Basic_Evaluation.html</loc>
+    <lastmod>2025-07-19T19:56:08.427Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/examples/prompting/Providing_base_cases.html</loc>
+    <lastmod>2025-07-19T19:56:08.428Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/examples/prompting/Basic_Reasoning.html</loc>
+    <lastmod>2025-07-19T19:56:08.427Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/examples/prompting/Basic_Information_Extraction.html</loc>
+    <lastmod>2025-07-19T19:56:08.427Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/examples/prompting/Few_shot_prompting.html</loc>
+    <lastmod>2025-07-19T19:56:08.428Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Classify_text_with_embeddings.html</loc>
-    <lastmod>2025-07-19T11:51:03.619Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.405Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Analyze_a_Video_Summarization.html</loc>
-    <lastmod>2025-07-19T11:51:03.603Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.389Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/LiveAPI_plotting_and_mapping.html</loc>
-    <lastmod>2025-07-19T11:51:03.629Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.415Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/assets/contrib.html</loc>
-    <lastmod>2025-07-19T11:51:03.361Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.149Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Translate_a_Public_Domain_Book.html</loc>
-    <lastmod>2025-07-19T11:51:03.635Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.421Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Market_a_Jet_Backpack.html</loc>
-    <lastmod>2025-07-19T11:51:03.631Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.418Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Story_Writing_with_Prompt_Chaining.html</loc>
-    <lastmod>2025-07-19T11:51:03.634Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.421Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Browser_as_a_tool.html</loc>
-    <lastmod>2025-07-19T11:51:03.618Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.405Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/examples/prompting/Zero_shot_prompting.html</loc>
+    <lastmod>2025-07-19T19:56:08.428Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/examples/prompting/Basic_Classification.html</loc>
+    <lastmod>2025-07-19T19:56:08.427Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/examples/prompting/Self_ask_prompting.html</loc>
+    <lastmod>2025-07-19T19:56:08.428Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/examples/prompting/Chain_of_thought_prompting.html</loc>
+    <lastmod>2025-07-19T19:56:08.428Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/examples/prompting/Adding_context_information.html</loc>
+    <lastmod>2025-07-19T19:56:08.427Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fallendeity.github.io/deepmind-starter/examples/prompting/Basic_Code_Generation.html</loc>
+    <lastmod>2025-07-19T19:56:08.427Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Anomaly_detection_with_embeddings.html</loc>
-    <lastmod>2025-07-19T11:51:03.603Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.390Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Analyze_a_Video_Classification.html</loc>
-    <lastmod>2025-07-19T11:51:03.597Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.383Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Opossum_search.html</loc>
-    <lastmod>2025-07-19T11:51:03.631Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.418Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Entity_Extraction.html</loc>
-    <lastmod>2025-07-19T11:51:03.619Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.405Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Agents_Function_Calling_Barista_Bot.html</loc>
-    <lastmod>2025-07-19T11:51:03.580Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.366Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/Working_with_Charts_Graphs_and_Slide_Decks.html</loc>
-    <lastmod>2025-07-19T11:51:03.639Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.426Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/json_capabilities/Text_Classification.html</loc>
-    <lastmod>2025-07-19T11:51:03.639Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.427Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/examples/json_capabilities/Sentiment_Analysis.html</loc>
-    <lastmod>2025-07-19T11:51:03.639Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.426Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Enum.html</loc>
-    <lastmod>2025-07-19T11:51:03.645Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.434Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_TTS.html</loc>
-    <lastmod>2025-07-19T11:51:03.689Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.479Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Audio.html</loc>
-    <lastmod>2025-07-19T11:51:03.640Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.429Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Grounding.html</loc>
-    <lastmod>2025-07-19T11:51:03.697Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.487Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Function_calling.html</loc>
-    <lastmod>2025-07-19T11:51:03.671Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.461Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Prompting.html</loc>
-    <lastmod>2025-07-19T11:51:03.782Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.573Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Streaming.html</loc>
-    <lastmod>2025-07-19T11:51:03.977Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.769Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/System_instructions.html</loc>
-    <lastmod>2025-07-19T11:51:03.977Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.769Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Caching.html</loc>
-    <lastmod>2025-07-19T11:51:03.640Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.429Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Spatial_understanding.html</loc>
-    <lastmod>2025-07-19T11:51:03.955Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.747Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/JSON_mode.html</loc>
-    <lastmod>2025-07-19T11:51:03.778Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.569Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_LearnLM.html</loc>
-    <lastmod>2025-07-19T11:51:03.675Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.464Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_thinking.html</loc>
-    <lastmod>2025-07-19T11:51:03.697Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.487Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/Get_started_OpenAI_Compatibility.html</loc>
-    <lastmod>2025-07-19T11:51:03.689Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.479Z</lastmod>
   </url>
   <url>
     <loc>https://fallendeity.github.io/deepmind-starter/quickstarts/New_in_002.html</loc>
-    <lastmod>2025-07-19T11:51:03.778Z</lastmod>
+    <lastmod>2025-07-19T19:56:08.569Z</lastmod>
   </url>
 </urlset>
