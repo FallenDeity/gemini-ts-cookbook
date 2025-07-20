@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API: Safety Quickstart – Gemini Cookbook</title>
+<title>Gemini API: Audio Quickstart – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../quickstarts/Search_Grounding.html" rel="next">
-<link href="../quickstarts/Prompting.html" rel="prev">
+<link href="../examples/Translate_a_Public_Domain_Book.html" rel="next">
+<link href="../examples/Tag_and_caption_images.html" rel="prev">
 <link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -117,10 +117,10 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Gemini API: Safety Quickstart – Gemini Cookbook">
+<meta property="og:title" content="Gemini API: Audio Quickstart – Gemini Cookbook">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta name="twitter:title" content="Gemini API: Safety Quickstart – Gemini Cookbook">
+<meta name="twitter:title" content="Gemini API: Audio Quickstart – Gemini Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -176,7 +176,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Safety.html">Gemini API: Safety Quickstart</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Talk_to_documents_with_embeddings.html">Gemini API: Audio Quickstart</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -307,7 +307,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Talk_to_documents_with_embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Talk_to_documents_with_embeddings.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Gemini API: Audio Quickstart</span></a>
   </div>
 </li>
@@ -598,7 +598,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link active">
+  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Safety Quickstart</span></a>
   </div>
 </li>
@@ -644,7 +644,8 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a>
   <ul class="collapse">
   <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
   <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
@@ -652,19 +653,20 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
   <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
   <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
   </ul></li>
-  <li><a href="#send-your-prompt-request-to-gemini" id="toc-send-your-prompt-request-to-gemini" class="nav-link" data-scroll-target="#send-your-prompt-request-to-gemini">Send your prompt request to Gemini</a></li>
-  <li><a href="#customizing-safety-settings" id="toc-customizing-safety-settings" class="nav-link" data-scroll-target="#customizing-safety-settings">Customizing safety settings</a></li>
-  <li><a href="#learning-more" id="toc-learning-more" class="nav-link" data-scroll-target="#learning-more">Learning more</a></li>
-  <li><a href="#useful-api-references" id="toc-useful-api-references" class="nav-link" data-scroll-target="#useful-api-references">Useful API references</a></li>
+  <li><a href="#embedding-generation" id="toc-embedding-generation" class="nav-link" data-scroll-target="#embedding-generation">Embedding generation</a></li>
+  <li><a href="#building-an-embeddings-database" id="toc-building-an-embeddings-database" class="nav-link" data-scroll-target="#building-an-embeddings-database">Building an embeddings database</a></li>
+  <li><a href="#document-search-with-qa" id="toc-document-search-with-qa" class="nav-link" data-scroll-target="#document-search-with-qa">Document search with Q&amp;A</a></li>
+  <li><a href="#question-and-answering-application" id="toc-question-and-answering-application" class="nav-link" data-scroll-target="#question-and-answering-application">Question and Answering Application</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next steps</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Safety.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Safety.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Talk_to_documents_with_embeddings.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Talk_to_documents_with_embeddings.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Safety.html">Gemini API: Safety Quickstart</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Talk_to_documents_with_embeddings.html">Gemini API: Audio Quickstart</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Gemini API: Safety Quickstart</h1>
+<h1 class="title">Gemini API: Audio Quickstart</h1>
 </div>
 
 
@@ -681,8 +683,11 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </header>
 
 
-<p>The Gemini API has adjustable safety settings. This notebook walks you through how to use them. You’ll write a prompt that’s blocked, see the reason why, and then adjust the filters to unblock it.</p>
-<p>Safety is an important topic, and you can learn more with the links at the end of this notebook. Here, you will focus on the code</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This example demonstrates how to use the Gemini API to create embeddings so that you can perform document search. You will use the JS client library to build a word embedding that allows you to compare search strings, or questions, to document contents.</p>
+<p>In this tutorial, you’ll use embeddings to perform document search over a set of documents to ask questions related to the Google Car.</p>
+</section>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -717,7 +722,7 @@ Tip
 <p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then, we can load the API key in our code:</p>
-<div id="cell-4" class="cell" data-execution_count="50">
+<div id="cell-4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
@@ -746,15 +751,15 @@ Note
 <p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
 <pre><code>│
 ├── .env
-└── quickstarts
-    └── Safety.ipynb</code></pre>
+└── examples
+    └── Talk_to_documents_with_embeddings.ipynb</code></pre>
 </div>
 </div>
 </section>
 <section id="initialize-sdk-client" class="level3">
 <h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
 <p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
-<div id="cell-7" class="cell" data-execution_count="51">
+<div id="cell-7" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -762,178 +767,246 @@ Note
 </section>
 <section id="select-a-model" class="level3">
 <h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
-<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="quickstarts/Get_started_thinking.ipynb">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
-<div id="cell-9" class="cell" data-execution_count="52">
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<div id="cell-9" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="send-your-prompt-request-to-gemini" class="level2">
-<h2 class="anchored" data-anchor-id="send-your-prompt-request-to-gemini">Send your prompt request to Gemini</h2>
-<p>Pick the prompt you want to use to test the safety filters settings. An examples could be <code>Write a list of 5 very rude things that I might say to the universe after stubbing my toe in the dark</code> which was previously tested and trigger the <code>HARM_CATEGORY_HARASSMENT</code> and <code>HARM_CATEGORY_DANGEROUS_CONTENT</code> categories.</p>
-<p>The result returned by the <code>generateContent</code> method is a <a href="https://googleapis.github.io/js-genai/release_docs/classes/types.GenerateContentResponse.html"><code>GenerateContentResponse</code></a>.</p>
-<div id="cell-11" class="cell" data-execution_count="53">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> unsafe_response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="vs">`</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="vs">    I support Martians Soccer Club and I think Jupiterians Football Club</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    sucks! Write a ironic phrase about them.</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  `</span><span class="op">,</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>This response object gives you safety feedback about the candidate answers Gemini generates to you.</p>
-<p>For each candidate answer you need to check <code>response.candidates.finishReason</code>.</p>
-<p>As you can find on the <a href="https://ai.google.dev/gemini-api/docs/safety-settings#safety-feedback">Gemini API safety filters documentation</a>:</p>
-<ul>
-<li>if the <code>candidate.finishReason</code> is <code>FinishReason.STOP</code> means that your generation request ran successfully</li>
-<li>if the <code>candidate.finishReason</code> is <code>FinishReason.SAFETY</code> means that your generation request was blocked by safety reasons. It also means that the <code>response.text</code> structure will be empty.</li>
-</ul>
-<div id="cell-13" class="cell" data-execution_count="54">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(unsafe_response<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">finishReason</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="embedding-generation" class="level2">
+<h2 class="anchored" data-anchor-id="embedding-generation">Embedding generation</h2>
+<p>In this section, you will see how to generate embeddings for a piece of text using the embeddings from the Gemini API.</p>
+<p>See the <a href="../quickstarts/Embeddings.html">Embeddings quickstart</a> to learn more about the <code>taskType</code> parameter used below.</p>
+<div id="cell-11" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> EMBEDDING_MODEL_ID <span class="op">=</span> <span class="st">"gemini-embedding-001"</span><span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> embeddingResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">embedContent</span>({</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> EMBEDDING_MODEL_ID<span class="op">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="vs">`</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="vs">    Title: The next generation of AI for developers and Google Workspace</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    Full article:</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    Gemini API &amp; Google AI Studio: An approachable way to explore and</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="vs">    prototype with generative AI applications</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="vs">  `</span><span class="op">,</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    taskType<span class="op">:</span> <span class="st">"retrieval_document"</span><span class="op">,</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    title<span class="op">:</span> <span class="st">"The next generation of AI for developers and Google Workspace"</span><span class="op">,</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Embedding response:"</span><span class="op">,</span> embeddingResponse<span class="op">.</span><span class="at">embeddings</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">.</span><span class="at">values</span><span class="op">?.</span><span class="fu">slice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">5</span>)<span class="op">,</span> <span class="st">"..."</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>STOP</code></pre>
+<pre><code>Embedding response: [ -0.01921668, 0.015680602, 0.0067214905, -0.057462018, 0.012769895 ] ...</code></pre>
 </div>
 </div>
-<p>If the <code>finishReason</code> is <code>FinishReason.SAFETY</code> you can check which filter caused the block checking the <code>safetyRatings</code> list for the candidate answer:</p>
-<div id="cell-15" class="cell" data-execution_count="55">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(unsafe_response<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">safetyRatings</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="building-an-embeddings-database" class="level2">
+<h2 class="anchored" data-anchor-id="building-an-embeddings-database">Building an embeddings database</h2>
+<p>Here are three sample texts to use to build the embeddings database. You will use the Gemini API to create embeddings of each of the documents. Turn them into a dataframe for better visualization.</p>
+<div id="cell-13" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> DOCUMENT1 <span class="op">=</span> {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  title<span class="op">:</span> <span class="st">"Operating the Climate Control System"</span><span class="op">,</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  content<span class="op">:</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Your Googlecar has a climate control system that allows you to adjust the temperature and airflow in the car. To operate the climate control system, use the buttons and knobs located on the center console.  Temperature: The temperature knob controls the temperature inside the car. Turn the knob clockwise to increase the temperature or counterclockwise to decrease the temperature. Airflow: The airflow knob controls the amount of airflow inside the car. Turn the knob clockwise to increase the airflow or counterclockwise to decrease the airflow. Fan speed: The fan speed knob controls the speed of the fan. Turn the knob clockwise to increase the fan speed or counterclockwise to decrease the fan speed. Mode: The mode button allows you to select the desired mode. The available modes are: Auto: The car will automatically adjust the temperature and airflow to maintain a comfortable level. Cool: The car will blow cool air into the car. Heat: The car will blow warm air into the car. Defrost: The car will blow warm air onto the windshield to defrost it."</span><span class="op">,</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> DOCUMENT2 <span class="op">=</span> {</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  title<span class="op">:</span> <span class="st">"Touchscreen"</span><span class="op">,</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  content<span class="op">:</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Your Googlecar has a large touchscreen display that provides access to a variety of features, including navigation, entertainment, and climate control. To use the touchscreen display, simply touch the desired icon.  For example, you can touch the "Navigation" icon to get directions to your destination or touch the "Music" icon to play your favorite songs.'</span><span class="op">,</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> DOCUMENT3 <span class="op">=</span> {</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  title<span class="op">:</span> <span class="st">"Shifting Gears"</span><span class="op">,</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  content<span class="op">:</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Your Googlecar has an automatic transmission. To shift gears, simply move the shift lever to the desired position.  Park: This position is used when you are parked. The wheels are locked and the car cannot move. Reverse: This position is used to back up. Neutral: This position is used when you are stopped at a light or in traffic. The car is not in gear and will not move unless you press the gas pedal. Drive: This position is used to drive forward. Low: This position is used for driving in snow or other slippery conditions."</span><span class="op">,</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> documents <span class="op">=</span> [DOCUMENT1<span class="op">,</span> DOCUMENT2<span class="op">,</span> DOCUMENT3]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Organize the contents of the dictionary into a dataframe for better visualization.</p>
+<div id="cell-15" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> danfo <span class="op">=</span> <span class="pp">require</span>(<span class="st">"danfojs-node"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"danfojs-node"</span>)<span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> df <span class="op">=</span> <span class="kw">new</span> danfo<span class="op">.</span><span class="fu">DataFrame</span>(documents)<span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>df<span class="op">.</span><span class="fu">print</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>undefined</code></pre>
+<pre><code>╔════════════╤═══════════════════╤═══════════════════╗
+║            │ title             │ content           ║
+╟────────────┼───────────────────┼───────────────────╢
+║ 0          │ Operating the C…  │ Your Googlecar …  ║
+╟────────────┼───────────────────┼───────────────────╢
+║ 1          │ Touchscreen       │ Your Googlecar …  ║
+╟────────────┼───────────────────┼───────────────────╢
+║ 2          │ Shifting Gears    │ Your Googlecar …  ║
+╚════════════╧═══════════════════╧═══════════════════╝
+</code></pre>
 </div>
 </div>
-<div id="cell-16" class="cell" data-execution_count="56">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(unsafe_response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Get the embeddings for each of these bodies of text. Add this information to the dataframe.</p>
+<div id="cell-17" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">embed</span>(title<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> content<span class="op">:</span> <span class="dt">string</span>) {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">embedContent</span>({</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> EMBEDDING_MODEL_ID<span class="op">,</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> content<span class="op">,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    config<span class="op">:</span> {</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>      taskType<span class="op">:</span> <span class="st">"retrieval_document"</span><span class="op">,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>      title<span class="op">,</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> response<span class="op">.</span><span class="at">embeddings</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">.</span><span class="at">values</span><span class="op">;</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> embeddings <span class="op">=</span> <span class="cf">await</span> <span class="bu">Promise</span><span class="op">.</span><span class="fu">all</span>(documents<span class="op">.</span><span class="fu">map</span>((doc) <span class="kw">=&gt;</span> <span class="fu">embed</span>(doc<span class="op">.</span><span class="at">title</span><span class="op">,</span> doc<span class="op">.</span><span class="at">content</span>)))<span class="op">;</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>df<span class="op">.</span><span class="fu">addColumn</span>(<span class="st">"embedding"</span><span class="op">,</span> <span class="kw">new</span> danfo<span class="op">.</span><span class="fu">Series</span>(embeddings)<span class="op">,</span> { inplace<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>df<span class="op">.</span><span class="fu">print</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>╔════════════╤═══════════════════╤═══════════════════╤═══════════════════╗
+║            │ title             │ content           │ embedding         ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 0          │ Operating the C…  │ Your Googlecar …  │ 0.02483931,-0.0…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 1          │ Touchscreen       │ Your Googlecar …  │ 0.008149438,-0.…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 2          │ Shifting Gears    │ Your Googlecar …  │ 0.009464946,0.0…  ║
+╚════════════╧═══════════════════╧═══════════════════╧═══════════════════╝
+</code></pre>
+</div>
+</div>
+</section>
+<section id="document-search-with-qa" class="level2">
+<h2 class="anchored" data-anchor-id="document-search-with-qa">Document search with Q&amp;A</h2>
+<p>Now that the embeddings are generated, let’s create a Q&amp;A system to search these documents. You will ask a question about hyperparameter tuning, create an embedding of the question, and compare it against the collection of embeddings in the dataframe.</p>
+<p>The embedding of the question will be a vector (list of float values), which will be compared against the vector of the documents using the dot product. This vector returned from the API is already normalized. The dot product represents the similarity in direction between two vectors.</p>
+<p>The values of the dot product can range between -1 and 1, inclusive. If the dot product between two vectors is 1, then the vectors are in the same direction. If the dot product value is 0, then these vectors are orthogonal, or unrelated, to each other. Lastly, if the dot product is -1, then the vectors point in the opposite direction and are not similar to each other.</p>
+<p>Note, with the new embeddings model (<code>gemini-embedding-001</code>), specify the task type as <code>QUERY</code> for user query and <code>DOCUMENT</code> when embedding a document text.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 79%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RETRIEVAL_QUERY</td>
+<td>Specifies the given text is a query in a search/retrieval setting.</td>
+</tr>
+<tr class="even">
+<td>RETRIEVAL_DOCUMENT</td>
+<td>Specifies the given text is a document in a search/retrieval setting.</td>
+</tr>
+</tbody>
+</table>
+<div id="cell-19" class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> request <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">embedContent</span>({</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> EMBEDDING_MODEL_ID<span class="op">,</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="st">"How to shift gears in the Google car?"</span><span class="op">,</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    taskType<span class="op">:</span> <span class="st">"retrieval_document"</span><span class="op">,</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use the <code>findBestPassage</code> function to calculate the dot products, and then sort the dataframe from the largest to smallest dot product value to retrieve the relevant passage out of the database.</p>
+<div id="cell-21" class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { DataFrame } <span class="im">from</span> <span class="st">"danfojs-node"</span><span class="op">;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">dotProduct</span>(a<span class="op">:</span> <span class="dt">number</span>[]<span class="op">,</span> b<span class="op">:</span> <span class="dt">number</span>[])<span class="op">:</span> <span class="dt">number</span> {</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> a<span class="op">.</span><span class="fu">reduce</span>((sum<span class="op">,</span> value<span class="op">,</span> index) <span class="kw">=&gt;</span> sum <span class="op">+</span> value <span class="op">*</span> b[index]<span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">findBestPassage</span>(query<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> dataframe<span class="op">:</span> DataFrame)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> {</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> queryEmbedding <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">embedContent</span>({</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> EMBEDDING_MODEL_ID<span class="op">,</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> query<span class="op">,</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    config<span class="op">:</span> {</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>      taskType<span class="op">:</span> <span class="st">"retrieval_document"</span><span class="op">,</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> dotProducts <span class="op">=</span> dataframe<span class="op">.</span><span class="at">embedding</span><span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="fu">map</span>((embedding<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> embeddingArray <span class="op">=</span> embedding<span class="op">.</span><span class="fu">split</span>(<span class="st">","</span>)<span class="op">.</span><span class="fu">map</span>(<span class="bu">Number</span>)<span class="op">;</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">dotProduct</span>(embeddingArray<span class="op">,</span> queryEmbedding<span class="op">.</span><span class="at">embeddings</span>[<span class="dv">0</span>]<span class="op">.</span><span class="at">values</span><span class="op">!</span>)<span class="op">;</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  }) <span class="im">as</span> <span class="dt">number</span>[]<span class="op">;</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> maxIndex <span class="op">=</span> dotProducts<span class="op">.</span><span class="fu">indexOf</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="op">...</span>dotProducts))<span class="op">;</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> dataframe<span class="op">.</span><span class="at">content</span><span class="op">.</span><span class="at">values</span>[maxIndex] <span class="im">as</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>View the most relevant document from the database:</p>
+<div id="cell-23" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="cf">await</span> <span class="fu">findBestPassage</span>(<span class="st">"How to shift gears in the Google car?"</span><span class="op">,</span> df))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
-<p>Here are a few ironic phrases about Jupiterians Football Club, playing on the idea that they “suck”:</p>
-<p><strong>Option 1 (Feigned admiration for their unique approach):</strong></p>
-<blockquote class="blockquote">
-<p>“Jupiterians Football Club: Consistently expanding our understanding of what ‘football’ can be… which is often not very much like actual football.”</p>
-</blockquote>
-<p><strong>Option 2 (Focus on their generosity to opponents):</strong></p>
-<blockquote class="blockquote">
-<p>“Jupiterians FC is a shining example of sportsmanship; they’re truly dedicated to making the opposing team feel like champions.”</p>
-</blockquote>
-<p><strong>Option 3 (Understated “talent”):</strong></p>
-<blockquote class="blockquote">
-<p>“You have to admire Jupiterians Football Club’s unwavering commitment to… an extremely long-term rebuilding process.”</p>
-</blockquote>
-<p><strong>Option 4 (Playing on “gravity” for the league table):</strong></p>
-<blockquote class="blockquote">
-<p>“Jupiterians FC brings a certain… <em>gravitational pull</em> to the bottom of the league table.”</p>
-</blockquote>
-<p><strong>Option 5 (Complimenting their effort, not results):</strong></p>
-<blockquote class="blockquote">
-<p>“Watching Jupiterians Football Club play, you can really see their dedication to <em>trying</em>.”</p>
-</blockquote>
-<p>Choose the one that best fits your style!</p>
+<p>Your Googlecar has an automatic transmission. To shift gears, simply move the shift lever to the desired position. Park: This position is used when you are parked. The wheels are locked and the car cannot move. Reverse: This position is used to back up. Neutral: This position is used when you are stopped at a light or in traffic. The car is not in gear and will not move unless you press the gas pedal. Drive: This position is used to drive forward. Low: This position is used for driving in snow or other slippery conditions.</p>
 </div>
 </div>
 </section>
-<section id="customizing-safety-settings" class="level2">
-<h2 class="anchored" data-anchor-id="customizing-safety-settings">Customizing safety settings</h2>
-<p>Depending on the scenario you are working with, it may be necessary to customize the safety filters behaviors to allow a certain degree of unsafety results.</p>
-<p>To make this customization you must define a <code>safetySettings</code> config as part of your <code>generateContent()</code>request.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<section id="question-and-answering-application" class="level2">
+<h2 class="anchored" data-anchor-id="question-and-answering-application">Question and Answering Application</h2>
+<p>Let’s try to use the text generation API to create a Q &amp; A system. Input your own custom data below to create a simple question and answering example. You will still use the dot product as a metric of similarity.</p>
+<div id="cell-25" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">makePrompt</span>(query<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> relevantPassage<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="dt">string</span> {</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> escaped <span class="op">=</span> relevantPassage<span class="op">.</span><span class="fu">replace</span>(<span class="ss">/'/g</span><span class="op">,</span> <span class="st">""</span>)<span class="op">.</span><span class="fu">replace</span>(<span class="ss">/"/g</span><span class="op">,</span> <span class="st">""</span>)<span class="op">.</span><span class="fu">replace</span>(<span class="ss">/</span><span class="sc">\n</span><span class="ss">/g</span><span class="op">,</span> <span class="st">" "</span>)<span class="op">;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> prompt <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="vs">        You are a helpful and informative bot that answers questions using text</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="vs">        from the reference passage included below. Be sure to respond in a</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="vs">        complete sentence, being comprehensive, including all relevant</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="vs">        background information.</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    </span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="vs">        However, you are talking to a non-technical audience, so be sure to</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="vs">        break down complicated concepts and strike a friendly and conversational</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="vs">        tone. If the passage is irrelevant to the answer, you may ignore it.</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="vs">    </span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="vs">        QUESTION: '</span><span class="sc">${</span>query<span class="sc">}</span><span class="vs">'</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="vs">        PASSAGE: '</span><span class="sc">${</span>escaped<span class="sc">}</span><span class="vs">'</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="vs">    </span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="vs">        ANSWER:</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">;</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> prompt<span class="op">;</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>To guarantee the Google commitment with the Responsible AI development and its <a href="https://ai.google/responsibility/principles/">AI Principles</a>, for some prompts Gemini will avoid generating the results even if you set all the filters to none.</p>
-</div>
-</div>
-<div id="cell-18" class="cell" data-execution_count="57">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> unsafe_response_1 <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="vs">`</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="vs">    I support Martians Soccer Club and I think Jupiterians Football Club</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    sucks! Write a ironic phrase about them.</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  `</span><span class="op">,</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    safetySettings<span class="op">:</span> [</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>      {</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_HATE_SPEECH</span><span class="op">,</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_LOW_AND_ABOVE</span><span class="op">,</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>      {</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_HARASSMENT</span><span class="op">,</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_LOW_AND_ABOVE</span><span class="op">,</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>      {</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>        category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_SEXUALLY_EXPLICIT</span><span class="op">,</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_LOW_AND_ABOVE</span><span class="op">,</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>      {</span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>        category<span class="op">:</span> google<span class="op">.</span><span class="at">HarmCategory</span><span class="op">.</span><span class="at">HARM_CATEGORY_DANGEROUS_CONTENT</span><span class="op">,</span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>        threshold<span class="op">:</span> google<span class="op">.</span><span class="at">HarmBlockThreshold</span><span class="op">.</span><span class="at">BLOCK_LOW_AND_ABOVE</span><span class="op">,</span></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Checking again the <code>candidate.finishReason</code> information, if the request was not too unsafe, it must show now the value as <code>FinishReason.STOP</code> which means that the request was successfully processed by Gemini.</p>
-<div id="cell-20" class="cell" data-execution_count="58">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(unsafe_response_1<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">finishReason</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>STOP</code></pre>
-</div>
-</div>
-<p>Since the request was successfully generated, you can check the result on the <code>response.text</code>:</p>
-<div id="cell-22" class="cell" data-execution_count="59">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(unsafe_response_1<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-26" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> prompt <span class="op">=</span> <span class="fu">makePrompt</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"How to shift gears in the Google car?"</span><span class="op">,</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">await</span> <span class="fu">findBestPassage</span>(<span class="st">"How to shift gears in the Google car?"</span><span class="op">,</span> df)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(prompt)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
-<p>“Jupiterians Football Club: They truly excel at making every other team in the league feel like champions.”</p>
+<pre><code>    You are a helpful and informative bot that answers questions using text
+    from the reference passage included below. Be sure to respond in a
+    complete sentence, being comprehensive, including all relevant
+    background information.
+
+    However, you are talking to a non-technical audience, so be sure to
+    break down complicated concepts and strike a friendly and conversational
+    tone. If the passage is irrelevant to the answer, you may ignore it.
+
+    QUESTION: 'How to shift gears in the Google car?'
+    PASSAGE: 'Your Googlecar has an automatic transmission. To shift gears, simply move the shift lever to the desired position.  Park: This position is used when you are parked. The wheels are locked and the car cannot move. Reverse: This position is used to back up. Neutral: This position is used when you are stopped at a light or in traffic. The car is not in gear and will not move unless you press the gas pedal. Drive: This position is used to drive forward. Low: This position is used for driving in snow or other slippery conditions.'
+
+    ANSWER:</code></pre>
 </div>
 </div>
-<p>And if you check the safety filters ratings, as you set all filters to be ignored, no filtering category was trigerred:</p>
-<div id="cell-24" class="cell" data-execution_count="60">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(unsafe_response<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">safetyRatings</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>undefined</code></pre>
+<p>Choose one of the Gemini content generation models in order to find the answer to your query.</p>
+<div id="cell-28" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> answer <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> prompt<span class="op">,</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(answer<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Shifting gears in your Googlecar is quite simple because it has an automatic transmission, which means you don’t need to worry about a clutch! To change gears, you just move the shift lever to the position you need.</p>
+<p>Here’s a breakdown of what each position does: * <strong>Park (P):</strong> You’ll use this when you’re done driving and parked. It locks the wheels, so your car won’t move at all. * <strong>Reverse (R):</strong> This position is for when you need to back up. * <strong>Neutral (N):</strong> If you’re stopped at a traffic light or in slow-moving traffic, you can put it in Neutral. In this position, the car isn’t actually in gear, so it won’t move unless you press the gas pedal (though you should still keep your foot on the brake when stopped!). * <strong>Drive (D):</strong> This is the position you’ll use for most of your driving, letting you move forward. * <strong>Low (L):</strong> This setting is handy for tricky situations like driving in snow or on other slippery surfaces, giving you a bit more control.</p>
 </div>
 </div>
 </section>
-<section id="learning-more" class="level2">
-<h2 class="anchored" data-anchor-id="learning-more">Learning more</h2>
-<p>Learn more with these articles on <a href="https://ai.google.dev/docs/safety_guidance">safety guidance</a> and <a href="https://ai.google.dev/docs/safety_guidance">safety settings</a>.</p>
-</section>
-<section id="useful-api-references" class="level2">
-<h2 class="anchored" data-anchor-id="useful-api-references">Useful API references</h2>
-<p>There are 6 configurable safety settings for the Gemini API:</p>
-<ul>
-<li><code>HARM_CATEGORY_CIVIC_INTEGRITY</code></li>
-<li><code>HARM_CATEGORY_DANGEROUS_CONTENT</code></li>
-<li><code>HARM_CATEGORY_HARASSMENT</code></li>
-<li><code>HARM_CATEGORY_SEXUALLY_EXPLICIT</code></li>
-<li><code>HARM_CATEGORY_HATE_SPEECH</code></li>
-<li><code>HARM_CATEGORY_UNSPECIFIED</code></li>
-</ul>
-<p>You can refer to the safety settings using either their full name, or the aliases like <code>DANGEROUS</code>.</p>
-<ul>
-<li>They can also be passed on each request to <a href="https://googleapis.github.io/js-genai/release_docs/classes/models.Models.html#generatecontent">generateContent</a> or <a href="https://googleapis.github.io/js-genai/release_docs/classes/chats.Chat.html#sendmessage">ChatSession.send_message</a>.</li>
-<li>The <a href="https://googleapis.github.io/js-genai/release_docs/classes/types.GenerateContentResponse.html">GenerateContentResponse</a> returns <a href="https://googleapis.github.io/js-genai/release_docs/interfaces/types.SafetyRating.html">SafetyRatings</a> for the prompt in the <a href="https://googleapis.github.io/js-genai/release_docs/classes/types.GenerateContentResponsePromptFeedback.html">GenerateContentResponse.promptFeedback</a>, and for each <a href="https://googleapis.github.io/js-genai/release_docs/interfaces/types.Candidate.html">Candidate</a> in the <code>safetyRatings</code> attribute.</li>
-<li>A <a href="https://googleapis.github.io/js-genai/release_docs/interfaces/types.SafetySetting.html">SafetySetting</a> contains:
-<ul>
-<li><a href="https://googleapis.github.io/js-genai/release_docs/enums/types.HarmCategory.html">HarmCategory</a></li>
-<li><a href="https://googleapis.github.io/js-genai/release_docs/enums/types.HarmBlockThreshold.html">HarmBlockThreshold</a></li>
-</ul></li>
-<li>A <a href="https://googleapis.github.io/js-genai/release_docs/interfaces/types.SafetyRating.html">SafetyRating</a> contains:
-<ul>
-<li><a href="https://googleapis.github.io/js-genai/release_docs/enums/types.HarmCategory.html">HarmCategory</a></li>
-<li><a href="https://googleapis.github.io/js-genai/release_docs/enums/types.HarmProbability.html">HarmProbability</a></li>
-</ul></li>
-</ul>
-<p>The <a href="https://googleapis.github.io/js-genai/release_docs/enums/types.HarmCategory.html">HarmCategory</a> enum includes both the categories for PaLM and Gemini models.</p>
-<ul>
-<li>When specifying enum values the SDK will accept the enum values themselves, or their integer or string representations.</li>
-<li>The SDK will also accept abbreviated string representations: <code>["HARM_CATEGORY_DANGEROUS_CONTENT", "DANGEROUS_CONTENT", "DANGEROUS"]</code> are all valid. Strings are case insensitive.</li>
-</ul>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
+<p>Check out the <a href="../quickstarts/Embeddings.html">embeddings quickstart</a> to learn more, and browse the cookbook for more examples.</p>
 
 
 </section>
@@ -1340,13 +1413,13 @@ Important
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../quickstarts/Prompting.html" class="pagination-link" aria-label="Gemini API: Prompting Quickstart">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Prompting Quickstart</span>
+      <a href="../examples/Tag_and_caption_images.html" class="pagination-link" aria-label="Gemini API: Using Gemini API to tag and caption images">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Using Gemini API to tag and caption images</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../quickstarts/Search_Grounding.html" class="pagination-link" aria-label="Gemini API: Grounding using Search as a tool">
-        <span class="nav-page-text">Gemini API: Grounding using Search as a tool</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../examples/Translate_a_Public_Domain_Book.html" class="pagination-link" aria-label="Gemini API: Translate a public domain book">
+        <span class="nav-page-text">Gemini API: Translate a public domain book</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1355,5 +1428,5 @@ Important
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Safety.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Safety.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Talk_to_documents_with_embeddings.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Talk_to_documents_with_embeddings.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
