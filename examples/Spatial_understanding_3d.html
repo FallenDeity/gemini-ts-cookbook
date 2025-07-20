@@ -710,13 +710,28 @@ Important
 </div>
 </div>
 <p>Pointing is an important capability for vision language models, because that allows the model to refer to an entity precisely. Gemini 2.0 Flash has improved accuracy on spatial understanding, with 2D point prediction as an experimental feature. Below you’ll see that pointing can be combined with reasoning.</p>
-<p><img src="https://storage.googleapis.com/generativeai-downloads/images/pointing.png"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://storage.googleapis.com/generativeai-downloads/images/pointing.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Pointing Example"><img src="https://storage.googleapis.com/generativeai-downloads/images/pointing.png" class="img-fluid figure-img" alt="Pointing Example"></a></p>
+<figcaption>Pointing Example</figcaption>
+</figure>
+</div>
 <p>Traditionally, a Vision Language Model (VLM) sees the world in 2D, however, <a href="https://ai.google.dev/gemini-api/docs/models/gemini-v2">Gemini 2.0 Flash</a> can perform 3D detection. The model has a general sense of the space and knows where the objects are in 3D space.</p>
-<p><img src="https://storage.googleapis.com/generativeai-downloads/images/box_3d.png"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://storage.googleapis.com/generativeai-downloads/images/box_3d.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="3D Detection Example"><img src="https://storage.googleapis.com/generativeai-downloads/images/box_3d.png" class="img-fluid figure-img" alt="3D Detection Example"></a></p>
+<figcaption>3D Detection Example</figcaption>
+</figure>
+</div>
 <p>The model will respond to spatial understanding-related requests in json format to facilitate parsing, and the coordinates always have the same conventions. For this example to be more readable, it overlays the spatial signals on the image, and the readers can hover their cursor on the image to get the complete response. The coordinates are in the image frame, and are normalized into an integer between 0-1000. The top left is <code>(0,0)</code> and the bottom right is <code>(1000,1000)</code>. The point is in <code>[y, x]</code> order, and 2d bounding boxes are in <code>y_min, x_min, y_max, x_max</code> order.</p>
 <p>Additionally, 3D bounding boxes are represented with 9 numbers, the first 3 numbers represent the center of the object in camera frame, they are in metric units; the next 3 numbers represent the size of the object in meters, and the last 3 numbers are Euler angles representing row, pitch and yaw, they are in degree.</p>
 <p>To learn more about 2D spatial understanding, please take a look at <a href="../quickstarts/Spatial_understanding.html">2d examples</a> and the <a href="https://aistudio.google.com/starter-apps/spatial">Spatial understanding example</a> from <a href="https://aistudio.google.com">Google AI Studio</a>.</p>
-<p><a href="../quickstarts/Spatial_understanding.html"><img src="https://storage.googleapis.com/generativeai-downloads/images/cupcakes_with_bbox.png" width="300"></a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://storage.googleapis.com/generativeai-downloads/images/cupcakes_with_bbox.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Cupcakes with Bounding Box"><img src="https://storage.googleapis.com/generativeai-downloads/images/cupcakes_with_bbox.png" class="img-fluid figure-img" alt="Cupcakes with Bounding Box"></a></p>
+<figcaption>Cupcakes with Bounding Box</figcaption>
+</figure>
+</div>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -937,7 +952,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Spatial_understanding_3d_files/figure-html/cell-9-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Spatial_understanding_3d_files/figure-html/cell-9-output-1.jpeg" class="img-fluid figure-img"></a></p>
+<p><a href="Spatial_understanding_3d_files/figure-html/cell-9-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="Spatial_understanding_3d_files/figure-html/cell-9-output-1.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -993,7 +1008,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Spatial_understanding_3d_files/figure-html/cell-11-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="Spatial_understanding_3d_files/figure-html/cell-11-output-1.jpeg" class="img-fluid figure-img"></a></p>
+<p><a href="Spatial_understanding_3d_files/figure-html/cell-11-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="Spatial_understanding_3d_files/figure-html/cell-11-output-1.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1053,7 +1068,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Spatial_understanding_3d_files/figure-html/cell-13-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="Spatial_understanding_3d_files/figure-html/cell-13-output-1.jpeg" class="img-fluid figure-img"></a></p>
+<p><a href="Spatial_understanding_3d_files/figure-html/cell-13-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="Spatial_understanding_3d_files/figure-html/cell-13-output-1.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1140,7 +1155,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Spatial_understanding_3d_files/figure-html/cell-15-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="Spatial_understanding_3d_files/figure-html/cell-15-output-1.jpeg" class="img-fluid figure-img"></a></p>
+<p><a href="Spatial_understanding_3d_files/figure-html/cell-15-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="Spatial_understanding_3d_files/figure-html/cell-15-output-1.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1198,7 +1213,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Spatial_understanding_3d_files/figure-html/cell-17-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="Spatial_understanding_3d_files/figure-html/cell-17-output-1.jpeg" class="img-fluid figure-img"></a></p>
+<p><a href="Spatial_understanding_3d_files/figure-html/cell-17-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="Spatial_understanding_3d_files/figure-html/cell-17-output-1.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1260,7 +1275,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Spatial_understanding_3d_files/figure-html/cell-19-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="Spatial_understanding_3d_files/figure-html/cell-19-output-1.jpeg" class="img-fluid figure-img"></a></p>
+<p><a href="Spatial_understanding_3d_files/figure-html/cell-19-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="Spatial_understanding_3d_files/figure-html/cell-19-output-1.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1323,7 +1338,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Spatial_understanding_3d_files/figure-html/cell-21-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="Spatial_understanding_3d_files/figure-html/cell-21-output-1.jpeg" class="img-fluid figure-img"></a></p>
+<p><a href="Spatial_understanding_3d_files/figure-html/cell-21-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="Spatial_understanding_3d_files/figure-html/cell-21-output-1.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1379,7 +1394,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Spatial_understanding_3d_files/figure-html/cell-23-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="Spatial_understanding_3d_files/figure-html/cell-23-output-1.jpeg" class="img-fluid figure-img"></a></p>
+<p><a href="Spatial_understanding_3d_files/figure-html/cell-23-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="Spatial_understanding_3d_files/figure-html/cell-23-output-1.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1433,7 +1448,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Spatial_understanding_3d_files/figure-html/cell-25-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="Spatial_understanding_3d_files/figure-html/cell-25-output-1.jpeg" class="img-fluid figure-img"></a></p>
+<p><a href="Spatial_understanding_3d_files/figure-html/cell-25-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="Spatial_understanding_3d_files/figure-html/cell-25-output-1.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1495,7 +1510,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Spatial_understanding_3d_files/figure-html/cell-27-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="Spatial_understanding_3d_files/figure-html/cell-27-output-1.jpeg" class="img-fluid figure-img"></a></p>
+<p><a href="Spatial_understanding_3d_files/figure-html/cell-27-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="Spatial_understanding_3d_files/figure-html/cell-27-output-1.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1763,7 +1778,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Spatial_understanding_3d_files/figure-html/cell-30-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="Spatial_understanding_3d_files/figure-html/cell-30-output-1.jpeg" class="img-fluid figure-img"></a></p>
+<p><a href="Spatial_understanding_3d_files/figure-html/cell-30-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="Spatial_understanding_3d_files/figure-html/cell-30-output-1.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1820,7 +1835,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Spatial_understanding_3d_files/figure-html/cell-32-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="Spatial_understanding_3d_files/figure-html/cell-32-output-1.jpeg" class="img-fluid figure-img"></a></p>
+<p><a href="Spatial_understanding_3d_files/figure-html/cell-32-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="Spatial_understanding_3d_files/figure-html/cell-32-output-1.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1877,7 +1892,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Spatial_understanding_3d_files/figure-html/cell-34-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="Spatial_understanding_3d_files/figure-html/cell-34-output-1.jpeg" class="img-fluid figure-img"></a></p>
+<p><a href="Spatial_understanding_3d_files/figure-html/cell-34-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="Spatial_understanding_3d_files/figure-html/cell-34-output-1.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1921,7 +1936,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Spatial_understanding_3d_files/figure-html/cell-36-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="Spatial_understanding_3d_files/figure-html/cell-36-output-1.jpeg" class="img-fluid figure-img"></a></p>
+<p><a href="Spatial_understanding_3d_files/figure-html/cell-36-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="Spatial_understanding_3d_files/figure-html/cell-36-output-1.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
