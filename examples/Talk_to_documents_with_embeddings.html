@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API: Audio Quickstart – Gemini Cookbook</title>
+<title>Document search with embeddings – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -117,10 +117,10 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Gemini API: Audio Quickstart – Gemini Cookbook">
+<meta property="og:title" content="Document search with embeddings – Gemini Cookbook">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta name="twitter:title" content="Gemini API: Audio Quickstart – Gemini Cookbook">
+<meta name="twitter:title" content="Document search with embeddings – Gemini Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -176,7 +176,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Talk_to_documents_with_embeddings.html">Gemini API: Audio Quickstart</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Talk_to_documents_with_embeddings.html">Document search with embeddings</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -308,7 +308,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../examples/Talk_to_documents_with_embeddings.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Gemini API: Audio Quickstart</span></a>
+ <span class="menu-text">Document search with embeddings</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -664,9 +664,9 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Talk_to_documents_with_embeddings.html">Gemini API: Audio Quickstart</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Talk_to_documents_with_embeddings.html">Document search with embeddings</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Gemini API: Audio Quickstart</h1>
+<h1 class="title">Document search with embeddings</h1>
 </div>
 
 
@@ -1000,7 +1000,14 @@ Note
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(answer<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>Shifting gears in your Googlecar is quite simple because it has an automatic transmission, which means you don’t need to worry about a clutch! To change gears, you just move the shift lever to the position you need.</p>
-<p>Here’s a breakdown of what each position does: * <strong>Park (P):</strong> You’ll use this when you’re done driving and parked. It locks the wheels, so your car won’t move at all. * <strong>Reverse (R):</strong> This position is for when you need to back up. * <strong>Neutral (N):</strong> If you’re stopped at a traffic light or in slow-moving traffic, you can put it in Neutral. In this position, the car isn’t actually in gear, so it won’t move unless you press the gas pedal (though you should still keep your foot on the brake when stopped!). * <strong>Drive (D):</strong> This is the position you’ll use for most of your driving, letting you move forward. * <strong>Low (L):</strong> This setting is handy for tricky situations like driving in snow or on other slippery surfaces, giving you a bit more control.</p>
+<p>Here’s a breakdown of what each position does:</p>
+<ul>
+<li><strong>Park (P):</strong> You’ll use this when you’re done driving and parked. It locks the wheels, so your car won’t move at all.</li>
+<li><strong>Reverse (R):</strong> This position is for when you need to back up.</li>
+<li><strong>Neutral (N):</strong> If you’re stopped at a traffic light or in slow-moving traffic, you can put it in Neutral. In this position, the car isn’t actually in gear, so it won’t move unless you press the gas pedal (though you should still keep your foot on the brake when stopped!).</li>
+<li><strong>Drive (D):</strong> This is the position you’ll use for most of your driving, letting you move forward.</li>
+<li><strong>Low (L):</strong> This setting is handy for tricky situations like driving in snow or on other slippery surfaces, giving you a bit more control.</li>
+</ul>
 </div>
 </div>
 </section>
