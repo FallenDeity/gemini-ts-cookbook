@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Search Wikipedia using ReAct – Gemini Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../examples/Spatial_understanding_3d.html" rel="next">
+<link href="../examples/Search_reranking_using_embeddings.html" rel="prev">
+<link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-73468ec7cfdc29adaa9e90c901492850.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-GE1DFPVL15"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<meta property="og:title" content="Search Wikipedia using ReAct – Gemini Cookbook">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Gemini Cookbook">
+<meta name="twitter:title" content="Search Wikipedia using ReAct – Gemini Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Gemini Cookbook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../quickstarts/Get_started.html" aria-current="page"> 
+<span class="menu-text">Quickstarts</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://github.com/FallenDeity/deepmind-starter/">
+            Source Code
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Search_Wikipedia_using_ReAct.html">Search Wikipedia using ReAct</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Examples</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Agents_Function_Calling_Barista_Bot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Agents and Automatic Function Calling with Barista Bot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Historic Event Recognition</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Summarization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Anomaly_detection_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Anomaly detection with embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prompting with an Apollo 11 transcript</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Browser_as_a_tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Browser as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Classify_text_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classify text with embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Entity extraction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guess the shape: Triangle, Square, Pentagon?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/LiveAPI_plotting_and_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.X - Multi-tool with the Multimodal Live API</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create a marketing campaign from a product sketch of a Jet Backpack</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opossum search</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Pdf_structured_outputs_on_invoices_and_forms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Search_grounding_for_research_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Search tool with Gemini 2.x</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Search_reranking_using_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Search re-ranking using Gemini embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Search_Wikipedia_using_ReAct.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Search Wikipedia using ReAct</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Spatial_understanding_3d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pointing and 3D Spatial Understanding with Gemini 2.0 (Experimental)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Story_Writing_with_Prompt_Chaining.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prompt Chaining and Iterative Generation for Story Writing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Tag_and_caption_images.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Using Gemini API to tag and caption images</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Talk_to_documents_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Document search with embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Translate a public domain book</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Voice_memos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Voice memos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Working with Charts, Graphs, and Slide Decks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Json Capabilities</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/json_capabilities/Entity_Extraction_JSON.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Entity Extraction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/json_capabilities/Sentiment_Analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Sentiment Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/json_capabilities/Text_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Text Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/json_capabilities/Text_Summarization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Text Summarization</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Prompting</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Adding_context_information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Adding context information</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Basic_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Basic classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Basic_Code_Generation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Basic code generation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Basic_Evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Basic evaluation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Basic_Information_Extraction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Basic information extraction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Basic_Reasoning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Basic reasoning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Chain_of_thought_prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Chain of thought prompting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Few_shot_prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Few-shot prompting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Providing_base_cases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Providing base cases</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Role_prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Role prompting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Self_ask_prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Self-ask prompting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Zero_shot_prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Zero-shot prompting</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Quickstarts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Audio Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Code Execution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: All about tokens</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Embeddings Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Enum Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: File API Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Function_calling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Function calling with JS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guide: Building AI Tutors with LearnLM via System Instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multimodal Live API - Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting started with the Gemini API OpenAI compatibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Use Gemini thinking</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with information grounding for Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini 2.0 Image output</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: List models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Prompting Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Safety Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Grounding using Search as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2D spatial understanding with Gemini 2.0</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Streaming Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: System instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Video understanding with Gemini</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
+  <ul class="collapse">
+  <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
+  <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
+  <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
+  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
+  <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
+  </ul></li>
+  <li><a href="#the-react-prompt" id="toc-the-react-prompt" class="nav-link" data-scroll-target="#the-react-prompt">The ReAct prompt</a>
+  <ul class="collapse">
+  <li><a href="#few-shot-prompting-to-enable-in-context-learning-with-gemini" id="toc-few-shot-prompting-to-enable-in-context-learning-with-gemini" class="nav-link" data-scroll-target="#few-shot-prompting-to-enable-in-context-learning-with-gemini">Few-shot prompting to enable in-context learning with Gemini</a></li>
+  </ul></li>
+  <li><a href="#the-gemini-react-pipeline" id="toc-the-gemini-react-pipeline" class="nav-link" data-scroll-target="#the-gemini-react-pipeline">The Gemini-ReAct pipeline</a>
+  <ul class="collapse">
+  <li><a href="#define-tools" id="toc-define-tools" class="nav-link" data-scroll-target="#define-tools">Define tools</a></li>
+  <li><a href="#setup-1" id="toc-setup-1" class="nav-link" data-scroll-target="#setup-1">Setup</a></li>
+  <li><a href="#test-react-prompted-gemini-model" id="toc-test-react-prompted-gemini-model" class="nav-link" data-scroll-target="#test-react-prompted-gemini-model">Test ReAct prompted Gemini model</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Search_Wikipedia_using_ReAct.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Search_Wikipedia_using_ReAct.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Search_Wikipedia_using_ReAct.html">Search Wikipedia using ReAct</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Search Wikipedia using ReAct</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This notebook is a minimal implementation of <a href="https://arxiv.org/abs/2210.03629">ReAct: Synergizing Reasoning and Acting in Language Models</a> with the Google <code>gemini-2.5-flash</code> model. You’ll use ReAct prompting to configure a model to search Wikipedia to find the answer to a user’s question.</p>
+<p>In this walkthrough, you will learn how to:</p>
+<ol type="1">
+<li>Set up your development environment and API access to use Gemini.</li>
+<li>Use a ReAct few-shot prompt.</li>
+<li>Use the newly prompted model for multi-turn conversations (chat).</li>
+<li>Connect the model to the Wikipedia API.</li>
+<li>Have conversations with the model (try asking it questions like “how tall is the Eiffel Tower?”) and watch it search Wikipedia.</li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The non-source code materials on this page are licensed under Creative Commons - Attribution-ShareAlike CC-BY-SA 4.0, <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">https://creativecommons.org/licenses/by-sa/4.0/legalcode</a>.</p>
+</div>
+</div>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="install-the-google-genai-sdk" class="level3">
+<h3 class="anchored" data-anchor-id="install-the-google-genai-sdk">Install the Google GenAI SDK</h3>
+<p>Install the Google GenAI SDK from <a href="https://www.npmjs.com/package/@google/genai">npm</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install @google/genai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="setup-your-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="setup-your-api-key">Setup your API key</h3>
+<p>You can <a href="https://aistudio.google.com/app/apikey">create</a> your API key using Google AI Studio with a single click.</p>
+<p>Remember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a <code>.env</code> file. You can also set it as an environment variable or use a secret manager.</p>
+<p>Here’s how to set it up in a <code>.env</code> file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch .env</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;"</span> <span class="op">&gt;&gt;</span> .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another option is to set the API key as an environment variable. You can do this in your terminal with the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export GEMINI_API_KEY=<span class="st">"&lt;YOUR_API_KEY&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="load-the-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-api-key">Load the API key</h3>
+<p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, we can load the API key in our code:</p>
+<div id="cell-4" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../.env"</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GEMINI_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">GEMINI_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>GEMINI_API_KEY) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"GEMINI_API_KEY is not set in the environment variables"</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"GEMINI_API_KEY is set in the environment variables"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEMINI_API_KEY is set in the environment variables</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
+<pre><code>│
+├── .env
+└── examples
+    └── Search_Wikipedia_using_ReAct.ipynb</code></pre>
+</div>
+</div>
+</section>
+<section id="initialize-sdk-client" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
+<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
+<div id="cell-7" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> <span class="st">"AIzaSyA15FY22w3m3EgrNsu0YNFT1enDJLKIAxU"</span> })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="select-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<div id="cell-9" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.0-flash"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="the-react-prompt" class="level2">
+<h2 class="anchored" data-anchor-id="the-react-prompt">The ReAct prompt</h2>
+<p>The prompts used in the paper are available at <a href="https://github.com/ysymyth/ReAct/tree/master/prompts">https://github.com/ysymyth/ReAct/tree/master/prompts</a></p>
+<p>Here, you will be working with the following ReAct prompt with a few minor adjustments.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The prompt and in-context examples used here are borrowed from <a href="https://github.com/ysymyth/ReAct">https://github.com/ysymyth/ReAct</a> which is published under a MIT license.</p>
+</div>
+</div>
+<div id="cell-11" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_INSTRUCTION <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="vs">  Solve a question answering task with interleaving Thought, Action, Observation steps. Thought can reason about the current situation, Observation is understanding relevant information from an Action's output and Action can be of three types:</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="vs">  (1) search, which searches the exact entity on Wikipedia and returns the first paragraph if it exists. If not, it will return some similar entities to search and you can try to search the information from those topics.</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  (2) lookup, which returns the next sentence containing keyword in the current context. This only does exact matches, so keep your searches short.</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  (3) finish, which returns the answer and finishes the task.</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;/search/&gt; : Perform a Wikipedia search via external API. Example: "&lt;search&gt;What is the capital of France?&lt;/search&gt;".</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;/lookup/&gt; : Lookup for specific information on a page with the Wikipedia API. So say once you search and get a page, you can follow up with a lookup to get more information. Example: "&lt;lookup&gt;What is the capital of France?&lt;/lookup&gt;".</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;/finish/&gt; : Stop the execution of the model and return the answer. Example: "&lt;finish&gt;The capital of France is Paris.&lt;/finish&gt;".</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="vs">  Make sure to use the &lt;/search/&gt;, &lt;/lookup/&gt; and &lt;/finish/&gt; tags to indicate the type of action you want to perform and enclose the content of the action in the tags.</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="vs">  If you want to search for a specific entity, use the &lt;/search/&gt; tag. If you want to look up a specific piece of information, use the &lt;/lookup/&gt; tag. If you want to finish the task and return the answer, use the &lt;/finish/&gt; tag.</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="few-shot-prompting-to-enable-in-context-learning-with-gemini" class="level3">
+<h3 class="anchored" data-anchor-id="few-shot-prompting-to-enable-in-context-learning-with-gemini">Few-shot prompting to enable in-context learning with Gemini</h3>
+<p>While large language models show good understanding of the instructions they are prompted with, they still may perform poorly on complex tasks in a zero-shot setting. Hence, you will now provide a few examples along with your prompt to steer the model’s output according to your needs. This in-context learning improves the model’s performance significantly.</p>
+<div id="cell-13" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> examples <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="vs">Here are some examples.</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="vs">Example 1</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="vs">Question:</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="vs">What is the elevation range for the area that the eastern sector of the Colorado orogeny extends into?</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 1</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="vs">I need to search "Colorado orogeny" to find what area the eastern sector extends into.</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 1</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;search&gt;Colorado orogeny&lt;/search&gt;</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="vs">Observation 1</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="vs">The Colorado orogeny was an episode of mountain building (an orogeny) in Colorado and surrounding areas.</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 2</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="vs">The article does not mention the eastern sector. I need to look up "eastern sector".</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 2</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;lookup&gt;eastern sector&lt;/lookup&gt;</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="vs">Observation 2</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="vs">The eastern sector extends into the High Plains and is called the Central Plains orogeny.</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 3</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="vs">The eastern sector extends into the High Plains. I now need to search "High Plains (United States)" to find the elevation range.</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 3</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;search&gt;High Plains (United States)&lt;/search&gt;</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="vs">Observation 3</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="vs">The High Plains are a subregion of the Great Plains. From east to west, the High Plains rise in elevation from around 1,800 to 7,000 ft (550 to 2,130 m).</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 4</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="vs">The elevation range is 1,800 to 7,000 ft.</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 4</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;finish&gt;The elevation range is 1,800 to 7,000 ft.&lt;/finish&gt;</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a><span class="vs">Example 2</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a><span class="vs">Question:</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a><span class="vs">Musician and satirist Allie Goertz wrote a song about the "The Simpsons" character Milhouse, who Matt Groening named after who?</span></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 1</span></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a><span class="vs">I should search "Milhouse" to find out who he was named after.</span></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 1</span></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;search&gt;Milhouse&lt;/search&gt;</span></span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a><span class="vs">Observation 1</span></span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a><span class="vs">Milhouse Mussolini Van Houten is a recurring character in the Fox animated television series The Simpsons voiced by Pamela Hayden and created by Matt Groening.</span></span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 2</span></span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a><span class="vs">The paragraph does not mention who Milhouse is named after. I will look up "named after".</span></span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 2</span></span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;lookup&gt;named after&lt;/lookup&gt;</span></span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a><span class="vs">Observation 2</span></span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a><span class="vs">Milhouse was named after U.S. president Richard Nixon, whose middle name was Milhous.</span></span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 3</span></span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a><span class="vs">Milhouse was named after Richard Nixon.</span></span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 3</span></span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;finish&gt;Milhouse was named after U.S. president Richard Nixon.&lt;/finish&gt;</span></span>
+<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a><span class="vs">Example 3</span></span>
+<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a><span class="vs">Question:</span></span>
+<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a><span class="vs">Which documentary is about Finnish rock groups, Adam Clayton Powell or The Saimaa Gesture?</span></span>
+<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 1</span></span>
+<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a><span class="vs">Search "Adam Clayton Powell" to determine if it's about Finnish rock groups.</span></span>
+<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 1</span></span>
+<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;search&gt;Adam Clayton Powell&lt;/search&gt;</span></span>
+<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a><span class="vs">Observation 1</span></span>
+<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a><span class="vs">Could not find [Adam Clayton Powell]. Similar: ['Adam Clayton Powell III', 'Adam Clayton Powell Jr. State Office Building', 'Adam Clayton Powell (film)', etc.]</span></span>
+<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 2</span></span>
+<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a><span class="vs">Try searching the documentary specifically: "Adam Clayton Powell (film)".</span></span>
+<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-85"><a href="#cb11-85" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 2</span></span>
+<span id="cb11-86"><a href="#cb11-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;search&gt;Adam Clayton Powell (film)&lt;/search&gt;</span></span>
+<span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a><span class="vs">Observation 2</span></span>
+<span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a><span class="vs">Adam Clayton Powell is a 1989 American documentary film about the rise and fall of African-American politician Adam Clayton Powell Jr.</span></span>
+<span id="cb11-90"><a href="#cb11-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-91"><a href="#cb11-91" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 3</span></span>
+<span id="cb11-92"><a href="#cb11-92" aria-hidden="true" tabindex="-1"></a><span class="vs">It is not about Finnish rock groups. Now search "The Saimaa Gesture".</span></span>
+<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-94"><a href="#cb11-94" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 3</span></span>
+<span id="cb11-95"><a href="#cb11-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-96"><a href="#cb11-96" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;search&gt;The Saimaa Gesture&lt;/search&gt;</span></span>
+<span id="cb11-97"><a href="#cb11-97" aria-hidden="true" tabindex="-1"></a><span class="vs">Observation 3</span></span>
+<span id="cb11-98"><a href="#cb11-98" aria-hidden="true" tabindex="-1"></a><span class="vs">The Saimaa Gesture is a 1981 Finnish documentary film about Finnish rock bands Eppu Normaali, Hassisen Kone, and Juice Leskinen Slam on tour.</span></span>
+<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-100"><a href="#cb11-100" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 4</span></span>
+<span id="cb11-101"><a href="#cb11-101" aria-hidden="true" tabindex="-1"></a><span class="vs">The Saimaa Gesture is about Finnish rock groups.</span></span>
+<span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-103"><a href="#cb11-103" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 4</span></span>
+<span id="cb11-104"><a href="#cb11-104" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;finish&gt;The Saimaa Gesture is the documentary about Finnish rock groups.&lt;/finish&gt;</span></span>
+<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-106"><a href="#cb11-106" aria-hidden="true" tabindex="-1"></a><span class="vs">Example 4</span></span>
+<span id="cb11-107"><a href="#cb11-107" aria-hidden="true" tabindex="-1"></a><span class="vs">Question:</span></span>
+<span id="cb11-108"><a href="#cb11-108" aria-hidden="true" tabindex="-1"></a><span class="vs">What profession do Nicholas Ray and Elia Kazan have in common?</span></span>
+<span id="cb11-109"><a href="#cb11-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-110"><a href="#cb11-110" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 1</span></span>
+<span id="cb11-111"><a href="#cb11-111" aria-hidden="true" tabindex="-1"></a><span class="vs">Search "Nicholas Ray" and identify his professions.</span></span>
+<span id="cb11-112"><a href="#cb11-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-113"><a href="#cb11-113" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 1</span></span>
+<span id="cb11-114"><a href="#cb11-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-115"><a href="#cb11-115" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;search&gt;Nicholas Ray&lt;/search&gt;</span></span>
+<span id="cb11-116"><a href="#cb11-116" aria-hidden="true" tabindex="-1"></a><span class="vs">Observation 1</span></span>
+<span id="cb11-117"><a href="#cb11-117" aria-hidden="true" tabindex="-1"></a><span class="vs">Nicholas Ray was an American film director, screenwriter, and actor best known for the film Rebel Without a Cause.</span></span>
+<span id="cb11-118"><a href="#cb11-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-119"><a href="#cb11-119" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 2</span></span>
+<span id="cb11-120"><a href="#cb11-120" aria-hidden="true" tabindex="-1"></a><span class="vs">Now search "Elia Kazan" to compare professions.</span></span>
+<span id="cb11-121"><a href="#cb11-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-122"><a href="#cb11-122" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 2</span></span>
+<span id="cb11-123"><a href="#cb11-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-124"><a href="#cb11-124" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;search&gt;Elia Kazan&lt;/search&gt;</span></span>
+<span id="cb11-125"><a href="#cb11-125" aria-hidden="true" tabindex="-1"></a><span class="vs">Observation 2</span></span>
+<span id="cb11-126"><a href="#cb11-126" aria-hidden="true" tabindex="-1"></a><span class="vs">Elia Kazan was a film and theatre director, producer, screenwriter, and actor.</span></span>
+<span id="cb11-127"><a href="#cb11-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-128"><a href="#cb11-128" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 3</span></span>
+<span id="cb11-129"><a href="#cb11-129" aria-hidden="true" tabindex="-1"></a><span class="vs">Both were directors, screenwriters, and actors.</span></span>
+<span id="cb11-130"><a href="#cb11-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-131"><a href="#cb11-131" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 3</span></span>
+<span id="cb11-132"><a href="#cb11-132" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;finish&gt;Nicholas Ray and Elia Kazan were both directors, screenwriters, and actors.&lt;/finish&gt;</span></span>
+<span id="cb11-133"><a href="#cb11-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-134"><a href="#cb11-134" aria-hidden="true" tabindex="-1"></a><span class="vs">Example 5</span></span>
+<span id="cb11-135"><a href="#cb11-135" aria-hidden="true" tabindex="-1"></a><span class="vs">Question:</span></span>
+<span id="cb11-136"><a href="#cb11-136" aria-hidden="true" tabindex="-1"></a><span class="vs">Which magazine was started first, Arthur's Magazine or First for Women?</span></span>
+<span id="cb11-137"><a href="#cb11-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-138"><a href="#cb11-138" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 1</span></span>
+<span id="cb11-139"><a href="#cb11-139" aria-hidden="true" tabindex="-1"></a><span class="vs">Search "Arthur's Magazine" to find the start year.</span></span>
+<span id="cb11-140"><a href="#cb11-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-141"><a href="#cb11-141" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 1</span></span>
+<span id="cb11-142"><a href="#cb11-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-143"><a href="#cb11-143" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;search&gt;Arthur's Magazine&lt;/search&gt;</span></span>
+<span id="cb11-144"><a href="#cb11-144" aria-hidden="true" tabindex="-1"></a><span class="vs">Observation 1</span></span>
+<span id="cb11-145"><a href="#cb11-145" aria-hidden="true" tabindex="-1"></a><span class="vs">Arthur's Magazine (1844–1846) was a literary periodical published in the 19th century.</span></span>
+<span id="cb11-146"><a href="#cb11-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-147"><a href="#cb11-147" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 2</span></span>
+<span id="cb11-148"><a href="#cb11-148" aria-hidden="true" tabindex="-1"></a><span class="vs">Arthur's Magazine started in 1844. Now search "First for Women".</span></span>
+<span id="cb11-149"><a href="#cb11-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-150"><a href="#cb11-150" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 2</span></span>
+<span id="cb11-151"><a href="#cb11-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-152"><a href="#cb11-152" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;search&gt;First for Women&lt;/search&gt;</span></span>
+<span id="cb11-153"><a href="#cb11-153" aria-hidden="true" tabindex="-1"></a><span class="vs">Observation 2</span></span>
+<span id="cb11-154"><a href="#cb11-154" aria-hidden="true" tabindex="-1"></a><span class="vs">First for Women is a magazine published in the USA. It was started in 1989.</span></span>
+<span id="cb11-155"><a href="#cb11-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-156"><a href="#cb11-156" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 3</span></span>
+<span id="cb11-157"><a href="#cb11-157" aria-hidden="true" tabindex="-1"></a><span class="vs">Arthur's Magazine (1844) was started earlier than First for Women (1989).</span></span>
+<span id="cb11-158"><a href="#cb11-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-159"><a href="#cb11-159" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 3</span></span>
+<span id="cb11-160"><a href="#cb11-160" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;finish&gt;Arthur's Magazine was started first.&lt;/finish&gt;</span></span>
+<span id="cb11-161"><a href="#cb11-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-162"><a href="#cb11-162" aria-hidden="true" tabindex="-1"></a><span class="vs">Example 6</span></span>
+<span id="cb11-163"><a href="#cb11-163" aria-hidden="true" tabindex="-1"></a><span class="vs">Question:</span></span>
+<span id="cb11-164"><a href="#cb11-164" aria-hidden="true" tabindex="-1"></a><span class="vs">Were Pavel Urysohn and Leonid Levin known for the same type of work?</span></span>
+<span id="cb11-165"><a href="#cb11-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-166"><a href="#cb11-166" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 1</span></span>
+<span id="cb11-167"><a href="#cb11-167" aria-hidden="true" tabindex="-1"></a><span class="vs">Search "Pavel Urysohn" and find his field of work.</span></span>
+<span id="cb11-168"><a href="#cb11-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-169"><a href="#cb11-169" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 1</span></span>
+<span id="cb11-170"><a href="#cb11-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-171"><a href="#cb11-171" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;search&gt;Pavel Urysohn&lt;/search&gt;</span></span>
+<span id="cb11-172"><a href="#cb11-172" aria-hidden="true" tabindex="-1"></a><span class="vs">Observation 1</span></span>
+<span id="cb11-173"><a href="#cb11-173" aria-hidden="true" tabindex="-1"></a><span class="vs">Pavel Urysohn was a Soviet mathematician best known for contributions to dimension theory.</span></span>
+<span id="cb11-174"><a href="#cb11-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-175"><a href="#cb11-175" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 2</span></span>
+<span id="cb11-176"><a href="#cb11-176" aria-hidden="true" tabindex="-1"></a><span class="vs">Now search "Leonid Levin" and compare.</span></span>
+<span id="cb11-177"><a href="#cb11-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-178"><a href="#cb11-178" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 2</span></span>
+<span id="cb11-179"><a href="#cb11-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-180"><a href="#cb11-180" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;search&gt;Leonid Levin&lt;/search&gt;</span></span>
+<span id="cb11-181"><a href="#cb11-181" aria-hidden="true" tabindex="-1"></a><span class="vs">Observation 2</span></span>
+<span id="cb11-182"><a href="#cb11-182" aria-hidden="true" tabindex="-1"></a><span class="vs">Leonid Levin is a Soviet-American mathematician and computer scientist.</span></span>
+<span id="cb11-183"><a href="#cb11-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-184"><a href="#cb11-184" aria-hidden="true" tabindex="-1"></a><span class="vs">Thought 3</span></span>
+<span id="cb11-185"><a href="#cb11-185" aria-hidden="true" tabindex="-1"></a><span class="vs">Both were mathematicians, so yes—they were known for the same type of work.</span></span>
+<span id="cb11-186"><a href="#cb11-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-187"><a href="#cb11-187" aria-hidden="true" tabindex="-1"></a><span class="vs">Action 3</span></span>
+<span id="cb11-188"><a href="#cb11-188" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;finish&gt;Yes, both Pavel Urysohn and Leonid Levin were known for work in mathematics.&lt;/finish&gt;</span></span>
+<span id="cb11-189"><a href="#cb11-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-190"><a href="#cb11-190" aria-hidden="true" tabindex="-1"></a><span class="vs">Question</span></span>
+<span id="cb11-191"><a href="#cb11-191" aria-hidden="true" tabindex="-1"></a><span class="vs">{question}</span></span>
+<span id="cb11-192"><a href="#cb11-192" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Copy the instructions along with examples in a file called <code>model_instructions.txt</code></p>
+<div id="cell-15" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_INSTRUCTIONS_FILE <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../assets/ReAct"</span><span class="op">,</span> <span class="st">"model_instructions.txt"</span>)<span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>fs<span class="op">.</span><span class="fu">existsSync</span>(MODEL_INSTRUCTIONS_FILE)) {</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">mkdirSync</span>(path<span class="op">.</span><span class="fu">dirname</span>(MODEL_INSTRUCTIONS_FILE)<span class="op">,</span> { recursive<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(MODEL_INSTRUCTIONS_FILE<span class="op">,</span> MODEL_INSTRUCTION <span class="op">+</span> examples)<span class="op">;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="the-gemini-react-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="the-gemini-react-pipeline">The Gemini-ReAct pipeline</h2>
+<section id="define-tools" class="level3">
+<h3 class="anchored" data-anchor-id="define-tools">Define tools</h3>
+<p>As instructed by the prompt, the model will be generating <strong>Thought-Action-Observation</strong> traces, where every <strong>Action</strong> trace could be one of the following tokens:</p>
+<ul>
+<li><code>&lt;/search/&gt;</code> : Perform a Wikipedia search via external API.</li>
+<li><code>&lt;/lookup/&gt;</code> : Lookup for specific information on a page with the Wikipedia API.</li>
+<li><code>&lt;/finish/&gt;</code> : Stop the execution of the model and return the answer.</li>
+</ul>
+<p>If the model encounters any of these tokens, the model should make use of the <code>tools</code> made available to the model. This understanding of the model to leverage acquired toolsets to collect information from the external world is often referred to as function calling. Therefore, the next goal is to imitate this function calling technique in order to allow ReAct prompted Gemini model to access the external groundtruth.</p>
+<p>The Gemini API supports function calling and you could use this feature to set up your tools. However, for this tutorial, you will learn to simulate it using <code>stop_sequences</code> parameter.</p>
+<p>Define the tools:</p>
+<div id="cell-17" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">AddMethod</span>(methodName<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> method<span class="op">:</span> (<span class="op">...</span>args<span class="op">:</span> <span class="dt">unknown</span>[]) <span class="kw">=&gt;</span> <span class="dt">unknown</span>) {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">function</span> (constructor<span class="op">:</span> <span class="kw">new</span> (<span class="op">...</span>args<span class="op">:</span> <span class="dt">unknown</span>[]) <span class="kw">=&gt;</span> <span class="dt">unknown</span>) {</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(<span class="kw">constructor</span><span class="op">.</span><span class="at">prototype</span><span class="op">,</span> methodName<span class="op">,</span> {</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>      value<span class="op">:</span> method<span class="op">,</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      writable<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      configurable<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="search" class="level4">
+<h4 class="anchored" data-anchor-id="search">Search</h4>
+<p>Define a method to perform Wikipedia searches</p>
+<div id="cell-19" class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> wikipedia <span class="op">=</span> <span class="pp">require</span>(<span class="st">"wikipedia"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"wikipedia"</span>)<span class="op">;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">search</span>(query<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> {</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> observation<span class="op">:</span> <span class="dt">string</span> <span class="op">|</span> <span class="dt">null</span> <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  query <span class="op">=</span> query<span class="op">.</span><span class="fu">trim</span>()<span class="op">;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// try to get the summary for requested `query` from the Wikipedia</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> summary <span class="op">=</span> <span class="cf">await</span> wikipedia<span class="op">.</span><span class="fu">summary</span>(query)<span class="op">;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// @ts-expect-error invalid types</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> page <span class="op">=</span> <span class="cf">await</span> wikipedia<span class="op">.</span><span class="fu">page</span>(summary<span class="op">.</span><span class="at">title</span>)<span class="op">;</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> wikiUrl <span class="op">=</span> page<span class="op">.</span><span class="at">fullurl</span><span class="op">;</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    observation <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">clean</span>(summary<span class="op">.</span><span class="at">extract</span>)<span class="op">;</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">// if successful, return the first 2-3 sentences from the summary as model's context</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> observationResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>      model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>      contents<span class="op">:</span> observation<span class="op">,</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    observation <span class="op">=</span> observationResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">// keep track of the model's search history</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">_searchHistory</span><span class="op">.</span><span class="fu">push</span>(query)<span class="op">;</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">_searchUrls</span><span class="op">.</span><span class="fu">push</span>(wikiUrl)<span class="op">;</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Information Source: </span><span class="sc">${</span>wikiUrl<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (e) {</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">// if the page is ambiguous/does not exist, return similar search phrases for model's context</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    observation <span class="op">=</span> <span class="vs">`Could not find ["</span><span class="sc">${</span>query<span class="sc">}</span><span class="vs">"].`</span><span class="op">;</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">// get a list of similar search topics</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">// @ts-expect-error invalid types</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> searchResults <span class="op">=</span> <span class="cf">await</span> wikipedia<span class="op">.</span><span class="fu">search</span>(query)<span class="op">;</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    observation <span class="op">+=</span> <span class="vs">` Similar: </span><span class="sc">${</span><span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(searchResults)<span class="sc">}</span><span class="vs">. You should search for one of those instead.`</span><span class="op">;</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> observation<span class="op">;</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="lookup" class="level4">
+<h4 class="anchored" data-anchor-id="lookup">Lookup</h4>
+<p>Look for a specific phrase on the Wikipedia page.</p>
+<div id="cell-21" class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">lookup</span>(phrase<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> contextLength <span class="op">=</span> <span class="dv">1000</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> {</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">// get the last searched Wikipedia page and find `phrase` in it.</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// @ts-expect-error invalid types</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> page <span class="op">=</span> <span class="cf">await</span> wikipedia<span class="op">.</span><span class="fu">page</span>(<span class="kw">this</span><span class="op">.</span><span class="at">_searchHistory</span>[<span class="kw">this</span><span class="op">.</span><span class="at">_searchHistory</span><span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span>])<span class="op">;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> cleanedPage <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">clean</span>(<span class="cf">await</span> page<span class="op">.</span><span class="fu">content</span>()) <span class="im">as</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> startIndex <span class="op">=</span> cleanedPage<span class="op">.</span><span class="fu">indexOf</span>(phrase)<span class="op">;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">// extract sentences considering the context length defined</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> result <span class="op">=</span> cleanedPage<span class="op">.</span><span class="fu">substring</span>(</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="dv">0</span><span class="op">,</span> startIndex <span class="op">-</span> contextLength)<span class="op">,</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    startIndex <span class="op">+</span> phrase<span class="op">.</span><span class="at">length</span> <span class="op">+</span> contextLength</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Information Source: </span><span class="sc">${</span><span class="kw">this</span><span class="op">.</span><span class="at">_searchUrls</span>[<span class="kw">this</span><span class="op">.</span><span class="at">_searchUrls</span><span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span>]<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> result<span class="op">;</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="finish" class="level4">
+<h4 class="anchored" data-anchor-id="finish">Finish</h4>
+<p>Instruct the pipline to terminate its execution.</p>
+<div id="cell-23" class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* eslint-disable @typescript-eslint/no-unsafe-member-access */</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">finish</span>(_<span class="op">:</span> <span class="dt">unknown</span>)<span class="op">:</span> <span class="dt">void</span> {</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Instruct the pipline to terminate its execution.</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">_shouldContinue</span> <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Information Sources: </span><span class="sc">${</span><span class="kw">this</span><span class="op">.</span><span class="at">_searchUrls</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="setup-1" class="level3">
+<h3 class="anchored" data-anchor-id="setup-1">Setup</h3>
+<p>You will now build an end-to-end pipeline to facilitate multi-turn chat with the ReAct-prompted Gemini model.</p>
+<div id="cell-25" class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* eslint-disable @typescript-eslint/no-unnecessary-condition */</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Chat<span class="op">,</span> GenerateContentConfig } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>@<span class="fu">AddMethod</span>(<span class="st">"search"</span><span class="op">,</span> search)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>@<span class="fu">AddMethod</span>(<span class="st">"lookup"</span><span class="op">,</span> lookup)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>@<span class="fu">AddMethod</span>(<span class="st">"finish"</span><span class="op">,</span> finish)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ReActPipeline {</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> chat<span class="op">:</span> Chat<span class="op">;</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> _reactPrompt<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> _shouldContinue <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> _searchHistory<span class="op">:</span> <span class="dt">string</span>[] <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> _searchUrls<span class="op">:</span> <span class="dt">string</span>[] <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">constructor</span>(modelId<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> prompt<span class="op">:</span> <span class="dt">string</span>) {</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">chat</span> <span class="op">=</span> ai<span class="op">.</span><span class="at">chats</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>      model<span class="op">:</span> modelId<span class="op">,</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (fs<span class="op">.</span><span class="fu">existsSync</span>(prompt)) {</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">_reactPrompt</span> <span class="op">=</span> fs<span class="op">.</span><span class="fu">readFileSync</span>(prompt<span class="op">,</span> <span class="st">"utf-8"</span>)<span class="op">;</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">_reactPrompt</span> <span class="op">=</span> prompt<span class="op">;</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">query</span>(question<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> maxCalls <span class="op">=</span> <span class="dv">15</span><span class="op">,</span> generateConfig<span class="op">:</span> GenerateContentConfig <span class="op">=</span> {}) {</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">assert</span>(maxCalls <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> maxCalls <span class="op">&lt;=</span> <span class="dv">15</span><span class="op">,</span> <span class="st">"max_calls must be between 1 and 15"</span>)<span class="op">;</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> modelPrompt <span class="op">=</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">chat</span><span class="op">.</span><span class="fu">getHistory</span>()<span class="op">.</span><span class="at">length</span> <span class="op">===</span> <span class="dv">0</span> <span class="op">?</span> <span class="kw">this</span><span class="op">.</span><span class="at">_reactPrompt</span><span class="op">.</span><span class="fu">replace</span>(<span class="st">"{question}"</span><span class="op">,</span> question) <span class="op">:</span> question<span class="op">;</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">// const callableEntities = ["", "", ""];</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">_shouldContinue</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> maxCalls <span class="op">&amp;&amp;</span> <span class="kw">this</span><span class="op">.</span><span class="at">_shouldContinue</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="kw">this</span><span class="op">.</span><span class="at">chat</span><span class="op">.</span><span class="fu">sendMessage</span>({</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>        message<span class="op">:</span> modelPrompt<span class="op">,</span></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>        config<span class="op">:</span> {</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>          <span class="op">...</span>generateConfig<span class="op">,</span></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>          <span class="co">// stopSequences: callableEntities,</span></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>      })<span class="op">;</span></span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> text <span class="op">=</span> response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>      tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(text)<span class="op">;</span></span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> chatHistory <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">chat</span><span class="op">.</span><span class="fu">getHistory</span>()<span class="op">;</span></span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> chatHistoryParts <span class="op">=</span> chatHistory[chatHistory<span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span>]<span class="op">.</span><span class="at">parts</span><span class="op">;</span></span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> lastPart <span class="op">=</span> (chatHistoryParts[chatHistoryParts<span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span>]<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">.</span><span class="fu">trim</span>()<span class="op">;</span></span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> match <span class="op">=</span> <span class="ss">/&lt;</span><span class="sc">([^&gt;]+)</span><span class="ss">&gt;</span><span class="sc">(</span><span class="ss">.</span><span class="sc">*)</span><span class="ss">&lt;</span><span class="sc">\/\1</span><span class="ss">&gt;/</span><span class="op">.</span><span class="fu">exec</span>(lastPart)<span class="op">;</span></span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (match) {</span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> cmd <span class="op">=</span> match[<span class="dv">1</span>]<span class="op">.</span><span class="fu">trim</span>()<span class="op">;</span></span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> query <span class="op">=</span> match[<span class="dv">2</span>]<span class="op">.</span><span class="fu">trim</span>()<span class="op">;</span></span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Command: </span><span class="sc">${</span>cmd<span class="sc">}</span><span class="vs">, Query: </span><span class="sc">${</span>query<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> observation <span class="op">=</span> <span class="cf">await</span> <span class="kw">this</span>[cmd](query)<span class="op">;</span></span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="op">!</span><span class="kw">this</span><span class="op">.</span><span class="at">_shouldContinue</span>) {</span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a>          <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> streamMessage <span class="op">=</span> <span class="vs">`</span><span class="sc">\n</span><span class="vs">Observation </span><span class="sc">${</span>i <span class="op">+</span> <span class="dv">1</span><span class="sc">}\n${</span>observation<span class="sc">}</span><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(streamMessage)<span class="op">;</span></span>
+<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>        modelPrompt <span class="op">=</span> <span class="vs">`&lt;</span><span class="sc">${</span>cmd<span class="sc">}</span><span class="vs">&gt;</span><span class="sc">${</span>query<span class="sc">}${</span>cmd<span class="sc">}</span><span class="vs">'s Output: </span><span class="sc">${</span>streamMessage<span class="sc">}</span><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">warn</span>(</span>
+<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a>          <span class="st">"No valid command found in the response. Please ensure the model is generating valid thought-action-observation traces."</span></span>
+<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a>        )<span class="op">;</span></span>
+<span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a>        modelPrompt <span class="op">=</span> <span class="st">"Please try to generate thought-action-observation traces as instructed by the prompt."</span><span class="op">;</span></span>
+<span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a>      <span class="cf">await</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve) <span class="kw">=&gt;</span> <span class="pp">setTimeout</span>(resolve<span class="op">,</span> <span class="dv">5000</span>))<span class="op">;</span> <span class="co">// wait for 1 second before the next iteration</span></span>
+<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean</span>(text<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="dt">string</span> {</span>
+<span id="cb17-73"><a href="#cb17-73" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> text<span class="op">.</span><span class="fu">replace</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">,</span> <span class="st">" "</span>)<span class="op">;</span></span>
+<span id="cb17-74"><a href="#cb17-74" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-75"><a href="#cb17-75" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="test-react-prompted-gemini-model" class="level3">
+<h3 class="anchored" data-anchor-id="test-react-prompted-gemini-model">Test ReAct prompted Gemini model</h3>
+<div id="cell-27" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> reactChat <span class="op">=</span> <span class="kw">new</span> <span class="fu">ReActPipeline</span>(MODEL_ID<span class="op">,</span> MODEL_INSTRUCTIONS_FILE)<span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> reactChat<span class="op">.</span><span class="fu">query</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"What are the total of ages of the main trio from the new Percy Jackson and the Olympians TV series in real life?"</span><span class="op">,</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">15</span><span class="op">,</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  { temperature<span class="op">:</span> <span class="fl">0.4</span> }</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Thought 1 I need to find the ages of the main trio from the new Percy Jackson and the Olympians TV series in real life. I will start by searching for “Percy Jackson and the Olympians (TV series)”.</p>
+<p>Action 1</p>
+<pre class="tool_code"><code>&lt;search&gt;Percy Jackson and the Olympians (TV series)&lt;/search&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Command: search, Query: Percy Jackson and the Olympians (TV series)
+Information Source: https://en.wikipedia.org/wiki/Percy_Jackson_and_the_Olympians_(TV_series)
+
+Observation 1
+This is a concise and accurate description of the Percy Jackson and the Olympians TV series. It covers the following key information:
+
+*   **Type of media:** American fantasy television series
+*   **Creators:** Rick Riordan and Jonathan E. Steinberg
+*   **Platform:** Disney+
+*   **Source Material:** Based on the book series by Rick Riordan
+*   **Main Cast:** Walker Scobell, Leah Sava Jeffries, and Aryan Simhadri
+*   **Main Character Roles:** Percy Jackson, Annabeth Chase, and Grover Underwood
+
+It's a good, basic summary for someone who is unfamiliar with the series.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Thought 2 Now I know the names of the main trio: Walker Scobell, Leah Sava Jeffries, and Aryan Simhadri. I need to find their ages. I will search for “Walker Scobell age”.</p>
+<p>Action 2</p>
+<pre class="tool_code"><code>&lt;search&gt;Walker Scobell age&lt;/search&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Command: search, Query: Walker Scobell age
+
+Observation 2
+Could not find ["Walker Scobell age"]. Similar: {"results":[{"ns":0,"title":"Walker Scobell","pageid":70525114},{"ns":0,"title":"The Adam Project","pageid":65867428},{"ns":0,"title":"Percy Jackson","pageid":21327279},{"ns":0,"title":"Aryan Simhadri","pageid":74932124},{"ns":0,"title":"Walker (given name)","pageid":68329314},{"ns":0,"title":"Fairview Township, Erie County, Pennsylvania","pageid":132483},{"ns":0,"title":"Hiro Kanagawa","pageid":7200805},{"ns":0,"title":"January 5","pageid":19279054},{"ns":0,"title":"Deadpool &amp; Wolverine","pageid":52234178},{"ns":0,"title":"List of characters played by multiple actors in the same film","pageid":6781845}]}. You should search for one of those instead.</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Thought 3 I should search for the “Walker Scobell” page.</p>
+<p>Action 3</p>
+<pre class="tool_code"><code>&lt;search&gt;Walker Scobell&lt;/search&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Command: search, Query: Walker Scobell
+Information Source: https://en.wikipedia.org/wiki/Walker_Scobell
+
+Observation 3
+This is a good, concise summary of Walker Scobell's career so far. It highlights key information like:
+
+*   **Nationality and birthplace:** American, born in Virginia.
+*   **Age and debut:** Began acting at age 13.
+*   **Early success:** Immediate recognition for lead roles in *The Adam Project* and *Secret Headquarters*.
+*   **Current leading role:** *Percy Jackson and the Olympians* on Disney+.
+
+It effectively summarizes his career trajectory, starting with his breakthrough and ending with his current prominent role.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Thought 4 The summary says he began acting at age 13. I should look for his birthdate to calculate his age.</p>
+<p>Action 4</p>
+<pre class="tool_code"><code>&lt;lookup&gt;age&lt;/lookup&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Command: lookup, Query: age
+Information Source: https://en.wikipedia.org/wiki/Walker_Scobell
+
+Observation 4
+Walker Scobell (born January 5, 2009) is an American actor. Born in Virginia, he made his professional acting debut at age 13 and gained immediate recognition for his lead roles in the science fiction streaming films The Adam Project and Secret Headquarters (both 2022). Scobell received continued recognition with his leading titular role in the Disney+ fantasy series Percy Jackson and the Olympians (2023–present). 
+
+== Life and career ==
+
+
+=== Early life and acting background (2009–2021) ===
+Scobell was born on January 5, 2009, in Virginia Beach, Virginia, to Heather Scobell and Pete Scobell in a military family. He has an older sister and younger brother. Scobell lived in Colorado until the family moved to Fairview, Pennsylvania, where his parents grew up. In elementary school, he attended drama class. He went to Fairview Middle School and acted in the school's production of Mary Poppins. Shortly after, he attended a John D'Aquino acting workshop, hired a manager and signed to an agency. When not traveling or on set, he goes to Fairview High School.
+
+
+=== Acting breakthrough (2022–present) ===
+Scobell au</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Thought 5 Walker Scobell was born on January 5, 2009. It is currently November 26, 2024. So he is 15 years old. Now I need to find Leah Sava Jeffries’ age.</p>
+<p>Action 5</p>
+<pre class="tool_code"><code>&lt;search&gt;Leah Sava Jeffries age&lt;/search&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Command: search, Query: Leah Sava Jeffries age
+
+Observation 5
+Could not find ["Leah Sava Jeffries age"]. Similar: {"results":[{"ns":0,"title":"Leah Jeffries","pageid":74933311},{"ns":0,"title":"Aryan Simhadri","pageid":74932124},{"ns":0,"title":"Rel (TV series)","pageid":57387941},{"ns":0,"title":"Children's and Family Emmy Award for Outstanding Younger Performer","pageid":75815851},{"ns":0,"title":"Camp Half-Blood Chronicles","pageid":11155395},{"ns":0,"title":"X-Men","pageid":34218},{"ns":0,"title":"56th NAACP Image Awards","pageid":78827527},{"ns":0,"title":"A&amp;F Quarterly","pageid":2963556},{"ns":0,"title":"List of American films of 2020","pageid":47216268},{"ns":0,"title":"List of victims of the September 11 attacks (O–Z)","pageid":71965641}]}. You should search for one of those instead.</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Thought 6 I should search for “Leah Jeffries”.</p>
+<p>Action 6</p>
+<pre class="tool_code"><code>&lt;search&gt;Leah Jeffries&lt;/search&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Command: search, Query: Leah Jeffries
+Information Source: https://en.wikipedia.org/wiki/Leah_Jeffries
+
+Observation 6
+This is a good, concise biography of Leah Sava Jeffries. It highlights key aspects of her career, including:
+
+*   **Her acting debut:** Empire (2015)
+*   **Her feature film debut:** Beast (2022)
+*   **Her breakthrough role:** Annabeth Chase in Percy Jackson &amp; the Olympians
+*   **Her awards and nominations:** Two NAACP Image Awards and a Children's and Family Emmy Award nomination.
+
+The information is accurate and presented in a clear, easy-to-understand manner. It effectively summarizes her rising prominence in the acting world.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Thought 7 I need to find her age.</p>
+<p>Action 7</p>
+<pre class="tool_code"><code>&lt;lookup&gt;age&lt;/lookup&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Command: lookup, Query: age
+Information Source: https://en.wikipedia.org/wiki/Leah_Jeffries
+
+Observation 7
+Leah Sava Jeffries (; born September 25, 2009) is an American actress. Jeffries made her acting debut on the American musical drama, Empire (2015) and later her feature film debut in the action-thriller Beast (2022). In 2022, Jeffries was cast as Annabeth Chase in the television adaptation of Rick Riordan's fantasy novel series, Percy Jackson &amp; the Olympians, which earned her two NAACP Image Awards, along with a nomination for the Children's and Family Emmy Award for Outstanding Younger Performer. 
+
+== Early life ==
+Jeffries was born in Detroit, Michigan to Leah Jeffries and Floyd S. Jeffries Jr. She has an older brother, Floyd Jeffries, who is also an actor and model. She attended school in the Novi Community School District.
+
+
+== Career ==
+Prior to her acting debut, Jeffries worked as a model for children's products for Carol's Daughter. Jeffries' acting debut was at age 5 as Lola Lyon on Empire.
+On May 5, 2022, Jeffries was announced as Annabeth Chase in Percy Jackson and the Olympians. Immediately following the casting announcement, Jeffries received harassment online because she was African-American, while her character, Annabeth Chase, was portrayed as white in the book series the show was based on. On May 10, the books' author, Rick Riordan, posted a blog post in which he condemned the backlash against Jeffries and reaffirmed his support of her. Alexandra Daddario,</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Thought 8 Leah Sava Jeffries was born on September 25, 2009. It is currently November 26, 2024. So she is 15 years old. Now I need to find Aryan Simhadri’s age.</p>
+<p>Action 8</p>
+<pre class="tool_code"><code>&lt;search&gt;Aryan Simhadri age&lt;/search&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Command: search, Query: Aryan Simhadri age
+
+Observation 8
+Could not find ["Aryan Simhadri age"]. Similar: {"results":[{"ns":0,"title":"Aryan Simhadri","pageid":74932124},{"ns":0,"title":"Leah Jeffries","pageid":74933311},{"ns":0,"title":"Spin (2021 film)","pageid":63400176},{"ns":0,"title":"2006 in film","pageid":302754},{"ns":0,"title":"Hiro Kanagawa","pageid":7200805},{"ns":0,"title":"Savitribai Phule","pageid":4172250},{"ns":0,"title":"Freaky Friday (franchise)","pageid":63633041},{"ns":0,"title":"Sharat Saxena","pageid":12611800},{"ns":0,"title":"Cheaper by the Dozen (franchise)","pageid":61462161},{"ns":0,"title":"Camp Half-Blood Chronicles","pageid":11155395}]}. You should search for one of those instead.</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Thought 9 I should search for “Aryan Simhadri”.</p>
+<p>Action 9</p>
+<pre class="tool_code"><code>&lt;search&gt;Aryan Simhadri&lt;/search&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Command: search, Query: Aryan Simhadri
+Information Source: https://en.wikipedia.org/wiki/Aryan_Simhadri
+
+Observation 9
+This statement is accurate. Aryan Simhadri is indeed an American actor and is well-known for playing Grover Underwood in the Disney+ series "Percy Jackson and the Olympians."
+</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Thought 10 I need to find his age.</p>
+<p>Action 10</p>
+<pre class="tool_code"><code>&lt;lookup&gt;age&lt;/lookup&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Command: lookup, Query: age
+Information Source: https://en.wikipedia.org/wiki/Aryan_Simhadri
+
+Observation 10
+Aryan Simhadri ( ; born May 6, 2006) is an American actor best known for his role as Grover Underwood in the Disney+ series Percy Jackson and the Olympians. In 2021, Simhadri played Walter in the off-Broadway production of Trevor: The Musical.
+
+
+== Career ==
+Following short appearances in the comedy series Just Roll with It (2019) and the children's animated series Mira, Royal Detective (2020), Simhadri made his feature film debut with a supporting role in Netflix's The Main Event in 2020. His first starring role came in the Avantika Vandanapu-led Spin (2021) alongside Meera Syal and Abhay Deol. Simhadri followed this with a supporting role in Disney+'s Cheaper by the Dozen in 2022.
+In 2023, Simhadri made a major breakthrough in his career with the Disney+ series, Percy Jackson and the Olympians, alongside Walker Scobell and Leah Sava Jeffries. Adapted from the novel of the same name, he played Grover Underwood, Jackson's satyr guardian. Writing for IndieWire, Proma Khosla described Simh</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Thought 11 Aryan Simhadri was born on May 6, 2006. It is currently November 26, 2024. So he is 18 years old.</p>
+<p>Walker Scobell is 15. Leah Sava Jeffries is 15. Aryan Simhadri is 18.</p>
+<p>15 + 15 + 18 = 48</p>
+<p>Action 11</p>
+<pre class="tool_code"><code>&lt;finish&gt;The total of the ages of the main trio from the new Percy Jackson and the Olympians TV series in real life is 48.&lt;/finish&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Command: finish, Query: The total of the ages of the main trio from the new Percy Jackson and the Olympians TV series in real life is 48.
+Information Sources: https://en.wikipedia.org/wiki/Percy_Jackson_and_the_Olympians_(TV_series),https://en.wikipedia.org/wiki/Walker_Scobell,https://en.wikipedia.org/wiki/Leah_Jeffries,https://en.wikipedia.org/wiki/Aryan_Simhadri</code></pre>
+</div>
+</div>
+<p>Now, try asking the same question to <code>gemini-2.0-flash</code> model without the ReAct prompt.</p>
+<div id="cell-29" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"What are the total of ages of the main trio from the new Percy Jackson and the Olympians TV series in real life?"</span><span class="op">,</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"No response text available."</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Okay, here are the real-life ages of the actors who play the main trio in the new *Percy Jackson and the Olympians* TV series, and their combined age:
+
+*   **Walker Scobell (Percy Jackson):** Born January 6, 2009, making him **15 years old**.
+*   **Leah Sava Jeffries (Annabeth Chase):** Born September 25, 2011, making her **12 years old**.
+*   **Aryan Simhadri (Grover Underwood):** Born June 6, 2006, making him **17 years old**.
+
+**Total:** 15 + 12 + 17 = **44 years**
+
+The combined age of the main trio is 44 years.</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>The ReAct prompted Gemini model is grounded by external information sources and hence is less prone to hallucination. Furthermore, Thought-Action-Observation traces generated by the model enhance human interpretability and trustworthiness by allowing users to witness the model’s reasoning process for answering the user’s query.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fallendeity\.github\.io\/deepmind-starter");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../examples/Search_reranking_using_embeddings.html" class="pagination-link" aria-label="Search re-ranking using Gemini embeddings">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Search re-ranking using Gemini embeddings</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../examples/Spatial_understanding_3d.html" class="pagination-link" aria-label="Pointing and 3D Spatial Understanding with Gemini 2.0 (Experimental)">
+        <span class="nav-page-text">Pointing and 3D Spatial Understanding with Gemini 2.0 (Experimental)</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Search_Wikipedia_using_ReAct.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Search_Wikipedia_using_ReAct.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
