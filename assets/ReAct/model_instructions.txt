@@ -1,0 +1,203 @@
+
+  Solve a question answering task with interleaving Thought, Action, Observation steps. Thought can reason about the current situation, Observation is understanding relevant information from an Action's output and Action can be of three types:
+  (1) search, which searches the exact entity on Wikipedia and returns the first paragraph if it exists. If not, it will return some similar entities to search and you can try to search the information from those topics.
+  (2) lookup, which returns the next sentence containing keyword in the current context. This only does exact matches, so keep your searches short.
+  (3) finish, which returns the answer and finishes the task.
+
+  </search/> : Perform a Wikipedia search via external API. Example: "<search>What is the capital of France?</search>".
+  </lookup/> : Lookup for specific information on a page with the Wikipedia API. So say once you search and get a page, you can follow up with a lookup to get more information. Example: "<lookup>What is the capital of France?</lookup>".
+  </finish/> : Stop the execution of the model and return the answer. Example: "<finish>The capital of France is Paris.</finish>".
+
+  Make sure to use the </search/>, </lookup/> and </finish/> tags to indicate the type of action you want to perform and enclose the content of the action in the tags.
+  If you want to search for a specific entity, use the </search/> tag. If you want to look up a specific piece of information, use the </lookup/> tag. If you want to finish the task and return the answer, use the </finish/> tag.
+
+Here are some examples.
+
+Example 1
+Question:
+What is the elevation range for the area that the eastern sector of the Colorado orogeny extends into?
+
+Thought 1
+I need to search "Colorado orogeny" to find what area the eastern sector extends into.
+
+Action 1
+
+<search>Colorado orogeny</search>
+Observation 1
+The Colorado orogeny was an episode of mountain building (an orogeny) in Colorado and surrounding areas.
+
+Thought 2
+The article does not mention the eastern sector. I need to look up "eastern sector".
+
+Action 2
+<lookup>eastern sector</lookup>
+
+Observation 2
+The eastern sector extends into the High Plains and is called the Central Plains orogeny.
+
+Thought 3
+The eastern sector extends into the High Plains. I now need to search "High Plains (United States)" to find the elevation range.
+
+Action 3
+
+<search>High Plains (United States)</search>
+Observation 3
+The High Plains are a subregion of the Great Plains. From east to west, the High Plains rise in elevation from around 1,800 to 7,000 ft (550 to 2,130 m).
+
+Thought 4
+The elevation range is 1,800 to 7,000 ft.
+
+Action 4
+<finish>The elevation range is 1,800 to 7,000 ft.</finish>
+
+Example 2
+Question:
+Musician and satirist Allie Goertz wrote a song about the "The Simpsons" character Milhouse, who Matt Groening named after who?
+
+Thought 1
+I should search "Milhouse" to find out who he was named after.
+
+Action 1
+
+<search>Milhouse</search>
+Observation 1
+Milhouse Mussolini Van Houten is a recurring character in the Fox animated television series The Simpsons voiced by Pamela Hayden and created by Matt Groening.
+
+Thought 2
+The paragraph does not mention who Milhouse is named after. I will look up "named after".
+
+Action 2
+<lookup>named after</lookup>
+
+Observation 2
+Milhouse was named after U.S. president Richard Nixon, whose middle name was Milhous.
+
+Thought 3
+Milhouse was named after Richard Nixon.
+
+Action 3
+<finish>Milhouse was named after U.S. president Richard Nixon.</finish>
+
+Example 3
+Question:
+Which documentary is about Finnish rock groups, Adam Clayton Powell or The Saimaa Gesture?
+
+Thought 1
+Search "Adam Clayton Powell" to determine if it's about Finnish rock groups.
+
+Action 1
+
+<search>Adam Clayton Powell</search>
+Observation 1
+Could not find [Adam Clayton Powell]. Similar: ['Adam Clayton Powell III', 'Adam Clayton Powell Jr. State Office Building', 'Adam Clayton Powell (film)', etc.]
+
+Thought 2
+Try searching the documentary specifically: "Adam Clayton Powell (film)".
+
+Action 2
+
+<search>Adam Clayton Powell (film)</search>
+Observation 2
+Adam Clayton Powell is a 1989 American documentary film about the rise and fall of African-American politician Adam Clayton Powell Jr.
+
+Thought 3
+It is not about Finnish rock groups. Now search "The Saimaa Gesture".
+
+Action 3
+
+<search>The Saimaa Gesture</search>
+Observation 3
+The Saimaa Gesture is a 1981 Finnish documentary film about Finnish rock bands Eppu Normaali, Hassisen Kone, and Juice Leskinen Slam on tour.
+
+Thought 4
+The Saimaa Gesture is about Finnish rock groups.
+
+Action 4
+<finish>The Saimaa Gesture is the documentary about Finnish rock groups.</finish>
+
+Example 4
+Question:
+What profession do Nicholas Ray and Elia Kazan have in common?
+
+Thought 1
+Search "Nicholas Ray" and identify his professions.
+
+Action 1
+
+<search>Nicholas Ray</search>
+Observation 1
+Nicholas Ray was an American film director, screenwriter, and actor best known for the film Rebel Without a Cause.
+
+Thought 2
+Now search "Elia Kazan" to compare professions.
+
+Action 2
+
+<search>Elia Kazan</search>
+Observation 2
+Elia Kazan was a film and theatre director, producer, screenwriter, and actor.
+
+Thought 3
+Both were directors, screenwriters, and actors.
+
+Action 3
+<finish>Nicholas Ray and Elia Kazan were both directors, screenwriters, and actors.</finish>
+
+Example 5
+Question:
+Which magazine was started first, Arthur's Magazine or First for Women?
+
+Thought 1
+Search "Arthur's Magazine" to find the start year.
+
+Action 1
+
+<search>Arthur's Magazine</search>
+Observation 1
+Arthur's Magazine (1844–1846) was a literary periodical published in the 19th century.
+
+Thought 2
+Arthur's Magazine started in 1844. Now search "First for Women".
+
+Action 2
+
+<search>First for Women</search>
+Observation 2
+First for Women is a magazine published in the USA. It was started in 1989.
+
+Thought 3
+Arthur's Magazine (1844) was started earlier than First for Women (1989).
+
+Action 3
+<finish>Arthur's Magazine was started first.</finish>
+
+Example 6
+Question:
+Were Pavel Urysohn and Leonid Levin known for the same type of work?
+
+Thought 1
+Search "Pavel Urysohn" and find his field of work.
+
+Action 1
+
+<search>Pavel Urysohn</search>
+Observation 1
+Pavel Urysohn was a Soviet mathematician best known for contributions to dimension theory.
+
+Thought 2
+Now search "Leonid Levin" and compare.
+
+Action 2
+
+<search>Leonid Levin</search>
+Observation 2
+Leonid Levin is a Soviet-American mathematician and computer scientist.
+
+Thought 3
+Both were mathematicians, so yes—they were known for the same type of work.
+
+Action 3
+<finish>Yes, both Pavel Urysohn and Leonid Levin were known for work in mathematics.</finish>
+
+Question
+{question}
