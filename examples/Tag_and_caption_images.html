@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Gemini API: Using Gemini API to tag and caption images – Gemini Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../examples/Translate_a_Public_Domain_Book.html" rel="next">
+<link href="../examples/Story_Writing_with_Prompt_Chaining.html" rel="prev">
+<link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-73468ec7cfdc29adaa9e90c901492850.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-GE1DFPVL15"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<meta property="og:title" content="Gemini API: Using Gemini API to tag and caption images – Gemini Cookbook">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://fallendeity.github.io/deepmind-starter/examples/Tag_and_caption_images_files/figure-html/cell-10-output-1.jpeg">
+<meta property="og:site_name" content="Gemini Cookbook">
+<meta name="twitter:title" content="Gemini API: Using Gemini API to tag and caption images – Gemini Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://fallendeity.github.io/deepmind-starter/examples/Tag_and_caption_images_files/figure-html/cell-10-output-1.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Gemini Cookbook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../quickstarts/Get_started.html" aria-current="page"> 
+<span class="menu-text">Quickstarts</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://github.com/FallenDeity/deepmind-starter/">
+            Source Code
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Tag_and_caption_images.html">Gemini API: Using Gemini API to tag and caption images</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Examples</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Agents_Function_Calling_Barista_Bot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Agents and Automatic Function Calling with Barista Bot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Historic Event Recognition</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Summarization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Anomaly_detection_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Anomaly detection with embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prompting with an Apollo 11 transcript</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Browser_as_a_tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Browser as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Classify_text_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classify text with embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Entity extraction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guess the shape: Triangle, Square, Pentagon?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/LiveAPI_plotting_and_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.X - Multi-tool with the Multimodal Live API</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create a marketing campaign from a product sketch of a Jet Backpack</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opossum search</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Pdf_structured_outputs_on_invoices_and_forms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Search_grounding_for_research_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Search tool with Gemini 2.x</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Spatial_understanding_3d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pointing and 3D Spatial Understanding with Gemini 2.0 (Experimental)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Story_Writing_with_Prompt_Chaining.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prompt Chaining and Iterative Generation for Story Writing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Tag_and_caption_images.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Gemini API: Using Gemini API to tag and caption images</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Translate a public domain book</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Voice_memos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Voice memos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Working with Charts, Graphs, and Slide Decks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Json Capabilities</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/json_capabilities/Entity_Extraction_JSON.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Entity Extraction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/json_capabilities/Sentiment_Analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Sentiment Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/json_capabilities/Text_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Text Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/json_capabilities/Text_Summarization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Text Summarization</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Prompting</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Adding_context_information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Adding context information</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Basic_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Basic classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Basic_Code_Generation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Basic code generation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Basic_Evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Basic evaluation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Basic_Information_Extraction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Basic information extraction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Basic_Reasoning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Basic reasoning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Chain_of_thought_prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Chain of thought prompting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Few_shot_prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Few-shot prompting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Providing_base_cases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Providing base cases</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Role_prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Role prompting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Self_ask_prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Self-ask prompting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/prompting/Zero_shot_prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Zero-shot prompting</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Quickstarts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Audio Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Code Execution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: All about tokens</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Embeddings Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Enum Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: File API Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Function_calling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Function calling with JS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guide: Building AI Tutors with LearnLM via System Instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multimodal Live API - Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting started with the Gemini API OpenAI compatibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Use Gemini thinking</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with information grounding for Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini 2.0 Image output</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: List models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Prompting Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Safety Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Grounding using Search as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2D spatial understanding with Gemini 2.0</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Streaming Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: System instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Video understanding with Gemini</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
+  <ul class="collapse">
+  <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
+  <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
+  <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
+  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
+  <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
+  <li><a href="#downloading-dataset" id="toc-downloading-dataset" class="nav-link" data-scroll-target="#downloading-dataset">Downloading dataset</a></li>
+  </ul></li>
+  <li><a href="#generating-keywords" id="toc-generating-keywords" class="nav-link" data-scroll-target="#generating-keywords">Generating keywords</a>
+  <ul class="collapse">
+  <li><a href="#keyword-correction-and-deduplication" id="toc-keyword-correction-and-deduplication" class="nav-link" data-scroll-target="#keyword-correction-and-deduplication">Keyword correction and deduplication</a></li>
+  <li><a href="#generating-captions" id="toc-generating-captions" class="nav-link" data-scroll-target="#generating-captions">Generating captions</a></li>
+  </ul></li>
+  <li><a href="#searching-for-specific-clothes" id="toc-searching-for-specific-clothes" class="nav-link" data-scroll-target="#searching-for-specific-clothes">Searching for specific clothes</a>
+  <ul class="collapse">
+  <li><a href="#preparing-out-dataset" id="toc-preparing-out-dataset" class="nav-link" data-scroll-target="#preparing-out-dataset">Preparing out dataset</a></li>
+  <li><a href="#finding-clothes-using-natural-language" id="toc-finding-clothes-using-natural-language" class="nav-link" data-scroll-target="#finding-clothes-using-natural-language">Finding clothes using natural language</a></li>
+  <li><a href="#finding-similar-clothes-using-images" id="toc-finding-similar-clothes-using-images" class="nav-link" data-scroll-target="#finding-similar-clothes-using-images">Finding similar clothes using images</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Tag_and_caption_images.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Tag_and_caption_images.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/Tag_and_caption_images.html">Gemini API: Using Gemini API to tag and caption images</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Gemini API: Using Gemini API to tag and caption images</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>You will use the Gemini model’s vision capabilities and the embedding model to add tags and captions to images of pieces of clothing.</p>
+<p>These descriptions can be used alongside embeddings to allow you to search for specific pieces of clothing using natural language, or other images.</p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="install-the-google-genai-sdk" class="level3">
+<h3 class="anchored" data-anchor-id="install-the-google-genai-sdk">Install the Google GenAI SDK</h3>
+<p>Install the Google GenAI SDK from <a href="https://www.npmjs.com/package/@google/genai">npm</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install @google/genai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="setup-your-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="setup-your-api-key">Setup your API key</h3>
+<p>You can <a href="https://aistudio.google.com/app/apikey">create</a> your API key using Google AI Studio with a single click.</p>
+<p>Remember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a <code>.env</code> file. You can also set it as an environment variable or use a secret manager.</p>
+<p>Here’s how to set it up in a <code>.env</code> file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch .env</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;"</span> <span class="op">&gt;&gt;</span> .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another option is to set the API key as an environment variable. You can do this in your terminal with the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export GEMINI_API_KEY=<span class="st">"&lt;YOUR_API_KEY&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="load-the-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-api-key">Load the API key</h3>
+<p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, we can load the API key in our code:</p>
+<div id="cell-4" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../.env"</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GEMINI_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">GEMINI_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>GEMINI_API_KEY) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"GEMINI_API_KEY is not set in the environment variables"</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"GEMINI_API_KEY is set in the environment variables"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEMINI_API_KEY is set in the environment variables</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
+<pre><code>│
+├── .env
+└── examples
+    └── Tag_and_caption_images.ipynb</code></pre>
+</div>
+</div>
+</section>
+<section id="initialize-sdk-client" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
+<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
+<div id="cell-7" class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="select-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<div id="cell-9" class="cell" data-execution_count="66">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="downloading-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="downloading-dataset">Downloading dataset</h3>
+<p>First, you need to download a dataset with images. It contains images of various clothing that you can use to test the model.</p>
+<div id="cell-11" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> AdmZip <span class="op">=</span> <span class="pp">require</span>(<span class="st">"adm-zip"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"adm-zip"</span>)<span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> DATA_URL <span class="op">=</span> <span class="st">"https://storage.googleapis.com/generativeai-downloads/data/clothes-dataset.zip"</span><span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> EXTRACT_PATH <span class="op">=</span> <span class="st">"../assets/tag_and_caption_images"</span><span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">downloadAndExtractDataset</span>()<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> {</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (fs<span class="op">.</span><span class="fu">existsSync</span>(<span class="vs">`</span><span class="sc">${</span>EXTRACT_PATH<span class="sc">}</span><span class="vs">/clothes-dataset`</span>)) {</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Dataset already exists. Skipping download."</span>)<span class="op">;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(DATA_URL)<span class="op">;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> buffer <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">arrayBuffer</span>()<span class="op">;</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Extracting dataset..."</span>)<span class="op">;</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">await</span> fs<span class="op">.</span><span class="at">promises</span><span class="op">.</span><span class="fu">mkdir</span>(EXTRACT_PATH<span class="op">,</span> { recursive<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> zipPath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(EXTRACT_PATH<span class="op">,</span> <span class="st">"clothes-dataset.zip"</span>)<span class="op">;</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFileSync</span>(zipPath<span class="op">,</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(buffer))<span class="op">;</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> zip <span class="op">=</span> <span class="kw">new</span> <span class="fu">AdmZip</span>(zipPath)<span class="op">;</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  zip<span class="op">.</span><span class="fu">extractAllTo</span>(EXTRACT_PATH<span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Dataset extracted."</span>)<span class="op">;</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">downloadAndExtractDataset</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dataset already exists. Skipping download.</code></pre>
+</div>
+</div>
+<div id="cell-12" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> images <span class="op">=</span> fs</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">readdirSync</span>(<span class="vs">`</span><span class="sc">${</span>EXTRACT_PATH<span class="sc">}</span><span class="vs">/clothes-dataset`</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">map</span>((file) <span class="kw">=&gt;</span> path<span class="op">.</span><span class="fu">join</span>(EXTRACT_PATH<span class="op">,</span> <span class="st">"clothes-dataset"</span><span class="op">,</span> file))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">sort</span>((a<span class="op">,</span> b) <span class="kw">=&gt;</span> b<span class="op">.</span><span class="fu">localeCompare</span>(a))<span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Found </span><span class="sc">${</span>images<span class="op">.</span><span class="at">length</span><span class="sc">}</span><span class="vs"> images in the dataset. </span><span class="sc">${</span>images<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Found 10 images in the dataset. ../assets/tag_and_caption_images/clothes-dataset/9.jpg,../assets/tag_and_caption_images/clothes-dataset/8.jpg,../assets/tag_and_caption_images/clothes-dataset/7.jpg,../assets/tag_and_caption_images/clothes-dataset/6.jpg,../assets/tag_and_caption_images/clothes-dataset/5.jpg,../assets/tag_and_caption_images/clothes-dataset/4.jpg,../assets/tag_and_caption_images/clothes-dataset/3.jpg,../assets/tag_and_caption_images/clothes-dataset/2.jpg,../assets/tag_and_caption_images/clothes-dataset/10.jpg,../assets/tag_and_caption_images/clothes-dataset/1.jpg</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="generating-keywords" class="level2">
+<h2 class="anchored" data-anchor-id="generating-keywords">Generating keywords</h2>
+<p>You can use the LLM to extract relevant keywords from the images.</p>
+<p>Here is a helper function for calling Gemini API with images. Sleep is for ensuring that the quota is not exceeded. Refer to our <a href="https://ai.google.dev/pricing">princing</a> page for current quotas.</p>
+<div id="cell-14" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">generateKeywords</span>(prompt<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> imagePath<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> sleepTime <span class="op">=</span> <span class="dv">4000</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> imageBuffer <span class="op">=</span> fs<span class="op">.</span><span class="fu">readFileSync</span>(imagePath)<span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> start <span class="op">=</span> <span class="bu">performance</span><span class="op">.</span><span class="fu">now</span>()<span class="op">;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> [google<span class="op">.</span><span class="fu">createPartFromBase64</span>(imageBuffer<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/jpeg"</span>)]<span class="op">,</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    config<span class="op">:</span> {</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>      systemInstruction<span class="op">:</span> prompt<span class="op">,</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> end <span class="op">=</span> <span class="bu">performance</span><span class="op">.</span><span class="fu">now</span>()<span class="op">;</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> duration <span class="op">=</span> end <span class="op">-</span> start<span class="op">;</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (duration <span class="op">&lt;</span> sleepTime) {</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve) <span class="kw">=&gt;</span> <span class="pp">setTimeout</span>(resolve<span class="op">,</span> sleepTime <span class="op">-</span> duration))<span class="op">;</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First, define the list of possible keywords.</p>
+<div id="cell-16" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> keywords <span class="op">=</span> [</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"flannel"</span><span class="op">,</span> <span class="st">"shorts"</span><span class="op">,</span> <span class="st">"pants"</span><span class="op">,</span> <span class="st">"dress"</span><span class="op">,</span> <span class="st">"T-shirt"</span><span class="op">,</span> <span class="st">"shirt"</span><span class="op">,</span> <span class="st">"suit"</span>]<span class="op">,</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"women"</span><span class="op">,</span> <span class="st">"men"</span><span class="op">,</span> <span class="st">"boys"</span><span class="op">,</span> <span class="st">"girls"</span>]<span class="op">,</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"casual"</span><span class="op">,</span> <span class="st">"sport"</span><span class="op">,</span> <span class="st">"elegant"</span>]<span class="op">,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"fall"</span><span class="op">,</span> <span class="st">"winter"</span><span class="op">,</span> <span class="st">"spring"</span><span class="op">,</span> <span class="st">"summer"</span>]<span class="op">,</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"red"</span><span class="op">,</span> <span class="st">"violet"</span><span class="op">,</span> <span class="st">"blue"</span><span class="op">,</span> <span class="st">"green"</span><span class="op">,</span> <span class="st">"yellow"</span><span class="op">,</span> <span class="st">"orange"</span><span class="op">,</span> <span class="st">"black"</span><span class="op">,</span> <span class="st">"white"</span>]<span class="op">,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"polyester"</span><span class="op">,</span> <span class="st">"cotton"</span><span class="op">,</span> <span class="st">"denim"</span><span class="op">,</span> <span class="st">"silk"</span><span class="op">,</span> <span class="st">"leather"</span><span class="op">,</span> <span class="st">"wool"</span><span class="op">,</span> <span class="st">"fur"</span>]<span class="op">,</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>]<span class="op">.</span><span class="fu">flat</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Go ahead and define a prompt that will help define keywords that describe clothing. In the following prompt, few-shot prompting is used to prime the LLM with examples of how these keywords should be generated and which are valid.</p>
+<div id="cell-18" class="cell" data-execution_count="69">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> KEYWORD_PROMPT <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="vs">    You are an expert in clothing that specializes in tagging images of clothes,</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="vs">    shoes, and accessories.</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="vs">    Your job is to extract all relevant keywords from</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    a photo that will help describe an item.</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="vs">    You are going to see an image,</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    extract only the keywords for the clothing, and try to provide as many</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    keywords as possible.</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="vs">    Allowed keywords: </span><span class="sc">${</span>keywords<span class="op">.</span><span class="fu">join</span>(<span class="st">", "</span>)<span class="sc">}</span><span class="vs">.</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="vs">    Extract tags only when it is obvious that it describes the main item in</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="vs">    the image. Return the keywords as a list of strings:</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="vs">    example1: ["blue", "shoes", "denim"]</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="vs">    example2: ["sport", "skirt", "cotton", "blue", "red"]</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Generate keywords for each of the images.</p>
+<div id="cell-20" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> image <span class="kw">of</span> images<span class="op">.</span><span class="fu">slice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">5</span>)) {</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> keywords <span class="op">=</span> <span class="cf">await</span> <span class="fu">generateKeywords</span>(KEYWORD_PROMPT<span class="op">,</span> image)<span class="op">;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">jpeg</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(image))<span class="op">;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Keywords for </span><span class="sc">${</span>path<span class="op">.</span><span class="fu">basename</span>(image)<span class="sc">}</span><span class="vs">: </span><span class="sc">${</span>keywords<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-10-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Tag_and_caption_images_files/figure-html/cell-10-output-1.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Keywords for 9.jpg: ["shorts", "denim", "blue", "casual", "summer", "spring", "cotton"]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-10-output-3.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="Tag_and_caption_images_files/figure-html/cell-10-output-3.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Keywords for 8.jpg: ["blue", "suit", "shirt", "men", "elegant", "white", "black"]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-10-output-5.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="Tag_and_caption_images_files/figure-html/cell-10-output-5.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Keywords for 7.jpg: ["suit", "men", "elegant", "blue", "black", "silk"]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-10-output-7.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="Tag_and_caption_images_files/figure-html/cell-10-output-7.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Keywords for 6.jpg: ["T-shirt", "dress", "casual"]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-10-output-9.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="Tag_and_caption_images_files/figure-html/cell-10-output-9.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Keywords for 5.jpg: ["dress", "women", "elegant", "red", "spring", "polyester"]</code></pre>
+</div>
+</div>
+<section id="keyword-correction-and-deduplication" class="level3">
+<h3 class="anchored" data-anchor-id="keyword-correction-and-deduplication">Keyword correction and deduplication</h3>
+<p>Unfortunately, despite providing a list of possible keywords, the model, at least in theory, can return an invalid keyword. It may be a duplicate e.g.&nbsp;“denim” for “jeans”, or be completely unrelated to any keyword from the list.</p>
+<p>To address these issues, you can use embeddings to map the keywords to predefined ones and remove unrelated ones.</p>
+<div id="cell-22" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="op">*</span> <span class="im">as</span> danfo <span class="im">from</span> <span class="st">"danfojs-node"</span><span class="op">;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> EMBEDDING_MODEL_ID <span class="op">=</span> <span class="st">"models/embedding-001"</span><span class="op">;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">embedKeywords</span>(keywords<span class="op">:</span> <span class="dt">string</span>[])<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>danfo<span class="op">.</span><span class="at">DataFrame</span><span class="op">&gt;</span> {</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> embeddings <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">embedContent</span>({</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> EMBEDDING_MODEL_ID<span class="op">,</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> keywords<span class="op">,</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    config<span class="op">:</span> {</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>      taskType<span class="op">:</span> <span class="st">"semantic_similarity"</span><span class="op">,</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> data <span class="op">=</span> keywords<span class="op">.</span><span class="fu">map</span>((keyword<span class="op">,</span> index) <span class="kw">=&gt;</span> ({</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    keyword<span class="op">,</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    embedding<span class="op">:</span> embeddings<span class="op">.</span><span class="at">embeddings</span>[index]<span class="op">.</span><span class="at">values</span><span class="op">,</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  }))<span class="op">;</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">new</span> danfo<span class="op">.</span><span class="fu">DataFrame</span>(data)<span class="op">;</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> keywordsDf <span class="op">=</span> <span class="cf">await</span> <span class="fu">embedKeywords</span>(keywords)<span class="op">;</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>keywordsDf<span class="op">.</span><span class="fu">head</span>()<span class="op">.</span><span class="fu">print</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>╔════════════╤═══════════════════╤═══════════════════╗
+║            │ keyword           │ embedding         ║
+╟────────────┼───────────────────┼───────────────────╢
+║ 0          │ flannel           │ -0.010662257,-0…  ║
+╟────────────┼───────────────────┼───────────────────╢
+║ 1          │ shorts            │ 0.033239827,0.0…  ║
+╟────────────┼───────────────────┼───────────────────╢
+║ 2          │ pants             │ 0.012273628,-0.…  ║
+╟────────────┼───────────────────┼───────────────────╢
+║ 3          │ dress             │ 0.010586792,-0.…  ║
+╟────────────┼───────────────────┼───────────────────╢
+║ 4          │ T-shirt           │ -0.015854606,-0…  ║
+╚════════════╧═══════════════════╧═══════════════════╝
+</code></pre>
+</div>
+</div>
+<p>For demonstration purposes, define a function that assesses the similarity between two embedding vectors. In this case, you will use cosine similarity, but other measures such as dot product work too.</p>
+<div id="cell-24" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">cosineSimilarity</span>(array1<span class="op">:</span> <span class="dt">number</span>[]<span class="op">,</span> array2<span class="op">:</span> <span class="dt">number</span>[])<span class="op">:</span> <span class="dt">number</span> {</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> dotProduct <span class="op">=</span> array1<span class="op">.</span><span class="fu">reduce</span>((sum<span class="op">,</span> value<span class="op">,</span> index) <span class="kw">=&gt;</span> sum <span class="op">+</span> value <span class="op">*</span> array2[index]<span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> norm1 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(array1<span class="op">.</span><span class="fu">reduce</span>((sum<span class="op">,</span> value) <span class="kw">=&gt;</span> sum <span class="op">+</span> value <span class="op">*</span> value<span class="op">,</span> <span class="dv">0</span>))<span class="op">;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> norm2 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(array2<span class="op">.</span><span class="fu">reduce</span>((sum<span class="op">,</span> value) <span class="kw">=&gt;</span> sum <span class="op">+</span> value <span class="op">*</span> value<span class="op">,</span> <span class="dv">0</span>))<span class="op">;</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> dotProduct <span class="op">/</span> (norm1 <span class="op">*</span> norm2)<span class="op">;</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, define a function that allows you to replace a keyword with the most similar word in the keyword dataframe that you have previously created.</p>
+<p>Note that the threshold is decided arbitrarily, it may require tweaking depending on use case and dataset.</p>
+<div id="cell-26" class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="op">*</span> <span class="im">as</span> danfo <span class="im">from</span> <span class="st">"danfojs-node"</span><span class="op">;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">replaceWordWithMostSimilar</span>(</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  keyword<span class="op">:</span> <span class="dt">string</span><span class="op">,</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  keywordsDf<span class="op">:</span> danfo<span class="op">.</span><span class="at">DataFrame</span><span class="op">,</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  threshold <span class="op">=</span> <span class="fl">0.7</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span> <span class="op">|</span> <span class="dt">null</span><span class="op">&gt;</span> {</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">// No need for embeddings if the keyword is valid.</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (keywordsDf<span class="op">.</span><span class="at">keyword</span><span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="fu">includes</span>(keyword)) {</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> keyword<span class="op">;</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> embedding <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">embedContent</span>({</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> EMBEDDING_MODEL_ID<span class="op">,</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> [keyword]<span class="op">,</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>    config<span class="op">:</span> {</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>      taskType<span class="op">:</span> <span class="st">"semantic_similarity"</span><span class="op">,</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> similarities <span class="op">=</span> keywordsDf<span class="op">.</span><span class="at">embedding</span><span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="fu">map</span>((rowEmbedding<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cosineSimilarity</span>(embedding<span class="op">.</span><span class="at">embeddings</span>[<span class="dv">0</span>]<span class="op">.</span><span class="at">values</span><span class="op">!,</span> rowEmbedding<span class="op">.</span><span class="fu">split</span>(<span class="st">","</span>)<span class="op">.</span><span class="fu">map</span>(<span class="bu">Number</span>))</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="im">as</span> <span class="dt">number</span>[]<span class="op">;</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> mostSimilarKeywordIndex <span class="op">=</span> similarities<span class="op">.</span><span class="fu">indexOf</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="op">...</span>similarities))<span class="op">;</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (similarities[mostSimilarKeywordIndex] <span class="op">&lt;</span> threshold) {</span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> keywordsDf<span class="op">.</span><span class="fu">loc</span>({</span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>    rows<span class="op">:</span> [mostSimilarKeywordIndex]<span class="op">,</span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">:</span> [<span class="st">"keyword"</span>]<span class="op">,</span></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>  })<span class="op">.</span><span class="at">keyword</span><span class="op">.</span><span class="at">values</span>[<span class="dv">0</span>] <span class="im">as</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is an example of how these keywords can be mapped to a keyword with the closest meaning.</p>
+<div id="cell-28" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> word <span class="kw">of</span> [<span class="st">"purple"</span><span class="op">,</span> <span class="st">"tank top"</span><span class="op">,</span> <span class="st">"everyday"</span>]) {</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> similarWord <span class="op">=</span> <span class="cf">await</span> <span class="fu">replaceWordWithMostSimilar</span>(word<span class="op">,</span> keywordsDf)<span class="op">;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`</span><span class="sc">${</span>word<span class="sc">}</span><span class="vs"> -&gt; </span><span class="sc">${</span>similarWord<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>purple -&gt; violet
+tank top -&gt; T-shirt
+everyday -&gt; casual</code></pre>
+</div>
+</div>
+<p>You can now either leave words that do not fit our predefined categories or delete them. In this scenario, all words without a suitable replacement will be omitted.</p>
+<div id="cell-30" class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">mapGeneratedKeywordsToPredefined</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  generatedKeywords<span class="op">:</span> <span class="dt">string</span>[]<span class="op">,</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  keywordsDataframe<span class="op">:</span> danfo<span class="op">.</span><span class="at">DataFrame</span> <span class="op">=</span> keywordsDf</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="bu">Set</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;&gt;</span> {</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> outputKeywords <span class="op">=</span> <span class="kw">new</span> <span class="bu">Set</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span>()<span class="op">;</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> keyword <span class="kw">of</span> generatedKeywords) {</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> mappedKeyword <span class="op">=</span> <span class="cf">await</span> <span class="fu">replaceWordWithMostSimilar</span>(keyword<span class="op">,</span> keywordsDataframe)<span class="op">;</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (mappedKeyword) {</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>      outputKeywords<span class="op">.</span><span class="fu">add</span>(mappedKeyword)<span class="op">;</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> outputKeywords<span class="op">;</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="cf">await</span> <span class="fu">mapGeneratedKeywordsToPredefined</span>([<span class="st">"white"</span><span class="op">,</span> <span class="st">"business"</span><span class="op">,</span> <span class="st">"sport"</span><span class="op">,</span> <span class="st">"women"</span><span class="op">,</span> <span class="st">"polyester"</span>]))<span class="op">;</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="cf">await</span> <span class="fu">mapGeneratedKeywordsToPredefined</span>([<span class="st">"blue"</span><span class="op">,</span> <span class="st">"jeans"</span><span class="op">,</span> <span class="st">"women"</span><span class="op">,</span> <span class="st">"denim"</span><span class="op">,</span> <span class="st">"casual"</span>]))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Set(4) { 'white', 'sport', 'women', 'polyester' }
+Set(4) { 'blue', 'denim', 'women', 'casual' }</code></pre>
+</div>
+</div>
+</section>
+<section id="generating-captions" class="level3">
+<h3 class="anchored" data-anchor-id="generating-captions">Generating captions</h3>
+<div id="cell-32" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> CAPTION_PROMPT <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="vs">  You are an expert in clothing that specializes in describing images of</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="vs">  clothes, shoes and accessories.</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  Your job is to extract information from a photo that will help describe an item.</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  You are going to see an image, focus only on the piece of clothing,</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  ignore suroundings.</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="vs">  Be specific, but stay concise, the description should only be one sentence long.</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="vs">  Most important aspects are color, type of clothing, material, style</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="vs">  and who is it meant for.</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="vs">  If you are not sure about a part of the image, ignore it.</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-33" class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> image <span class="kw">of</span> images<span class="op">.</span><span class="fu">slice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">5</span>)) {</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> caption <span class="op">=</span> <span class="cf">await</span> <span class="fu">generateKeywords</span>(CAPTION_PROMPT<span class="op">,</span> image)<span class="op">;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">jpeg</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(image))<span class="op">;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Caption for </span><span class="sc">${</span>path<span class="op">.</span><span class="fu">basename</span>(image)<span class="sc">}</span><span class="vs">: </span><span class="sc">${</span>caption<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-17-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="Tag_and_caption_images_files/figure-html/cell-17-output-1.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Caption for 9.jpg: A pair of distressed men's medium blue denim shorts featuring ripped details and a faded wash.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-17-output-3.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="Tag_and_caption_images_files/figure-html/cell-17-output-3.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Caption for 8.jpg: A blue single-breasted men's suit jacket is styled with a white dress shirt, a black tie, and a white pocket square.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-17-output-5.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="Tag_and_caption_images_files/figure-html/cell-17-output-5.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Caption for 7.jpg: A men's blue single-breasted tuxedo jacket features black satin shawl lapels, a one-button closure, and black-trimmed flap pockets.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-17-output-7.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="Tag_and_caption_images_files/figure-html/cell-17-output-7.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Caption for 6.jpg: An oversized dusty pink cotton jersey t-shirt dress features a classic crew neck and wide, elbow-length sleeves.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-17-output-9.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="Tag_and_caption_images_files/figure-html/cell-17-output-9.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Caption for 5.jpg: A women's deep magenta, flowy tunic dress with a V-neck, short sleeves, and elegant draped detailing.</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="searching-for-specific-clothes" class="level2">
+<h2 class="anchored" data-anchor-id="searching-for-specific-clothes">Searching for specific clothes</h2>
+<section id="preparing-out-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="preparing-out-dataset">Preparing out dataset</h3>
+<p>First, you need to generate caption and keywords for every image. Then, you will use embeddings, which will be used later to compare the images in the search dataset with other descriptions and images.</p>
+<div id="cell-35" class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">generateKeywordAndCaption</span>(imagePath<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>{</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  imagePath<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  keywords<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  caption<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>}<span class="op">&gt;</span> {</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> keywords <span class="op">=</span> <span class="cf">await</span> <span class="fu">generateKeywords</span>(KEYWORD_PROMPT<span class="op">,</span> imagePath<span class="op">,</span> <span class="dv">10000</span>)<span class="op">;</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> parsedKeywords<span class="op">:</span> <span class="dt">string</span>[] <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> matches <span class="op">=</span> <span class="ss">/</span><span class="sc">\[([\s\S]*?)\]</span><span class="ss">/</span><span class="op">.</span><span class="fu">exec</span>(keywords)<span class="op">;</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (matches<span class="op">?.</span>[<span class="dv">1</span>]) {</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>      parsedKeywords <span class="op">=</span> matches[<span class="dv">1</span>]<span class="op">.</span><span class="fu">split</span>(<span class="st">","</span>)<span class="op">.</span><span class="fu">map</span>((keyword) <span class="kw">=&gt;</span> keyword<span class="op">.</span><span class="fu">trim</span>()<span class="op">.</span><span class="fu">replace</span>(<span class="ss">/"/g</span><span class="op">,</span> <span class="st">""</span>))<span class="op">;</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (error) {</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="vs">`Failed to parse keywords for </span><span class="sc">${</span>imagePath<span class="sc">}</span><span class="vs"> - </span><span class="sc">${</span>keywords<span class="sc">}</span><span class="vs">:`</span><span class="op">,</span> error)<span class="op">;</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> mappedKeywords <span class="op">=</span> <span class="cf">await</span> <span class="fu">mapGeneratedKeywordsToPredefined</span>(parsedKeywords<span class="op">,</span> keywordsDf)<span class="op">;</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> caption <span class="op">=</span> <span class="cf">await</span> <span class="fu">generateKeywords</span>(CAPTION_PROMPT<span class="op">,</span> imagePath<span class="op">,</span> <span class="dv">10000</span>)<span class="op">;</span></span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>    imagePath<span class="op">,</span></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>    keywords<span class="op">:</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>(mappedKeywords)<span class="op">.</span><span class="fu">join</span>(<span class="st">", "</span>)<span class="op">,</span></span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>    caption<span class="op">,</span></span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You will use only the first 8 images, so the rest can be used for testing.</p>
+<div id="cell-37" class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> describedDf <span class="op">=</span> <span class="kw">new</span> danfo<span class="op">.</span><span class="fu">DataFrame</span>(<span class="cf">await</span> <span class="bu">Promise</span><span class="op">.</span><span class="fu">all</span>(images<span class="op">.</span><span class="fu">slice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">8</span>)<span class="op">.</span><span class="fu">map</span>(generateKeywordAndCaption))<span class="op">,</span> {</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  columns<span class="op">:</span> [<span class="st">"imagePath"</span><span class="op">,</span> <span class="st">"keywords"</span><span class="op">,</span> <span class="st">"caption"</span>]<span class="op">,</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>describedDf<span class="op">.</span><span class="fu">print</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>╔════════════╤═══════════════════╤═══════════════════╤═══════════════════╗
+║            │ imagePath         │ keywords          │ caption           ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 0          │ ../assets/tag_a…  │ shorts, denim, …  │ These are distr…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 1          │ ../assets/tag_a…  │ suit, men, eleg…  │ This is a light…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 2          │ ../assets/tag_a…  │ suit, blue, ele…  │ This is a men's…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 3          │ ../assets/tag_a…  │ dress, cotton     │ This is a pink …  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 4          │ ../assets/tag_a…  │ dress, women, s…  │ This is a short…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 5          │ ../assets/tag_a…  │ dress, women, s…  │ This is a color…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 6          │ ../assets/tag_a…  │ blue, denim       │ These are light…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 7          │ ../assets/tag_a…  │ flannel, shirt,…  │ This is a dark …  ║
+╚════════════╧═══════════════════╧═══════════════════╧═══════════════════╝
+</code></pre>
+</div>
+</div>
+<div id="cell-38" class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">embedRow</span>(row<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> {</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> embedding <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">embedContent</span>({</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> EMBEDDING_MODEL_ID<span class="op">,</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> [row]<span class="op">,</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    config<span class="op">:</span> {</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>      taskType<span class="op">:</span> <span class="st">"semantic_similarity"</span><span class="op">,</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> embedding<span class="op">.</span><span class="at">embeddings</span>[<span class="dv">0</span>]<span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="fu">join</span>(<span class="st">","</span>)<span class="op">;</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> rowEmbeddings <span class="op">=</span> <span class="cf">await</span> <span class="bu">Promise</span><span class="op">.</span><span class="fu">all</span>(describedDf<span class="op">.</span><span class="at">caption</span><span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="fu">map</span>(embedRow))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-39" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>describedDf<span class="op">.</span><span class="fu">addColumn</span>(<span class="st">"embedding"</span><span class="op">,</span> <span class="kw">new</span> danfo<span class="op">.</span><span class="fu">Series</span>(rowEmbeddings)<span class="op">,</span> { inplace<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>describedDf<span class="op">.</span><span class="fu">head</span>()<span class="op">.</span><span class="fu">print</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>╔════════════╤═══════════════════╤═══════════════════╤═══════════════════╤═══════════════════╗
+║            │ imagePath         │ keywords          │ caption           │ embedding         ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 0          │ ../assets/tag_a…  │ shorts, denim, …  │ These are distr…  │ 0.04526093,-0.0…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 1          │ ../assets/tag_a…  │ suit, men, eleg…  │ This is a light…  │ 0.044858858,-0.…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 2          │ ../assets/tag_a…  │ suit, blue, ele…  │ This is a men's…  │ 0.058658198,-0.…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 3          │ ../assets/tag_a…  │ dress, cotton     │ This is a pink …  │ 0.046889026,-0.…  ║
+╟────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────╢
+║ 4          │ ../assets/tag_a…  │ dress, women, s…  │ This is a short…  │ 0.04646374,-0.0…  ║
+╚════════════╧═══════════════════╧═══════════════════╧═══════════════════╧═══════════════════╝
+</code></pre>
+</div>
+</div>
+</section>
+<section id="finding-clothes-using-natural-language" class="level3">
+<h3 class="anchored" data-anchor-id="finding-clothes-using-natural-language">Finding clothes using natural language</h3>
+<div id="cell-41" class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">findImageFromText</span>(</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  text<span class="op">:</span> <span class="dt">string</span><span class="op">,</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  describedDataFrame<span class="op">:</span> danfo<span class="op">.</span><span class="at">DataFrame</span> <span class="op">=</span> describedDf</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span> <span class="op">|</span> <span class="dt">null</span><span class="op">&gt;</span> {</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> textEmbedding <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">embedContent</span>({</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> EMBEDDING_MODEL_ID<span class="op">,</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    contents<span class="op">:</span> [text]<span class="op">,</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    config<span class="op">:</span> {</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>      taskType<span class="op">:</span> <span class="st">"semantic_similarity"</span><span class="op">,</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> similarities <span class="op">=</span> describedDataFrame<span class="op">.</span><span class="at">embedding</span><span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="fu">map</span>((rowEmbedding<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cosineSimilarity</span>(textEmbedding<span class="op">.</span><span class="at">embeddings</span>[<span class="dv">0</span>]<span class="op">.</span><span class="at">values</span><span class="op">,</span> rowEmbedding<span class="op">.</span><span class="fu">split</span>(<span class="st">","</span>)<span class="op">.</span><span class="fu">map</span>(<span class="bu">Number</span>))</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="im">as</span> <span class="dt">number</span>[]<span class="op">;</span></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> mostFittingImageIndex <span class="op">=</span> similarities<span class="op">.</span><span class="fu">indexOf</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="op">...</span>similarities))<span class="op">;</span></span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (similarities[mostFittingImageIndex] <span class="op">&lt;</span> <span class="fl">0.7</span>) {</span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> describedDataFrame<span class="op">.</span><span class="fu">loc</span>({ rows<span class="op">:</span> [mostFittingImageIndex]<span class="op">,</span> columns<span class="op">:</span> [<span class="st">"imagePath"</span>] })<span class="op">.</span><span class="at">imagePath</span></span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="at">values</span>[<span class="dv">0</span>] <span class="im">as</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-42" class="cell" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> imPath <span class="op">=</span> <span class="cf">await</span> <span class="fu">findImageFromText</span>(<span class="st">"A suit for a wedding."</span>)<span class="op">;</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Found image for the text: </span><span class="sc">${</span>imPath<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Found image for the text: ../assets/tag_and_caption_images/clothes-dataset/8.jpg</code></pre>
+</div>
+</div>
+<div id="cell-43" class="cell" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">jpeg</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(imPath))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-24-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="Tag_and_caption_images_files/figure-html/cell-24-output-1.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-44" class="cell" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">jpeg</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(<span class="cf">await</span> <span class="fu">findImageFromText</span>(<span class="st">"A colorful dress."</span>)))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-25-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="Tag_and_caption_images_files/figure-html/cell-25-output-1.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="finding-similar-clothes-using-images" class="level3">
+<h3 class="anchored" data-anchor-id="finding-similar-clothes-using-images">Finding similar clothes using images</h3>
+<div id="cell-46" class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">findImageFromImage</span>(imagePath<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span> <span class="op">|</span> <span class="dt">null</span><span class="op">&gt;</span> {</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> textEmbedding <span class="op">=</span> <span class="cf">await</span> <span class="fu">embedRow</span>(<span class="cf">await</span> <span class="fu">generateKeywordAndCaption</span>(imagePath)<span class="op">.</span><span class="fu">then</span>((res) <span class="kw">=&gt;</span> res<span class="op">.</span><span class="at">caption</span>))<span class="op">;</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> similarities <span class="op">=</span> describedDf<span class="op">.</span><span class="at">embedding</span><span class="op">.</span><span class="at">values</span><span class="op">.</span><span class="fu">map</span>((rowEmbedding<span class="op">:</span> <span class="dt">string</span>) <span class="kw">=&gt;</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cosineSimilarity</span>(textEmbedding<span class="op">.</span><span class="fu">split</span>(<span class="st">","</span>)<span class="op">.</span><span class="fu">map</span>(<span class="bu">Number</span>)<span class="op">,</span> rowEmbedding<span class="op">.</span><span class="fu">split</span>(<span class="st">","</span>)<span class="op">.</span><span class="fu">map</span>(<span class="bu">Number</span>))</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="im">as</span> <span class="dt">number</span>[]<span class="op">;</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> mostFittingImageIndex <span class="op">=</span> similarities<span class="op">.</span><span class="fu">indexOf</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="op">...</span>similarities))<span class="op">;</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (similarities[mostFittingImageIndex] <span class="op">&lt;</span> <span class="fl">0.7</span>) {</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> describedDf<span class="op">.</span><span class="fu">loc</span>({ rows<span class="op">:</span> [mostFittingImageIndex]<span class="op">,</span> columns<span class="op">:</span> [<span class="st">"imagePath"</span>] })<span class="op">.</span><span class="at">imagePath</span><span class="op">.</span><span class="at">values</span>[<span class="dv">0</span>] <span class="im">as</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-47" class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> img1 <span class="op">=</span> images[<span class="dv">8</span>]<span class="op">;</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">jpeg</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(img1))<span class="op">;</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">jpeg</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(<span class="cf">await</span> <span class="fu">findImageFromImage</span>(img1)))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-27-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="Tag_and_caption_images_files/figure-html/cell-27-output-1.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-27-output-2.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="Tag_and_caption_images_files/figure-html/cell-27-output-2.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-48" class="cell" data-execution_count="70">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> img2 <span class="op">=</span> images[<span class="dv">9</span>]<span class="op">;</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">jpeg</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(img2))<span class="op">;</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">jpeg</span>(fs<span class="op">.</span><span class="fu">readFileSync</span>(<span class="cf">await</span> <span class="fu">findImageFromImage</span>(img2)))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-28-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="Tag_and_caption_images_files/figure-html/cell-28-output-1.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Tag_and_caption_images_files/figure-html/cell-28-output-2.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="Tag_and_caption_images_files/figure-html/cell-28-output-2.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>You have used Gemini API’s JS SDK to tag and caption images of clothing. Using embedding models, you were able to search a database of images for clothing matching our description, or similar to the provided clothing item.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fallendeity\.github\.io\/deepmind-starter");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../examples/Story_Writing_with_Prompt_Chaining.html" class="pagination-link" aria-label="Prompt Chaining and Iterative Generation for Story Writing">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Prompt Chaining and Iterative Generation for Story Writing</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../examples/Translate_a_Public_Domain_Book.html" class="pagination-link" aria-label="Gemini API: Translate a public domain book">
+        <span class="nav-page-text">Gemini API: Translate a public domain book</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/Tag_and_caption_images.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Tag_and_caption_images.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
