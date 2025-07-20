@@ -1571,7 +1571,7 @@ ________________________________________________________________________________
 <span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> bestWeights<span class="op">:</span> Tensor[] <span class="op">=</span> []<span class="op">;</span></span>
 <span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> restoreBestWeightsCallback <span class="op">=</span> <span class="kw">new</span> tf<span class="op">.</span><span class="fu">CustomCallback</span>({</span>
-<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>  <span class="co">// eslint-disable-next-line @typescript-eslint/require-await</span></span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>   </span>
 <span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>  onEpochEnd<span class="op">:</span> <span class="kw">async</span> (epoch<span class="op">,</span> logs) <span class="kw">=&gt;</span> {</span>
 <span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> acc <span class="op">=</span> logs<span class="op">?.</span><span class="at">val_acc</span> <span class="op">??</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (acc <span class="op">&gt;</span> bestAcc) {</span>
@@ -1579,7 +1579,7 @@ ________________________________________________________________________________
 <span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>      bestWeights <span class="op">=</span> classifier<span class="op">.</span><span class="fu">getWeights</span>()<span class="op">.</span><span class="fu">map</span>((w) <span class="kw">=&gt;</span> w<span class="op">.</span><span class="fu">clone</span>())<span class="op">;</span></span>
 <span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">// eslint-disable-next-line @typescript-eslint/require-await</span></span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>   </span>
 <span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a>  onTrainEnd<span class="op">:</span> <span class="kw">async</span> () <span class="kw">=&gt;</span> {</span>
 <span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (bestWeights<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
 <span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>      classifier<span class="op">.</span><span class="fu">setWeights</span>(bestWeights)<span class="op">;</span></span>
