@@ -424,6 +424,14 @@
     openai "^5.3.0"
     zod "^3.25.32"
 
+"@langchain/pinecone@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@langchain/pinecone/-/pinecone-0.2.0.tgz#2d944b7fb48d36b71e6d232098b931bf4ffae7cf"
+  integrity sha512-O3tWSCIbm1uDLh0J4R0ETmYeRFtQAI2qcSAMC/VW1+xBb+o/IJ5VMyJhGKc4RsmyWE0wG4kOuwfIcCP+XV0clw==
+  dependencies:
+    flat "^5.0.2"
+    uuid "^10.0.0"
+
 "@langchain/textsplitters@>=0.0.0 <0.2.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@langchain/textsplitters/-/textsplitters-0.1.0.tgz#f37620992192df09ecda3dfbd545b36a6bcbae46"
@@ -688,6 +696,11 @@
     "@parcel/watcher-win32-arm64" "2.5.1"
     "@parcel/watcher-win32-ia32" "2.5.1"
     "@parcel/watcher-win32-x64" "2.5.1"
+
+"@pinecone-database/pinecone@^6.1.2":
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/@pinecone-database/pinecone/-/pinecone-6.1.2.tgz#7079eb122c92d81a849737b142e2cafc9a29f647"
+  integrity sha512-ydIlbtgIIHFgBL08sPzua5ckmOgtjgDz8xg21CnP1fqnnEgDmOlnfd10MRKU+fvFRhDlh4Md37SwZDr0d4cBqg==
 
 "@pkgjs/parseargs@^0.11.0":
   version "0.11.0"
