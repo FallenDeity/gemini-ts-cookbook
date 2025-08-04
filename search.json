@@ -2029,6 +2029,97 @@
     ]
   },
   {
+    "objectID": "examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html",
+    "href": "examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html",
+    "title": "Gemini API: Question Answering using LangChain and Chroma",
+    "section": "",
+    "text": "Gemini is a family of generative AI models that lets developers generate content and solve problems. These models are designed and trained to handle both text and images as input.\nLangChain is a data framework designed to make integration of Large Language Models (LLM) like Gemini easier for applications.\nChroma is an open-source embedding database focused on simplicity and developer productivity. Chroma allows users to store embeddings and their metadata, embed documents and queries, and search the embeddings quickly.\nIn this notebook, you’ll learn how to create an application that answers questions using data from a website with the help of Gemini, LangChain, and Chroma.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Langchain",
+      "Gemini API: Question Answering using LangChain and Chroma"
+    ]
+  },
+  {
+    "objectID": "examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html#overview",
+    "href": "examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html#overview",
+    "title": "Gemini API: Question Answering using LangChain and Chroma",
+    "section": "",
+    "text": "Gemini is a family of generative AI models that lets developers generate content and solve problems. These models are designed and trained to handle both text and images as input.\nLangChain is a data framework designed to make integration of Large Language Models (LLM) like Gemini easier for applications.\nChroma is an open-source embedding database focused on simplicity and developer productivity. Chroma allows users to store embeddings and their metadata, embed documents and queries, and search the embeddings quickly.\nIn this notebook, you’ll learn how to create an application that answers questions using data from a website with the help of Gemini, LangChain, and Chroma.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Langchain",
+      "Gemini API: Question Answering using LangChain and Chroma"
+    ]
+  },
+  {
+    "objectID": "examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html#setup",
+    "href": "examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html#setup",
+    "title": "Gemini API: Question Answering using LangChain and Chroma",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── langchain\n        └── Gemini_LangChain_QA_Chroma_WebLoad.ipynb\n\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Langchain",
+      "Gemini API: Question Answering using LangChain and Chroma"
+    ]
+  },
+  {
+    "objectID": "examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html#basic-steps",
+    "href": "examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html#basic-steps",
+    "title": "Gemini API: Question Answering using LangChain and Chroma",
+    "section": "Basic steps",
+    "text": "Basic steps\nLLMs are trained offline on a large corpus of public data. Hence they cannot answer questions based on custom or private data accurately without additional context.\nIf you want to make use of LLMs to answer questions based on private data, you have to provide the relevant documents as context alongside your prompt. This approach is called Retrieval Augmented Generation (RAG).\nYou will use this approach to create a question-answering assistant using the Gemini text model integrated through LangChain. The assistant is expected to answer questions about the Gemini model. To make this possible you will add more context to the assistant using data from a website.\nIn this tutorial, you’ll implement the two main components in an RAG-based architecture:\n\nRetriever\nBased on the user’s query, the retriever retrieves relevant snippets that add context from the document. In this tutorial, the document is the website data. The relevant snippets are passed as context to the next stage - \"Generator\".\nGenerator\nThe relevant snippets from the website data are passed to the LLM along with the user’s query to generate accurate answers.\n\nYou’ll learn more about these stages in the upcoming sections while implementing the application.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Langchain",
+      "Gemini API: Question Answering using LangChain and Chroma"
+    ]
+  },
+  {
+    "objectID": "examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html#retriever",
+    "href": "examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html#retriever",
+    "title": "Gemini API: Question Answering using LangChain and Chroma",
+    "section": "Retriever",
+    "text": "Retriever\nIn this stage, you will perform the following steps:\n\nRead and parse the website data using LangChain.\nCreate embeddings of the website data.\nEmbeddings are numerical representations (vectors) of text. Hence, text with similar meaning will have similar embedding vectors. You’ll make use of Gemini’s embedding model to create the embedding vectors of the website data.\nStore the embeddings in Chroma’s vector store.\nChroma is a vector database. The Chroma vector store helps in the efficient retrieval of similar vectors. Thus, for adding context to the prompt for the LLM, relevant embeddings of the text matching the user’s question can be retrieved easily using Chroma.\nCreate a Retriever from the Chroma vector store.\nThe retriever will be used to pass relevant website embeddings to the LLM along with user queries.\n\n\nRead and parse the website data\nLangChain provides a wide variety of document loaders. To read the website data as a document, you will use the WebBaseLoader from LangChain.\nTo know more about how to read and parse input data from different sources using the document loaders of LangChain, read LangChain’s document loaders guide.\n\nimport { CheerioWebBaseLoader } from \"@langchain/community/document_loaders/web/cheerio\";\n\nconst loader = new CheerioWebBaseLoader(\"https://blog.google/technology/ai/google-gemini-ai/\");\nconst docs = await loader.load();\n\nIf you only want to select a specific portion of the website data to add context to the prompt, you can use regex, text slicing, or text splitting.\nIn this example, you’ll use the split() function to extract the required portion of the text. The extracted text should be converted back to LangChain’s Document format.\n\nimport { Document } from \"@langchain/core/documents\";\n\nconst text_content = docs[0].pageContent;\nconst text_content_1 = text_content.split(\"code, audio, image and video.\")[1];\nconst final_text = text_content_1.split(\"Cloud TPU v5p\")[0];\nconst processed_docs = [\n  new Document({\n    pageContent: final_text,\n    metadata: {\n      source: \"local\",\n    },\n  }),\n];\n\n\n\nInitialize Gemini’s embedding model\nTo create the embeddings from the website data, you’ll use Gemini’s embedding model, gemini-embedding-004 which supports creating text embeddings.\nTo use this embedding model, you have to import GoogleGenerativeAIEmbeddings from LangChain. To know more about the embedding model, read Google AI’s language documentation.\n\nimport { GoogleGenerativeAIEmbeddings } from \"@langchain/google-genai\";\n\nconst gemini_embeddings = new GoogleGenerativeAIEmbeddings({\n  apiKey: GEMINI_API_KEY,\n  model: \"models/gemini-embedding-001\",\n});\n\n\n\nStore the data using Chroma\nTo create a Chroma vector database from the website data, you will use the fromDocuments function of Chroma. Under the hood, this function creates embeddings from the documents created by the document loader of LangChain using any specified embedding model and stores them in a Chroma vector database.\nYou have to specify the processed_docs you created from the website data using LangChain’s WebBasedLoader and the gemini_embeddings as the embedding model when invoking the fromDocuments function to create the vector database from the website data.\n\nconst CHROMA_HOST = process.env.CHROMA_HOST ?? \"localhost\";\nconst CHROMA_PORT = parseInt(process.env.CHROMA_PORT ?? \"8000\");\n\n\n\n\n\n\n\nNote\n\n\n\nTo set up Chroma, you can either use the Chroma Cloud or run a local instance of Chroma. If you want to run a local instance, you can use the Chroma Docker image.\nFor this particular example, you can run a local instance of Chroma using the following command:\n$ pip install chromadb\n$ chroma run --host localhost --port 8000\n\n\n\nimport { Chroma } from \"@langchain/community/vectorstores/chroma\";\n\nconst vectorStore = await Chroma.fromDocuments(processed_docs, gemini_embeddings, {\n  clientParams: {\n    host: CHROMA_HOST,\n    port: CHROMA_PORT,\n  },\n  collectionName: \"gemini-docs-db\",\n});\n\n\n\nCreate a retriever using Chroma\nYou’ll now create a retriever that can retrieve website data embeddings from the newly created Chroma vector store. This retriever can be later used to pass embeddings that provide more context to the LLM for answering user’s queries.\nYou can then invoke the asRetriever function of Chroma on the vector store to create a retriever.\n\nconst retriever = vectorStore.asRetriever({\n  k: 1, // Return top 1 most similar document\n  searchType: \"similarity\",\n});\n\n\nconst wrappedRetriever = {\n  invoke: async (query: string) =&gt; {\n    const vec = await gemini_embeddings.embedQuery(query);\n    // @ts-expect-error, Wrap it in an array to match Chroma's number[][] requirement\n    return vectorStore.similaritySearchVectorWithScore([vec], 1);\n  },\n};\n\n// Now this works\nconst testDocs = await wrappedRetriever.invoke(\"MMLU\");\nconsole.log(\"Retriever test - found documents:\", testDocs.length);\n\nRetriever test - found documents: 1",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Langchain",
+      "Gemini API: Question Answering using LangChain and Chroma"
+    ]
+  },
+  {
+    "objectID": "examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html#generator",
+    "href": "examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html#generator",
+    "title": "Gemini API: Question Answering using LangChain and Chroma",
+    "section": "Generator",
+    "text": "Generator\nThe Generator prompts the LLM for an answer when the user asks a question. The retriever you created in the previous stage from the Chroma vector store will be used to pass relevant embeddings from the website data to the LLM to provide more context to the user’s query.\nYou’ll perform the following steps in this stage:\n\nChain together the following:\n\nA prompt for extracting the relevant embeddings using the retriever.\nA prompt for answering any question using LangChain.\nAn LLM model from Gemini for prompting.\n\nRun the created chain with a question as input to prompt the model for an answer.\n\n\nInitialize Gemini\nYou must import ChatGoogleGenerativeAI from LangChain to initialize your model. In this example, you will use gemini-2.5-flash, as it supports text summarization. To know more about the text model, read Google AI’s language documentation.\nYou can configure the model parameters such as temperature or topP, by passing the appropriate values when initializing the ChatGoogleGenerativeAI LLM. To learn more about the parameters and their uses, read Google AI’s concepts guide.\n\nimport { ChatGoogleGenerativeAI } from \"@langchain/google-genai\";\n\nconst llm = new ChatGoogleGenerativeAI({\n  model: MODEL_ID,\n  apiKey: GEMINI_API_KEY,\n});\n\n\n\nCreate prompt templates\nYou’ll use LangChain’s PromptTemplate to generate prompts to the LLM for answering questions.\nIn the llm_prompt, the variable question will be replaced later by the input question, and the variable context will be replaced by the relevant text from the website retrieved from the Chroma vector store.\n\nimport { PromptTemplate } from \"@langchain/core/prompts\";\n\nconst llm_prompt = PromptTemplate.fromTemplate(\n  `\n  You are an assistant for question-answering tasks.\n  Use the following context to answer the question.\n  If you don't know the answer, just say that you don't know.\n  Use five sentences maximum and keep the answer concise.\\n\n  Question: {question} \\n\n  Context: {context} \\n\n  Answer:\n  `\n);\nconsole.log(JSON.stringify(llm_prompt, null, 2));\n\n{\n  \"lc\": 1,\n  \"type\": \"constructor\",\n  \"id\": [\n    \"langchain_core\",\n    \"prompts\",\n    \"prompt\",\n    \"PromptTemplate\"\n  ],\n  \"kwargs\": {\n    \"input_variables\": [\n      \"question\",\n      \"context\"\n    ],\n    \"template_format\": \"f-string\",\n    \"template\": \"\\n  You are an assistant for question-answering tasks.\\n  Use the following context to answer the question.\\n  If you don't know the answer, just say that you don't know.\\n  Use five sentences maximum and keep the answer concise.\\n\\n  Question: {question} \\n\\n  Context: {context} \\n\\n  Answer:\\n  \"\n  }\n}\n\n\n\n\nCreate a stuff documents chain\nLangChain provides Chains for chaining together LLMs with each other or other components for complex applications. You will create a stuff documents chain for this application. A stuff documents chain lets you combine all the relevant documents, insert them into the prompt, and pass that prompt to the LLM.\nYou can create a stuff documents chain using the LangChain Expression Language (LCEL).\nTo learn more about different types of document chains, read LangChain’s chains guide.\nThe stuff documents chain for this application retrieves the relevant website data and passes it as the context to an LLM prompt along with the input question.\n\nimport { Document } from \"@langchain/core/documents\";\nimport { Runnable, RunnablePassthrough, RunnableMap, RunnableSequence } from \"@langchain/core/runnables\";\nimport { StringOutputParser } from \"@langchain/core/output_parsers\";\n\nconst formatDocs = (docs: Document[]) =&gt; docs.map((doc) =&gt; doc.pageContent).join(\"\\n\\n\");\n\n// @ts-expect-error, missing properties in Runnable interface\nconst contextRunnable: Runnable = {\n  invoke: async (query: string) =&gt; {\n    const results = await wrappedRetriever.invoke(query);\n    const docs = results.map((result) =&gt; result[0]);\n    return formatDocs(docs);\n  },\n};\n\nconst rag_chain = RunnableSequence.from([\n  // Step 1: Map inputs into { context, question }\n  new RunnableMap({\n    steps: {\n      context: contextRunnable,\n      question: new RunnablePassthrough(),\n    },\n  }),\n  // Step 2: Apply prompt\n  llm_prompt,\n  // Step 3: Call LLM\n  llm,\n  // Step 4: Parse output to string\n  new StringOutputParser(),\n]);\n\n\n\nPrompt the model\nYou can now query the LLM by passing any question to the invoke() function of the stuff documents chain you created previously.\n\ntslab.display.markdown(await rag_chain.invoke(\"What is Gemini?\"));\n\nGemini is Google’s largest and most capable AI model, designed to be natively multimodal and understand various inputs like text, images, and audio simultaneously. It is highly flexible, able to run efficiently on everything from data centers to mobile devices. Gemini 1.0, its first version, is optimized in three sizes: Ultra for complex tasks, Pro for a wide range of tasks, and Nano for on-device applications. Its state-of-the-art capabilities significantly enhance how developers and enterprises build and scale with AI. Gemini excels in sophisticated reasoning, coding, and understanding nuanced information across diverse subjects.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Langchain",
+      "Gemini API: Question Answering using LangChain and Chroma"
+    ]
+  },
+  {
+    "objectID": "examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html#conclusion",
+    "href": "examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html#conclusion",
+    "title": "Gemini API: Question Answering using LangChain and Chroma",
+    "section": "Conclusion",
+    "text": "Conclusion\nThat’s it. You have successfully created an LLM application that answers questions using data from a website with the help of Gemini, LangChain, and Chroma.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Langchain",
+      "Gemini API: Question Answering using LangChain and Chroma"
+    ]
+  },
+  {
     "objectID": "examples/langchain/Chat_with_SQL_using_langchain.html",
     "href": "examples/langchain/Chat_with_SQL_using_langchain.html",
     "title": "Gemini API: Chat with SQL using LangChain",
@@ -3885,6 +3976,110 @@
       "Examples",
       "Langchain",
       "Gemini API: Code analysis using LangChain"
+    ]
+  },
+  {
+    "objectID": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html",
+    "href": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html",
+    "title": "Gemini API: Question Answering using LangChain and Pinecone",
+    "section": "",
+    "text": "Gemini is a family of generative AI models that lets developers generate content and solve problems. These models are designed and trained to handle both text and images as input.\nLangChain is a data framework designed to make integration of Large Language Models (LLM) like Gemini easier for applications.\nPinecone is a cloud-first vector database that allows users to search across billions of embeddings with ultra-low query latency.\nIn this notebook, you’ll learn how to create an application that answers questions using data from a website with the help of Gemini, LangChain, and Pinecone.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Langchain",
+      "Gemini API: Question Answering using LangChain and Pinecone"
+    ]
+  },
+  {
+    "objectID": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html#overview",
+    "href": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html#overview",
+    "title": "Gemini API: Question Answering using LangChain and Pinecone",
+    "section": "",
+    "text": "Gemini is a family of generative AI models that lets developers generate content and solve problems. These models are designed and trained to handle both text and images as input.\nLangChain is a data framework designed to make integration of Large Language Models (LLM) like Gemini easier for applications.\nPinecone is a cloud-first vector database that allows users to search across billions of embeddings with ultra-low query latency.\nIn this notebook, you’ll learn how to create an application that answers questions using data from a website with the help of Gemini, LangChain, and Pinecone.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Langchain",
+      "Gemini API: Question Answering using LangChain and Pinecone"
+    ]
+  },
+  {
+    "objectID": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html#setup",
+    "href": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html#setup",
+    "title": "Gemini API: Question Answering using LangChain and Pinecone",
+    "section": "Setup",
+    "text": "Setup\n\nInstall the Google GenAI SDK\nInstall the Google GenAI SDK from npm.\n$ npm install @google/genai\n\n\nSetup your API key\nYou can create your API key using Google AI Studio with a single click.\nRemember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a .env file. You can also set it as an environment variable or use a secret manager.\nHere’s how to set it up in a .env file:\n$ touch .env\n$ echo \"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;\" &gt;&gt; .env\n\n\n\n\n\n\nTip\n\n\n\nAnother option is to set the API key as an environment variable. You can do this in your terminal with the following command:\n$ export GEMINI_API_KEY=\"&lt;YOUR_API_KEY&gt;\"\n\n\n\n\nLoad the API key\nTo load the API key from the .env file, we will use the dotenv package. This package loads environment variables from a .env file into process.env.\n$ npm install dotenv\nThen, we can load the API key in our code:\n\nconst dotenv = require(\"dotenv\") as typeof import(\"dotenv\");\n\ndotenv.config({\n  path: \"../../.env\",\n});\n\nconst GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? \"\";\nif (!GEMINI_API_KEY) {\n  throw new Error(\"GEMINI_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"GEMINI_API_KEY is set in the environment variables\");\n\nGEMINI_API_KEY is set in the environment variables\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn our particular case the .env is is two directories up from the notebook, hence we need to use ../../ to go up two directories. If the .env file is in the same directory as the notebook, you can omit it altogether.\n│\n├── .env\n└── examples\n    └── langchain\n        └── Gemini_LangChain_QA_Pinecone_WebLoad.ipynb\n\n\n\n\nSelect a model\nNow select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf. thinking notebook for more details and in particular learn how to switch the thiking off).\n\nconst tslab = require(\"tslab\") as typeof import(\"tslab\");\n\nconst MODEL_ID = \"gemini-2.5-flash-preview-05-20\";\n\n\n\nSetup Pinecone\nTo use Pinecone in your application, you must have an API key. To create an API key you have to set up a Pinecone account. Visit Pinecone’s app page, and Sign up/Log in to your account. Then navigate to the “API Keys” section and copy your API key.\nFor more detailed instructions on getting the API key, you can read Pinecone’s Quickstart documentation.\nSet the environment variable PINECONE_API_KEY to configure Pinecone to use your API key.\n\nconst PINECONE_API_KEY = process.env.PINECONE_API_KEY ?? \"\";\nif (!PINECONE_API_KEY) {\n  throw new Error(\"PINECONE_API_KEY is not set in the environment variables\");\n}\nconsole.log(\"PINECONE_API_KEY is set in the environment variables\");\n\nPINECONE_API_KEY is set in the environment variables",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Langchain",
+      "Gemini API: Question Answering using LangChain and Pinecone"
+    ]
+  },
+  {
+    "objectID": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html#basic-steps",
+    "href": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html#basic-steps",
+    "title": "Gemini API: Question Answering using LangChain and Pinecone",
+    "section": "Basic steps",
+    "text": "Basic steps\nLLMs are trained offline on a large corpus of public data. Hence they cannot answer questions based on custom or private data accurately without additional context.\nIf you want to make use of LLMs to answer questions based on private data, you have to provide the relevant documents as context alongside your prompt. This approach is called Retrieval Augmented Generation (RAG).\nYou will use this approach to create a question-answering assistant using the Gemini text model integrated through LangChain. The assistant is expected to answer questions about Gemini model. To make this possible you will add more context to the assistant using data from a website.\nIn this tutorial, you’ll implement the two main components in an RAG-based architecture:\n\nRetriever\nBased on the user’s query, the retriever retrieves relevant snippets that add context from the document. In this tutorial, the document is the website data. The relevant snippets are passed as context to the next stage - “Generator”.\nGenerator\nThe relevant snippets from the website data are passed to the LLM along with the user’s query to generate accurate answers.\n\nYou’ll learn more about these stages in the upcoming sections while implementing the application.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Langchain",
+      "Gemini API: Question Answering using LangChain and Pinecone"
+    ]
+  },
+  {
+    "objectID": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html#retriever",
+    "href": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html#retriever",
+    "title": "Gemini API: Question Answering using LangChain and Pinecone",
+    "section": "Retriever",
+    "text": "Retriever\nIn this stage, you will perform the following steps:\n\nRead and parse the website data using LangChain.\nCreate embeddings of the website data.\n\nEmbeddings are numerical representations (vectors) of text. Hence, text with similar meaning will have similar embedding vectors. You’ll make use of Gemini’s embedding model to create the embedding vectors of the website data.\n\nStore the embeddings in Pinecone’s vector store.\n\nPinecone is a vector database. The Pinecone vector store helps in the efficient retrieval of similar vectors. Thus, for adding context to the prompt for the LLM, relevant embeddings of the text matching the user’s question can be retrieved easily using Pinecone.\n\nCreate a Retriever from the Pinecone vector store.\n\nThe retriever will be used to pass relevant website embeddings to the LLM along with user queries.\n\nRead and parse the website data\nLangChain provides a wide variety of document loaders. To read the website data as a document, you will use the WebBaseLoader from LangChain.\nTo know more about how to read and parse input data from different sources using the document loaders of LangChain, read LangChain’s document loaders guide.\n\nimport { CheerioWebBaseLoader } from \"@langchain/community/document_loaders/web/cheerio\";\n\nconst loader = new CheerioWebBaseLoader(\"https://blog.google/technology/ai/google-gemini-ai/\");\nconst docs = await loader.load();\n\nIf you only want to select a specific portion of the website data to add context to the prompt, you can use regex, text slicing, or text splitting.\nIn this example, you’ll use the split() function to extract the required portion of the text. The extracted text should be converted back to LangChain’s Document format.\n\nimport { Document } from \"@langchain/core/documents\";\n\nconst text_content = docs[0].pageContent;\nconst text_content_1 = text_content.split(\"code, audio, image and video.\")[1];\nconst final_text = text_content_1.split(\"Cloud TPU v5p\")[0];\nconst processed_docs = [\n  new Document({\n    pageContent: final_text,\n    metadata: {\n      source: \"local\",\n    },\n  }),\n];\n\n\n\nInitialize Gemini’s embedding model\nTo create the embeddings from the website data, you’ll use Gemini’s embedding model, gemini-embedding-004 which supports creating text embeddings.\nTo use this embedding model, you have to import GoogleGenerativeAIEmbeddings from LangChain. To know more about the embedding model, read Google AI’s language documentation.\n\nimport { GoogleGenerativeAIEmbeddings } from \"@langchain/google-genai\";\n\nconst gemini_embeddings = new GoogleGenerativeAIEmbeddings({\n  apiKey: GEMINI_API_KEY,\n  model: \"models/gemini-embedding-001\",\n});\n\n\n\nStore the data using Pinecone\nTo create a Pinecone vector database, first, you have to initialize your Pinecone client connection using the API key you set previously.\nIn Pinecone, vector embeddings have to be stored in indexes. An index represents the vector data’s top-level organizational unit. The vectors in any index must have the same dimensionality and distance metric for calculating similarity. You can read more about indexes in Pinecone’s Indexes documentation.\nFirst, you’ll create an index using Pinecone’s createIndex function. Pinecone allows you to create two types of indexes, Serverless indexes and Pod-based indexes. Pinecone’s free starter plan lets you create only one project and one pod-based starter index with sufficient resources to support 100,000 vectors. For this tutorial, you have to create a pod-based starter index. To know more about different indexes and how they can be created, read Pinecone’s create indexes guide.\nNext, you’ll insert the documents you extracted earlier from the website data into the newly created index using LangChain’s Pinecone.fromDocuments. Under the hood, this function creates embeddings from the documents created by the document loader of LangChain using any specified embedding model and inserts them into the specified index in a Pinecone vector database.\nYou have to specify the processed_docs you created from the website data using LangChain’s WebBasedLoader and the gemini_embeddings as the embedding model when invoking the fromDocuments function to create the vector database from the website data.\n\nimport { Pinecone } from \"@pinecone-database/pinecone\";\nimport { PineconeStore } from \"@langchain/pinecone\";\n\nconst INDEX_NAME = \"langchain-showcase\";\n\nconst pinecone = new Pinecone({\n  apiKey: PINECONE_API_KEY,\n});\n\nconst existing_indexes = await pinecone.listIndexes();\nif (!existing_indexes.indexes?.some((idx) =&gt; idx.name === INDEX_NAME)) {\n  console.log(\"Creating index...\");\n  await pinecone.createIndex({\n    name: INDEX_NAME,\n    dimension: 3072, // gemini-embedding-001 dimension\n    metric: \"cosine\",\n    spec: {\n      serverless: {\n        cloud: \"aws\",\n        region: \"us-east-1\",\n      },\n    },\n  });\n\n  console.log(`Index ${INDEX_NAME} created.`);\n}\n\nconst pinecone_index = pinecone.Index(INDEX_NAME);\n\nCreating index...\nIndex langchain-showcase created.\n\n\n\nconst vector_store = await PineconeStore.fromDocuments(processed_docs, gemini_embeddings, {\n  pineconeIndex: pinecone_index,\n});\n\n\n\nCreate a retriever using Pinecone\nYou’ll now create a retriever that can retrieve website data embeddings from the newly created Pinecone vector store. This retriever can be later used to pass embeddings that provide more context to the LLM for answering user’s queries.\nInvoke the asRetriever function of the vector store you initialized in the last step, to create a retriever.\n\nconst retriever = vector_store.asRetriever();\nconsole.log((await retriever.invoke(\"MMLU\")).length);\n\n1",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Langchain",
+      "Gemini API: Question Answering using LangChain and Pinecone"
+    ]
+  },
+  {
+    "objectID": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html#generator",
+    "href": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html#generator",
+    "title": "Gemini API: Question Answering using LangChain and Pinecone",
+    "section": "Generator",
+    "text": "Generator\nThe Generator prompts the LLM for an answer when the user asks a question. The retriever you created in the previous stage from the Pinecone vector store will be used to pass relevant embeddings from the website data to the LLM to provide more context to the user’s query.\nYou’ll perform the following steps in this stage:\n\nChain together the following:\n\nA prompt for extracting the relevant embeddings using the retriever.\nA prompt for answering any question using LangChain.\nAn LLM model from Gemini for prompting.\n\nRun the created chain with a question as input to prompt the model for an answer.\n\n\nInitialize Gemini\nYou must import ChatGoogleGenerativeAI from LangChain to initialize your model. In this example, you will use gemini-2.5-flash, as it supports text summarization. To know more about the text model, read Google AI’s language documentation.\nYou can configure the model parameters such as temperature or topP, by passing the appropriate values when initializing the ChatGoogleGenerativeAI LLM. To learn more about the parameters and their uses, read Google AI’s concepts guide.\n\nimport { ChatGoogleGenerativeAI } from \"@langchain/google-genai\";\n\nconst llm = new ChatGoogleGenerativeAI({\n  model: MODEL_ID,\n  apiKey: GEMINI_API_KEY,\n});\n\n\n\nCreate prompt templates\nYou’ll use LangChain’s PromptTemplate to generate prompts to the LLM for answering questions.\nIn the llm_prompt, the variable question will be replaced later by the input question, and the variable context will be replaced by the relevant text from the website retrieved from the Chroma vector store.\n\nimport { PromptTemplate } from \"@langchain/core/prompts\";\n\nconst llm_prompt = PromptTemplate.fromTemplate(\n  `\n  You are an assistant for question-answering tasks.\n  Use the following context to answer the question.\n  If you don't know the answer, just say that you don't know.\n  Use five sentences maximum and keep the answer concise.\\n\n  Question: {question} \\n\n  Context: {context} \\n\n  Answer:\n  `\n);\nconsole.log(JSON.stringify(llm_prompt, null, 2));\n\n{\n  \"lc\": 1,\n  \"type\": \"constructor\",\n  \"id\": [\n    \"langchain_core\",\n    \"prompts\",\n    \"prompt\",\n    \"PromptTemplate\"\n  ],\n  \"kwargs\": {\n    \"input_variables\": [\n      \"question\",\n      \"context\"\n    ],\n    \"template_format\": \"f-string\",\n    \"template\": \"\\n  You are an assistant for question-answering tasks.\\n  Use the following context to answer the question.\\n  If you don't know the answer, just say that you don't know.\\n  Use five sentences maximum and keep the answer concise.\\n\\n  Question: {question} \\n\\n  Context: {context} \\n\\n  Answer:\\n  \"\n  }\n}\n\n\n\n\nCreate a stuff documents chain\nLangChain provides Chains for chaining together LLMs with each other or other components for complex applications. You will create a stuff documents chain for this application. A stuff documents chain lets you combine all the relevant documents, insert them into the prompt, and pass that prompt to the LLM.\nYou can create a stuff documents chain using the LangChain Expression Language (LCEL).\nTo learn more about different types of document chains, read LangChain’s chains guide.\nThe stuff documents chain for this application retrieves the relevant website data and passes it as the context to an LLM prompt along with the input question.\n\nimport { Document } from \"@langchain/core/documents\";\nimport { RunnablePassthrough, RunnableMap, RunnableSequence } from \"@langchain/core/runnables\";\nimport { StringOutputParser } from \"@langchain/core/output_parsers\";\n\nconst formatDocs = (docs: Document[]) =&gt; docs.map((doc) =&gt; doc.pageContent).join(\"\\n\\n\");\n\nconst rag_chain = RunnableSequence.from([\n  // Step 1: Map inputs into { context, question }\n  new RunnableMap({\n    steps: {\n      context: retriever.pipe(formatDocs),\n      question: new RunnablePassthrough(),\n    },\n  }),\n  // Step 2: Apply prompt\n  llm_prompt,\n  // Step 3: Call LLM\n  llm,\n  // Step 4: Parse output to string\n  new StringOutputParser(),\n]);\n\n\n\nPrompt the model\nYou can now query the LLM by passing any question to the invoke() function of the stuff documents chain you created previously.\n\ntslab.display.markdown(await rag_chain.invoke(\"What is Gemini?\"));\n\nGemini is Google’s largest, most capable, and flexible AI model, designed to run efficiently on various devices from data centers to mobile phones. It is natively multimodal, trained to seamlessly understand and reason about different inputs like text, images, and audio. Its first version, Gemini 1.0, is optimized into three sizes: Ultra, Pro, and Nano, catering to different task complexities. Gemini excels at sophisticated reasoning, advanced coding, and solving complex problems.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Langchain",
+      "Gemini API: Question Answering using LangChain and Pinecone"
+    ]
+  },
+  {
+    "objectID": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html#summary",
+    "href": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html#summary",
+    "title": "Gemini API: Question Answering using LangChain and Pinecone",
+    "section": "Summary",
+    "text": "Summary\nGemini API works great with Langchain. The integration is seamless and provides an easy interface for:\n\nloading and splitting files\ncreating Pinecone database with embeddings\nanswering questions based on context from files",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Langchain",
+      "Gemini API: Question Answering using LangChain and Pinecone"
+    ]
+  },
+  {
+    "objectID": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html#whats-next",
+    "href": "examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html#whats-next",
+    "title": "Gemini API: Question Answering using LangChain and Pinecone",
+    "section": "What’s next?",
+    "text": "What’s next?\nThis notebook showed only one possible use case for langchain with Gemini API. You can find many more here.",
+    "crumbs": [
+      "Home",
+      "Examples",
+      "Langchain",
+      "Gemini API: Question Answering using LangChain and Pinecone"
     ]
   },
   {

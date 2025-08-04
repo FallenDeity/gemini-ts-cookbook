@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API: Code analysis using LangChain – Gemini Cookbook</title>
+<title>Gemini API: Question Answering using LangChain and Pinecone – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html" rel="next">
-<link href="../../examples/langchain/Chat_with_SQL_using_langchain.html" rel="prev">
+<link href="../../examples/prompting/Adding_context_information.html" rel="next">
+<link href="../../examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html" rel="prev">
 <link href="../../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -117,10 +117,10 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Gemini API: Code analysis using LangChain – Gemini Cookbook">
+<meta property="og:title" content="Gemini API: Question Answering using LangChain and Pinecone – Gemini Cookbook">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta name="twitter:title" content="Gemini API: Code analysis using LangChain – Gemini Cookbook">
+<meta name="twitter:title" content="Gemini API: Question Answering using LangChain and Pinecone – Gemini Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -176,7 +176,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Chat_with_SQL_using_langchain.html">Langchain</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Code_analysis_using_Gemini_LangChain.html">Gemini API: Code analysis using LangChain</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Chat_with_SQL_using_langchain.html">Langchain</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html">Gemini API: Question Answering using LangChain and Pinecone</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -393,7 +393,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/langchain/Code_analysis_using_Gemini_LangChain.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../examples/langchain/Code_analysis_using_Gemini_LangChain.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Code analysis using LangChain</span></a>
   </div>
 </li>
@@ -405,7 +405,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Gemini API: Question Answering using LangChain and Pinecone</span></a>
   </div>
 </li>
@@ -691,27 +691,41 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a>
   <ul class="collapse">
   <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
   <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
   <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
   <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
+  <li><a href="#setup-pinecone" id="toc-setup-pinecone" class="nav-link" data-scroll-target="#setup-pinecone">Setup Pinecone</a></li>
   </ul></li>
-  <li><a href="#prepare-the-files" id="toc-prepare-the-files" class="nav-link" data-scroll-target="#prepare-the-files">Prepare the files</a></li>
-  <li><a href="#create-the-database" id="toc-create-the-database" class="nav-link" data-scroll-target="#create-the-database">Create the database</a></li>
-  <li><a href="#question-answering" id="toc-question-answering" class="nav-link" data-scroll-target="#question-answering">Question Answering</a></li>
+  <li><a href="#basic-steps" id="toc-basic-steps" class="nav-link" data-scroll-target="#basic-steps">Basic steps</a></li>
+  <li><a href="#retriever" id="toc-retriever" class="nav-link" data-scroll-target="#retriever">Retriever</a>
+  <ul class="collapse">
+  <li><a href="#read-and-parse-the-website-data" id="toc-read-and-parse-the-website-data" class="nav-link" data-scroll-target="#read-and-parse-the-website-data">Read and parse the website data</a></li>
+  <li><a href="#initialize-geminis-embedding-model" id="toc-initialize-geminis-embedding-model" class="nav-link" data-scroll-target="#initialize-geminis-embedding-model">Initialize Gemini’s embedding model</a></li>
+  <li><a href="#store-the-data-using-pinecone" id="toc-store-the-data-using-pinecone" class="nav-link" data-scroll-target="#store-the-data-using-pinecone">Store the data using Pinecone</a></li>
+  <li><a href="#create-a-retriever-using-pinecone" id="toc-create-a-retriever-using-pinecone" class="nav-link" data-scroll-target="#create-a-retriever-using-pinecone">Create a retriever using Pinecone</a></li>
+  </ul></li>
+  <li><a href="#generator" id="toc-generator" class="nav-link" data-scroll-target="#generator">Generator</a>
+  <ul class="collapse">
+  <li><a href="#initialize-gemini" id="toc-initialize-gemini" class="nav-link" data-scroll-target="#initialize-gemini">Initialize Gemini</a></li>
+  <li><a href="#create-prompt-templates" id="toc-create-prompt-templates" class="nav-link" data-scroll-target="#create-prompt-templates">Create prompt templates</a></li>
+  <li><a href="#create-a-stuff-documents-chain" id="toc-create-a-stuff-documents-chain" class="nav-link" data-scroll-target="#create-a-stuff-documents-chain">Create a stuff documents chain</a></li>
+  <li><a href="#prompt-the-model" id="toc-prompt-the-model" class="nav-link" data-scroll-target="#prompt-the-model">Prompt the model</a></li>
+  </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next">What’s next?</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/langchain/Code_analysis_using_Gemini_LangChain.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/langchain/Code_analysis_using_Gemini_LangChain.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Chat_with_SQL_using_langchain.html">Langchain</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Code_analysis_using_Gemini_LangChain.html">Gemini API: Code analysis using LangChain</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Chat_with_SQL_using_langchain.html">Langchain</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html">Gemini API: Question Answering using LangChain and Pinecone</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Gemini API: Code analysis using LangChain</h1>
+<h1 class="title">Gemini API: Question Answering using LangChain and Pinecone</h1>
 </div>
 
 
@@ -728,12 +742,13 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </header>
 
 
-<p>This notebook shows how to use Gemini API with <a href="https://js.langchain.com/docs/">Langchain</a> for code analysis. The notebook will teach you:</p>
-<ul>
-<li>loading and splitting files</li>
-<li>creating an In-memory database with embedding information</li>
-<li>setting up a retrieval QA chain</li>
-</ul>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p><a href="https://ai.google.dev/models/gemini">Gemini</a> is a family of generative AI models that lets developers generate content and solve problems. These models are designed and trained to handle both text and images as input.</p>
+<p><a href="https://www.langchain.com/">LangChain</a> is a data framework designed to make integration of Large Language Models (LLM) like Gemini easier for applications.</p>
+<p><a href="https://www.pinecone.io/">Pinecone</a> is a cloud-first vector database that allows users to search across billions of embeddings with ultra-low query latency.</p>
+<p>In this notebook, you’ll learn how to create an application that answers questions using data from a website with the help of Gemini, LangChain, and Pinecone.</p>
+</section>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -768,7 +783,7 @@ Tip
 <p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then, we can load the API key in our code:</p>
-<div id="cell-4" class="cell" data-execution_count="1">
+<div id="cell-4" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
@@ -799,271 +814,281 @@ Note
 ├── .env
 └── examples
     └── langchain
-        └── Code_analysis_using_Gemini_LangChain.ipynb</code></pre>
+        └── Gemini_LangChain_QA_Pinecone_WebLoad.ipynb</code></pre>
 </div>
 </div>
 </section>
 <section id="select-a-model" class="level3">
 <h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
 <p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
-<div id="cell-7" class="cell" data-execution_count="2">
+<div id="cell-7" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-</section>
-<section id="prepare-the-files" class="level2">
-<h2 class="anchored" data-anchor-id="prepare-the-files">Prepare the files</h2>
-<p>First, download a <a href="https://github.com/langchain-ai/langchain-google">langchain-google</a> repository. It is the repository you will analyze in this example.</p>
-<p>It contains code integrating Gemini API, VertexAI, and other Google products with langchain.</p>
-<div id="cell-9" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> child_process <span class="op">=</span> <span class="pp">require</span>(<span class="st">"child_process"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"child_process"</span>)<span class="op">;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> util <span class="op">=</span> <span class="pp">require</span>(<span class="st">"util"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"util"</span>)<span class="op">;</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> execAsync <span class="op">=</span> util<span class="op">.</span><span class="fu">promisify</span>(child_process<span class="op">.</span><span class="at">exec</span>)<span class="op">;</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> REPO_DIR <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../../assets/langchain"</span><span class="op">,</span> <span class="st">"langchain-google"</span>)<span class="op">;</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">setupRepository</span>() {</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (fs<span class="op">.</span><span class="fu">existsSync</span>(REPO_DIR)) {</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Repository already exists, skipping clone."</span>)<span class="op">;</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span><span class="op">;</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Cloning repository..."</span>)<span class="op">;</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="fu">execAsync</span>(<span class="vs">`git clone https://github.com/langchain-ai/langchain-google.git </span><span class="sc">${</span>REPO_DIR<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Repository cloned successfully"</span>)<span class="op">;</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (error) {</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Repository might already exist or clone failed:"</span><span class="op">,</span> error<span class="op">.</span><span class="at">message</span>)<span class="op">;</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-10" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">setupRepository</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="setup-pinecone" class="level3">
+<h3 class="anchored" data-anchor-id="setup-pinecone">Setup Pinecone</h3>
+<p>To use Pinecone in your application, you must have an API key. To create an API key you have to set up a Pinecone account. Visit <a href="https://app.pinecone.io/">Pinecone’s app page</a>, and Sign up/Log in to your account. Then navigate to the “API Keys” section and copy your API key.</p>
+<p>For more detailed instructions on getting the API key, you can read Pinecone’s <a href="https://docs.pinecone.io/docs/quickstart#2-get-your-api-key">Quickstart documentation</a>.</p>
+<p>Set the environment variable <code>PINECONE_API_KEY</code> to configure Pinecone to use your API key.</p>
+<div id="cell-9" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> PINECONE_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">PINECONE_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>PINECONE_API_KEY) {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"PINECONE_API_KEY is not set in the environment variables"</span>)<span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"PINECONE_API_KEY is set in the environment variables"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Cloning repository...
-Repository cloned successfully</code></pre>
-</div>
-</div>
-<p>This example will focus only on the integration of Gemini API with langchain and ignore the rest of the codebase.</p>
-<div id="cell-12" class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> glob <span class="op">=</span> <span class="pp">require</span>(<span class="st">"glob"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"glob"</span>)<span class="op">;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> textLoader <span class="op">=</span> <span class="pp">require</span>(<span class="st">"langchain/document_loaders/fs/text"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"langchain/document_loaders/fs/text"</span>)<span class="op">;</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> textSplitter <span class="op">=</span> <span class="pp">require</span>(<span class="st">"langchain/text_splitter"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"langchain/text_splitter"</span>)<span class="op">;</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">loadDocuments</span>() {</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Loading documents..."</span>)<span class="op">;</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> repoPath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(REPO_DIR<span class="op">,</span> <span class="st">"libs/genai/langchain_google_genai"</span>)<span class="op">;</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> pattern <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(repoPath<span class="op">,</span> <span class="st">"**/*.py"</span>)<span class="op">;</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> files <span class="op">=</span> glob<span class="op">.</span><span class="fu">sync</span>(pattern<span class="op">,</span> { recursive<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Found </span><span class="sc">${</span>files<span class="op">.</span><span class="at">length</span><span class="sc">}</span><span class="vs"> Python files`</span>)<span class="op">;</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> splitter <span class="op">=</span> textSplitter<span class="op">.</span><span class="at">RecursiveCharacterTextSplitter</span><span class="op">.</span><span class="fu">fromLanguage</span>(</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    textSplitter<span class="op">.</span><span class="at">SupportedTextSplitterLanguages</span>[<span class="dv">6</span>]<span class="op">,</span> <span class="co">// Python</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>      chunkSize<span class="op">:</span> <span class="dv">2000</span><span class="op">,</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>      chunkOverlap<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> docs<span class="op">:</span> Awaited<span class="op">&lt;</span><span class="bu">ReturnType</span><span class="op">&lt;</span><span class="kw">typeof</span> splitter<span class="op">.</span><span class="at">splitDocuments</span><span class="op">&gt;&gt;</span> <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> file <span class="kw">of</span> files) {</span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> {</span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Check if file exists and is readable</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (fs<span class="op">.</span><span class="fu">existsSync</span>(file)) {</span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> loader <span class="op">=</span> <span class="kw">new</span> textLoader<span class="op">.</span><span class="fu">TextLoader</span>(file)<span class="op">;</span></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> fileDocuments <span class="op">=</span> <span class="cf">await</span> loader<span class="op">.</span><span class="fu">load</span>()<span class="op">;</span></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> splitDocs <span class="op">=</span> <span class="cf">await</span> splitter<span class="op">.</span><span class="fu">splitDocuments</span>(fileDocuments)<span class="op">;</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>        docs<span class="op">.</span><span class="fu">push</span>(<span class="op">...</span>splitDocs)<span class="op">;</span></span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Processed: </span><span class="sc">${</span>file<span class="sc">}</span><span class="vs"> (</span><span class="sc">${</span>splitDocs<span class="op">.</span><span class="at">length</span><span class="sc">}</span><span class="vs"> chunks)`</span>)<span class="op">;</span></span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">catch</span> (error) {</span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">warn</span>(<span class="vs">`Failed to load </span><span class="sc">${</span>file<span class="sc">}</span><span class="vs">:`</span><span class="op">,</span> error<span class="op">.</span><span class="at">message</span>)<span class="op">;</span></span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Total documents loaded: </span><span class="sc">${</span>docs<span class="op">.</span><span class="at">length</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> docs<span class="op">;</span></span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Each file with a matching path will be loaded and split by <code>RecursiveCharacterTextSplitter</code>. In this example, it is specified, that the files are written in Python. It helps split the files without having documents that lack context.</p>
-<div id="cell-14" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> docs <span class="op">=</span> <span class="cf">await</span> <span class="fu">loadDocuments</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Loading documents...
-Found 11 Python files
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/__init__.py (2 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/_common.py (6 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/_enums.py (1 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/_function_utils.py (16 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/_genai_extension.py (15 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/_image_utils.py (5 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/chat_models.py (59 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/embeddings.py (11 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/genai_aqa.py (3 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/google_vector_store.py (11 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/llms.py (5 chunks)
-Total documents loaded: 134</code></pre>
-</div>
-</div>
-<p><code>SupportedTextSplitterLanguages</code> literal provides common separators used in most popular programming languages, it lowers the chances of classes or functions being split in the middle.</p>
-<div id="cell-16" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>textSplitter<span class="op">.</span><span class="at">RecursiveCharacterTextSplitter</span><span class="op">.</span><span class="fu">getSeparatorsForLanguage</span>(textSplitter<span class="op">.</span><span class="at">SupportedTextSplitterLanguages</span>[<span class="dv">6</span>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[ '\nclass ', '\ndef ', '\n\tdef ', '\n\n', '\n', ' ', '' ]</code></pre>
+<pre><code>PINECONE_API_KEY is set in the environment variables</code></pre>
 </div>
 </div>
 </section>
-<section id="create-the-database" class="level2">
-<h2 class="anchored" data-anchor-id="create-the-database">Create the database</h2>
-<p>The data will be loaded into the memory since the database doesn’t need to be permanent in this case and is small enough to fit.</p>
-<div id="cell-18" class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> memory <span class="op">=</span> <span class="pp">require</span>(<span class="st">"langchain/vectorstores/memory"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"langchain/vectorstores/memory"</span>)<span class="op">;</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> googleGenerativeAI <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@langchain/google-genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@langchain/google-genai"</span>)<span class="op">;</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">createVectorStore</span>(documents<span class="op">:</span> Awaited<span class="op">&lt;</span><span class="bu">ReturnType</span><span class="op">&lt;</span><span class="kw">typeof</span> loadDocuments<span class="op">&gt;&gt;</span>) {</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Creating vector store..."</span>)<span class="op">;</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> embeddings <span class="op">=</span> <span class="kw">new</span> googleGenerativeAI<span class="op">.</span><span class="fu">GoogleGenerativeAIEmbeddings</span>({</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> <span class="st">"models/text-embedding-004"</span><span class="op">,</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    apiKey<span class="op">:</span> GEMINI_API_KEY<span class="op">,</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> vectorStore <span class="op">=</span> <span class="cf">await</span> memory<span class="op">.</span><span class="at">MemoryVectorStore</span><span class="op">.</span><span class="fu">fromDocuments</span>(documents<span class="op">,</span> embeddings)<span class="op">;</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Vector store created successfully"</span>)<span class="op">;</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> vectorStore<span class="op">;</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Everything needed is ready, and now you can create the database. It should not take longer than a few seconds.</p>
-<div id="cell-20" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> vectorStore <span class="op">=</span> <span class="cf">await</span> <span class="fu">createVectorStore</span>(docs)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Creating vector store...
-Vector store created successfully</code></pre>
-</div>
-</div>
 </section>
-<section id="question-answering" class="level2">
-<h2 class="anchored" data-anchor-id="question-answering">Question Answering</h2>
-<p>Set-up the document retriever.</p>
-<div id="cell-22" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> retriever <span class="op">=</span> vectorStore<span class="op">.</span><span class="fu">asRetriever</span>({</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  k<span class="op">:</span> <span class="dv">20</span><span class="op">,</span> <span class="co">// number of documents to return</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  searchType<span class="op">:</span> <span class="st">"similarity"</span><span class="op">,</span> <span class="co">// cosine distance</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-23" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> llm <span class="op">=</span> <span class="kw">new</span> googleGenerativeAI<span class="op">.</span><span class="fu">ChatGoogleGenerativeAI</span>({</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  apiKey<span class="op">:</span> GEMINI_API_KEY<span class="op">,</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now, you can create a chain for Question Answering. In this case, <code>RetrievalQA</code> chain will be used.</p>
-<p>If you want to use the chat option instead, use <code>ConversationalRetrievalChain</code>.</p>
-<div id="cell-25" class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chains <span class="op">=</span> <span class="pp">require</span>(<span class="st">"langchain/chains"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"langchain/chains"</span>)<span class="op">;</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">// eslint-disable-next-line @typescript-eslint/no-deprecated</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> qaChain <span class="op">=</span> chains<span class="op">.</span><span class="at">RetrievalQAChain</span><span class="op">.</span><span class="fu">fromLLM</span>(llm<span class="op">,</span> retriever)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The chain is ready to answer your questions.</p>
-<div id="cell-27" class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">callQAChain</span>(prompt<span class="op">:</span> <span class="dt">string</span>) {</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> qaChain<span class="op">.</span><span class="fu">invoke</span>({</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>      query<span class="op">:</span> prompt<span class="op">,</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`**Answer:**</span><span class="sc">\n\n${</span>response<span class="op">.</span><span class="at">text</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (error) {</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">"Error calling QA chain:"</span><span class="op">,</span> error)<span class="op">;</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-28" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">callQAChain</span>(<span class="st">"Show hierarchy for _BaseGoogleGenerativeAI. Do not show content of classes."</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Answer:</strong></p>
-<pre><code>BaseModel
-  └── _BaseGoogleGenerativeAI
-      ├── ChatGoogleGenerativeAI
-      └── GoogleGenerativeAI</code></pre>
-</div>
-</div>
-<div id="cell-29" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">callQAChain</span>(<span class="st">"What is the return type of embedding models?"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Answer:</strong></p>
-<p>The return type of embedding models depends on whether a single text or a list of texts is being embedded:</p>
-<ul>
-<li>For embedding a <strong>single text</strong> (e.g., <code>embed_query</code> or <code>aembed_query</code>), the return type is a <code>List[float]</code>.</li>
-<li>For embedding a <strong>list of texts</strong> (e.g., <code>embed_documents</code> or <code>aembed_documents</code>), the return type is a <code>List[List[float]]</code>, where each inner list is the embedding for a corresponding text.</li>
-</ul>
-</div>
-</div>
-<div id="cell-30" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">callQAChain</span>(<span class="st">"What classes are related to Attributed Question and Answering."</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Answer:</strong></p>
-<p>The classes related to Attributed Question and Answering (AQA) are:</p>
+<section id="basic-steps" class="level2">
+<h2 class="anchored" data-anchor-id="basic-steps">Basic steps</h2>
+<p>LLMs are trained offline on a large corpus of public data. Hence they cannot answer questions based on custom or private data accurately without additional context.</p>
+<p>If you want to make use of LLMs to answer questions based on private data, you have to provide the relevant documents as context alongside your prompt. This approach is called Retrieval Augmented Generation (RAG).</p>
+<p>You will use this approach to create a question-answering assistant using the Gemini text model integrated through LangChain. The assistant is expected to answer questions about Gemini model. To make this possible you will add more context to the assistant using data from a website.</p>
+<p>In this tutorial, you’ll implement the two main components in an RAG-based architecture:</p>
 <ol type="1">
-<li><strong><code>GenAIAqa</code></strong>: This is the main class representing Google’s Attributed Question and Answering service. It’s a <code>RunnableSerializable</code> that takes <code>AqaInput</code> and returns <code>AqaOutput</code>.</li>
-<li><strong><code>AqaInput</code></strong>: A Pydantic model defining the input structure for <code>GenAIAqa.invoke</code>, which includes <code>prompt</code> and <code>source_passages</code>.</li>
-<li><strong><code>AqaOutput</code></strong>: A Pydantic model defining the output structure from <code>GenAIAqa.invoke</code>, which includes the <code>answer</code>, <code>attributed_passages</code>, and <code>answerable_probability</code>.</li>
-<li><strong><code>_AqaModel</code></strong>: An internal wrapper class used by <code>GenAIAqa</code> to interact with the underlying Google Generative Language AQA API.</li>
-<li><strong><code>GroundedAnswer</code></strong>: A dataclass used internally (specifically by <code>_AqaModel</code>) to structure the response received from the <code>generate_answer</code> API call before it’s converted into <code>AqaOutput</code>.</li>
-<li><strong><code>Passage</code></strong>: A dataclass used within <code>GroundedAnswer</code> to represent an individual attributed passage, containing its <code>text</code> and <code>id</code>.</li>
-<li><strong><code>GoogleVectorStore</code></strong>: While not an AQA class itself, it contains an <code>as_aqa</code> method that constructs and returns a <code>Runnable[str, AqaOutput]</code> which includes <code>GenAIAqa</code>, making it a key class for integrating with AQA functionality.</li>
+<li><p>Retriever</p>
+<p>Based on the user’s query, the retriever retrieves relevant snippets that add context from the document. In this tutorial, the document is the website data. The relevant snippets are passed as context to the next stage - “Generator”.</p></li>
+<li><p>Generator</p>
+<p>The relevant snippets from the website data are passed to the LLM along with the user’s query to generate accurate answers.</p></li>
 </ol>
+<p>You’ll learn more about these stages in the upcoming sections while implementing the application.</p>
+</section>
+<section id="retriever" class="level2">
+<h2 class="anchored" data-anchor-id="retriever">Retriever</h2>
+<p>In this stage, you will perform the following steps:</p>
+<ol type="1">
+<li><p>Read and parse the website data using LangChain.</p></li>
+<li><p>Create embeddings of the website data.</p></li>
+</ol>
+<p>Embeddings are numerical representations (vectors) of text. Hence, text with similar meaning will have similar embedding vectors. You’ll make use of Gemini’s embedding model to create the embedding vectors of the website data.</p>
+<ol start="3" type="1">
+<li>Store the embeddings in Pinecone’s vector store.</li>
+</ol>
+<p>Pinecone is a vector database. The Pinecone vector store helps in the efficient retrieval of similar vectors. Thus, for adding context to the prompt for the LLM, relevant embeddings of the text matching the user’s question can be retrieved easily using Pinecone.</p>
+<ol start="4" type="1">
+<li>Create a Retriever from the Pinecone vector store.</li>
+</ol>
+<p>The retriever will be used to pass relevant website embeddings to the LLM along with user queries.</p>
+<section id="read-and-parse-the-website-data" class="level3">
+<h3 class="anchored" data-anchor-id="read-and-parse-the-website-data">Read and parse the website data</h3>
+<p>LangChain provides a wide variety of document loaders. To read the website data as a document, you will use the WebBaseLoader from LangChain.</p>
+<p>To know more about how to read and parse input data from different sources using the document loaders of LangChain, read LangChain’s document loaders guide.</p>
+<div id="cell-13" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { CheerioWebBaseLoader } <span class="im">from</span> <span class="st">"@langchain/community/document_loaders/web/cheerio"</span><span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> loader <span class="op">=</span> <span class="kw">new</span> <span class="fu">CheerioWebBaseLoader</span>(<span class="st">"https://blog.google/technology/ai/google-gemini-ai/"</span>)<span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> docs <span class="op">=</span> <span class="cf">await</span> loader<span class="op">.</span><span class="fu">load</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you only want to select a specific portion of the website data to add context to the prompt, you can use regex, text slicing, or text splitting.</p>
+<p>In this example, you’ll use the <code>split()</code> function to extract the required portion of the text. The extracted text should be converted back to LangChain’s Document format.</p>
+<div id="cell-15" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { <span class="bu">Document</span> } <span class="im">from</span> <span class="st">"@langchain/core/documents"</span><span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> text_content <span class="op">=</span> docs[<span class="dv">0</span>]<span class="op">.</span><span class="at">pageContent</span><span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> text_content_1 <span class="op">=</span> text_content<span class="op">.</span><span class="fu">split</span>(<span class="st">"code, audio, image and video."</span>)[<span class="dv">1</span>]<span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> final_text <span class="op">=</span> text_content_1<span class="op">.</span><span class="fu">split</span>(<span class="st">"Cloud TPU v5p"</span>)[<span class="dv">0</span>]<span class="op">;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> processed_docs <span class="op">=</span> [</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">new</span> <span class="bu">Document</span>({</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    pageContent<span class="op">:</span> final_text<span class="op">,</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    metadata<span class="op">:</span> {</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>      source<span class="op">:</span> <span class="st">"local"</span><span class="op">,</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  })<span class="op">,</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="initialize-geminis-embedding-model" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-geminis-embedding-model">Initialize Gemini’s embedding model</h3>
+<p>To create the embeddings from the website data, you’ll use Gemini’s embedding model, <code>gemini-embedding-004</code> which supports creating text embeddings.</p>
+<p>To use this embedding model, you have to import <code>GoogleGenerativeAIEmbeddings</code> from LangChain. To know more about the embedding model, read Google AI’s <a href="https://ai.google.dev/models/gemini">language documentation</a>.</p>
+<div id="cell-17" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { GoogleGenerativeAIEmbeddings } <span class="im">from</span> <span class="st">"@langchain/google-genai"</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> gemini_embeddings <span class="op">=</span> <span class="kw">new</span> <span class="fu">GoogleGenerativeAIEmbeddings</span>({</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  apiKey<span class="op">:</span> GEMINI_API_KEY<span class="op">,</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> <span class="st">"models/gemini-embedding-001"</span><span class="op">,</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="store-the-data-using-pinecone" class="level3">
+<h3 class="anchored" data-anchor-id="store-the-data-using-pinecone">Store the data using Pinecone</h3>
+<p>To create a Pinecone vector database, first, you have to initialize your Pinecone client connection using the API key you set previously.</p>
+<p>In Pinecone, vector embeddings have to be stored in indexes. An index represents the vector data’s top-level organizational unit. The vectors in any index must have the same dimensionality and distance metric for calculating similarity. You can read more about indexes in <a href="https://docs.pinecone.io/docs/indexes">Pinecone’s Indexes documentation</a>.</p>
+<p>First, you’ll create an index using Pinecone’s <code>createIndex</code> function. Pinecone allows you to create two types of indexes, Serverless indexes and Pod-based indexes. Pinecone’s free starter plan lets you create only one project and one pod-based starter index with sufficient resources to support 100,000 vectors. For this tutorial, you have to create a pod-based starter index. To know more about different indexes and how they can be created, read Pinecone’s <a href="https://docs.pinecone.io/docs/new-api#creating-indexes">create indexes guide</a>.</p>
+<p>Next, you’ll insert the documents you extracted earlier from the website data into the newly created index using LangChain’s <code>Pinecone.fromDocuments</code>. Under the hood, this function creates embeddings from the documents created by the document loader of LangChain using any specified embedding model and inserts them into the specified index in a Pinecone vector database.</p>
+<p>You have to specify the <code>processed_docs</code> you created from the website data using LangChain’s <code>WebBasedLoader</code> and the <code>gemini_embeddings</code> as the embedding model when invoking the <code>fromDocuments</code> function to create the vector database from the website data.</p>
+<div id="cell-19" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Pinecone } <span class="im">from</span> <span class="st">"@pinecone-database/pinecone"</span><span class="op">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { PineconeStore } <span class="im">from</span> <span class="st">"@langchain/pinecone"</span><span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> INDEX_NAME <span class="op">=</span> <span class="st">"langchain-showcase"</span><span class="op">;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> pinecone <span class="op">=</span> <span class="kw">new</span> <span class="fu">Pinecone</span>({</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  apiKey<span class="op">:</span> PINECONE_API_KEY<span class="op">,</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> existing_indexes <span class="op">=</span> <span class="cf">await</span> pinecone<span class="op">.</span><span class="fu">listIndexes</span>()<span class="op">;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>existing_indexes<span class="op">.</span><span class="at">indexes</span><span class="op">?.</span><span class="fu">some</span>((idx) <span class="kw">=&gt;</span> idx<span class="op">.</span><span class="at">name</span> <span class="op">===</span> INDEX_NAME)) {</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Creating index..."</span>)<span class="op">;</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">await</span> pinecone<span class="op">.</span><span class="fu">createIndex</span>({</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> INDEX_NAME<span class="op">,</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    dimension<span class="op">:</span> <span class="dv">3072</span><span class="op">,</span> <span class="co">// gemini-embedding-001 dimension</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    metric<span class="op">:</span> <span class="st">"cosine"</span><span class="op">,</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    spec<span class="op">:</span> {</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>      serverless<span class="op">:</span> {</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>        cloud<span class="op">:</span> <span class="st">"aws"</span><span class="op">,</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>        region<span class="op">:</span> <span class="st">"us-east-1"</span><span class="op">,</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Index </span><span class="sc">${</span>INDEX_NAME<span class="sc">}</span><span class="vs"> created.`</span>)<span class="op">;</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> pinecone_index <span class="op">=</span> pinecone<span class="op">.</span><span class="fu">Index</span>(INDEX_NAME)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Creating index...
+Index langchain-showcase created.</code></pre>
 </div>
 </div>
-<div id="cell-31" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">callQAChain</span>(<span class="st">"What are the dependencies of the GenAIAqa class?"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-20" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> vector_store <span class="op">=</span> <span class="cf">await</span> PineconeStore<span class="op">.</span><span class="fu">fromDocuments</span>(processed_docs<span class="op">,</span> gemini_embeddings<span class="op">,</span> {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  pineconeIndex<span class="op">:</span> pinecone_index<span class="op">,</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="create-a-retriever-using-pinecone" class="level3">
+<h3 class="anchored" data-anchor-id="create-a-retriever-using-pinecone">Create a retriever using Pinecone</h3>
+<p>You’ll now create a retriever that can retrieve website data embeddings from the newly created Pinecone vector store. This retriever can be later used to pass embeddings that provide more context to the LLM for answering user’s queries.</p>
+<p>Invoke the <code>asRetriever</code> function of the vector store you initialized in the last step, to create a retriever.</p>
+<div id="cell-22" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> retriever <span class="op">=</span> vector_store<span class="op">.</span><span class="fu">asRetriever</span>()<span class="op">;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>((<span class="cf">await</span> retriever<span class="op">.</span><span class="fu">invoke</span>(<span class="st">"MMLU"</span>))<span class="op">.</span><span class="at">length</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="generator" class="level2">
+<h2 class="anchored" data-anchor-id="generator">Generator</h2>
+<p>The Generator prompts the LLM for an answer when the user asks a question. The retriever you created in the previous stage from the Pinecone vector store will be used to pass relevant embeddings from the website data to the LLM to provide more context to the user’s query.</p>
+<p>You’ll perform the following steps in this stage:</p>
+<ol type="1">
+<li>Chain together the following:
+<ul>
+<li>A prompt for extracting the relevant embeddings using the retriever.</li>
+<li>A prompt for answering any question using LangChain.</li>
+<li>An LLM model from Gemini for prompting.</li>
+</ul></li>
+<li>Run the created chain with a question as input to prompt the model for an answer.</li>
+</ol>
+<section id="initialize-gemini" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-gemini">Initialize Gemini</h3>
+<p>You must import <code>ChatGoogleGenerativeAI</code> from LangChain to initialize your model. In this example, you will use <code>gemini-2.5-flash</code>, as it supports text summarization. To know more about the text model, read Google AI’s <a href="https://ai.google.dev/models/gemini">language documentation</a>.</p>
+<p>You can configure the model parameters such as <em>temperature</em> or <em>topP</em>, by passing the appropriate values when initializing the <code>ChatGoogleGenerativeAI</code> LLM. To learn more about the parameters and their uses, read Google AI’s <a href="https://ai.google.dev/docs/concepts#model_parameters">concepts guide</a>.</p>
+<div id="cell-25" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { ChatGoogleGenerativeAI } <span class="im">from</span> <span class="st">"@langchain/google-genai"</span><span class="op">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> llm <span class="op">=</span> <span class="kw">new</span> <span class="fu">ChatGoogleGenerativeAI</span>({</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  apiKey<span class="op">:</span> GEMINI_API_KEY<span class="op">,</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="create-prompt-templates" class="level3">
+<h3 class="anchored" data-anchor-id="create-prompt-templates">Create prompt templates</h3>
+<p>You’ll use LangChain’s <a href="https://js.langchain.com/docs/how_to/#prompt-templates">PromptTemplate</a> to generate prompts to the LLM for answering questions.</p>
+<p>In the <code>llm_prompt</code>, the variable <code>question</code> will be replaced later by the input question, and the variable <code>context</code> will be replaced by the relevant text from the website retrieved from the Chroma vector store.</p>
+<div id="cell-27" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { PromptTemplate } <span class="im">from</span> <span class="st">"@langchain/core/prompts"</span><span class="op">;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> llm_prompt <span class="op">=</span> PromptTemplate<span class="op">.</span><span class="fu">fromTemplate</span>(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="vs">`</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  You are an assistant for question-answering tasks.</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  Use the following context to answer the question.</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="vs">  If you don't know the answer, just say that you don't know.</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="vs">  Use five sentences maximum and keep the answer concise.</span><span class="sc">\n</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="vs">  Question: {question} </span><span class="sc">\n</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="vs">  Context: {context} </span><span class="sc">\n</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="vs">  Answer:</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="vs">  `</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(llm_prompt<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{
+  "lc": 1,
+  "type": "constructor",
+  "id": [
+    "langchain_core",
+    "prompts",
+    "prompt",
+    "PromptTemplate"
+  ],
+  "kwargs": {
+    "input_variables": [
+      "question",
+      "context"
+    ],
+    "template_format": "f-string",
+    "template": "\n  You are an assistant for question-answering tasks.\n  Use the following context to answer the question.\n  If you don't know the answer, just say that you don't know.\n  Use five sentences maximum and keep the answer concise.\n\n  Question: {question} \n\n  Context: {context} \n\n  Answer:\n  "
+  }
+}</code></pre>
+</div>
+</div>
+</section>
+<section id="create-a-stuff-documents-chain" class="level3">
+<h3 class="anchored" data-anchor-id="create-a-stuff-documents-chain">Create a stuff documents chain</h3>
+<p>LangChain provides <a href="https://js.langchain.com/docs/how_to/sequence/">Chains</a> for chaining together LLMs with each other or other components for complex applications. You will create a <strong>stuff documents chain</strong> for this application. A stuff documents chain lets you combine all the relevant documents, insert them into the prompt, and pass that prompt to the LLM.</p>
+<p>You can create a stuff documents chain using the <a href="https://js.langchain.com/docs/expression_language">LangChain Expression Language (LCEL)</a>.</p>
+<p>To learn more about different types of document chains, read LangChain’s <a href="https://v03.api.js.langchain.com/modules/langchain.chains.html">chains guide</a>.</p>
+<p>The stuff documents chain for this application retrieves the relevant website data and passes it as the context to an LLM prompt along with the input question.</p>
+<div id="cell-29" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { <span class="bu">Document</span> } <span class="im">from</span> <span class="st">"@langchain/core/documents"</span><span class="op">;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { RunnablePassthrough<span class="op">,</span> RunnableMap<span class="op">,</span> RunnableSequence } <span class="im">from</span> <span class="st">"@langchain/core/runnables"</span><span class="op">;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { StringOutputParser } <span class="im">from</span> <span class="st">"@langchain/core/output_parsers"</span><span class="op">;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> formatDocs <span class="op">=</span> (docs<span class="op">:</span> <span class="bu">Document</span>[]) <span class="kw">=&gt;</span> docs<span class="op">.</span><span class="fu">map</span>((doc) <span class="kw">=&gt;</span> doc<span class="op">.</span><span class="at">pageContent</span>)<span class="op">.</span><span class="fu">join</span>(<span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)<span class="op">;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> rag_chain <span class="op">=</span> RunnableSequence<span class="op">.</span><span class="fu">from</span>([</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Step 1: Map inputs into { context, question }</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">new</span> <span class="fu">RunnableMap</span>({</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    steps<span class="op">:</span> {</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>      context<span class="op">:</span> retriever<span class="op">.</span><span class="fu">pipe</span>(formatDocs)<span class="op">,</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>      question<span class="op">:</span> <span class="kw">new</span> <span class="fu">RunnablePassthrough</span>()<span class="op">,</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  })<span class="op">,</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Step 2: Apply prompt</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  llm_prompt<span class="op">,</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Step 3: Call LLM</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  llm<span class="op">,</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Step 4: Parse output to string</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">new</span> <span class="fu">StringOutputParser</span>()<span class="op">,</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="prompt-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="prompt-the-model">Prompt the model</h3>
+<p>You can now query the LLM by passing any question to the invoke() function of the stuff documents chain you created previously.</p>
+<div id="cell-31" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="cf">await</span> rag_chain<span class="op">.</span><span class="fu">invoke</span>(<span class="st">"What is Gemini?"</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Answer:</strong></p>
-<p>The <code>GenAIAqa</code> class has the following dependencies:</p>
-<ul>
-<li><strong><code>langchain_core</code></strong>:
-<ul>
-<li><code>RunnableSerializable</code></li>
-<li><code>RunnableConfig</code></li>
-<li><code>Document</code> (indirectly, via <code>_toAqaInput</code> used in <code>as_aqa</code> method from <code>GoogleVectorStore</code>)</li>
-<li><code>RunnablePassthrough</code>, <code>RunnableLambda</code> (used in <code>as_aqa</code> method)</li>
-</ul></li>
-<li><strong><code>pydantic</code></strong>:
-<ul>
-<li><code>BaseModel</code></li>
-<li><code>PrivateAttr</code></li>
-</ul></li>
-<li><strong><code>google.ai.generativelanguage</code> (aliased as <code>genai</code>)</strong>:
-<ul>
-<li><code>GenerativeServiceClient</code></li>
-<li><code>AnswerStyle</code> (from <code>GenerateAnswerRequest</code>)</li>
-<li><code>SafetySetting</code></li>
-</ul></li>
-<li><strong>Internal modules/classes within <code>langchain_google_genai</code></strong>:
-<ul>
-<li><code>_genai_extension</code> (aliased as <code>genaix</code>): This module provides functions like <code>build_generative_service</code>, <code>generate_answer</code>, and the <code>GroundedAnswer</code> type.</li>
-<li><code>_AqaModel</code> (an internal wrapper class)</li>
-<li><code>AqaInput</code> (its input model)</li>
-<li><code>AqaOutput</code> (its output model)</li>
-</ul></li>
-</ul>
+<p>Gemini is Google’s largest, most capable, and flexible AI model, designed to run efficiently on various devices from data centers to mobile phones. It is natively multimodal, trained to seamlessly understand and reason about different inputs like text, images, and audio. Its first version, Gemini 1.0, is optimized into three sizes: Ultra, Pro, and Nano, catering to different task complexities. Gemini excels at sophisticated reasoning, advanced coding, and solving complex problems.</p>
 </div>
 </div>
+</section>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <p>Gemini API works great with Langchain. The integration is seamless and provides an easy interface for:</p>
 <ul>
 <li>loading and splitting files</li>
-<li>creating an In-memory database with embedding information</li>
+<li>creating Pinecone database with embeddings</li>
 <li>answering questions based on context from files</li>
 </ul>
 </section>
@@ -1476,13 +1501,13 @@ Vector store created successfully</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../examples/langchain/Chat_with_SQL_using_langchain.html" class="pagination-link" aria-label="Gemini API: Chat with SQL using LangChain">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Chat with SQL using LangChain</span>
+      <a href="../../examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html" class="pagination-link" aria-label="Gemini API: Question Answering using LangChain and Chroma">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Question Answering using LangChain and Chroma</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html" class="pagination-link" aria-label="Gemini API: Question Answering using LangChain and Chroma">
-        <span class="nav-page-text">Gemini API: Question Answering using LangChain and Chroma</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../examples/prompting/Adding_context_information.html" class="pagination-link" aria-label="Gemini API: Adding context information">
+        <span class="nav-page-text">Gemini API: Adding context information</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1491,5 +1516,5 @@ Vector store created successfully</code></pre>
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/langchain/Code_analysis_using_Gemini_LangChain.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/langchain/Code_analysis_using_Gemini_LangChain.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
