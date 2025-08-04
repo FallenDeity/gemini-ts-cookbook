@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API: Text Classification – Gemini Cookbook</title>
+<title>Gemini API: Code analysis using LangChain – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../examples/json_capabilities/Text_Summarization.html" rel="next">
-<link href="../../examples/json_capabilities/Sentiment_Analysis.html" rel="prev">
+<link href="../../examples/prompting/Adding_context_information.html" rel="next">
+<link href="../../examples/langchain/Chat_with_SQL_using_langchain.html" rel="prev">
 <link href="../../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -117,10 +117,10 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Gemini API: Text Classification – Gemini Cookbook">
+<meta property="og:title" content="Gemini API: Code analysis using LangChain – Gemini Cookbook">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta name="twitter:title" content="Gemini API: Text Classification – Gemini Cookbook">
+<meta name="twitter:title" content="Gemini API: Code analysis using LangChain – Gemini Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -176,7 +176,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Entity_Extraction_JSON.html">Json Capabilities</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Text_Classification.html">Gemini API: Text Classification</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Chat_with_SQL_using_langchain.html">Langchain</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Code_analysis_using_Gemini_LangChain.html">Gemini API: Code analysis using LangChain</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -343,13 +343,13 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Json Capabilities</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../examples/json_capabilities/Entity_Extraction_JSON.html" class="sidebar-item-text sidebar-link">
@@ -364,7 +364,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/json_capabilities/Text_Classification.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../examples/json_capabilities/Text_Classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Text Classification</span></a>
   </div>
 </li>
@@ -378,13 +378,13 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Langchain</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../examples/langchain/Chat_with_SQL_using_langchain.html" class="sidebar-item-text sidebar-link">
@@ -393,7 +393,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/langchain/Code_analysis_using_Gemini_LangChain.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/langchain/Code_analysis_using_Gemini_LangChain.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Gemini API: Code analysis using LangChain</span></a>
   </div>
 </li>
@@ -684,20 +684,22 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
   <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
   <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
   <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
-  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
   <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
   </ul></li>
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  <li><a href="#prepare-the-files" id="toc-prepare-the-files" class="nav-link" data-scroll-target="#prepare-the-files">Prepare the files</a></li>
+  <li><a href="#create-the-database" id="toc-create-the-database" class="nav-link" data-scroll-target="#create-the-database">Create the database</a></li>
+  <li><a href="#question-answering" id="toc-question-answering" class="nav-link" data-scroll-target="#question-answering">Question Answering</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next">What’s next?</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Text_Classification.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Text_Classification.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/langchain/Code_analysis_using_Gemini_LangChain.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/langchain/Code_analysis_using_Gemini_LangChain.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Entity_Extraction_JSON.html">Json Capabilities</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Text_Classification.html">Gemini API: Text Classification</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Chat_with_SQL_using_langchain.html">Langchain</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Code_analysis_using_Gemini_LangChain.html">Gemini API: Code analysis using LangChain</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Gemini API: Text Classification</h1>
+<h1 class="title">Gemini API: Code analysis using LangChain</h1>
 </div>
 
 
@@ -714,7 +716,12 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </header>
 
 
-<p>You will use the Gemini API to classify what topics are relevant in the text.</p>
+<p>This notebook shows how to use Gemini API with <a href="https://js.langchain.com/docs/">Langchain</a> for code analysis. The notebook will teach you:</p>
+<ul>
+<li>loading and splitting files</li>
+<li>creating an In-memory database with embedding information</li>
+<li>setting up a retrieval QA chain</li>
+</ul>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -749,7 +756,7 @@ Tip
 <p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then, we can load the API key in our code:</p>
-<div id="cell-4" class="cell">
+<div id="cell-4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
@@ -779,114 +786,278 @@ Note
 <pre><code>│
 ├── .env
 └── examples
-    └── json_capabilities
-        └── Text_Classification.ipynb</code></pre>
+    └── langchain
+        └── Code_analysis_using_Gemini_LangChain.ipynb</code></pre>
 </div>
-</div>
-</section>
-<section id="initialize-sdk-client" class="level3">
-<h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
-<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
-<div id="cell-7" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="select-a-model" class="level3">
 <h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
 <p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
-<div id="cell-9" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-7" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="example" class="level2">
-<h2 class="anchored" data-anchor-id="example">Example</h2>
-<div id="cell-11" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="st">"Generate a 5 paragraph article about Sports, include one other topic"</span><span class="op">,</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="the-unseen-game-sports-and-the-power-of-the-mind" class="level2 cell-output cell-output-display cell-output-markdown">
-<h2 class="anchored" data-anchor-id="the-unseen-game-sports-and-the-power-of-the-mind">The Unseen Game: Sports and the Power of the Mind</h2>
-<p>From the roar of ancient coliseums to the hushed tension of a championship point, sports have captivated humanity across millennia. More than mere games, they are a universal language of competition, skill, and sheer human will. Whether it’s the electrifying speed of a sprinter, the strategic brilliance of a chess grandmaster (yes, it’s a sport!), or the coordinated ballet of a football team, sports offer a dynamic spectacle that transcends cultural boundaries. They celebrate the physical peak of human potential, demanding years of dedication, relentless training, and an unwavering commitment to mastery.</p>
-<p>The physical demands of sport are undeniable. Athletes push their bodies to the absolute limit, developing incredible strength, endurance, agility, and precision. Every muscle fiber, every breath, every practiced movement is honed to perfection. Hours are spent in gyms, on tracks, and in arenas, refining techniques and building the physical resilience needed to endure the rigors of competition. This dedication not only showcases extraordinary athletic prowess but also inspires countless individuals to pursue healthier, more active lifestyles, recognizing the profound benefits of physical activity.</p>
-<p>Yet, beneath the visible spectacle of physical exertion lies a profound and often overlooked battle: the psychological game. <strong>The field of sports psychology reveals that mental fortitude is as crucial as, if not more important than, physical talent.</strong> Athletes must possess incredible resilience to bounce back from defeat, the focus to execute complex strategies under immense pressure, and the self-belief to perform at their peak when everything is on the line. The ability to manage anxiety, maintain concentration amidst chaos, and foster unshakeable team synergy are all psychological skills that can separate a good athlete from a legendary one, turning potential into tangible victory.</p>
-<p>Beyond individual performance, sports are potent crucibles for life lessons, deeply intertwined with the psychological skills they foster. They teach discipline, fair play, leadership, and the invaluable experience of both winning gracefully and losing with dignity. Team sports, in particular, underscore the importance of collaboration and communication, demonstrating how diverse individuals can unite for a common goal. For fans, sports provide a powerful sense of community and shared identity, offering an emotional outlet and a connection to something larger than themselves. The collective joy of victory or the shared anguish of defeat forge bonds that transcend everyday life.</p>
-<p>In essence, sports are a rich tapestry woven with threads of physical artistry, mental resilience, and powerful community engagement. They reflect humanity’s innate drive to compete, to excel, and to connect. By pushing the boundaries of what’s physically possible and mastering the unseen game of the mind, athletes inspire us all to discover our own potential, proving that the true measure of success often lies not just in the final score, but in the journey of relentless self-improvement and the indomitable spirit that propels us forward.</p>
-</section>
+<section id="prepare-the-files" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-the-files">Prepare the files</h2>
+<p>First, download a <a href="https://github.com/langchain-ai/langchain-google">langchain-google</a> repository. It is the repository you will analyze in this example.</p>
+<p>It contains code integrating Gemini API, VertexAI, and other Google products with langchain.</p>
+<div id="cell-9" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> child_process <span class="op">=</span> <span class="pp">require</span>(<span class="st">"child_process"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"child_process"</span>)<span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> util <span class="op">=</span> <span class="pp">require</span>(<span class="st">"util"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"util"</span>)<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> execAsync <span class="op">=</span> util<span class="op">.</span><span class="fu">promisify</span>(child_process<span class="op">.</span><span class="at">exec</span>)<span class="op">;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> REPO_DIR <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../../assets/langchain"</span><span class="op">,</span> <span class="st">"langchain-google"</span>)<span class="op">;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">setupRepository</span>() {</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (fs<span class="op">.</span><span class="fu">existsSync</span>(REPO_DIR)) {</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Repository already exists, skipping clone."</span>)<span class="op">;</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Cloning repository..."</span>)<span class="op">;</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="fu">execAsync</span>(<span class="vs">`git clone https://github.com/langchain-ai/langchain-google.git </span><span class="sc">${</span>REPO_DIR<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Repository cloned successfully"</span>)<span class="op">;</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (error) {</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Repository might already exist or clone failed:"</span><span class="op">,</span> error<span class="op">.</span><span class="at">message</span>)<span class="op">;</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-12" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { z } <span class="im">from</span> <span class="st">"zod"</span><span class="op">;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { zodToJsonSchema } <span class="im">from</span> <span class="st">"zod-to-json-schema"</span><span class="op">;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> topicSchema <span class="op">=</span> z<span class="op">.</span><span class="fu">object</span>({</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  topic<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">,</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  relevance<span class="op">:</span> z<span class="op">.</span><span class="fu">enum</span>([<span class="st">"weak"</span><span class="op">,</span> <span class="st">"medium"</span><span class="op">,</span> <span class="st">"strong"</span>])<span class="op">,</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> responseSchema <span class="op">=</span> z<span class="op">.</span><span class="fu">object</span>({</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  topics<span class="op">:</span> z<span class="op">.</span><span class="fu">array</span>(topicSchema)<span class="op">,</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> responseSchemaJson <span class="op">=</span> <span class="fu">zodToJsonSchema</span>(responseSchema)<span class="op">;</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> SYSTEM_PROMPT <span class="op">=</span> <span class="vs">`</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="vs">  Generate topics from text. Ensure that topics are general e.g. "Health".</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="vs">  Strong relevance is obtained when the topic is a core tenent of the content</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="vs">  and weak relevance reflects one or two mentions.</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-13" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> topicsResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> SYSTEM_PROMPT<span class="op">,</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    responseJsonSchema<span class="op">:</span> responseSchemaJson<span class="op">,</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-14" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(topicsResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"{}"</span>)<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-10" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">setupRepository</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>{
-  "topics": [
-    {
-      "relevance": "strong",
-      "topic": "Sports"
-    },
-    {
-      "relevance": "strong",
-      "topic": "Sports Psychology"
-    },
-    {
-      "relevance": "medium",
-      "topic": "Physical Fitness"
-    },
-    {
-      "relevance": "medium",
-      "topic": "Teamwork"
-    },
-    {
-      "relevance": "medium",
-      "topic": "Personal Development"
-    }
-  ]
-}</code></pre>
+<pre><code>Cloning repository...
+Repository cloned successfully</code></pre>
+</div>
+</div>
+<p>This example will focus only on the integration of Gemini API with langchain and ignore the rest of the codebase.</p>
+<div id="cell-12" class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> glob <span class="op">=</span> <span class="pp">require</span>(<span class="st">"glob"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"glob"</span>)<span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> textLoader <span class="op">=</span> <span class="pp">require</span>(<span class="st">"langchain/document_loaders/fs/text"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"langchain/document_loaders/fs/text"</span>)<span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> textSplitter <span class="op">=</span> <span class="pp">require</span>(<span class="st">"langchain/text_splitter"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"langchain/text_splitter"</span>)<span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">loadDocuments</span>() {</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Loading documents..."</span>)<span class="op">;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> repoPath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(REPO_DIR<span class="op">,</span> <span class="st">"libs/genai/langchain_google_genai"</span>)<span class="op">;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> pattern <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(repoPath<span class="op">,</span> <span class="st">"**/*.py"</span>)<span class="op">;</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> files <span class="op">=</span> glob<span class="op">.</span><span class="fu">sync</span>(pattern<span class="op">,</span> { recursive<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Found </span><span class="sc">${</span>files<span class="op">.</span><span class="at">length</span><span class="sc">}</span><span class="vs"> Python files`</span>)<span class="op">;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> splitter <span class="op">=</span> textSplitter<span class="op">.</span><span class="at">RecursiveCharacterTextSplitter</span><span class="op">.</span><span class="fu">fromLanguage</span>(</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    textSplitter<span class="op">.</span><span class="at">SupportedTextSplitterLanguages</span>[<span class="dv">6</span>]<span class="op">,</span> <span class="co">// Python</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>      chunkSize<span class="op">:</span> <span class="dv">2000</span><span class="op">,</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>      chunkOverlap<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> docs<span class="op">:</span> Awaited<span class="op">&lt;</span><span class="bu">ReturnType</span><span class="op">&lt;</span><span class="kw">typeof</span> splitter<span class="op">.</span><span class="at">splitDocuments</span><span class="op">&gt;&gt;</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> file <span class="kw">of</span> files) {</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> {</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Check if file exists and is readable</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (fs<span class="op">.</span><span class="fu">existsSync</span>(file)) {</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> loader <span class="op">=</span> <span class="kw">new</span> textLoader<span class="op">.</span><span class="fu">TextLoader</span>(file)<span class="op">;</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> fileDocuments <span class="op">=</span> <span class="cf">await</span> loader<span class="op">.</span><span class="fu">load</span>()<span class="op">;</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> splitDocs <span class="op">=</span> <span class="cf">await</span> splitter<span class="op">.</span><span class="fu">splitDocuments</span>(fileDocuments)<span class="op">;</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>        docs<span class="op">.</span><span class="fu">push</span>(<span class="op">...</span>splitDocs)<span class="op">;</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Processed: </span><span class="sc">${</span>file<span class="sc">}</span><span class="vs"> (</span><span class="sc">${</span>splitDocs<span class="op">.</span><span class="at">length</span><span class="sc">}</span><span class="vs"> chunks)`</span>)<span class="op">;</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">catch</span> (error) {</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">warn</span>(<span class="vs">`Failed to load </span><span class="sc">${</span>file<span class="sc">}</span><span class="vs">:`</span><span class="op">,</span> error<span class="op">.</span><span class="at">message</span>)<span class="op">;</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Total documents loaded: </span><span class="sc">${</span>docs<span class="op">.</span><span class="at">length</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> docs<span class="op">;</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Each file with a matching path will be loaded and split by <code>RecursiveCharacterTextSplitter</code>. In this example, it is specified, that the files are written in Python. It helps split the files without having documents that lack context.</p>
+<div id="cell-14" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> docs <span class="op">=</span> <span class="cf">await</span> <span class="fu">loadDocuments</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Loading documents...
+Found 11 Python files
+Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/__init__.py (2 chunks)
+Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/_common.py (6 chunks)
+Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/_enums.py (1 chunks)
+Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/_function_utils.py (16 chunks)
+Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/_genai_extension.py (15 chunks)
+Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/_image_utils.py (5 chunks)
+Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/chat_models.py (59 chunks)
+Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/embeddings.py (11 chunks)
+Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/genai_aqa.py (3 chunks)
+Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/google_vector_store.py (11 chunks)
+Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/llms.py (5 chunks)
+Total documents loaded: 134</code></pre>
+</div>
+</div>
+<p><code>SupportedTextSplitterLanguages</code> literal provides common separators used in most popular programming languages, it lowers the chances of classes or functions being split in the middle.</p>
+<div id="cell-16" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>textSplitter<span class="op">.</span><span class="at">RecursiveCharacterTextSplitter</span><span class="op">.</span><span class="fu">getSeparatorsForLanguage</span>(textSplitter<span class="op">.</span><span class="at">SupportedTextSplitterLanguages</span>[<span class="dv">6</span>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[ '\nclass ', '\ndef ', '\n\tdef ', '\n\n', '\n', ' ', '' ]</code></pre>
+</div>
+</div>
+</section>
+<section id="create-the-database" class="level2">
+<h2 class="anchored" data-anchor-id="create-the-database">Create the database</h2>
+<p>The data will be loaded into the memory since the database doesn’t need to be permanent in this case and is small enough to fit.</p>
+<div id="cell-18" class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> memory <span class="op">=</span> <span class="pp">require</span>(<span class="st">"langchain/vectorstores/memory"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"langchain/vectorstores/memory"</span>)<span class="op">;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> googleGenerativeAI <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@langchain/google-genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@langchain/google-genai"</span>)<span class="op">;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">createVectorStore</span>(documents<span class="op">:</span> Awaited<span class="op">&lt;</span><span class="bu">ReturnType</span><span class="op">&lt;</span><span class="kw">typeof</span> loadDocuments<span class="op">&gt;&gt;</span>) {</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Creating vector store..."</span>)<span class="op">;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> embeddings <span class="op">=</span> <span class="kw">new</span> googleGenerativeAI<span class="op">.</span><span class="fu">GoogleGenerativeAIEmbeddings</span>({</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> <span class="st">"models/text-embedding-004"</span><span class="op">,</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    apiKey<span class="op">:</span> GEMINI_API_KEY<span class="op">,</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> vectorStore <span class="op">=</span> <span class="cf">await</span> memory<span class="op">.</span><span class="at">MemoryVectorStore</span><span class="op">.</span><span class="fu">fromDocuments</span>(documents<span class="op">,</span> embeddings)<span class="op">;</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Vector store created successfully"</span>)<span class="op">;</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> vectorStore<span class="op">;</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Everything needed is ready, and now you can create the database. It should not take longer than a few seconds.</p>
+<div id="cell-20" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> vectorStore <span class="op">=</span> <span class="cf">await</span> <span class="fu">createVectorStore</span>(docs)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Creating vector store...
+Vector store created successfully</code></pre>
+</div>
+</div>
+</section>
+<section id="question-answering" class="level2">
+<h2 class="anchored" data-anchor-id="question-answering">Question Answering</h2>
+<p>Set-up the document retriever.</p>
+<div id="cell-22" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> retriever <span class="op">=</span> vectorStore<span class="op">.</span><span class="fu">asRetriever</span>({</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  k<span class="op">:</span> <span class="dv">20</span><span class="op">,</span> <span class="co">// number of documents to return</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  searchType<span class="op">:</span> <span class="st">"similarity"</span><span class="op">,</span> <span class="co">// cosine distance</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-23" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> llm <span class="op">=</span> <span class="kw">new</span> googleGenerativeAI<span class="op">.</span><span class="fu">ChatGoogleGenerativeAI</span>({</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  apiKey<span class="op">:</span> GEMINI_API_KEY<span class="op">,</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, you can create a chain for Question Answering. In this case, <code>RetrievalQA</code> chain will be used.</p>
+<p>If you want to use the chat option instead, use <code>ConversationalRetrievalChain</code>.</p>
+<div id="cell-25" class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chains <span class="op">=</span> <span class="pp">require</span>(<span class="st">"langchain/chains"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"langchain/chains"</span>)<span class="op">;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">// eslint-disable-next-line @typescript-eslint/no-deprecated</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> qaChain <span class="op">=</span> chains<span class="op">.</span><span class="at">RetrievalQAChain</span><span class="op">.</span><span class="fu">fromLLM</span>(llm<span class="op">,</span> retriever)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The chain is ready to answer your questions.</p>
+<div id="cell-27" class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">callQAChain</span>(prompt<span class="op">:</span> <span class="dt">string</span>) {</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> qaChain<span class="op">.</span><span class="fu">invoke</span>({</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>      query<span class="op">:</span> prompt<span class="op">,</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`**Answer:**</span><span class="sc">\n\n${</span>response<span class="op">.</span><span class="at">text</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (error) {</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">"Error calling QA chain:"</span><span class="op">,</span> error)<span class="op">;</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-28" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">callQAChain</span>(<span class="st">"Show hierarchy for _BaseGoogleGenerativeAI. Do not show content of classes."</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Answer:</strong></p>
+<pre><code>BaseModel
+  └── _BaseGoogleGenerativeAI
+      ├── ChatGoogleGenerativeAI
+      └── GoogleGenerativeAI</code></pre>
+</div>
+</div>
+<div id="cell-29" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">callQAChain</span>(<span class="st">"What is the return type of embedding models?"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Answer:</strong></p>
+<p>The return type of embedding models depends on whether a single text or a list of texts is being embedded:</p>
+<ul>
+<li>For embedding a <strong>single text</strong> (e.g., <code>embed_query</code> or <code>aembed_query</code>), the return type is a <code>List[float]</code>.</li>
+<li>For embedding a <strong>list of texts</strong> (e.g., <code>embed_documents</code> or <code>aembed_documents</code>), the return type is a <code>List[List[float]]</code>, where each inner list is the embedding for a corresponding text.</li>
+</ul>
+</div>
+</div>
+<div id="cell-30" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">callQAChain</span>(<span class="st">"What classes are related to Attributed Question and Answering."</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Answer:</strong></p>
+<p>The classes related to Attributed Question and Answering (AQA) are:</p>
+<ol type="1">
+<li><strong><code>GenAIAqa</code></strong>: This is the main class representing Google’s Attributed Question and Answering service. It’s a <code>RunnableSerializable</code> that takes <code>AqaInput</code> and returns <code>AqaOutput</code>.</li>
+<li><strong><code>AqaInput</code></strong>: A Pydantic model defining the input structure for <code>GenAIAqa.invoke</code>, which includes <code>prompt</code> and <code>source_passages</code>.</li>
+<li><strong><code>AqaOutput</code></strong>: A Pydantic model defining the output structure from <code>GenAIAqa.invoke</code>, which includes the <code>answer</code>, <code>attributed_passages</code>, and <code>answerable_probability</code>.</li>
+<li><strong><code>_AqaModel</code></strong>: An internal wrapper class used by <code>GenAIAqa</code> to interact with the underlying Google Generative Language AQA API.</li>
+<li><strong><code>GroundedAnswer</code></strong>: A dataclass used internally (specifically by <code>_AqaModel</code>) to structure the response received from the <code>generate_answer</code> API call before it’s converted into <code>AqaOutput</code>.</li>
+<li><strong><code>Passage</code></strong>: A dataclass used within <code>GroundedAnswer</code> to represent an individual attributed passage, containing its <code>text</code> and <code>id</code>.</li>
+<li><strong><code>GoogleVectorStore</code></strong>: While not an AQA class itself, it contains an <code>as_aqa</code> method that constructs and returns a <code>Runnable[str, AqaOutput]</code> which includes <code>GenAIAqa</code>, making it a key class for integrating with AQA functionality.</li>
+</ol>
+</div>
+</div>
+<div id="cell-31" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">callQAChain</span>(<span class="st">"What are the dependencies of the GenAIAqa class?"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Answer:</strong></p>
+<p>The <code>GenAIAqa</code> class has the following dependencies:</p>
+<ul>
+<li><strong><code>langchain_core</code></strong>:
+<ul>
+<li><code>RunnableSerializable</code></li>
+<li><code>RunnableConfig</code></li>
+<li><code>Document</code> (indirectly, via <code>_toAqaInput</code> used in <code>as_aqa</code> method from <code>GoogleVectorStore</code>)</li>
+<li><code>RunnablePassthrough</code>, <code>RunnableLambda</code> (used in <code>as_aqa</code> method)</li>
+</ul></li>
+<li><strong><code>pydantic</code></strong>:
+<ul>
+<li><code>BaseModel</code></li>
+<li><code>PrivateAttr</code></li>
+</ul></li>
+<li><strong><code>google.ai.generativelanguage</code> (aliased as <code>genai</code>)</strong>:
+<ul>
+<li><code>GenerativeServiceClient</code></li>
+<li><code>AnswerStyle</code> (from <code>GenerateAnswerRequest</code>)</li>
+<li><code>SafetySetting</code></li>
+</ul></li>
+<li><strong>Internal modules/classes within <code>langchain_google_genai</code></strong>:
+<ul>
+<li><code>_genai_extension</code> (aliased as <code>genaix</code>): This module provides functions like <code>build_generative_service</code>, <code>generate_answer</code>, and the <code>GroundedAnswer</code> type.</li>
+<li><code>_AqaModel</code> (an internal wrapper class)</li>
+<li><code>AqaInput</code> (its input model)</li>
+<li><code>AqaOutput</code> (its output model)</li>
+</ul></li>
+</ul>
 </div>
 </div>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>Now, you know how to classify text into different categories. Feel free to experiment with other texts, or provide a specific set of possible topics.</p>
-<p>Please see the other notebooks in this directory to learn more about how you can use the Gemini API for other JSON related tasks.</p>
+<p>Gemini API works great with Langchain. The integration is seamless and provides an easy interface for:</p>
+<ul>
+<li>loading and splitting files</li>
+<li>creating an In-memory database with embedding information</li>
+<li>answering questions based on context from files</li>
+</ul>
+</section>
+<section id="whats-next" class="level2">
+<h2 class="anchored" data-anchor-id="whats-next">What’s next?</h2>
+<p>This notebook showed only one possible use case for langchain with Gemini API. You can find many more here.</p>
 
 
 </section>
@@ -1293,13 +1464,13 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../examples/json_capabilities/Sentiment_Analysis.html" class="pagination-link" aria-label="Gemini API: Sentiment Analysis">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Sentiment Analysis</span>
+      <a href="../../examples/langchain/Chat_with_SQL_using_langchain.html" class="pagination-link" aria-label="Gemini API: Chat with SQL using LangChain">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Chat with SQL using LangChain</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../examples/json_capabilities/Text_Summarization.html" class="pagination-link" aria-label="Gemini API: Text Summarization">
-        <span class="nav-page-text">Gemini API: Text Summarization</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../examples/prompting/Adding_context_information.html" class="pagination-link" aria-label="Gemini API: Adding context information">
+        <span class="nav-page-text">Gemini API: Adding context information</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1308,5 +1479,5 @@ Note
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Text_Classification.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Text_Classification.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/langchain/Code_analysis_using_Gemini_LangChain.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/langchain/Code_analysis_using_Gemini_LangChain.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
