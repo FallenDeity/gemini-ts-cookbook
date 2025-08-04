@@ -429,3 +429,4 @@ cython_debug/
 /.quarto/
 
 assets/anomaly_detection/
+assets/langchain/langchain-google/
