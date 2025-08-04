@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API: Code analysis using LangChain – Gemini Cookbook</title>
+<title>Gemini API: Summarize large documents using LangChain – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html" rel="next">
-<link href="../../examples/langchain/Chat_with_SQL_using_langchain.html" rel="prev">
+<link href="../../examples/prompting/Adding_context_information.html" rel="next">
+<link href="../../examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html" rel="prev">
 <link href="../../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -117,10 +117,10 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Gemini API: Code analysis using LangChain – Gemini Cookbook">
+<meta property="og:title" content="Gemini API: Summarize large documents using LangChain – Gemini Cookbook">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta name="twitter:title" content="Gemini API: Code analysis using LangChain – Gemini Cookbook">
+<meta name="twitter:title" content="Gemini API: Summarize large documents using LangChain – Gemini Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -176,7 +176,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Chat_with_SQL_using_langchain.html">Langchain</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Code_analysis_using_Gemini_LangChain.html">Gemini API: Code analysis using LangChain</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Chat_with_SQL_using_langchain.html">Langchain</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Gemini_LangChain_Summarization_WebLoad.html">Gemini API: Summarize large documents using LangChain</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -393,7 +393,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/langchain/Code_analysis_using_Gemini_LangChain.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../examples/langchain/Code_analysis_using_Gemini_LangChain.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Code analysis using LangChain</span></a>
   </div>
 </li>
@@ -411,7 +411,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/langchain/Gemini_LangChain_Summarization_WebLoad.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/langchain/Gemini_LangChain_Summarization_WebLoad.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Gemini API: Summarize large documents using LangChain</span></a>
   </div>
 </li>
@@ -697,27 +697,32 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a>
   <ul class="collapse">
   <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
   <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
   <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
   <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
   </ul></li>
-  <li><a href="#prepare-the-files" id="toc-prepare-the-files" class="nav-link" data-scroll-target="#prepare-the-files">Prepare the files</a></li>
-  <li><a href="#create-the-database" id="toc-create-the-database" class="nav-link" data-scroll-target="#create-the-database">Create the database</a></li>
-  <li><a href="#question-answering" id="toc-question-answering" class="nav-link" data-scroll-target="#question-answering">Question Answering</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
-  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next">What’s next?</a></li>
+  <li><a href="#summarize-text" id="toc-summarize-text" class="nav-link" data-scroll-target="#summarize-text">Summarize text</a>
+  <ul class="collapse">
+  <li><a href="#read-and-parse-the-website-data" id="toc-read-and-parse-the-website-data" class="nav-link" data-scroll-target="#read-and-parse-the-website-data">Read and parse the website data</a></li>
+  <li><a href="#initialize-the-gemini-model" id="toc-initialize-the-gemini-model" class="nav-link" data-scroll-target="#initialize-the-gemini-model">Initialize the Gemini model</a></li>
+  <li><a href="#create-prompt-templates" id="toc-create-prompt-templates" class="nav-link" data-scroll-target="#create-prompt-templates">Create prompt templates</a></li>
+  <li><a href="#create-a-stuff-documents-chain" id="toc-create-a-stuff-documents-chain" class="nav-link" data-scroll-target="#create-a-stuff-documents-chain">Create a stuff documents chain</a></li>
+  <li><a href="#prompt-the-model" id="toc-prompt-the-model" class="nav-link" data-scroll-target="#prompt-the-model">Prompt the model</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/langchain/Code_analysis_using_Gemini_LangChain.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/langchain/Code_analysis_using_Gemini_LangChain.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/langchain/Gemini_LangChain_Summarization_WebLoad.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/langchain/Gemini_LangChain_Summarization_WebLoad.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Chat_with_SQL_using_langchain.html">Langchain</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Code_analysis_using_Gemini_LangChain.html">Gemini API: Code analysis using LangChain</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Chat_with_SQL_using_langchain.html">Langchain</a></li><li class="breadcrumb-item"><a href="../../examples/langchain/Gemini_LangChain_Summarization_WebLoad.html">Gemini API: Summarize large documents using LangChain</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Gemini API: Code analysis using LangChain</h1>
+<h1 class="title">Gemini API: Summarize large documents using LangChain</h1>
 </div>
 
 
@@ -734,12 +739,12 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </header>
 
 
-<p>This notebook shows how to use Gemini API with <a href="https://js.langchain.com/docs/">Langchain</a> for code analysis. The notebook will teach you:</p>
-<ul>
-<li>loading and splitting files</li>
-<li>creating an In-memory database with embedding information</li>
-<li>setting up a retrieval QA chain</li>
-</ul>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>The <a href="https://ai.google.dev/models/gemini">Gemini</a> models are a family of generative AI models that allow developers generate content and solve problems. These models are designed and trained to handle both text and images as input.</p>
+<p><a href="https://www.langchain.com/">LangChain</a> is a framework designed to make integration of Large Language Models (LLM) like Gemini easier for applications.</p>
+<p>In this notebook, you’ll learn how to create an application to summarize large documents using the Gemini API and LangChain.</p>
+</section>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -805,7 +810,7 @@ Note
 ├── .env
 └── examples
     └── langchain
-        └── Code_analysis_using_Gemini_LangChain.ipynb</code></pre>
+        └── Gemini_LangChain_Summarization_WebLoad.ipynb</code></pre>
 </div>
 </div>
 </section>
@@ -819,263 +824,103 @@ Note
 </div>
 </section>
 </section>
-<section id="prepare-the-files" class="level2">
-<h2 class="anchored" data-anchor-id="prepare-the-files">Prepare the files</h2>
-<p>First, download a <a href="https://github.com/langchain-ai/langchain-google">langchain-google</a> repository. It is the repository you will analyze in this example.</p>
-<p>It contains code integrating Gemini API, VertexAI, and other Google products with langchain.</p>
-<div id="cell-9" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">"path"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"path"</span>)<span class="op">;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> child_process <span class="op">=</span> <span class="pp">require</span>(<span class="st">"child_process"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"child_process"</span>)<span class="op">;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> util <span class="op">=</span> <span class="pp">require</span>(<span class="st">"util"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"util"</span>)<span class="op">;</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> execAsync <span class="op">=</span> util<span class="op">.</span><span class="fu">promisify</span>(child_process<span class="op">.</span><span class="at">exec</span>)<span class="op">;</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> REPO_DIR <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(<span class="st">"../../assets/langchain"</span><span class="op">,</span> <span class="st">"langchain-google"</span>)<span class="op">;</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">setupRepository</span>() {</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (fs<span class="op">.</span><span class="fu">existsSync</span>(REPO_DIR)) {</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Repository already exists, skipping clone."</span>)<span class="op">;</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span><span class="op">;</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Cloning repository..."</span>)<span class="op">;</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> <span class="fu">execAsync</span>(<span class="vs">`git clone https://github.com/langchain-ai/langchain-google.git </span><span class="sc">${</span>REPO_DIR<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Repository cloned successfully"</span>)<span class="op">;</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (error) {</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Repository might already exist or clone failed:"</span><span class="op">,</span> error<span class="op">.</span><span class="at">message</span>)<span class="op">;</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-10" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">setupRepository</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Cloning repository...
-Repository cloned successfully</code></pre>
-</div>
-</div>
-<p>This example will focus only on the integration of Gemini API with langchain and ignore the rest of the codebase.</p>
-<div id="cell-12" class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> glob <span class="op">=</span> <span class="pp">require</span>(<span class="st">"glob"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"glob"</span>)<span class="op">;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> textLoader <span class="op">=</span> <span class="pp">require</span>(<span class="st">"langchain/document_loaders/fs/text"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"langchain/document_loaders/fs/text"</span>)<span class="op">;</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> textSplitter <span class="op">=</span> <span class="pp">require</span>(<span class="st">"langchain/text_splitter"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"langchain/text_splitter"</span>)<span class="op">;</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">loadDocuments</span>() {</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Loading documents..."</span>)<span class="op">;</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> repoPath <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(REPO_DIR<span class="op">,</span> <span class="st">"libs/genai/langchain_google_genai"</span>)<span class="op">;</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> pattern <span class="op">=</span> path<span class="op">.</span><span class="fu">join</span>(repoPath<span class="op">,</span> <span class="st">"**/*.py"</span>)<span class="op">;</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> files <span class="op">=</span> glob<span class="op">.</span><span class="fu">sync</span>(pattern<span class="op">,</span> { recursive<span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Found </span><span class="sc">${</span>files<span class="op">.</span><span class="at">length</span><span class="sc">}</span><span class="vs"> Python files`</span>)<span class="op">;</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> splitter <span class="op">=</span> textSplitter<span class="op">.</span><span class="at">RecursiveCharacterTextSplitter</span><span class="op">.</span><span class="fu">fromLanguage</span>(</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    textSplitter<span class="op">.</span><span class="at">SupportedTextSplitterLanguages</span>[<span class="dv">6</span>]<span class="op">,</span> <span class="co">// Python</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>      chunkSize<span class="op">:</span> <span class="dv">2000</span><span class="op">,</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>      chunkOverlap<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> docs<span class="op">:</span> Awaited<span class="op">&lt;</span><span class="bu">ReturnType</span><span class="op">&lt;</span><span class="kw">typeof</span> splitter<span class="op">.</span><span class="at">splitDocuments</span><span class="op">&gt;&gt;</span> <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> file <span class="kw">of</span> files) {</span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> {</span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Check if file exists and is readable</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (fs<span class="op">.</span><span class="fu">existsSync</span>(file)) {</span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> loader <span class="op">=</span> <span class="kw">new</span> textLoader<span class="op">.</span><span class="fu">TextLoader</span>(file)<span class="op">;</span></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> fileDocuments <span class="op">=</span> <span class="cf">await</span> loader<span class="op">.</span><span class="fu">load</span>()<span class="op">;</span></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> splitDocs <span class="op">=</span> <span class="cf">await</span> splitter<span class="op">.</span><span class="fu">splitDocuments</span>(fileDocuments)<span class="op">;</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>        docs<span class="op">.</span><span class="fu">push</span>(<span class="op">...</span>splitDocs)<span class="op">;</span></span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Processed: </span><span class="sc">${</span>file<span class="sc">}</span><span class="vs"> (</span><span class="sc">${</span>splitDocs<span class="op">.</span><span class="at">length</span><span class="sc">}</span><span class="vs"> chunks)`</span>)<span class="op">;</span></span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">catch</span> (error) {</span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">warn</span>(<span class="vs">`Failed to load </span><span class="sc">${</span>file<span class="sc">}</span><span class="vs">:`</span><span class="op">,</span> error<span class="op">.</span><span class="at">message</span>)<span class="op">;</span></span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Total documents loaded: </span><span class="sc">${</span>docs<span class="op">.</span><span class="at">length</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> docs<span class="op">;</span></span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Each file with a matching path will be loaded and split by <code>RecursiveCharacterTextSplitter</code>. In this example, it is specified, that the files are written in Python. It helps split the files without having documents that lack context.</p>
-<div id="cell-14" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> docs <span class="op">=</span> <span class="cf">await</span> <span class="fu">loadDocuments</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Loading documents...
-Found 11 Python files
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/__init__.py (2 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/_common.py (6 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/_enums.py (1 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/_function_utils.py (16 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/_genai_extension.py (15 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/_image_utils.py (5 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/chat_models.py (59 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/embeddings.py (11 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/genai_aqa.py (3 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/google_vector_store.py (11 chunks)
-Processed: ../../assets/langchain/langchain-google/libs/genai/langchain_google_genai/llms.py (5 chunks)
-Total documents loaded: 134</code></pre>
-</div>
-</div>
-<p><code>SupportedTextSplitterLanguages</code> literal provides common separators used in most popular programming languages, it lowers the chances of classes or functions being split in the middle.</p>
-<div id="cell-16" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>textSplitter<span class="op">.</span><span class="at">RecursiveCharacterTextSplitter</span><span class="op">.</span><span class="fu">getSeparatorsForLanguage</span>(textSplitter<span class="op">.</span><span class="at">SupportedTextSplitterLanguages</span>[<span class="dv">6</span>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[ '\nclass ', '\ndef ', '\n\tdef ', '\n\n', '\n', ' ', '' ]</code></pre>
-</div>
-</div>
-</section>
-<section id="create-the-database" class="level2">
-<h2 class="anchored" data-anchor-id="create-the-database">Create the database</h2>
-<p>The data will be loaded into the memory since the database doesn’t need to be permanent in this case and is small enough to fit.</p>
-<div id="cell-18" class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> memory <span class="op">=</span> <span class="pp">require</span>(<span class="st">"langchain/vectorstores/memory"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"langchain/vectorstores/memory"</span>)<span class="op">;</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> googleGenerativeAI <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@langchain/google-genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@langchain/google-genai"</span>)<span class="op">;</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">createVectorStore</span>(documents<span class="op">:</span> Awaited<span class="op">&lt;</span><span class="bu">ReturnType</span><span class="op">&lt;</span><span class="kw">typeof</span> loadDocuments<span class="op">&gt;&gt;</span>) {</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Creating vector store..."</span>)<span class="op">;</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> embeddings <span class="op">=</span> <span class="kw">new</span> googleGenerativeAI<span class="op">.</span><span class="fu">GoogleGenerativeAIEmbeddings</span>({</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    model<span class="op">:</span> <span class="st">"models/text-embedding-004"</span><span class="op">,</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    apiKey<span class="op">:</span> GEMINI_API_KEY<span class="op">,</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> vectorStore <span class="op">=</span> <span class="cf">await</span> memory<span class="op">.</span><span class="at">MemoryVectorStore</span><span class="op">.</span><span class="fu">fromDocuments</span>(documents<span class="op">,</span> embeddings)<span class="op">;</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Vector store created successfully"</span>)<span class="op">;</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> vectorStore<span class="op">;</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Everything needed is ready, and now you can create the database. It should not take longer than a few seconds.</p>
-<div id="cell-20" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> vectorStore <span class="op">=</span> <span class="cf">await</span> <span class="fu">createVectorStore</span>(docs)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Creating vector store...
-Vector store created successfully</code></pre>
-</div>
-</div>
-</section>
-<section id="question-answering" class="level2">
-<h2 class="anchored" data-anchor-id="question-answering">Question Answering</h2>
-<p>Set-up the document retriever.</p>
-<div id="cell-22" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> retriever <span class="op">=</span> vectorStore<span class="op">.</span><span class="fu">asRetriever</span>({</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  k<span class="op">:</span> <span class="dv">20</span><span class="op">,</span> <span class="co">// number of documents to return</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  searchType<span class="op">:</span> <span class="st">"similarity"</span><span class="op">,</span> <span class="co">// cosine distance</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-23" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> llm <span class="op">=</span> <span class="kw">new</span> googleGenerativeAI<span class="op">.</span><span class="fu">ChatGoogleGenerativeAI</span>({</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  apiKey<span class="op">:</span> GEMINI_API_KEY<span class="op">,</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now, you can create a chain for Question Answering. In this case, <code>RetrievalQA</code> chain will be used.</p>
-<p>If you want to use the chat option instead, use <code>ConversationalRetrievalChain</code>.</p>
-<div id="cell-25" class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chains <span class="op">=</span> <span class="pp">require</span>(<span class="st">"langchain/chains"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"langchain/chains"</span>)<span class="op">;</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">// eslint-disable-next-line @typescript-eslint/no-deprecated</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> qaChain <span class="op">=</span> chains<span class="op">.</span><span class="at">RetrievalQAChain</span><span class="op">.</span><span class="fu">fromLLM</span>(llm<span class="op">,</span> retriever)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The chain is ready to answer your questions.</p>
-<div id="cell-27" class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">callQAChain</span>(prompt<span class="op">:</span> <span class="dt">string</span>) {</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> qaChain<span class="op">.</span><span class="fu">invoke</span>({</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>      query<span class="op">:</span> prompt<span class="op">,</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="vs">`**Answer:**</span><span class="sc">\n\n${</span>response<span class="op">.</span><span class="at">text</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (error) {</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">"Error calling QA chain:"</span><span class="op">,</span> error)<span class="op">;</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-28" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">callQAChain</span>(<span class="st">"Show hierarchy for _BaseGoogleGenerativeAI. Do not show content of classes."</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Answer:</strong></p>
-<pre><code>BaseModel
-  └── _BaseGoogleGenerativeAI
-      ├── ChatGoogleGenerativeAI
-      └── GoogleGenerativeAI</code></pre>
-</div>
-</div>
-<div id="cell-29" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">callQAChain</span>(<span class="st">"What is the return type of embedding models?"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Answer:</strong></p>
-<p>The return type of embedding models depends on whether a single text or a list of texts is being embedded:</p>
-<ul>
-<li>For embedding a <strong>single text</strong> (e.g., <code>embed_query</code> or <code>aembed_query</code>), the return type is a <code>List[float]</code>.</li>
-<li>For embedding a <strong>list of texts</strong> (e.g., <code>embed_documents</code> or <code>aembed_documents</code>), the return type is a <code>List[List[float]]</code>, where each inner list is the embedding for a corresponding text.</li>
-</ul>
-</div>
-</div>
-<div id="cell-30" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">callQAChain</span>(<span class="st">"What classes are related to Attributed Question and Answering."</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Answer:</strong></p>
-<p>The classes related to Attributed Question and Answering (AQA) are:</p>
+<section id="summarize-text" class="level2">
+<h2 class="anchored" data-anchor-id="summarize-text">Summarize text</h2>
+<p>In this tutorial, you are going to summarize the text from a website using the Gemini model integrated through LangChain.</p>
+<p>You’ll perform the following steps to achieve the same:</p>
 <ol type="1">
-<li><strong><code>GenAIAqa</code></strong>: This is the main class representing Google’s Attributed Question and Answering service. It’s a <code>RunnableSerializable</code> that takes <code>AqaInput</code> and returns <code>AqaOutput</code>.</li>
-<li><strong><code>AqaInput</code></strong>: A Pydantic model defining the input structure for <code>GenAIAqa.invoke</code>, which includes <code>prompt</code> and <code>source_passages</code>.</li>
-<li><strong><code>AqaOutput</code></strong>: A Pydantic model defining the output structure from <code>GenAIAqa.invoke</code>, which includes the <code>answer</code>, <code>attributed_passages</code>, and <code>answerable_probability</code>.</li>
-<li><strong><code>_AqaModel</code></strong>: An internal wrapper class used by <code>GenAIAqa</code> to interact with the underlying Google Generative Language AQA API.</li>
-<li><strong><code>GroundedAnswer</code></strong>: A dataclass used internally (specifically by <code>_AqaModel</code>) to structure the response received from the <code>generate_answer</code> API call before it’s converted into <code>AqaOutput</code>.</li>
-<li><strong><code>Passage</code></strong>: A dataclass used within <code>GroundedAnswer</code> to represent an individual attributed passage, containing its <code>text</code> and <code>id</code>.</li>
-<li><strong><code>GoogleVectorStore</code></strong>: While not an AQA class itself, it contains an <code>as_aqa</code> method that constructs and returns a <code>Runnable[str, AqaOutput]</code> which includes <code>GenAIAqa</code>, making it a key class for integrating with AQA functionality.</li>
+<li>Read and parse the website data using LangChain.</li>
+<li>Chain together the following:
+<ul>
+<li>A prompt for extracting the required input data from the parsed website data.</li>
+<li>A prompt for summarizing the text using LangChain.</li>
+<li>An LLM model (such as the Gemini model) for prompting.</li>
+</ul></li>
+<li>Run the created chain to prompt the model for the summary of the website data.</li>
 </ol>
+<section id="read-and-parse-the-website-data" class="level3">
+<h3 class="anchored" data-anchor-id="read-and-parse-the-website-data">Read and parse the website data</h3>
+<p>LangChain provides a wide variety of document loaders. To read the website data as a document, you will use the <code>WebBaseLoader</code> from LangChain.</p>
+<p>To know more about how to read and parse input data from different sources using the document loaders of LangChain, read LangChain’s <a href="https://python.langchain.com/docs/integrations/document_loaders">document loaders guide</a>.</p>
+<div id="cell-10" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { CheerioWebBaseLoader } <span class="im">from</span> <span class="st">"@langchain/community/document_loaders/web/cheerio"</span><span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> loader <span class="op">=</span> <span class="kw">new</span> <span class="fu">CheerioWebBaseLoader</span>(<span class="st">"https://blog.google/technology/ai/google-gemini-ai/"</span>)<span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> docs <span class="op">=</span> <span class="cf">await</span> loader<span class="op">.</span><span class="fu">load</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="initialize-the-gemini-model" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-the-gemini-model">Initialize the Gemini model</h3>
+<p>You must import the <code>ChatGoogleGenerativeAI</code> LLM from LangChain to initialize your model.</p>
+<p>In this example you will use Gemini 2.0 Flash, (<code>gemini-2.5-flash</code>), as it supports text summarization. To know more about this model and the other models availabe, read Google AI’s <a href="https://ai.google.dev/models/gemini">language documentation</a>.</p>
+<p>You can configure the model parameters such as <code>temperature</code> or <code>topP</code>, by passing the appropriate values when creating the <code>ChatGoogleGenerativeAI</code> LLM. To learn more about the parameters and their uses, read Google AI’s <a href="https://ai.google.dev/docs/concepts#model_parameters">concepts guide</a>.</p>
+<div id="cell-12" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { ChatGoogleGenerativeAI } <span class="im">from</span> <span class="st">"@langchain/google-genai"</span><span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> llm <span class="op">=</span> <span class="kw">new</span> <span class="fu">ChatGoogleGenerativeAI</span>({</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  apiKey<span class="op">:</span> GEMINI_API_KEY<span class="op">,</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-31" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="fu">callQAChain</span>(<span class="st">"What are the dependencies of the GenAIAqa class?"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="create-prompt-templates" class="level3">
+<h3 class="anchored" data-anchor-id="create-prompt-templates">Create prompt templates</h3>
+<p>You’ll use LangChain’s <code>PromptTemplate</code> to generate prompts for summarizing the text.</p>
+<p>To summarize the text from the website, you will need the following prompts.</p>
+<ol type="1">
+<li>Prompt to extract the data from the output of <code>WebBaseLoader</code>, named <code>doc_prompt</code></li>
+<li>Prompt for the Gemini model to summarize the extracted text, named <code>llm_prompt</code>.</li>
+</ol>
+<p>In the <code>llm_prompt</code>, the variable <code>text</code> will be replaced later by the text from the website.</p>
+<div id="cell-14" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { PromptTemplate } <span class="im">from</span> <span class="st">"@langchain/core/prompts"</span><span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> doc_prompt <span class="op">=</span> PromptTemplate<span class="op">.</span><span class="fu">fromTemplate</span>(<span class="st">"{page_content}"</span>)<span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> llm_prompt <span class="op">=</span> PromptTemplate<span class="op">.</span><span class="fu">fromTemplate</span>(<span class="vs">`</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    Write a concise summary of the following:</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="vs">    "{text}"</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    CONCISE SUMMARY:`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="create-a-stuff-documents-chain" class="level3">
+<h3 class="anchored" data-anchor-id="create-a-stuff-documents-chain">Create a stuff documents chain</h3>
+<p>LangChain provides <a href="https://js.langchain.com/docs/how_to/sequence/">Chains</a> for chaining together LLMs with each other or other components for complex applications. You will create a <strong>stuff documents chain</strong> for this application. A stuff documents chain lets you combine all the relevant documents, insert them into the prompt, and pass that prompt to the LLM.</p>
+<p>You can create a stuff documents chain using the <a href="https://js.langchain.com/docs/expression_language">LangChain Expression Language (LCEL)</a>.</p>
+<p>To learn more about different types of document chains, read LangChain’s <a href="https://v03.api.js.langchain.com/modules/langchain.chains.html">chains guide</a>.</p>
+<div id="cell-16" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { <span class="bu">Document</span> } <span class="im">from</span> <span class="st">"@langchain/core/documents"</span><span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { RunnableSequence<span class="op">,</span> RunnableLambda } <span class="im">from</span> <span class="st">"@langchain/core/runnables"</span><span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { StringOutputParser } <span class="im">from</span> <span class="st">"@langchain/core/output_parsers"</span><span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> stuff_chain <span class="op">=</span> RunnableSequence<span class="op">.</span><span class="fu">from</span>([</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">new</span> <span class="fu">RunnableLambda</span>({</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    func<span class="op">:</span> <span class="kw">async</span> (docs<span class="op">:</span> <span class="bu">Document</span>[]) <span class="kw">=&gt;</span> {</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> text <span class="op">=</span> <span class="cf">await</span> <span class="bu">Promise</span><span class="op">.</span><span class="fu">all</span>(</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        docs<span class="op">.</span><span class="fu">map</span>(<span class="kw">async</span> (doc) <span class="kw">=&gt;</span> <span class="cf">await</span> doc_prompt<span class="op">.</span><span class="fu">format</span>({ page_content<span class="op">:</span> doc<span class="op">.</span><span class="at">pageContent</span> }))</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>      )<span class="op">;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> { text<span class="op">:</span> text<span class="op">.</span><span class="fu">join</span>(<span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>) }<span class="op">;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  })<span class="op">,</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  llm_prompt<span class="op">,</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  llm<span class="op">,</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">new</span> <span class="fu">StringOutputParser</span>()<span class="op">,</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="prompt-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="prompt-the-model">Prompt the model</h3>
+<p>To generate the summary of the the website data, pass the documents extracted using the <code>WebBaseLoader</code> (<code>docs</code>) to <code>invoke()</code>.</p>
+<div id="cell-18" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(<span class="cf">await</span> stuff_chain<span class="op">.</span><span class="fu">invoke</span>(docs))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown">
-<p><strong>Answer:</strong></p>
-<p>The <code>GenAIAqa</code> class has the following dependencies:</p>
-<ul>
-<li><strong><code>langchain_core</code></strong>:
-<ul>
-<li><code>RunnableSerializable</code></li>
-<li><code>RunnableConfig</code></li>
-<li><code>Document</code> (indirectly, via <code>_toAqaInput</code> used in <code>as_aqa</code> method from <code>GoogleVectorStore</code>)</li>
-<li><code>RunnablePassthrough</code>, <code>RunnableLambda</code> (used in <code>as_aqa</code> method)</li>
-</ul></li>
-<li><strong><code>pydantic</code></strong>:
-<ul>
-<li><code>BaseModel</code></li>
-<li><code>PrivateAttr</code></li>
-</ul></li>
-<li><strong><code>google.ai.generativelanguage</code> (aliased as <code>genai</code>)</strong>:
-<ul>
-<li><code>GenerativeServiceClient</code></li>
-<li><code>AnswerStyle</code> (from <code>GenerateAnswerRequest</code>)</li>
-<li><code>SafetySetting</code></li>
-</ul></li>
-<li><strong>Internal modules/classes within <code>langchain_google_genai</code></strong>:
-<ul>
-<li><code>_genai_extension</code> (aliased as <code>genaix</code>): This module provides functions like <code>build_generative_service</code>, <code>generate_answer</code>, and the <code>GroundedAnswer</code> type.</li>
-<li><code>_AqaModel</code> (an internal wrapper class)</li>
-<li><code>AqaInput</code> (its input model)</li>
-<li><code>AqaOutput</code> (its output model)</li>
-</ul></li>
-</ul>
+<p>Google has launched Gemini, its largest and most capable AI model, designed to be natively multimodal (understanding text, code, audio, image, and video). Available in three sizes—Ultra (most complex tasks), Pro (broad use), and Nano (on-device)—Gemini achieves state-of-the-art performance across various benchmarks, including sophisticated reasoning and advanced coding. Developed with a strong emphasis on responsibility and safety, Gemini Pro is now integrated into Bard and will expand to other Google products like Search, while Gemini Nano powers new features on Pixel 8 Pro. Developers can access Gemini Pro via API starting December 13th, with Gemini Ultra to be released more broadly early next year after extensive safety checks.</p>
 </div>
 </div>
 </section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>Gemini API works great with Langchain. The integration is seamless and provides an easy interface for:</p>
-<ul>
-<li>loading and splitting files</li>
-<li>creating an In-memory database with embedding information</li>
-<li>answering questions based on context from files</li>
-</ul>
 </section>
-<section id="whats-next" class="level2">
-<h2 class="anchored" data-anchor-id="whats-next">What’s next?</h2>
-<p>This notebook showed only one possible use case for langchain with Gemini API. You can find many more here.</p>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>That’s it. You have successfully created an LLM application to summarize text using LangChain and the Gemini API.</p>
 
 
 </section>
@@ -1482,13 +1327,13 @@ Vector store created successfully</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../examples/langchain/Chat_with_SQL_using_langchain.html" class="pagination-link" aria-label="Gemini API: Chat with SQL using LangChain">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Chat with SQL using LangChain</span>
+      <a href="../../examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html" class="pagination-link" aria-label="Gemini API: Question Answering using LangChain and Pinecone">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Question Answering using LangChain and Pinecone</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html" class="pagination-link" aria-label="Gemini API: Question Answering using LangChain and Chroma">
-        <span class="nav-page-text">Gemini API: Question Answering using LangChain and Chroma</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../examples/prompting/Adding_context_information.html" class="pagination-link" aria-label="Gemini API: Adding context information">
+        <span class="nav-page-text">Gemini API: Adding context information</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1497,5 +1342,5 @@ Vector store created successfully</code></pre>
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/langchain/Code_analysis_using_Gemini_LangChain.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/langchain/Code_analysis_using_Gemini_LangChain.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/langchain/Gemini_LangChain_Summarization_WebLoad.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/langchain/Gemini_LangChain_Summarization_WebLoad.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
