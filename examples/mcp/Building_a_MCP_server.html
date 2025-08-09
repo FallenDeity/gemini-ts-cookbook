@@ -1,0 +1,2396 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Gemini API: Building a MCP Server – Gemini Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../examples/mcp/Querying_a_MCP_server.html" rel="next">
+<link href="../../examples/langchain/Gemini_LangChain_Summarization_WebLoad.html" rel="prev">
+<link href="../../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-eeda95415d7a773dff7c598679dfde2d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-GE1DFPVL15"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<meta property="og:title" content="Gemini API: Building a MCP Server – Gemini Cookbook">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://fallendeity.github.io/deepmind-starter/examples/mcp/Building_a_MCP_server_files/figure-html/cell-20-output-1.png">
+<meta property="og:site_name" content="Gemini Cookbook">
+<meta property="og:image:height" content="475">
+<meta property="og:image:width" content="475">
+<meta name="twitter:title" content="Gemini API: Building a MCP Server – Gemini Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://fallendeity.github.io/deepmind-starter/examples/mcp/Building_a_MCP_server_files/figure-html/cell-20-output-1.png">
+<meta name="twitter:image-height" content="475">
+<meta name="twitter:image-width" content="475">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Gemini Cookbook</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../quickstarts/Get_started.html" aria-current="page"> 
+<span class="menu-text">Quickstarts</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://github.com/FallenDeity/deepmind-starter/">
+            Source Code
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/mcp/Building_a_MCP_server.html">Mcp</a></li><li class="breadcrumb-item"><a href="../../examples/mcp/Building_a_MCP_server.html">Gemini API: Building a MCP Server</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Examples</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Agents_Function_Calling_Barista_Bot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Agents and Automatic Function Calling with Barista Bot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Historic Event Recognition</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Analyze a Video - Summarization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Anomaly_detection_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Anomaly detection with embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prompting with an Apollo 11 transcript</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Browser_as_a_tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Browser as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Classify_text_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classify text with embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Entity extraction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guess the shape: Triangle, Square, Pentagon?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/LiveAPI_plotting_and_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.X - Multi-tool with the Multimodal Live API</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create a marketing campaign from a product sketch of a Jet Backpack</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opossum search</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Pdf_structured_outputs_on_invoices_and_forms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Search_grounding_for_research_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Search tool with Gemini 2.x</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Search_reranking_using_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Search re-ranking using Gemini embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Search_Wikipedia_using_ReAct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Search Wikipedia using ReAct</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Spatial_understanding_3d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pointing and 3D Spatial Understanding with Gemini 2.0 (Experimental)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Story_Writing_with_Prompt_Chaining.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prompt Chaining and Iterative Generation for Story Writing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Tag_and_caption_images.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Using Gemini API to tag and caption images</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Talk_to_documents_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Document search with embeddings</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Translate a public domain book</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Voice_memos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Voice memos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Working with Charts, Graphs, and Slide Decks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Json Capabilities</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/json_capabilities/Entity_Extraction_JSON.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Entity Extraction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/json_capabilities/Sentiment_Analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Sentiment Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/json_capabilities/Text_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Text Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/json_capabilities/Text_Summarization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Text Summarization</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Langchain</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/langchain/Chat_with_SQL_using_langchain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Chat with SQL using LangChain</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/langchain/Code_analysis_using_Gemini_LangChain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Code analysis using LangChain</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Question Answering using LangChain and Chroma</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Question Answering using LangChain and Pinecone</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/langchain/Gemini_LangChain_Summarization_WebLoad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Summarize large documents using LangChain</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Mcp</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/mcp/Building_a_MCP_server.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Gemini API: Building a MCP Server</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/mcp/Querying_a_MCP_server.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Querying a MCP Server</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Prompting</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/prompting/Adding_context_information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Adding context information</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/prompting/Basic_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Basic classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/prompting/Basic_Code_Generation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Basic code generation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/prompting/Basic_Evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Basic evaluation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/prompting/Basic_Information_Extraction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Basic information extraction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/prompting/Basic_Reasoning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Basic reasoning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/prompting/Chain_of_thought_prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Chain of thought prompting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/prompting/Few_shot_prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Few-shot prompting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/prompting/Providing_base_cases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Providing base cases</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/prompting/Role_prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Role prompting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/prompting/Self_ask_prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Self-ask prompting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../examples/prompting/Zero_shot_prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Zero-shot prompting</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Quickstarts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Audio Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Code Execution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: All about tokens</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Embeddings Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Enum Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: File API Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Function_calling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Function calling with JS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guide: Building AI Tutors with LearnLM via System Instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multimodal Live API - Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting started with the Gemini API OpenAI compatibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Use Gemini thinking</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Getting started with information grounding for Gemini models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Gemini 2.0 Image output</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: List models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Read a PDF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Prompting Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Safety Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Grounding using Search as a tool</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2D spatial understanding with Gemini 2.0</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Streaming Quickstart</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: System instructions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Video understanding with Gemini</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#how-does-it-work" id="toc-how-does-it-work" class="nav-link" data-scroll-target="#how-does-it-work">How does it work?</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a>
+  <ul class="collapse">
+  <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
+  <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
+  <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
+  <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
+  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
+  </ul></li>
+  <li><a href="#defining-a-mcp-server" id="toc-defining-a-mcp-server" class="nav-link" data-scroll-target="#defining-a-mcp-server">Defining a MCP server</a>
+  <ul class="collapse">
+  <li><a href="#defining-tools-for-the-mcp-server" id="toc-defining-tools-for-the-mcp-server" class="nav-link" data-scroll-target="#defining-tools-for-the-mcp-server">Defining <code>tools</code> for the MCP server</a></li>
+  </ul></li>
+  <li><a href="#creating-a-mcp-client" id="toc-creating-a-mcp-client" class="nav-link" data-scroll-target="#creating-a-mcp-client">Creating a MCP Client</a></li>
+  <li><a href="#connecting-to-the-mcp-server" id="toc-connecting-to-the-mcp-server" class="nav-link" data-scroll-target="#connecting-to-the-mcp-server">Connecting to the MCP server</a></li>
+  <li><a href="#experimenting-with-tools" id="toc-experimenting-with-tools" class="nav-link" data-scroll-target="#experimenting-with-tools">Experimenting with Tools</a>
+  <ul class="collapse">
+  <li><a href="#manually-invoking-tools" id="toc-manually-invoking-tools" class="nav-link" data-scroll-target="#manually-invoking-tools">Manually invoking tools</a></li>
+  <li><a href="#integrating-with-gemini" id="toc-integrating-with-gemini" class="nav-link" data-scroll-target="#integrating-with-gemini">Integrating with Gemini</a></li>
+  <li><a href="#multi-tool-invocation" id="toc-multi-tool-invocation" class="nav-link" data-scroll-target="#multi-tool-invocation">Multi-tool invocation</a></li>
+  <li><a href="#multi-step-reasoning-tasks" id="toc-multi-step-reasoning-tasks" class="nav-link" data-scroll-target="#multi-step-reasoning-tasks">Multi-step reasoning &amp; tasks</a></li>
+  <li><a href="#multi-modal-output" id="toc-multi-modal-output" class="nav-link" data-scroll-target="#multi-modal-output">Multi-modal Output</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/mcp/Building_a_MCP_server.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/mcp/Building_a_MCP_server.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/mcp/Building_a_MCP_server.html">Mcp</a></li><li class="breadcrumb-item"><a href="../../examples/mcp/Building_a_MCP_server.html">Gemini API: Building a MCP Server</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Gemini API: Building a MCP Server</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>While LLMs are powerful, their actions are limited to content generation. To enable them to interact with the world, perform tasks, and access real-time information, whether it’s reading a file, querying a database, or making an API call, we can use <a href="https://modelcontextprotocol.io/overview">MCP</a> (Model Context Protocol) which is a standardized way for LLMs to interact with external systems.</p>
+<p>The <a href="https://modelcontextprotocol.io/docs/getting-started/intro">MCP</a> protocol was designed by <a href="https://www.anthropic.com/">anthropic</a> as a standard way for AI applications and agents to connect to and work with your data sources (e.g.&nbsp;local files, databases, or content repositories) and tools (e.g.&nbsp;GitHub, Google Maps, or Puppeteer).</p>
+</section>
+<section id="how-does-it-work" class="level2">
+<h2 class="anchored" data-anchor-id="how-does-it-work">How does it work?</h2>
+<p>At a very high level, MCP has three participants:</p>
+<ul>
+<li><strong>MCP Client</strong>: A component that maintains a connection to the MCP server and obtains context from an MCP server for the MCP host to use, it can also invoke tools and read resources from the MCP server.</li>
+<li><strong>MCP Host</strong>: The AI application that coordinates and manages one or more MCP clients, e.g.&nbsp;Claude Desktop, VS Code etc.</li>
+<li><strong>MCP Server</strong>: A remote or a local server that provides context to the MCP client, it can do so by exposing tools, resources and prompts.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://mintlify.s3.us-west-1.amazonaws.com/mcp/images/mcp-simple-diagram.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="MCP Protocol"><img src="https://mintlify.s3.us-west-1.amazonaws.com/mcp/images/mcp-simple-diagram.png" class="img-fluid figure-img" alt="MCP Protocol"></a></p>
+<figcaption>MCP Protocol</figcaption>
+</figure>
+</div>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="install-the-google-genai-sdk" class="level3">
+<h3 class="anchored" data-anchor-id="install-the-google-genai-sdk">Install the Google GenAI SDK</h3>
+<p>Install the Google GenAI SDK from <a href="https://www.npmjs.com/package/@google/genai">npm</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install @google/genai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="setup-your-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="setup-your-api-key">Setup your API key</h3>
+<p>You can <a href="https://aistudio.google.com/app/apikey">create</a> your API key using Google AI Studio with a single click.</p>
+<p>Remember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a <code>.env</code> file. You can also set it as an environment variable or use a secret manager.</p>
+<p>Here’s how to set it up in a <code>.env</code> file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch .env</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;"</span> <span class="op">&gt;&gt;</span> .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Another option is to set the API key as an environment variable. You can do this in your terminal with the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export GEMINI_API_KEY=<span class="st">"&lt;YOUR_API_KEY&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="load-the-api-key" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-api-key">Load the API key</h3>
+<p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, we can load the API key in our code:</p>
+<div id="cell-4" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../../.env"</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GEMINI_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">GEMINI_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>GEMINI_API_KEY) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"GEMINI_API_KEY is not set in the environment variables"</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"GEMINI_API_KEY is set in the environment variables"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEMINI_API_KEY is set in the environment variables</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In our particular case the <code>.env</code> is is two directories up from the notebook, hence we need to use <code>../../</code> to go up two directories. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
+<pre><code>│
+├── .env
+└── examples
+    └── mcp
+        └── Building_a_MCP_server.ipynb</code></pre>
+</div>
+</div>
+</section>
+<section id="select-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
+<div id="cell-7" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.0-flash"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="initialize-sdk-client" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
+<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
+<div id="cell-9" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="defining-a-mcp-server" class="level2">
+<h2 class="anchored" data-anchor-id="defining-a-mcp-server">Defining a MCP server</h2>
+<p>In this example, you will create a simple MCP server that provides an interface to interact with and query the popular Pokemon API <a href="https://github.com/PokeAPI/pokeapi">PokeAPI</a>.</p>
+<p>You will create a <code>McpServer</code> instance and register a set of tools that the MCP server will expose. The Gemini model will be able to query the list of available tools (<code>tools/list</code>) and invoke particular tools to retrieve information.</p>
+<div id="cell-11" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> z <span class="op">=</span> <span class="pp">require</span>(<span class="st">"zod"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"zod"</span>)<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> server <span class="op">=</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">require</span>(<span class="st">"@modelcontextprotocol/sdk/server/mcp.js"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@modelcontextprotocol/sdk/server/mcp.js"</span>)<span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> mcpServer <span class="op">=</span> <span class="kw">new</span> server<span class="op">.</span><span class="fu">McpServer</span>({</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="st">"PokeAPI MCP Server"</span><span class="op">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  version<span class="op">:</span> <span class="st">"1.0.0"</span><span class="op">,</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="defining-tools-for-the-mcp-server" class="level3">
+<h3 class="anchored" data-anchor-id="defining-tools-for-the-mcp-server">Defining <code>tools</code> for the MCP server</h3>
+<p>The MCP server will expose a set of tools that the Gemini model can use to interact with the PokeAPI. You can define these tools using the <code>registerTool</code> method of the <code>McpServer</code> instance.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Currently the <a href="https://github.com/googleapis/js-genai/tree/main">js-genai SDK</a> does not support prompts and resources, so we will only focus on tools in this example. However, you can still use the MCP server to provide prompts and resources by using <code>registerPrompt</code> and <code>registerResource</code> methods of the <code>McpServer</code> instance.</p>
+</div>
+</div>
+<div id="cell-13" class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mcpServer<span class="op">.</span><span class="fu">registerTool</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"getPokemon"</span><span class="op">,</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    title<span class="op">:</span> <span class="st">"Get Pokemon"</span><span class="op">,</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Get information about a Pokemon by its name or ID. Details include abilities, stats, sprites, and more."</span><span class="op">,</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    inputSchema<span class="op">:</span> {</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>      nameOrId<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The name or ID of the Pokemon to retrieve information about."</span>)<span class="op">,</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> ({ nameOrId }) <span class="kw">=&gt;</span> {</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(<span class="vs">`https://pokeapi.co/api/v2/pokemon/</span><span class="sc">${</span>nameOrId<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>      <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to fetch Pokemon: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> { content<span class="op">:</span> [{ type<span class="op">:</span> <span class="st">"text"</span><span class="op">,</span> text<span class="op">:</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">text</span>() }] }<span class="op">;</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>mcpServer<span class="op">.</span><span class="fu">registerTool</span>(</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">"getEvolutionChain"</span><span class="op">,</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    title<span class="op">:</span> <span class="st">"Get Evolution Chain"</span><span class="op">,</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span> <span class="st">"Get the evolution chain of a Pokemon by its evolution chain ID. (Available from species endpoint)"</span><span class="op">,</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    inputSchema<span class="op">:</span> {</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>      evolutionChainId<span class="op">:</span> z</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">string</span>()</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">describe</span>(<span class="st">"The ID of the evolution chain to retrieve. This can be obtained from the species endpoint."</span>)<span class="op">,</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> ({ evolutionChainId }) <span class="kw">=&gt;</span> {</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(<span class="vs">`https://pokeapi.co/api/v2/evolution-chain/</span><span class="sc">${</span>evolutionChainId<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>      <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to fetch evolution chain: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> { content<span class="op">:</span> [{ type<span class="op">:</span> <span class="st">"text"</span><span class="op">,</span> text<span class="op">:</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">text</span>() }] }<span class="op">;</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>mcpServer<span class="op">.</span><span class="fu">registerTool</span>(</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>  <span class="st">"getPokemonSpecies"</span><span class="op">,</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>    title<span class="op">:</span> <span class="st">"Get Pokemon Species"</span><span class="op">,</span></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span> <span class="st">"Get information about a Pokemon species by its name or ID."</span><span class="op">,</span></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>    inputSchema<span class="op">:</span> {</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>      nameOrId<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The name or ID of the Pokemon species to retrieve information about."</span>)<span class="op">,</span></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> ({ nameOrId }) <span class="kw">=&gt;</span> {</span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(<span class="vs">`https://pokeapi.co/api/v2/pokemon-species/</span><span class="sc">${</span>nameOrId<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>      <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to fetch Pokemon species: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> { content<span class="op">:</span> [{ type<span class="op">:</span> <span class="st">"text"</span><span class="op">,</span> text<span class="op">:</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">text</span>() }] }<span class="op">;</span></span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>mcpServer<span class="op">.</span><span class="fu">registerTool</span>(</span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>  <span class="st">"getItem"</span><span class="op">,</span></span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>    title<span class="op">:</span> <span class="st">"Get Item"</span><span class="op">,</span></span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span> <span class="st">"Get information about an item by its name or ID."</span><span class="op">,</span></span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>    inputSchema<span class="op">:</span> {</span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>      nameOrId<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The name or ID of the item to retrieve information about."</span>)<span class="op">,</span></span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> ({ nameOrId }) <span class="kw">=&gt;</span> {</span>
+<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(<span class="vs">`https://pokeapi.co/api/v2/item/</span><span class="sc">${</span>nameOrId<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a>      <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to fetch item: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> { content<span class="op">:</span> [{ type<span class="op">:</span> <span class="st">"text"</span><span class="op">,</span> text<span class="op">:</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">text</span>() }] }<span class="op">;</span></span>
+<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a>mcpServer<span class="op">.</span><span class="fu">registerTool</span>(</span>
+<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a>  <span class="st">"getAbility"</span><span class="op">,</span></span>
+<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a>    title<span class="op">:</span> <span class="st">"Get Ability"</span><span class="op">,</span></span>
+<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span> <span class="st">"Get information about an ability by its name or ID."</span><span class="op">,</span></span>
+<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a>    inputSchema<span class="op">:</span> {</span>
+<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a>      nameOrId<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The name or ID of the ability to retrieve information about."</span>)<span class="op">,</span></span>
+<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb11-85"><a href="#cb11-85" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> ({ nameOrId }) <span class="kw">=&gt;</span> {</span>
+<span id="cb11-86"><a href="#cb11-86" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(<span class="vs">`https://pokeapi.co/api/v2/ability/</span><span class="sc">${</span>nameOrId<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a>      <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to fetch ability: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-90"><a href="#cb11-90" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> { content<span class="op">:</span> [{ type<span class="op">:</span> <span class="st">"text"</span><span class="op">,</span> text<span class="op">:</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">text</span>() }] }<span class="op">;</span></span>
+<span id="cb11-91"><a href="#cb11-91" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-92"><a href="#cb11-92" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-94"><a href="#cb11-94" aria-hidden="true" tabindex="-1"></a>mcpServer<span class="op">.</span><span class="fu">registerTool</span>(</span>
+<span id="cb11-95"><a href="#cb11-95" aria-hidden="true" tabindex="-1"></a>  <span class="st">"getMove"</span><span class="op">,</span></span>
+<span id="cb11-96"><a href="#cb11-96" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb11-97"><a href="#cb11-97" aria-hidden="true" tabindex="-1"></a>    title<span class="op">:</span> <span class="st">"Get Move"</span><span class="op">,</span></span>
+<span id="cb11-98"><a href="#cb11-98" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span> <span class="st">"Get information about a move by its name or ID."</span><span class="op">,</span></span>
+<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a>    inputSchema<span class="op">:</span> {</span>
+<span id="cb11-100"><a href="#cb11-100" aria-hidden="true" tabindex="-1"></a>      nameOrId<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">.</span><span class="fu">describe</span>(<span class="st">"The name or ID of the move to retrieve information about."</span>)<span class="op">,</span></span>
+<span id="cb11-101"><a href="#cb11-101" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb11-103"><a href="#cb11-103" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> ({ nameOrId }) <span class="kw">=&gt;</span> {</span>
+<span id="cb11-104"><a href="#cb11-104" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(<span class="vs">`https://pokeapi.co/api/v2/move/</span><span class="sc">${</span>nameOrId<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb11-106"><a href="#cb11-106" aria-hidden="true" tabindex="-1"></a>      <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Failed to fetch move: </span><span class="sc">${</span>response<span class="op">.</span><span class="at">statusText</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb11-107"><a href="#cb11-107" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-108"><a href="#cb11-108" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> { content<span class="op">:</span> [{ type<span class="op">:</span> <span class="st">"text"</span><span class="op">,</span> text<span class="op">:</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">text</span>() }] }<span class="op">;</span></span>
+<span id="cb11-109"><a href="#cb11-109" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-110"><a href="#cb11-110" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb11-111"><a href="#cb11-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-112"><a href="#cb11-112" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Tools registered successfully"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Tools registered successfully</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="creating-a-mcp-client" class="level2">
+<h2 class="anchored" data-anchor-id="creating-a-mcp-client">Creating a MCP Client</h2>
+<p>In this section, you will create a MCP client that connects to the MCP server and invokes the tools exposed by the server. The <code>js-genai</code> SDK provides a <code>mcpToTool</code> function that allows you to convert a MCP tool to Gemini tools.</p>
+<div id="cell-15" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> client <span class="op">=</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">require</span>(<span class="st">"@modelcontextprotocol/sdk/client/index.js"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@modelcontextprotocol/sdk/client/index.js"</span>)<span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> mcpClient <span class="op">=</span> <span class="kw">new</span> client<span class="op">.</span><span class="fu">Client</span>({</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="st">"PokeAPI MCP Client"</span><span class="op">,</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  version<span class="op">:</span> <span class="st">"1.0.0"</span><span class="op">,</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="connecting-to-the-mcp-server" class="level2">
+<h2 class="anchored" data-anchor-id="connecting-to-the-mcp-server">Connecting to the MCP server</h2>
+<p>The MCP server and client communicate over a particular transports. The MCP typescript-sdk provided an <code>InMemoryTransport</code> that allows you to run the MCP server and client in the same process. This is useful for testing and development purposes.</p>
+<div id="cell-17" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> transport <span class="op">=</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">require</span>(<span class="st">"@modelcontextprotocol/sdk/inMemory.js"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@modelcontextprotocol/sdk/inMemory.js"</span>)<span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> transports <span class="op">=</span> transport<span class="op">.</span><span class="at">InMemoryTransport</span><span class="op">.</span><span class="fu">createLinkedPair</span>()<span class="op">;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> mcpServer<span class="op">.</span><span class="fu">connect</span>(transports[<span class="dv">0</span>])<span class="op">;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> mcpClient<span class="op">.</span><span class="fu">connect</span>(transports[<span class="dv">1</span>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="experimenting-with-tools" class="level2">
+<h2 class="anchored" data-anchor-id="experimenting-with-tools">Experimenting with Tools</h2>
+<section id="manually-invoking-tools" class="level3">
+<h3 class="anchored" data-anchor-id="manually-invoking-tools">Manually invoking tools</h3>
+<p>You can manually invoke the tools exposed by the MCP server using the <code>callTool</code> method of the <code>McpClient</code> instance. This allows you to test the tools and see how they work before using them in a Gemini model.</p>
+<div id="cell-19" class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> CallToolResult <span class="op">=</span> Awaited<span class="op">&lt;</span><span class="bu">ReturnType</span><span class="op">&lt;</span><span class="kw">typeof</span> mcpClient<span class="op">.</span><span class="at">callTool</span><span class="op">&gt;&gt;;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> result<span class="op">:</span> CallToolResult <span class="op">=</span> <span class="cf">await</span> mcpClient<span class="op">.</span><span class="fu">callTool</span>({</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="st">"getPokemon"</span><span class="op">,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  arguments<span class="op">:</span> {</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    nameOrId<span class="op">:</span> <span class="st">"pikachu"</span><span class="op">,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`</span><span class="sc">${</span>(result<span class="op">.</span><span class="at">content</span> <span class="im">as</span> { text<span class="op">:</span> <span class="dt">string</span> }[])[<span class="dv">0</span>]<span class="op">.</span><span class="at">text</span><span class="op">.</span><span class="fu">slice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">200</span>)<span class="sc">}</span><span class="vs">...`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{"abilities":[{"ability":{"name":"static","url":"https://pokeapi.co/api/v2/ability/9/"},"is_hidden":false,"slot":1},{"ability":{"name":"lightning-rod","url":"https://pokeapi.co/api/v2/ability/31/"},"i...</code></pre>
+</div>
+</div>
+<p>As you can see, the <code>callTool</code> method takes a tool name and its arguments, and returns the result of the tool invocation. In this case, the tool is working as expected and returns the information about the Pokemon with the name <code>"pikachu"</code>.</p>
+</section>
+<section id="integrating-with-gemini" class="level3">
+<h3 class="anchored" data-anchor-id="integrating-with-gemini">Integrating with Gemini</h3>
+<p>Now that you have a MCP server and client set up, you can integrate it with a Gemini model. The <code>js-genai</code> SDK provides a <code>mcpToTool</code> function that takes a MCP client instance and returns a list of Gemini tools that can be used in a Gemini model.</p>
+<div id="cell-22" class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> mcpChat <span class="op">=</span> ai<span class="op">.</span><span class="at">chats</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">:</span> [google<span class="op">.</span><span class="fu">mcpToTool</span>(mcpClient)]<span class="op">,</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    toolConfig<span class="op">:</span> {</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>      functionCallingConfig<span class="op">:</span> {</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        mode<span class="op">:</span> google<span class="op">.</span><span class="at">FunctionCallingConfigMode</span><span class="op">.</span><span class="at">AUTO</span><span class="op">,</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s create a few utility functions to help us with the integration. These functions will allow you to view the order of function calls and the results of the tool invocations. This will help us understand the reasoning behind the results provided by the Gemini model.</p>
+<div id="cell-24" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Content<span class="op">,</span> FunctionResponse } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">printFunctionResponse</span>(response<span class="op">:</span> FunctionResponse) {</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> result <span class="op">=</span> response<span class="op">.</span><span class="at">response</span><span class="op">;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (result<span class="op">.</span><span class="at">content</span>) {</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">const</span> content <span class="kw">of</span> result<span class="op">.</span><span class="at">content</span> <span class="im">as</span> { text<span class="op">:</span> <span class="dt">string</span> }[]) {</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (content<span class="op">.</span><span class="at">text</span>) {</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        content<span class="op">.</span><span class="at">text</span> <span class="op">=</span> <span class="vs">`</span><span class="sc">${</span>content<span class="op">.</span><span class="at">text</span><span class="op">.</span><span class="fu">slice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">200</span>)<span class="sc">}</span><span class="vs">...`</span><span class="op">;</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Function Response</span><span class="sc">\n</span><span class="st">"</span>)<span class="op">;</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(result<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">printFunctionCallingHistory</span>(history<span class="op">:</span> Content[]) {</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> content <span class="kw">of</span> history) {</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">const</span> part <span class="kw">of</span> content<span class="op">.</span><span class="at">parts</span> <span class="op">??</span> []) {</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (part<span class="op">.</span><span class="at">functionCall</span>) {</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Function Call</span><span class="sc">\n</span><span class="st">"</span>)<span class="op">;</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(part<span class="op">.</span><span class="at">functionCall</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (part<span class="op">.</span><span class="at">functionResponse</span>) {</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">printFunctionResponse</span>(part<span class="op">.</span><span class="at">functionResponse</span>)<span class="op">;</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-25" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">// temporarily make console.warn a no-op to avoid warnings in the output (non-text part in GenerateContentResponse caused by accessing .text)</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">// https://github.com/googleapis/js-genai/blob/d82aba244bdb804b063ef8a983b2916c00b901d2/src/types.ts#L2005</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">// copy the original console.warn function to restore it later</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> warn_fn <span class="op">=</span> <span class="bu">console</span><span class="op">.</span><span class="fu">warn</span><span class="op">;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">// eslint-disable-next-line @typescript-eslint/no-empty-function, no-empty-function</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">warn</span> <span class="op">=</span> <span class="kw">function</span> () {}<span class="op">;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response_1 <span class="op">=</span> <span class="cf">await</span> mcpChat<span class="op">.</span><span class="fu">sendMessage</span>({</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> <span class="st">"Can you provide the showdown sprites for the pokemon Pikachu?"</span><span class="op">,</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(response_1<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="fu">printFunctionCallingHistory</span>(response_1<span class="op">.</span><span class="at">automaticFunctionCallingHistory</span> <span class="op">??</span> [])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Here are the links to the showdown sprites for Pikachu:</p>
+<ul>
+<li><strong>Default:</strong> https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/25.gif</li>
+<li><strong>Female:</strong> https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/female/25.gif</li>
+<li><strong>Shiny:</strong> https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/shiny/25.gif</li>
+<li><strong>Shiny Female:</strong> https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/shiny/female/25.gif</li>
+<li><strong>Back Default:</strong> https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/back/25.gif</li>
+<li><strong>Back Female:</strong> https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/back/female/25.gif</li>
+<li><strong>Back Shiny:</strong> https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/back/shiny/25.gif</li>
+</ul>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Function Call
+
+{
+  "name": "getPokemon",
+  "args": {
+    "nameOrId": "Pikachu"
+  }
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"abilities\":[{\"ability\":{\"name\":\"static\",\"url\":\"https://pokeapi.co/api/v2/ability/9/\"},\"is_hidden\":false,\"slot\":1},{\"ability\":{\"name\":\"lightning-rod\",\"url\":\"https://pokeapi.co/api/v2/ability/31/\"},\"i..."
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+<div id="cell-26" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">getUrlsFromResponse</span>(response<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="dt">string</span>[] {</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> urlRegex <span class="op">=</span> <span class="ss">/https</span><span class="sc">?</span><span class="ss">:</span><span class="sc">\/\/[^\s]+</span><span class="ss">/g</span><span class="op">;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> urls <span class="op">=</span> response<span class="op">.</span><span class="fu">match</span>(urlRegex)<span class="op">;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> urls <span class="op">??</span> []<span class="op">;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> spriteUrls <span class="op">=</span> <span class="fu">getUrlsFromResponse</span>(response_1<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">html</span>(<span class="vs">`&lt;img src="</span><span class="sc">${</span>spriteUrls[<span class="dv">0</span>]<span class="sc">}</span><span class="vs">" alt="Pikachu Sprite" style="max-width: 200px; max-height: 200px;"/&gt;`</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/25.gif" alt="Pikachu Sprite" style="max-width: 200px; max-height: 200px;">
+</div>
+</div>
+<p>For comparison, let’s ask the Gemini model the same question without using the MCP server.</p>
+<div id="cell-28" class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> raw_response_1 <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="st">"Can you provide the showdown sprites for pokemon Pikachu?"</span><span class="op">,</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(raw_response_1<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Since I can’t actually <em>show</em> you an image, I can provide a detailed textual description of what a showdown-style sprite for Pikachu would look like, focusing on its common battle stance and animated elements:</p>
+<hr>
+<p><strong>Pikachu (Showdown Style Sprite Description)</strong></p>
+<p>Pikachu is rendered in a crisp, clean pixel-art style, typical of Pokémon Showdown, facing slightly to the right (as if facing an opponent). Its body is a vibrant, electric yellow, plump and rounded, giving it a sturdy yet agile appearance.</p>
+<p><strong>Key Features &amp; Pose:</strong></p>
+<ul>
+<li><strong>Stance:</strong> Pikachu is poised in a ready-for-battle stance, leaning slightly forward on its short, stubby legs, conveying a sense of anticipation and agility. There’s a subtle “bounce” in its posture, implying a continuous, looping animation.</li>
+<li><strong>Ears:</strong> Its iconic long, pointed ears stand erect, tipped with sharp black markings that extend down a small portion of the ear. They are slightly angled back, showing alertness.</li>
+<li><strong>Cheek Pouches:</strong> The bright, prominent red circular cheek pouches are clearly visible on either side of its face. In an animated sprite, these would subtly flicker or emit tiny, almost imperceptible sparks, indicating its electric power.</li>
+<li><strong>Eyes &amp; Expression:</strong> Its small, dark, determined eyes are focused forward, conveying a sense of readiness and resolve. Its mouth is typically a simple, slightly open line or a small, determined arc.</li>
+<li><strong>Arms:</strong> Its short, round arms are held slightly out from its body, with tiny, almost indistinguishable fingers, ready to move or gesture.</li>
+<li><strong>Tail:</strong> The jagged, lightning-bolt shaped tail is typically held high and slightly arced behind its body, with the distinct patch of brown fur at its base clearly visible. The tail often has a slight sway or subtle “zing” motion in an animation.</li>
+<li><strong>Outlines &amp; Shading:</strong> The sprite features clear, dark outlines defining its shape, and minimal yet effective shading to give it volume without being overly complex, consistent with Showdown’s visual style.</li>
+</ul>
+<p><strong>Overall Impression (as an animated sprite):</strong></p>
+<p>The sprite would continuously loop a subtle animation – a gentle bobbing of its body, a soft flicker in its cheek pouches, perhaps a slight twitch of its tail or ears. This makes Pikachu look alive, energetic, and constantly prepared for action on the battlefield. The colors are bright and distinct, making it instantly recognizable and impactful.</p>
+</div>
+</div>
+</section>
+<section id="multi-tool-invocation" class="level3">
+<h3 class="anchored" data-anchor-id="multi-tool-invocation">Multi-tool invocation</h3>
+<p>Gemini models can invoke multiple tools in a single request. This is useful when you want to gather information from multiple sources or perform multiple actions in a single request, cross-referencing the results of multiple tools.</p>
+<div id="cell-30" class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response_2 <span class="op">=</span> <span class="cf">await</span> mcpChat<span class="op">.</span><span class="fu">sendMessage</span>({</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> <span class="st">"What abilities does Pikachu have, and what does each one do?"</span><span class="op">,</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(response_2<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">printFunctionCallingHistory</span>(</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  (response_2<span class="op">.</span><span class="at">automaticFunctionCallingHistory</span> <span class="op">??</span> [])<span class="op">.</span><span class="fu">slice</span>(response_1<span class="op">.</span><span class="at">automaticFunctionCallingHistory</span><span class="op">.</span><span class="at">length</span> <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Pikachu has two abilities: Static and Lightning Rod.</p>
+<p><strong>Static</strong>: When a Pokémon with Static is hit by a move that makes contact, there is a 30% chance that the attacking Pokémon will be paralyzed. Even Pokémon that are normally immune to Electric-type moves can be paralyzed by this ability. Additionally, if a Pokémon with Static is at the head of your party, there is a 50% chance of encountering an Electric-type Pokémon in the wild, if one is available in the area.</p>
+<p><strong>Lightning Rod</strong>: A Pokémon with Lightning Rod will draw all single-target Electric-type moves to itself. Instead of taking damage, the Pokémon’s Special Attack is raised by one stage. This ability will not redirect a move if the intended target also has Lightning Rod. If multiple Pokémon with this ability are on the field, the one with the highest Speed stat will be the one to redirect the move.</p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Function Call
+
+{
+  "name": "getPokemon",
+  "args": {
+    "nameOrId": "pikachu"
+  }
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"abilities\":[{\"ability\":{\"name\":\"static\",\"url\":\"https://pokeapi.co/api/v2/ability/9/\"},\"is_hidden\":false,\"slot\":1},{\"ability\":{\"name\":\"lightning-rod\",\"url\":\"https://pokeapi.co/api/v2/ability/31/\"},\"i..."
+    }
+  ]
+}
+Function Call
+
+{
+  "name": "getAbility",
+  "args": {
+    "nameOrId": "static"
+  }
+}
+Function Call
+
+{
+  "name": "getAbility",
+  "args": {
+    "nameOrId": "lightning-rod"
+  }
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"effect_changes\":[{\"effect_entries\":[{\"effect\":\"Hat außerhalb vom Kampf keinen Effekt.\",\"language\":{\"name\":\"de\",\"url\":\"https://pokeapi.co/api/v2/language/6/\"}},{\"effect\":\"Has no overworld effect.\",\"l..."
+    }
+  ]
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"effect_changes\":[{\"effect_entries\":[{\"effect\":\"Hat außerhalb vom Kampf keinen Effekt.\",\"language\":{\"name\":\"de\",\"url\":\"https://pokeapi.co/api/v2/language/6/\"}},{\"effect\":\"Has no overworld effect.\",\"l..."
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+<div id="cell-31" class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response_3 <span class="op">=</span> <span class="cf">await</span> mcpChat<span class="op">.</span><span class="fu">sendMessage</span>({</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> <span class="st">"What is the flavor text for Ralts's species, and what is it's evolution chain and directions?"</span><span class="op">,</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(response_3<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">printFunctionCallingHistory</span>(</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  (response_3<span class="op">.</span><span class="at">automaticFunctionCallingHistory</span> <span class="op">??</span> [])<span class="op">.</span><span class="fu">slice</span>(response_2<span class="op">.</span><span class="at">automaticFunctionCallingHistory</span><span class="op">.</span><span class="at">length</span> <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Ralts’s flavor text is: “It is highly attuned to the emotions of people and Pokémon. It hides if it senses hostility.”</p>
+<p>Ralts’s evolution chain is as follows:</p>
+<ol type="1">
+<li>Ralts evolves into Kirlia at level 20.</li>
+<li>Kirlia can evolve into two different Pokémon:
+<ul>
+<li>It evolves into Gardevoir at level 30.</li>
+<li>Alternatively, a male Kirlia will evolve into Gallade when a Dawn Stone is used on it.</li>
+</ul></li>
+</ol>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Function Call
+
+{
+  "name": "getPokemonSpecies",
+  "args": {
+    "nameOrId": "ralts"
+  }
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"base_happiness\":35,\"capture_rate\":235,\"color\":{\"name\":\"white\",\"url\":\"https://pokeapi.co/api/v2/pokemon-color/9/\"},\"egg_groups\":[{\"name\":\"humanshape\",\"url\":\"https://pokeapi.co/api/v2/egg-group/8/\"},{..."
+    }
+  ]
+}
+Function Call
+
+{
+  "name": "getEvolutionChain",
+  "args": {
+    "evolutionChainId": "140"
+  }
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"baby_trigger_item\":null,\"chain\":{\"evolution_details\":[],\"evolves_to\":[{\"evolution_details\":[{\"gender\":null,\"held_item\":null,\"item\":null,\"known_move\":null,\"known_move_type\":null,\"location\":null,\"min_..."
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+</section>
+<section id="multi-step-reasoning-tasks" class="level3">
+<h3 class="anchored" data-anchor-id="multi-step-reasoning-tasks">Multi-step reasoning &amp; tasks</h3>
+<p>The Gemini model can also perform multi-step reasoning and tasks. This means that the model can break down a complex task into smaller sub-tasks and invoke multiple tools to complete the task by reasoning about the results of the previous steps.</p>
+<div id="cell-33" class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response_4 <span class="op">=</span> <span class="cf">await</span> mcpChat<span class="op">.</span><span class="fu">sendMessage</span>({</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span> <span class="st">"What are a list of Pokemon which have the ability 'Dancer' and are 'electric' type?"</span><span class="op">,</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(response_4<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">printFunctionCallingHistory</span>(</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  (response_4<span class="op">.</span><span class="at">automaticFunctionCallingHistory</span> <span class="op">??</span> [])<span class="op">.</span><span class="fu">slice</span>(response_3<span class="op">.</span><span class="at">automaticFunctionCallingHistory</span><span class="op">.</span><span class="at">length</span> <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Oricorio Pom-Pom is the only Pokémon with the ability ‘Dancer’ and the type ‘electric’. Other Oricorio forms have the ‘Dancer’ ability but different types: Baile Style is Fire/Flying, Pau Style is Psychic/Flying, and Sensu Style is Ghost/Flying.</p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Function Call
+
+{
+  "name": "getAbility",
+  "args": {
+    "nameOrId": "Dancer"
+  }
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"effect_changes\":[],\"effect_entries\":[{\"effect\":\"Whenever another Pokémon uses a dance move, this Pokémon will use the same move immediately afterwards.\",\"language\":{\"name\":\"en\",\"url\":\"https://pokeap..."
+    }
+  ]
+}
+Function Call
+
+{
+  "name": "getPokemon",
+  "args": {
+    "nameOrId": "oricorio-pom-pom"
+  }
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"abilities\":[{\"ability\":{\"name\":\"dancer\",\"url\":\"https://pokeapi.co/api/v2/ability/216/\"},\"is_hidden\":false,\"slot\":1}],\"base_experience\":167,\"cries\":{\"latest\":\"https://raw.githubusercontent.com/PokeAP..."
+    }
+  ]
+}
+Function Call
+
+{
+  "name": "getPokemon",
+  "args": {
+    "nameOrId": "oricorio-baile"
+  }
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"abilities\":[{\"ability\":{\"name\":\"dancer\",\"url\":\"https://pokeapi.co/api/v2/ability/216/\"},\"is_hidden\":false,\"slot\":1}],\"base_experience\":167,\"cries\":{\"latest\":\"https://raw.githubusercontent.com/PokeAP..."
+    }
+  ]
+}
+Function Call
+
+{
+  "name": "getPokemon",
+  "args": {
+    "nameOrId": "oricorio-pau"
+  }
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"abilities\":[{\"ability\":{\"name\":\"dancer\",\"url\":\"https://pokeapi.co/api/v2/ability/216/\"},\"is_hidden\":false,\"slot\":1}],\"base_experience\":167,\"cries\":{\"latest\":\"https://raw.githubusercontent.com/PokeAP..."
+    }
+  ]
+}
+Function Call
+
+{
+  "name": "getPokemon",
+  "args": {
+    "nameOrId": "oricorio-sensu"
+  }
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"abilities\":[{\"ability\":{\"name\":\"dancer\",\"url\":\"https://pokeapi.co/api/v2/ability/216/\"},\"is_hidden\":false,\"slot\":1}],\"base_experience\":167,\"cries\":{\"latest\":\"https://raw.githubusercontent.com/PokeAP..."
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+<div id="cell-34" class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response_5 <span class="op">=</span> <span class="cf">await</span> mcpChat<span class="op">.</span><span class="fu">sendMessage</span>({</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Can you devise a moveset for my Mewtwo? It should be a competitive moveset with elaborate reasoning for each move, take into account utility moves and type coverage of moves. (When you get a pokemon it comes with its moveset of all learnable moves, from there shortlist possible moves (less that 10) and then pick the best 4 moves for the moveset with best utility and coverage for showdown, this descision can be made using the getMove tool to get move information and reasoning)."</span><span class="op">,</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(response_5<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">printFunctionCallingHistory</span>(</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  (response_5<span class="op">.</span><span class="at">automaticFunctionCallingHistory</span> <span class="op">??</span> [])<span class="op">.</span><span class="fu">slice</span>(response_4<span class="op">.</span><span class="at">automaticFunctionCallingHistory</span><span class="op">.</span><span class="at">length</span> <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Of course! Here is a competitive moveset for your Mewtwo, designed for success in Pokémon Showdown:</p>
+<p>Mewtwo is a legendary Pokémon with an incredible Special Attack stat of 154 and a blistering Speed stat of 130. This makes it one of the most powerful special sweepers in the game. The goal of this moveset is to maximize its offensive potential while providing coverage against a wide range of opponents.</p>
+<p>Let’s start by looking at a shortlist of potential moves:</p>
+<ul>
+<li><strong>Psystrike</strong>: A powerful Psychic-type special attack that targets the opponent’s physical defense.</li>
+<li><strong>Aura Sphere</strong>: A Fighting-type special attack that never misses.</li>
+<li><strong>Shadow Ball</strong>: A Ghost-type special attack that has a chance to lower the opponent’s Special Defense.</li>
+<li><strong>Ice Beam</strong>: An Ice-type special attack that has a chance to freeze the opponent.</li>
+<li><strong>Flamethrower</strong>: A reliable Fire-type special attack that has a chance to burn the opponent.</li>
+<li><strong>Fire Blast</strong>: A more powerful but less accurate version of Flamethrower.</li>
+<li><strong>Calm Mind</strong>: A status move that boosts Mewtwo’s Special Attack and Special Defense.</li>
+<li><strong>Nasty Plot</strong>: A status move that sharply raises Mewtwo’s Special Attack.</li>
+<li><strong>Recover</strong>: A healing move that restores 50% of Mewtwo’s maximum HP.</li>
+<li><strong>Taunt</strong>: A utility move that prevents the opponent from using non-damaging moves.</li>
+</ul>
+<p>After careful consideration, here are the two best movesets for Mewtwo:</p>
+<hr>
+<section id="moveset-1-the-all-out-attacker" class="level3">
+<h3 class="anchored" data-anchor-id="moveset-1-the-all-out-attacker"><strong>Moveset 1: The All-Out Attacker</strong></h3>
+<p>This moveset focuses on immediate offensive pressure and wide type coverage.</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Move</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Category</th>
+<th style="text-align: left;">Power</th>
+<th style="text-align: left;">Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Psystrike</strong></td>
+<td style="text-align: left;">Psychic</td>
+<td style="text-align: left;">Special</td>
+<td style="text-align: left;">100</td>
+<td style="text-align: left;">100%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Aura Sphere</strong></td>
+<td style="text-align: left;">Fighting</td>
+<td style="text-align: left;">Special</td>
+<td style="text-align: left;">80</td>
+<td style="text-align: left;">∞</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Ice Beam</strong></td>
+<td style="text-align: left;">Ice</td>
+<td style="text-align: left;">Special</td>
+<td style="text-align: left;">90</td>
+<td style="text-align: left;">100%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Fire Blast</strong></td>
+<td style="text-align: left;">Fire</td>
+<td style="text-align: left;">Special</td>
+<td style="text-align: left;">110</td>
+<td style="text-align: left;">85%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reasoning:</strong></p>
+<ul>
+<li><strong>Psystrike</strong>: This is Mewtwo’s signature move and its primary STAB (Same Type Attack Bonus) attack. It hits incredibly hard and has the unique property of targeting the opponent’s physical Defense stat, making it effective against specially defensive Pokémon like Blissey.</li>
+<li><strong>Aura Sphere</strong>: This move provides perfect coverage against Dark and Steel-type Pokémon that resist Psystrike. Its never-miss accuracy ensures a reliable hit against evasive opponents.</li>
+<li><strong>Ice Beam</strong>: An excellent coverage move that hits Dragon, Ground, Grass, and Flying-type Pokémon for super-effective damage. This is particularly useful against common threats like Dragonite, Garchomp, and Landorus.</li>
+<li><strong>Fire Blast</strong>: This move provides powerful coverage against Steel-type Pokémon like Ferrothorn and Scizor, which would otherwise wall this set. For a more reliable option, you can use <strong>Flamethrower</strong> (90 Power, 100% Accuracy).</li>
+</ul>
+<hr>
+</section>
+<section id="moveset-2-the-calm-mind-sweeper" class="level3">
+<h3 class="anchored" data-anchor-id="moveset-2-the-calm-mind-sweeper"><strong>Moveset 2: The Calm Mind Sweeper</strong></h3>
+<p>This moveset is designed to set up and sweep the opposing team.</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Move</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Category</th>
+<th style="text-align: left;">Power</th>
+<th style="text-align: left;">Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Calm Mind</strong></td>
+<td style="text-align: left;">Psychic</td>
+<td style="text-align: left;">Status</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Psystrike</strong></td>
+<td style="text-align: left;">Psychic</td>
+<td style="text-align: left;">Special</td>
+<td style="text-align: left;">100</td>
+<td style="text-align: left;">100%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Aura Sphere</strong></td>
+<td style="text-align: left;">Fighting</td>
+<td style="text-align: left;">Special</td>
+<td style="text-align: left;">80</td>
+<td style="text-align: left;">∞</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Recover</strong></td>
+<td style="text-align: left;">Normal</td>
+<td style="text-align: left;">Status</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reasoning:</strong></p>
+<ul>
+<li><strong>Calm Mind</strong>: This is the core of the set. After one or two uses, Mewtwo’s Special Attack and Special Defense will be boosted to incredible levels, making it nearly impossible to stop.</li>
+<li><strong>Psystrike</strong>: This move benefits greatly from the Special Attack boosts from Calm Mind. After a boost, it can OHKO (One-Hit KO) a large portion of the metagame.</li>
+<li><strong>Aura Sphere</strong>: This move provides essential coverage against Dark and Steel types that might otherwise be able to stop a Psystrike sweep.</li>
+<li><strong>Recover</strong>: This move gives Mewtwo the longevity it needs to set up Calm Mind and stay healthy throughout the match. It allows Mewtwo to heal off any damage taken while setting up.</li>
+</ul>
+<p>For an even more offensive setup, you can replace <strong>Calm Mind</strong> with <strong>Nasty Plot</strong>, which doubles Mewtwo’s Special Attack in a single turn, but at the cost of not boosting its Special Defense.</p>
+<p>Both of these movesets are incredibly powerful and can be adapted to your playstyle. Good luck in your battles</p>
+</section>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Function Call
+
+{
+  "name": "getPokemon",
+  "args": {
+    "nameOrId": "mewtwo"
+  }
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"abilities\":[{\"ability\":{\"name\":\"pressure\",\"url\":\"https://pokeapi.co/api/v2/ability/46/\"},\"is_hidden\":false,\"slot\":1},{\"ability\":{\"name\":\"unnerve\",\"url\":\"https://pokeapi.co/api/v2/ability/127/\"},\"is_..."
+    }
+  ]
+}
+Function Call
+
+{
+  "name": "getMove",
+  "args": {
+    "nameOrId": "psystrike"
+  }
+}
+Function Call
+
+{
+  "name": "getMove",
+  "args": {
+    "nameOrId": "aura-sphere"
+  }
+}
+Function Call
+
+{
+  "name": "getMove",
+  "args": {
+    "nameOrId": "shadow-ball"
+  }
+}
+Function Call
+
+{
+  "name": "getMove",
+  "args": {
+    "nameOrId": "ice-beam"
+  }
+}
+Function Call
+
+{
+  "name": "getMove",
+  "args": {
+    "nameOrId": "flamethrower"
+  }
+}
+Function Call
+
+{
+  "name": "getMove",
+  "args": {
+    "nameOrId": "fire-blast"
+  }
+}
+Function Call
+
+{
+  "name": "getMove",
+  "args": {
+    "nameOrId": "calm-mind"
+  }
+}
+Function Call
+
+{
+  "name": "getMove",
+  "args": {
+    "nameOrId": "recover"
+  }
+}
+Function Call
+
+{
+  "name": "getMove",
+  "args": {
+    "nameOrId": "nasty-plot"
+  }
+}
+Function Call
+
+{
+  "name": "getMove",
+  "args": {
+    "nameOrId": "taunt"
+  }
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"accuracy\":100,\"contest_combos\":null,\"contest_effect\":null,\"contest_type\":null,\"damage_class\":{\"name\":\"special\",\"url\":\"https://pokeapi.co/api/v2/move-damage-class/3/\"},\"effect_chance\":null,\"effect_ch..."
+    }
+  ]
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"accuracy\":null,\"contest_combos\":null,\"contest_effect\":null,\"contest_type\":{\"name\":\"beauty\",\"url\":\"https://pokeapi.co/api/v2/contest-type/2/\"},\"damage_class\":{\"name\":\"special\",\"url\":\"https://pokeapi...."
+    }
+  ]
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"accuracy\":100,\"contest_combos\":null,\"contest_effect\":{\"url\":\"https://pokeapi.co/api/v2/contest-effect/22/\"},\"contest_type\":{\"name\":\"smart\",\"url\":\"https://pokeapi.co/api/v2/contest-type/4/\"},\"damage_..."
+    }
+  ]
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"accuracy\":100,\"contest_combos\":null,\"contest_effect\":{\"url\":\"https://pokeapi.co/api/v2/contest-effect/23/\"},\"contest_type\":{\"name\":\"beauty\",\"url\":\"https://pokeapi.co/api/v2/contest-type/2/\"},\"damage..."
+    }
+  ]
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"accuracy\":100,\"contest_combos\":{\"normal\":{\"use_after\":[{\"name\":\"sunny-day\",\"url\":\"https://pokeapi.co/api/v2/move/241/\"}],\"use_before\":null},\"super\":{\"use_after\":null,\"use_before\":null}},\"contest_eff..."
+    }
+  ]
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"accuracy\":85,\"contest_combos\":{\"normal\":{\"use_after\":[{\"name\":\"sunny-day\",\"url\":\"https://pokeapi.co/api/v2/move/241/\"}],\"use_before\":null},\"super\":{\"use_after\":null,\"use_before\":null}},\"contest_effe..."
+    }
+  ]
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"accuracy\":null,\"contest_combos\":{\"normal\":{\"use_after\":null,\"use_before\":[{\"name\":\"psybeam\",\"url\":\"https://pokeapi.co/api/v2/move/60/\"},{\"name\":\"confusion\",\"url\":\"https://pokeapi.co/api/v2/move/93/\"..."
+    }
+  ]
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"accuracy\":null,\"contest_combos\":null,\"contest_effect\":{\"url\":\"https://pokeapi.co/api/v2/contest-effect/23/\"},\"contest_type\":{\"name\":\"smart\",\"url\":\"https://pokeapi.co/api/v2/contest-type/4/\"},\"damage..."
+    }
+  ]
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"accuracy\":null,\"contest_combos\":null,\"contest_effect\":null,\"contest_type\":{\"name\":\"cute\",\"url\":\"https://pokeapi.co/api/v2/contest-type/3/\"},\"damage_class\":{\"name\":\"status\",\"url\":\"https://pokeapi.co/..."
+    }
+  ]
+}
+Function Response
+
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"accuracy\":100,\"contest_combos\":{\"normal\":{\"use_after\":null,\"use_before\":[{\"name\":\"counter\",\"url\":\"https://pokeapi.co/api/v2/move/68/\"},{\"name\":\"detect\",\"url\":\"https://pokeapi.co/api/v2/move/197/\"},{..."
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+</section>
+<section id="multi-modal-output" class="level3">
+<h3 class="anchored" data-anchor-id="multi-modal-output">Multi-modal Output</h3>
+<p>Some tools can return multi-modal output, such as images or videos. The Gemini model can handle these outputs and process them accordingly. For example, you can chain multiple models to generate an image based on the output of a previous model, or use a tool that returns an image and then process that image with another model.</p>
+<div id="cell-36" class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> artwork <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="st">"Can you provide the shiny official artwork sprite for 'Mega Rayquaza'?"</span><span class="op">,</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">:</span> [google<span class="op">.</span><span class="fu">mcpToTool</span>(mcpClient)]<span class="op">,</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    toolConfig<span class="op">:</span> {</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>      functionCallingConfig<span class="op">:</span> {</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>        mode<span class="op">:</span> google<span class="op">.</span><span class="at">FunctionCallingConfigMode</span><span class="op">.</span><span class="at">AUTO</span><span class="op">,</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(artwork<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Here is the shiny official artwork sprite for Mega Rayquaza: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/10079.png</p>
+</div>
+</div>
+<div id="cell-37" class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> artworkUrl <span class="op">=</span> <span class="fu">getUrlsFromResponse</span>(artwork<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)[<span class="dv">0</span>]<span class="op">;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> artworkBlob <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(artworkUrl)<span class="op">.</span><span class="fu">then</span>((res) <span class="kw">=&gt;</span> res<span class="op">.</span><span class="fu">blob</span>())<span class="op">;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(<span class="kw">new</span> <span class="bu">Uint8Array</span>(<span class="cf">await</span> artworkBlob<span class="op">.</span><span class="fu">arrayBuffer</span>()))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Building_a_MCP_server_files/figure-html/cell-20-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="Building_a_MCP_server_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-38" class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> backgroundDescription <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Can you provide a detailed description of a background suitable for 'Mega Rayquaza' in a Pokemon game, take the sprite aesthetics into account? Include details about the environment, colors, and any notable features."</span><span class="op">,</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(<span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> artworkBlob<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/png"</span>)<span class="op">,</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(backgroundDescription<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Let’s craft a background that perfectly complements Mega Rayquaza’s awe-inspiring sprite, emphasizing its cosmic power and imposing presence, while adhering to the stylized nature of a Pokemon game.</p>
+<p><strong>Background Description for Mega Rayquaza</strong></p>
+<p>This background aims to evoke a sense of immense altitude, celestial power, and the volatile energy that defines Mega Rayquaza. It’s a dynamic blend of the upper atmosphere and the void of space, serving as a stage for this legendary bringer of order.</p>
+<hr>
+<p><strong>1. Overall Environment: The Stratospheric Divide</strong></p>
+<p>The scene depicts a turbulent, yet majestic, view from incredibly high altitudes – specifically, the boundary between Earth’s outer atmosphere and the beginnings of deep space. It’s not a clear blue sky, but rather a dramatic, twilight-tinged vista where atmospheric phenomena meet cosmic stillness. The angle is slightly looking <em>down</em> from Mega Rayquaza’s perspective, emphasizing its dominance over the world below.</p>
+<p><strong>2. Color Palette:</strong></p>
+<p>The color scheme is designed to make Mega Rayquaza’s prominent black body and vibrant red/orange accents pop with maximum contrast and impact.</p>
+<ul>
+<li><strong>Upper Sky/Space (Top 40%):</strong>
+<ul>
+<li><strong>Deep Indigo to Cosmic Black:</strong> The very top fades into a rich, almost inky black, flecked with distant, pinprick stars. Below this, it transitions into deep indigo and dark purples, suggesting the cold void.</li>
+<li><strong>Faint Nebulous Hues:</strong> Swirling subtly within this darkness are faint, ethereal wisps of cosmic dust in very muted, cool tones – perhaps a hint of deep teal, lavender, or a smoky grey, representing distant nebulae or the lingering energy from space. These are <em>very</em> desaturated to keep the focus on Rayquaza.</li>
+</ul></li>
+<li><strong>Atmospheric Mid-Ground (Middle 40%):</strong>
+<ul>
+<li><strong>Turbulent Cloud Banks:</strong> A chaotic yet beautiful sea of thick, rolling storm clouds dominates this section. These aren’t fluffy white clouds, but rather heavy, bruised, and dynamic formations.</li>
+<li><strong>Color Gradation:</strong>
+<ul>
+<li><strong>Dark Grey-Blues &amp; Purples:</strong> The main body of the clouds is a mixture of dark stormy greys, charcoal, and deep, desaturated blues and purples, giving them immense weight and a brooding quality.</li>
+<li><strong>Fiery Underglow/Edge Lighting:</strong> Crucially, the undersides and prominent edges of these clouds are subtly illuminated by a warm, ethereal glow that emanates from below (representing distant, unseen energy or even the reflected power of Mega Rayquaza itself). This glow ranges from soft, deep orange to a faint fiery red, echoing Rayquaza’s own markings.</li>
+</ul></li>
+</ul></li>
+<li><strong>Lower Horizon/Distant Earth (Bottom 20%):</strong>
+<ul>
+<li><strong>Barely Visible Curvature:</strong> A slight, dark curve of the planet’s horizon is visible, hinting at the vastness below.</li>
+<li><strong>Distant Storms/Lightning:</strong> Within this distant lower layer of atmosphere, faint, flickering streaks of lightning can be seen within the clouds, suggesting immense, ongoing storms. These flashes are quick, sharp bursts of bright electric blue or white, providing a dynamic element without distracting from the main action.</li>
+</ul></li>
+</ul>
+<p><strong>3. Notable Features &amp; Effects:</strong></p>
+<ul>
+<li><strong>Dynamic Energy Streaks:</strong> Subtle, almost transparent wisps or streaks of energy (similar in color to Rayquaza’s red and orange accents, but much more diffused) occasionally trail across the background, suggesting cosmic currents or the lingering passage of meteors.</li>
+<li><strong>Sparse Celestial Objects:</strong> A few very distant, large, and stylized stars or even a faint, barely visible ringed planet might be discernible in the deepest parts of the cosmic black, serving as scale references.</li>
+<li><strong>Reflective Surfaces (Subtle):</strong> If the game engine allows, the very slightest, almost imperceptible shimmer on the darkest cloud surfaces could reflect a hint of Mega Rayquaza’s own vibrant energy.</li>
+<li><strong>Absence of Ground/Buildings:</strong> There is absolutely no ground, city, or recognizable landmass. This reinforces Rayquaza’s status as a being of the sky and space, far above mortal concerns.</li>
+<li><strong>Sense of Motion/Power:</strong> The swirling cloud patterns, the subtle cosmic currents, and the distant lightning flashes all contribute to a feeling of immense, latent power and dynamic movement, perfectly mirroring Mega Rayquaza’s own appearance.</li>
+<li><strong>Emphasis on Contrast:</strong> The dark background ensures that the vibrant red lines and glowing yellow-orange tendrils of Mega Rayquaza truly <em>ignite</em> against it, making the sprite the undisputed focal point. The black body of Rayquaza gains depth and form against the lighter (but still dark) blues and purples of the atmosphere and the contrasting bright energy effects.</li>
+</ul>
+<p>In essence, the background would be a dramatic, almost painterly representation of the highest skies, infused with cosmic energy, making Mega Rayquaza appear as the ultimate cosmic serpent, guardian of the celestial frontier.</p>
+</div>
+</div>
+<div id="cell-39" class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { GenerateContentResponse } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> IMAGE_GENERATION_MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.0-flash-preview-image-generation"</span><span class="op">;</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">displayResponse</span>(response<span class="op">:</span> GenerateContentResponse) {</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> part <span class="kw">of</span> response<span class="op">.</span><span class="at">candidates</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">?.</span><span class="at">content</span><span class="op">?.</span><span class="at">parts</span> <span class="op">??</span> []) {</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (part<span class="op">.</span><span class="at">text</span>) {</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>      tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(part<span class="op">.</span><span class="at">text</span>)<span class="op">;</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (part<span class="op">.</span><span class="at">inlineData</span>) {</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> imageData <span class="op">=</span> part<span class="op">.</span><span class="at">inlineData</span><span class="op">.</span><span class="at">data</span><span class="op">!;</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> buffer <span class="op">=</span> <span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(imageData<span class="op">,</span> <span class="st">"base64"</span>)<span class="op">;</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>      tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">png</span>(buffer)<span class="op">;</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> IMAGE_GENERATION_MODEL_ID<span class="op">,</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> [</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>    <span class="vs">`</span></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a><span class="vs">    Include the supplied sprite as the main subject of the image, and generate a background that fits the sprite's aesthetics.</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a><span class="vs">    Background:</span></span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a><span class="vs">    </span><span class="sc">${</span>backgroundDescription<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="sc">}</span></span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">,</span></span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>    google<span class="op">.</span><span class="fu">createPartFromBase64</span>(<span class="bu">Buffer</span><span class="op">.</span><span class="fu">from</span>(<span class="cf">await</span> artworkBlob<span class="op">.</span><span class="fu">arrayBuffer</span>())<span class="op">.</span><span class="fu">toString</span>(<span class="st">"base64"</span>)<span class="op">,</span> <span class="st">"image/png"</span>)<span class="op">,</span></span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>    responseModalities<span class="op">:</span> [google<span class="op">.</span><span class="at">Modality</span><span class="op">.</span><span class="at">TEXT</span><span class="op">,</span> google<span class="op">.</span><span class="at">Modality</span><span class="op">.</span><span class="at">IMAGE</span>]<span class="op">,</span></span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a><span class="fu">displayResponse</span>(response)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>I will generate an image of the provided Mega Rayquaza sprite set against a dramatic background depicting the stratospheric divide. The upper portion of the image will transition from deep indigo to cosmic black with faint nebulous hues and sparse stars. The mid-ground will feature turbulent, dark grey-blue and purple storm clouds with a fiery orange-red underglow. The lower portion will show a barely visible, dark curve of the Earth’s horizon with faint, flickering blue-white lightning in distant clouds. Subtle streaks of red-orange energy will drift across the scene, enhancing the sense of cosmic power, all designed to highlight Mega Rayquaza as the central focus.</p>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Building_a_MCP_server_files/figure-html/cell-22-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="Building_a_MCP_server_files/figure-html/cell-22-output-2.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>In this guide, you learned how to build a MCP server using the <code>modelcontextprotocol/typescript-sdk</code> SDK and how to connect it to a Gemini model. You also learned how to define tools for the MCP server, invoke them manually, and integrate them with a Gemini model. Finally, you explored multi-tool invocation, multi-step reasoning, and multi-modal output capabilities of the Gemini model.</p>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
+<p>You can explore more advanced features of the MCP server, such as defining prompts and resources, or using the MCP server in a production environment. You can also experiment with different models and see how they perform with the MCP server. For more information, check out the <a href="https://modelcontextprotocol.io/docs/getting-started/intro">MCP documentation</a>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fallendeity\.github\.io\/deepmind-starter");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../examples/langchain/Gemini_LangChain_Summarization_WebLoad.html" class="pagination-link" aria-label="Gemini API: Summarize large documents using LangChain">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Summarize large documents using LangChain</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../examples/mcp/Querying_a_MCP_server.html" class="pagination-link" aria-label="Gemini API: Querying a MCP Server">
+        <span class="nav-page-text">Gemini API: Querying a MCP Server</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/mcp/Building_a_MCP_server.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/mcp/Building_a_MCP_server.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

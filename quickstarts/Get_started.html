@@ -440,6 +440,12 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../examples/mcp/Building_a_MCP_server.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gemini API: Building a MCP Server</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../examples/mcp/Querying_a_MCP_server.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Querying a MCP Server</span></a>
   </div>
@@ -932,7 +938,7 @@ Note
 </section>
 <section id="send-multimodal-prompts" class="level2">
 <h2 class="anchored" data-anchor-id="send-multimodal-prompts">Send multimodal prompts</h2>
-<p>Use Gemini 2.0 model (<code>gemini-2.0-flash</code>), a multimodal model that supports multimodal prompts. You can include text, <a href="../quickstarts/PDF_Files.html">PDF documents</a>, images, <a href="../quickstarts/Audio.html">audio</a> and <a href="Video.ipynb">video</a> in your prompt requests and get text or code responses.</p>
+<p>Use Gemini 2.0 model (<code>gemini-2.0-flash</code>), a multimodal model that supports multimodal prompts. You can include text, <a href="../quickstarts/PDF_Files.html">PDF documents</a>, images, <a href="../quickstarts/Audio.html">audio</a> and <a href="../quickstarts/Video_understanding.html">video</a> in your prompt requests and get text or code responses.</p>
 <p>In this first example, you’ll download an image from a specified URL, save it as a byte stream and then write those bytes to a local file named <code>jetpack.png</code>.</p>
 <div id="cell-15" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">"fs"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"fs"</span>)<span class="op">;</span></span>
