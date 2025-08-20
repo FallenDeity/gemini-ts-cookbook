@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API: Entity Extraction – Gemini Cookbook</title>
+<title>applets – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,64 +20,28 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../examples/json_capabilities/Sentiment_Analysis.html" rel="next">
-<link href="../../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" rel="prev">
-<link href="../../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
-<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-eeda95415d7a773dff7c598679dfde2d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../examples/Agents_Function_Calling_Barista_Bot.html" rel="next">
+<link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-eeda95415d7a773dff7c598679dfde2d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -117,10 +81,10 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Gemini API: Entity Extraction – Gemini Cookbook">
+<meta property="og:title" content="Gemini Cookbook">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta name="twitter:title" content="Gemini API: Entity Extraction – Gemini Cookbook">
+<meta name="twitter:title" content="Gemini Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -132,7 +96,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Gemini Cookbook</span>
     </a>
   </div>
@@ -143,15 +107,15 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../quickstarts/Get_started.html" aria-current="page"> 
+    <a class="nav-link active" href="../quickstarts/Get_started.html" aria-current="page"> 
 <span class="menu-text">Quickstarts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../examples/Applets.html"> 
+    <a class="nav-link" href="../examples/Applets.html"> 
 <span class="menu-text">Examples</span></a>
   </li>  
 </ul>
@@ -180,7 +144,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Entity_Extraction_JSON.html">Json Capabilities</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Entity_Extraction_JSON.html">Gemini API: Entity Extraction</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/Applets.html">Google AI Studio</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -194,7 +158,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Applets.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Applets.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Google AI Studio</span></a>
   </div>
 </li>
@@ -209,178 +173,178 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Agents_Function_Calling_Barista_Bot.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Agents_Function_Calling_Barista_Bot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Agents and Automatic Function Calling with Barista Bot</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Analyze a Video - Classification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Analyze a Video - Historic Event Recognition</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Analyze a Video - Summarization</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Anomaly_detection_with_embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Anomaly_detection_with_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Anomaly detection with embeddings</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prompting with an Apollo 11 transcript</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Browser_as_a_tool.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Browser_as_a_tool.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Browser as a tool</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Classify_text_with_embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Classify_text_with_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Classify text with embeddings</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Entity extraction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Guess the shape: Triangle, Square, Pentagon?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/LiveAPI_plotting_and_mapping.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/LiveAPI_plotting_and_mapping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini 2.X - Multi-tool with the Multimodal Live API</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Create a marketing campaign from a product sketch of a Jet Backpack</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Opossum search</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Pdf_structured_outputs_on_invoices_and_forms.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Pdf_structured_outputs_on_invoices_and_forms.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Search_grounding_for_research_report.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Search_grounding_for_research_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Search tool with Gemini 2.x</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Search_reranking_using_embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Search_reranking_using_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Search re-ranking using Gemini embeddings</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Search_Wikipedia_using_ReAct.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Search_Wikipedia_using_ReAct.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Search Wikipedia using ReAct</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Spatial_understanding_3d.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Spatial_understanding_3d.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Pointing and 3D Spatial Understanding with Gemini 2.0 (Experimental)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Story_Writing_with_Prompt_Chaining.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Story_Writing_with_Prompt_Chaining.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prompt Chaining and Iterative Generation for Story Writing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Tag_and_caption_images.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Tag_and_caption_images.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Using Gemini API to tag and caption images</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Talk_to_documents_with_embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Talk_to_documents_with_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Document search with embeddings</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Translate a public domain book</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Voice_memos.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Voice_memos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Voice memos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Working with Charts, Graphs, and Slide Decks</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Json Capabilities</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/json_capabilities/Entity_Extraction_JSON.html" class="sidebar-item-text sidebar-link active">
+  <a href="../examples/json_capabilities/Entity_Extraction_JSON.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Entity Extraction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/json_capabilities/Sentiment_Analysis.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/json_capabilities/Sentiment_Analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Sentiment Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/json_capabilities/Text_Classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/json_capabilities/Text_Classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Text Classification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/json_capabilities/Text_Summarization.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/json_capabilities/Text_Summarization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Text Summarization</span></a>
   </div>
 </li>
@@ -397,31 +361,31 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/langchain/Chat_with_SQL_using_langchain.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/langchain/Chat_with_SQL_using_langchain.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Chat with SQL using LangChain</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/langchain/Code_analysis_using_Gemini_LangChain.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/langchain/Code_analysis_using_Gemini_LangChain.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Code analysis using LangChain</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Question Answering using LangChain and Chroma</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Question Answering using LangChain and Pinecone</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/langchain/Gemini_LangChain_Summarization_WebLoad.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/langchain/Gemini_LangChain_Summarization_WebLoad.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Summarize large documents using LangChain</span></a>
   </div>
 </li>
@@ -438,13 +402,13 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/mcp/Building_a_MCP_server.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/mcp/Building_a_MCP_server.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Building a MCP Server</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/mcp/Querying_a_MCP_server.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/mcp/Querying_a_MCP_server.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Querying a MCP Server</span></a>
   </div>
 </li>
@@ -461,73 +425,73 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/prompting/Adding_context_information.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/prompting/Adding_context_information.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Adding context information</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/prompting/Basic_Classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/prompting/Basic_Classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Basic classification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/prompting/Basic_Code_Generation.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/prompting/Basic_Code_Generation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Basic code generation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/prompting/Basic_Evaluation.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/prompting/Basic_Evaluation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Basic evaluation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/prompting/Basic_Information_Extraction.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/prompting/Basic_Information_Extraction.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Basic information extraction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/prompting/Basic_Reasoning.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/prompting/Basic_Reasoning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Basic reasoning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/prompting/Chain_of_thought_prompting.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/prompting/Chain_of_thought_prompting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Chain of thought prompting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/prompting/Few_shot_prompting.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/prompting/Few_shot_prompting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Few-shot prompting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/prompting/Providing_base_cases.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/prompting/Providing_base_cases.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Providing base cases</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/prompting/Role_prompting.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/prompting/Role_prompting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Role prompting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/prompting/Self_ask_prompting.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/prompting/Self_ask_prompting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Self-ask prompting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/prompting/Zero_shot_prompting.html" class="sidebar-item-text sidebar-link">
+  <a href="../examples/prompting/Zero_shot_prompting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Zero-shot prompting</span></a>
   </div>
 </li>
@@ -546,175 +510,175 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Audio Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Code Execution</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: All about tokens</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Embeddings Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Enum Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: File API Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Function_calling.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Function_calling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Function calling with JS</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Guide: Building AI Tutors with LearnLM via System Instructions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multimodal Live API - Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Getting started with the Gemini API OpenAI compatibility</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Use Gemini thinking</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Getting started with information grounding for Gemini models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Gemini 2.0 Image output</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: List models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Read a PDF</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Prompting Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Safety Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Grounding using Search as a tool</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2D spatial understanding with Gemini 2.0</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Streaming Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: System instructions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
+  <a href="../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Video understanding with Gemini</span></a>
   </div>
 </li>
@@ -730,204 +694,63 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
+  <li><a href="#google-ai-studio-applets-showcase" id="toc-google-ai-studio-applets-showcase" class="nav-link active" data-scroll-target="#google-ai-studio-applets-showcase">Google AI Studio Applets Showcase</a>
   <ul class="collapse">
-  <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
-  <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
-  <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
-  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
-  <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
+  <li><a href="#gemini-based-image-filter" id="toc-gemini-based-image-filter" class="nav-link" data-scroll-target="#gemini-based-image-filter">Gemini Based Image Filter</a></li>
+  <li><a href="#synesthetic-video-director" id="toc-synesthetic-video-director" class="nav-link" data-scroll-target="#synesthetic-video-director">Synesthetic Video Director</a></li>
+  <li><a href="#recipe-generator-from-ingredients" id="toc-recipe-generator-from-ingredients" class="nav-link" data-scroll-target="#recipe-generator-from-ingredients">Recipe Generator from Ingredients</a></li>
+  <li><a href="#social-media-post-editor" id="toc-social-media-post-editor" class="nav-link" data-scroll-target="#social-media-post-editor">Social Media Post Editor</a></li>
   </ul></li>
-  <li><a href="#example-entity-extraction" id="toc-example-entity-extraction" class="nav-link" data-scroll-target="#example-entity-extraction">Example: Entity Extraction</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Entity_Extraction_JSON.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Entity_Extraction_JSON.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/FallenDeity/deepmind-starter/edit/main/examples/Applets.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Applets.md" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Entity_Extraction_JSON.html">Json Capabilities</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Entity_Extraction_JSON.html">Gemini API: Entity Extraction</a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title">Gemini API: Entity Extraction</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<p>You will use Gemini to extract all fields that fit one of the predefined classes and label them.</p>
-<section id="setup" class="level2">
-<h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<section id="install-the-google-genai-sdk" class="level3">
-<h3 class="anchored" data-anchor-id="install-the-google-genai-sdk">Install the Google GenAI SDK</h3>
-<p>Install the Google GenAI SDK from <a href="https://www.npmjs.com/package/@google/genai">npm</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install @google/genai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="google-ai-studio-applets-showcase" class="level1">
+<h1>Google AI Studio Applets Showcase</h1>
+<p>Applets are small, applications built using JavaScript and TypeScript, designed to run in the Google AI Studio environment. They showcase the capabilities of the Gemini API and provide a hands-on way to interact with AI models.</p>
+<section id="gemini-based-image-filter" class="level2">
+<h2 class="anchored" data-anchor-id="gemini-based-image-filter">Gemini Based Image Filter</h2>
+<p>This applet demonstrates how to apply image filters using the Gemini API. It allows users to upload an image and apply various artistic filters to it, such as <code>Renaissance</code>, <code>Cyberpunk</code>, <code>Watercolor</code> and more.</p>
+<iframe src="https://drive.google.com/file/d/1vBkxL4qrfuEQWs8qiN8DcmD8_r2_httC/preview" width="100%" height="480" allow="autoplay">
+</iframe>
+<button class="btn btn-primary" onclick="window.open('https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221PjZOngjaIRI5LA7vCNQo0UDe8YTqOyXC%22%5D,%22action%22:%22open%22,%22userId%22:%22114338421781446865462%22,%22resourceKeys%22:%7B%7D%7D&amp;usp=sharing', '_blank')">
+Open in Google AI Studio <i class="ms-2 bi bi-box-arrow-up-right"></i>
+</button>
 </section>
-<section id="setup-your-api-key" class="level3">
-<h3 class="anchored" data-anchor-id="setup-your-api-key">Setup your API key</h3>
-<p>You can <a href="https://aistudio.google.com/app/apikey">create</a> your API key using Google AI Studio with a single click.</p>
-<p>Remember to treat your API key like a password. Don’t accidentally save it in a notebook or source file you later commit to GitHub. In this notebook we will be storing the API key in a <code>.env</code> file. You can also set it as an environment variable or use a secret manager.</p>
-<p>Here’s how to set it up in a <code>.env</code> file:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch .env</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"GEMINI_API_KEY=&lt;YOUR_API_KEY&gt;"</span> <span class="op">&gt;&gt;</span> .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Another option is to set the API key as an environment variable. You can do this in your terminal with the following command:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export GEMINI_API_KEY=<span class="st">"&lt;YOUR_API_KEY&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
+<section id="synesthetic-video-director" class="level2">
+<h2 class="anchored" data-anchor-id="synesthetic-video-director">Synesthetic Video Director</h2>
+<p>This applet uses the Gemini API to understand context from user uploaded videos, on frame-by-frame basis, and generate a dub/background music that matches the mood and content of the scene.</p>
+<iframe src="https://drive.google.com/file/d/1CzCTAM5GpSM8XhfSwuD88yRM5HkU1-Vc/preview" width="100%" height="480" allow="autoplay">
+</iframe>
+<button class="btn btn-primary" onclick="window.open('https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221x61BRYu9dL7FN08QTmHERFt5qOadJV5m%22%5D,%22action%22:%22open%22,%22userId%22:%22114338421781446865462%22,%22resourceKeys%22:%7B%7D%7D&amp;usp=sharing', '_blank')">
+Open in Google AI Studio <i class="ms-2 bi bi-box-arrow-up-right"></i>
+</button>
 </section>
-<section id="load-the-api-key" class="level3">
-<h3 class="anchored" data-anchor-id="load-the-api-key">Load the API key</h3>
-<p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Then, we can load the API key in our code:</p>
-<div id="cell-4" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../../.env"</span><span class="op">,</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GEMINI_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">GEMINI_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>GEMINI_API_KEY) {</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"GEMINI_API_KEY is not set in the environment variables"</span>)<span class="op">;</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"GEMINI_API_KEY is set in the environment variables"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>GEMINI_API_KEY is set in the environment variables</code></pre>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>In our particular case the <code>.env</code> is is two directories up from the notebook, hence we need to use <code>../../</code> to go up two directories. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
-<pre><code>│
-├── .env
-└── examples
-    └── json_capabilities
-        └── Entity_Extraction_JSON.ipynb</code></pre>
-</div>
-</div>
+<section id="recipe-generator-from-ingredients" class="level2">
+<h2 class="anchored" data-anchor-id="recipe-generator-from-ingredients">Recipe Generator from Ingredients</h2>
+<p>This applet allows users to upload an image of their fridge or pantry, and the Gemini API will analyze the ingredients present. It then suggests a recipe based on the available items, taking into account dietary preferences and restrictions.</p>
+<iframe src="https://drive.google.com/file/d/1jRkfS3bozc5RZ0f7cSAoKV_e1R4eKKWa/preview" width="100%" height="480" allow="autoplay">
+</iframe>
+<button class="btn btn-primary" onclick="window.open('https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221DuUJwbidCXxHGLR0wjWTqFEy5SeIcEgR%22%5D,%22action%22:%22open%22,%22userId%22:%22114338421781446865462%22,%22resourceKeys%22:%7B%7D%7D&amp;usp=sharing', '_blank')">
+Open in Google AI Studio <i class="ms-2 bi bi-box-arrow-up-right"></i>
+</button>
 </section>
-<section id="initialize-sdk-client" class="level3">
-<h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
-<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
-<div id="cell-7" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="select-a-model" class="level3">
-<h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
-<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
-<div id="cell-9" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-</section>
-<section id="example-entity-extraction" class="level2">
-<h2 class="anchored" data-anchor-id="example-entity-extraction">Example: Entity Extraction</h2>
-<div id="cell-11" class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> entity_recognition_text <span class="op">=</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"John Johnson, the CEO of the Oil Inc. and Coal Inc. companies, has unveiled plans to build a new factory in Houston, Texas."</span><span class="op">;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> prompt <span class="op">=</span> <span class="vs">`</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="vs">  Generate list of entities in text based on the following TypeScript interface:</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span><span class="sc">\`\`\`</span><span class="vs">typescript</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="vs">  enum Category {</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="vs">      PERSON = "PERSON",</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="vs">      COMPANY = "COMPANY",</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="vs">      STATE = "STATE",</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="vs">      CITY = "CITY",</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="vs">  }</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="vs">  interface Entity {</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="vs">      name: string;</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="vs">      category: Category;</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="vs">  }</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="vs">  interface EntityExtractionResponse {</span></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="vs">      entities: Entity[];</span></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="vs">  }</span></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span><span class="sc">\`\`\`</span></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="vs">  </span><span class="sc">${</span>entity_recognition_text<span class="sc">}</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  con<span class="op">:</span> prompt<span class="op">,</span></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    temperature<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-12" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"{}"</span>)<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>{
-  "entities": [
-    {
-      "name": "John Johnson",
-      "category": "PERSON"
-    },
-    {
-      "name": "Oil Inc.",
-      "category": "COMPANY"
-    },
-    {
-      "name": "Coal Inc.",
-      "category": "COMPANY"
-    },
-    {
-      "name": "Houston",
-      "category": "CITY"
-    },
-    {
-      "name": "Texas",
-      "category": "STATE"
-    }
-  ]
-}</code></pre>
-</div>
-</div>
-</section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>You have used the Gemini API to extract entities of predefined categories with their labels. You extracted every person, company, state, and country. You are not limited to these categories, as this should work with any category of your choice.</p>
-<p>Please see the other notebooks in this directory to learn more about how you can use the Gemini API for other JSON related tasks.</p>
+<section id="social-media-post-editor" class="level2">
+<h2 class="anchored" data-anchor-id="social-media-post-editor">Social Media Post Editor</h2>
+<p>This applet allows users to upload an image and generate a caption with emojis, as well as suggest a soundtrack that fits the mood of the image. It uses the Gemini API to analyze the image and create engaging content for social media posts.</p>
+<iframe src="https://drive.google.com/file/d/1RIk88IefiLEP75atm87ufB8Xh-7K8QiY/preview" width="100%" height="480" allow="autoplay">
+</iframe>
+<button class="btn btn-primary" onclick="window.open('https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221AnYvjU27b6fySvGAl1E9i_oHVL2OiHO0%22%5D,%22action%22:%22open%22,%22userId%22:%22114338421781446865462%22,%22resourceKeys%22:%7B%7D%7D&amp;usp=sharing', '_blank')">
+Open in Google AI Studio <i class="ms-2 bi bi-box-arrow-up-right"></i>
+</button>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1332,13 +1155,10 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="pagination-link" aria-label="Gemini API: Working with Charts, Graphs, and Slide Decks">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Working with Charts, Graphs, and Slide Decks</span>
-      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../examples/json_capabilities/Sentiment_Analysis.html" class="pagination-link" aria-label="Gemini API: Sentiment Analysis">
-        <span class="nav-page-text">Gemini API: Sentiment Analysis</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../examples/Agents_Function_Calling_Barista_Bot.html" class="pagination-link" aria-label="Gemini API: Agents and Automatic Function Calling with Barista Bot">
+        <span class="nav-page-text">Gemini API: Agents and Automatic Function Calling with Barista Bot</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1347,5 +1167,5 @@ Note
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Entity_Extraction_JSON.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Entity_Extraction_JSON.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/FallenDeity/deepmind-starter/edit/main/examples/Applets.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/Applets.md" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
