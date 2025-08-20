@@ -24,6 +24,8 @@ website:
         file: index.qmd
       - text: "Quickstarts"
         file: quickstarts/Get_started.ipynb
+      - text: "Examples"
+        file: examples/Applets.md
     tools:
     - icon: github
       menu:
@@ -32,6 +34,8 @@ website:
   sidebar:
     style: "floating"
     contents:
+      - text: "Google AI Studio"
+        file: examples/Applets.md
       - auto: "**/*.ipynb"
 
 highlight-style: atom-one
