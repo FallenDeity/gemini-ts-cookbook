@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API: Text Classification – Gemini Cookbook</title>
+<title>Gemini API: Question Answering LlamaIndex and Chroma – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../examples/json_capabilities/Text_Summarization.html" rel="next">
-<link href="../../examples/json_capabilities/Sentiment_Analysis.html" rel="prev">
+<link href="../../examples/mcp/Building_a_MCP_server.html" rel="next">
+<link href="../../examples/langchain/Gemini_LangChain_Summarization_WebLoad.html" rel="prev">
 <link href="../../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -117,10 +117,10 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Gemini API: Text Classification – Gemini Cookbook">
+<meta property="og:title" content="Gemini API: Question Answering LlamaIndex and Chroma – Gemini Cookbook">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta name="twitter:title" content="Gemini API: Text Classification – Gemini Cookbook">
+<meta name="twitter:title" content="Gemini API: Question Answering LlamaIndex and Chroma – Gemini Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -180,7 +180,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Entity_Extraction_JSON.html">Json Capabilities</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Text_Classification.html">Gemini API: Text Classification</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/llamaindex/Gemini_LlamaIndex_QA_Chroma_WebPageReader.html">Llamaindex</a></li><li class="breadcrumb-item"><a href="../../examples/llamaindex/Gemini_LlamaIndex_QA_Chroma_WebPageReader.html">Gemini API: Question Answering LlamaIndex and Chroma</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -370,13 +370,13 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
  <span class="menu-text">Json Capabilities</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../examples/json_capabilities/Entity_Extraction_JSON.html" class="sidebar-item-text sidebar-link">
@@ -391,7 +391,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/json_capabilities/Text_Classification.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../examples/json_capabilities/Text_Classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Text Classification</span></a>
   </div>
 </li>
@@ -446,16 +446,16 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
  <span class="menu-text">Llamaindex</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../examples/llamaindex/Gemini_LlamaIndex_QA_Chroma_WebPageReader.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/llamaindex/Gemini_LlamaIndex_QA_Chroma_WebPageReader.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Gemini API: Question Answering LlamaIndex and Chroma</span></a>
   </div>
 </li>
@@ -764,25 +764,37 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a>
   <ul class="collapse">
   <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
   <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
   <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
-  <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
   <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
   </ul></li>
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#basic-steps" id="toc-basic-steps" class="nav-link" data-scroll-target="#basic-steps">Basic steps</a>
+  <ul class="collapse">
+  <li><a href="#retriever" id="toc-retriever" class="nav-link" data-scroll-target="#retriever">1. Retriever</a></li>
+  <li><a href="#initialize-geminis-embedding-model" id="toc-initialize-geminis-embedding-model" class="nav-link" data-scroll-target="#initialize-geminis-embedding-model">Initialize Gemini’s embedding model</a></li>
+  <li><a href="#initialize-gemini" id="toc-initialize-gemini" class="nav-link" data-scroll-target="#initialize-gemini">Initialize Gemini</a></li>
+  <li><a href="#store-the-data-using-chroma" id="toc-store-the-data-using-chroma" class="nav-link" data-scroll-target="#store-the-data-using-chroma">Store the data using Chroma</a></li>
+  <li><a href="#create-a-retriever-using-chroma" id="toc-create-a-retriever-using-chroma" class="nav-link" data-scroll-target="#create-a-retriever-using-chroma">Create a retriever using Chroma</a></li>
+  </ul></li>
+  <li><a href="#generator" id="toc-generator" class="nav-link" data-scroll-target="#generator">2. Generator</a>
+  <ul class="collapse">
+  <li><a href="#create-prompt-templates" id="toc-create-prompt-templates" class="nav-link" data-scroll-target="#create-prompt-templates">Create prompt templates</a></li>
+  <li><a href="#prompt-the-model-using-query-engine" id="toc-prompt-the-model-using-query-engine" class="nav-link" data-scroll-target="#prompt-the-model-using-query-engine">Prompt the model using Query Engine</a></li>
+  </ul></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next">What’s next?</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Text_Classification.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Text_Classification.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/llamaindex/Gemini_LlamaIndex_QA_Chroma_WebPageReader.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/llamaindex/Gemini_LlamaIndex_QA_Chroma_WebPageReader.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Entity_Extraction_JSON.html">Json Capabilities</a></li><li class="breadcrumb-item"><a href="../../examples/json_capabilities/Text_Classification.html">Gemini API: Text Classification</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/llamaindex/Gemini_LlamaIndex_QA_Chroma_WebPageReader.html">Llamaindex</a></li><li class="breadcrumb-item"><a href="../../examples/llamaindex/Gemini_LlamaIndex_QA_Chroma_WebPageReader.html">Gemini API: Question Answering LlamaIndex and Chroma</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Gemini API: Text Classification</h1>
+<h1 class="title">Gemini API: Question Answering LlamaIndex and Chroma</h1>
 </div>
 
 
@@ -799,7 +811,13 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </header>
 
 
-<p>You will use the Gemini API to classify what topics are relevant in the text.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p><a href="https://ai.google.dev/models/gemini">Gemini</a> is a family of generative AI models that lets developers generate content and solve problems. These models are designed and trained to handle both text and images as input.</p>
+<p><a href="https://www.llamaindex.ai/">LlamaIndex</a> is a simple, flexible data framework that can be used by Large Language Model(LLM) applications to connect custom data sources to LLMs.</p>
+<p><a href="https://docs.trychroma.com/">Chroma</a> is an open-source embedding database focused on simplicity and developer productivity. Chroma allows users to store embeddings and their metadata, embed documents and queries, and search the embeddings quickly.</p>
+<p>In this notebook, you’ll learn how to create an application that answers questions using data from a website with the help of Gemini, LlamaIndex, and Chroma.</p>
+</section>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -834,7 +852,7 @@ Tip
 <p>To load the API key from the <code>.env</code> file, we will use the <code>dotenv</code> package. This package loads environment variables from a <code>.env</code> file into <code>process.env</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npm install dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then, we can load the API key in our code:</p>
-<div id="cell-4" class="cell">
+<div id="cell-4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
@@ -864,114 +882,211 @@ Note
 <pre><code>│
 ├── .env
 └── examples
-    └── json_capabilities
-        └── Text_Classification.ipynb</code></pre>
+    └── llamaindex
+        └── Gemini_LlamaIndex_QA_Chroma_WebPageReader.ipynb</code></pre>
 </div>
-</div>
-</section>
-<section id="initialize-sdk-client" class="level3">
-<h3 class="anchored" data-anchor-id="initialize-sdk-client">Initialize SDK Client</h3>
-<p>With the new SDK, now you only need to initialize a client with you API key (or OAuth if using <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>). The model is now set in each call.</p>
-<div id="cell-7" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> google <span class="op">=</span> <span class="pp">require</span>(<span class="st">"@google/genai"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"@google/genai"</span>)<span class="op">;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="select-a-model" class="level3">
 <h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
 <p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
-<div id="cell-9" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-7" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="example" class="level2">
-<h2 class="anchored" data-anchor-id="example">Example</h2>
-<div id="cell-11" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> <span class="st">"Generate a 5 paragraph article about Sports, include one other topic"</span><span class="op">,</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="the-unseen-game-sports-and-the-power-of-the-mind" class="level2 cell-output cell-output-display cell-output-markdown">
-<h2 class="anchored" data-anchor-id="the-unseen-game-sports-and-the-power-of-the-mind">The Unseen Game: Sports and the Power of the Mind</h2>
-<p>From the roar of ancient coliseums to the hushed tension of a championship point, sports have captivated humanity across millennia. More than mere games, they are a universal language of competition, skill, and sheer human will. Whether it’s the electrifying speed of a sprinter, the strategic brilliance of a chess grandmaster (yes, it’s a sport!), or the coordinated ballet of a football team, sports offer a dynamic spectacle that transcends cultural boundaries. They celebrate the physical peak of human potential, demanding years of dedication, relentless training, and an unwavering commitment to mastery.</p>
-<p>The physical demands of sport are undeniable. Athletes push their bodies to the absolute limit, developing incredible strength, endurance, agility, and precision. Every muscle fiber, every breath, every practiced movement is honed to perfection. Hours are spent in gyms, on tracks, and in arenas, refining techniques and building the physical resilience needed to endure the rigors of competition. This dedication not only showcases extraordinary athletic prowess but also inspires countless individuals to pursue healthier, more active lifestyles, recognizing the profound benefits of physical activity.</p>
-<p>Yet, beneath the visible spectacle of physical exertion lies a profound and often overlooked battle: the psychological game. <strong>The field of sports psychology reveals that mental fortitude is as crucial as, if not more important than, physical talent.</strong> Athletes must possess incredible resilience to bounce back from defeat, the focus to execute complex strategies under immense pressure, and the self-belief to perform at their peak when everything is on the line. The ability to manage anxiety, maintain concentration amidst chaos, and foster unshakeable team synergy are all psychological skills that can separate a good athlete from a legendary one, turning potential into tangible victory.</p>
-<p>Beyond individual performance, sports are potent crucibles for life lessons, deeply intertwined with the psychological skills they foster. They teach discipline, fair play, leadership, and the invaluable experience of both winning gracefully and losing with dignity. Team sports, in particular, underscore the importance of collaboration and communication, demonstrating how diverse individuals can unite for a common goal. For fans, sports provide a powerful sense of community and shared identity, offering an emotional outlet and a connection to something larger than themselves. The collective joy of victory or the shared anguish of defeat forge bonds that transcend everyday life.</p>
-<p>In essence, sports are a rich tapestry woven with threads of physical artistry, mental resilience, and powerful community engagement. They reflect humanity’s innate drive to compete, to excel, and to connect. By pushing the boundaries of what’s physically possible and mastering the unseen game of the mind, athletes inspire us all to discover our own potential, proving that the true measure of success often lies not just in the final score, but in the journey of relentless self-improvement and the indomitable spirit that propels us forward.</p>
-</section>
-</div>
-<div id="cell-12" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { z } <span class="im">from</span> <span class="st">"zod"</span><span class="op">;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { zodToJsonSchema } <span class="im">from</span> <span class="st">"zod-to-json-schema"</span><span class="op">;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> topicSchema <span class="op">=</span> z<span class="op">.</span><span class="fu">object</span>({</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  topic<span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">,</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  relevance<span class="op">:</span> z<span class="op">.</span><span class="fu">enum</span>([<span class="st">"weak"</span><span class="op">,</span> <span class="st">"medium"</span><span class="op">,</span> <span class="st">"strong"</span>])<span class="op">,</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> responseSchema <span class="op">=</span> z<span class="op">.</span><span class="fu">object</span>({</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  topics<span class="op">:</span> z<span class="op">.</span><span class="fu">array</span>(topicSchema)<span class="op">,</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> responseSchemaJson <span class="op">=</span> <span class="fu">zodToJsonSchema</span>(responseSchema)<span class="op">;</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> SYSTEM_PROMPT <span class="op">=</span> <span class="vs">`</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="vs">  Generate topics from text. Ensure that topics are general e.g. "Health".</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="vs">  Strong relevance is obtained when the topic is a core tenent of the content</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="vs">  and weak relevance reflects one or two mentions.</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-13" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> topicsResponse <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">generateContent</span>({</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  contents<span class="op">:</span> response<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    systemInstruction<span class="op">:</span> SYSTEM_PROMPT<span class="op">,</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    responseJsonSchema<span class="op">:</span> responseSchemaJson<span class="op">,</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    responseMimeType<span class="op">:</span> <span class="st">"application/json"</span><span class="op">,</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-14" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(topicsResponse<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">"{}"</span>)<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="basic-steps" class="level2">
+<h2 class="anchored" data-anchor-id="basic-steps">Basic steps</h2>
+<p>LLMs are trained offline on a large corpus of public data. Hence they cannot answer questions based on custom or private data accurately without additional context.</p>
+<p>If you want to make use of LLMs to answer questions based on private data, you have to provide the relevant documents as context alongside your prompt. This approach is called Retrieval Augmented Generation (RAG).</p>
+<p>You will use this approach to create a question-answering assistant using the Gemini text model integrated through LlamaIndex. The assistant is expected to answer questions about Google’s Gemini model. To make this possible you will add more context to the assistant using data from a website.</p>
+<p>In this tutorial, you’ll implement the two main components in a RAG-based architecture:</p>
+<ol type="1">
+<li><p><strong>Retriever</strong> Based on the user’s query, the retriever retrieves relevant snippets that add context from the document. In this tutorial, the document is the website data. The relevant snippets are passed as context to the next stage - “Generator”.</p></li>
+<li><p><strong>Generator</strong> The relevant snippets from the website data are passed to the LLM along with the user’s query to generate accurate answers.</p></li>
+</ol>
+<p>You’ll learn more about these stages in the upcoming sections while implementing the application.</p>
+<section id="retriever" class="level3">
+<h3 class="anchored" data-anchor-id="retriever">1. Retriever</h3>
+<p>In this stage, you will perform the following steps:</p>
+<ol type="1">
+<li><p>Read and parse the website data using LlamaIndex.</p></li>
+<li><p>Create embeddings of the website data. Embeddings are numerical representations (vectors) of text. Hence, text with similar meaning will have similar embedding vectors. You’ll make use of Gemini’s embedding model to create the embedding vectors of the website data.</p></li>
+<li><p>Store the embeddings in Chroma’s vector store. Chroma is a vector database. The Chroma vector store helps in the efficient retrieval of similar vectors. Thus, for adding context to the prompt for the LLM, relevant embeddings of the text matching the user’s question can be retrieved easily using Chroma.</p></li>
+<li><p>Create a Retriever from the Chroma vector store. The retriever will be used to pass relevant website embeddings to the LLM along with user queries.</p></li>
+</ol>
+<section id="read-and-parse-the-website-data" class="level4">
+<h4 class="anchored" data-anchor-id="read-and-parse-the-website-data">Read and parse the website data</h4>
+<p>LlamaIndex provides a wide variety of data loaders. To know more about how to read and parse input data from different sources using the data loaders of LlamaIndex, read LlamaIndex’s <a href="https://ts.llamaindex.ai/docs/llamaindex/modules/data/readers">loading data guide</a>.</p>
+<p>You can use variety of HTML parsers to extract the required text from the html content.</p>
+<p>In this example, you’ll use Javascripts’s <code>Cheerio</code> library to parse the website data. After processing, the extracted text should be converted back to LlamaIndex’s <code>Document</code> format.</p>
+<div id="cell-10" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="op">*</span> <span class="im">as</span> cheerio <span class="im">from</span> <span class="st">"cheerio"</span><span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { <span class="bu">Document</span> } <span class="im">from</span> <span class="st">"@llamaindex/core/schema"</span><span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">loadWebPage</span>(url<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="bu">Document</span>[]<span class="op">&gt;</span> {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(url)<span class="op">;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> html <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">text</span>()<span class="op">;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> $ <span class="op">=</span> cheerio<span class="op">.</span><span class="fu">load</span>(html)<span class="op">;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> textContent <span class="op">=</span> <span class="fu">$</span>(<span class="st">"p"</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">map</span>((_<span class="op">,</span> el) <span class="kw">=&gt;</span> <span class="fu">$</span>(el)<span class="op">.</span><span class="fu">text</span>())</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">get</span>()</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">join</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)<span class="op">;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> [<span class="kw">new</span> <span class="bu">Document</span>({ text<span class="op">:</span> textContent })]<span class="op">;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> documents <span class="op">=</span> <span class="cf">await</span> <span class="fu">loadWebPage</span>(</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://blog.google/technology/google-deepmind/gemini-model-thinking-updates-march-2025/"</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Loaded Documents:"</span><span class="op">,</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(documents<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>{
-  "topics": [
-    {
-      "relevance": "strong",
-      "topic": "Sports"
-    },
-    {
-      "relevance": "strong",
-      "topic": "Sports Psychology"
-    },
-    {
-      "relevance": "medium",
-      "topic": "Physical Fitness"
-    },
-    {
-      "relevance": "medium",
-      "topic": "Teamwork"
-    },
-    {
-      "relevance": "medium",
-      "topic": "Personal Development"
-    }
-  ]
-}</code></pre>
+<pre><code>Loaded Documents: [
+  {
+    "id_": "6cb005e5-cc40-4c7b-80d2-81e4839f7496",
+    "metadata": {},
+    "excludedEmbedMetadataKeys": [],
+    "excludedLlmMetadataKeys": [],
+    "relationships": {},
+    "text": "Mar 25, 2025\n\n          Gemini 2.5 is a thinking model, designed to tackle increasingly complex problems. Our first 2.5 model, Gemini 2.5 Pro Experimental, leads common benchmarks by meaningful margins and showcases strong reasoning and code capabilities.\n        \nLast updated March 26\nToday we’re introducing Gemini 2.5, our most intelligent AI model. Our first 2.5 release is an experimental version of 2.5 Pro, which is state-of-the-art on a wide range of benchmarks and debuts at #1 on LMArena by a significant margin.\nGemini 2.5 models are thinking models, capable of reasoning through their thoughts before responding, resulting in enhanced performance and improved accuracy.\nIn the field of AI, a system’s capacity for “reasoning” refers to more than just classification and prediction. It refers to its ability to analyze information, draw logical conclusions, incorporate context and nuance, and make informed decisions.\nFor a long time, we’ve explored ways of making AI smarter and more capable of reasoning through techniques like reinforcement learning and chain-of-thought prompting. Building on this, we recently introduced our first thinking model, Gemini 2.0 Flash Thinking.\nNow, with Gemini 2.5, we've achieved a new level of performance by combining a significantly enhanced base model with improved post-training. Going forward, we’re building these thinking capabilities directly into all of our models, so they can handle more complex problems and support even more capable, context-aware agents.\nGemini 2.5 Pro Experimental is our most advanced model for complex tasks. It tops the LMArena leaderboard — which measures human preferences — by a significant margin, indicating a highly capable model equipped with high-quality style. 2.5 Pro also shows strong reasoning and code capabilities, leading on common coding, math and science benchmarks.\nGemini 2.5 Pro is available now in Google AI Studio and in the Gemini app for Gemini Advanced users, and will be coming to Vertex AI soon. We’ll also introduce pricing in the coming weeks, enabling people to use 2.5 Pro with higher rate limits for scaled production use.\nUpdated March 26 with new MRCR (Multi Round Coreference Resolution) evaluations\nGemini 2.5 Pro is state-of-the-art across a range of benchmarks requiring advanced reasoning. Without test-time techniques that increase cost, like majority voting, 2.5 Pro leads in math and science benchmarks like GPQA and AIME 2025.\nIt also scores a state-of-the-art 18.8% across models without tool use on Humanity’s Last Exam, a dataset designed by hundreds of subject matter experts to capture the human frontier of knowledge and reasoning.\nWe’ve been focused on coding performance, and with Gemini 2.5 we’ve achieved a big leap over 2.0 — with more improvements to come. 2.5 Pro excels at creating visually compelling web apps and agentic code applications, along with code transformation and editing. On SWE-Bench Verified, the industry standard for agentic code evals, Gemini 2.5 Pro scores 63.8% with a custom agent setup.\nHere’s an example of how 2.5 Pro can use its reasoning capabilities to create a video game by producing the executable code from a single line prompt.\nGemini 2.5 builds on what makes Gemini models great — native multimodality and a long context window. 2.5 Pro ships today with a 1 million token context window (2 million coming soon), with strong performance that improves over previous generations. It can comprehend vast datasets and handle complex problems from different information sources, including text, audio, images, video and even entire code repositories.\nDevelopers and enterprises can start experimenting with Gemini 2.5 Pro in Google AI Studio now, and Gemini Advanced users can select it in the model dropdown on desktop and mobile. It will be available on Vertex AI in the coming weeks.\nAs always, we welcome feedback so we can continue to improve Gemini’s impressive new abilities at a rapid pace, all with the goal of making our AI more helpful.\nLet’s stay in touch. Get the latest news from Google in your inbox.\n\n              Follow Us\n            ",
+    "textTemplate": "",
+    "metadataSeparator": "\n",
+    "type": "DOCUMENT",
+    "hash": "k7FXp5mXlcyCy1+xm3yxQ/Kk8xQ9/mgcnJQeSn1TDiU="
+  }
+]</code></pre>
 </div>
 </div>
 </section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>Now, you know how to classify text into different categories. Feel free to experiment with other texts, or provide a specific set of possible topics.</p>
-<p>Please see the other notebooks in this directory to learn more about how you can use the Gemini API for other JSON related tasks.</p>
+</section>
+<section id="initialize-geminis-embedding-model" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-geminis-embedding-model">Initialize Gemini’s embedding model</h3>
+<p>To create the embeddings from the website data, you’ll use Gemini’s embedding model, <code>gemini-embedding-001</code> which supports creating text embeddings.</p>
+<p>To use this embedding model, you have to import <code>GeminiEmbedding</code> from LlamaIndex. To know more about the embedding model, read Google AI’s <a href="https://ai.google.dev/models/gemini">language documentation</a>.</p>
+<div id="cell-12" class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { GeminiEmbedding<span class="op">,</span> GEMINI_EMBEDDING_MODEL } <span class="im">from</span> <span class="st">"@llamaindex/google"</span><span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> embedding_model <span class="op">=</span> <span class="kw">new</span> <span class="fu">GeminiEmbedding</span>({ model<span class="op">:</span> GEMINI_EMBEDDING_MODEL<span class="op">.</span><span class="at">EMBEDDING_001</span> })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.</code></pre>
+</div>
+</div>
+</section>
+<section id="initialize-gemini" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-gemini">Initialize Gemini</h3>
+<p>You must import <code>Gemini</code> from LlamaIndex to initialize your model. In this example, you will use <strong>gemini-2.5-flash</strong>, as it supports text summarization. To know more about the text model, read Google AI’s <a href="https://ai.google.dev/models/gemini">model documentation</a>.</p>
+<p>You can configure the model parameters such as <em>temperature</em> or <em>topP</em>, using the <em>generationConfig</em> parameter when initializing the <code>Gemini</code> LLM. To learn more about the model parameters and their uses, read Google AI’s <a href="https://ai.google.dev/docs/concepts#model_parameters">concepts guide</a>.</p>
+<div id="cell-14" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { gemini<span class="op">,</span> GEMINI_MODEL } <span class="im">from</span> <span class="st">"@llamaindex/google"</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> llm <span class="op">=</span> <span class="fu">gemini</span>({ model<span class="op">:</span> GEMINI_MODEL<span class="op">.</span><span class="at">GEMINI_2_5_FLASH_PREVIEW</span> })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.</code></pre>
+</div>
+</div>
+</section>
+<section id="store-the-data-using-chroma" class="level3">
+<h3 class="anchored" data-anchor-id="store-the-data-using-chroma">Store the data using Chroma</h3>
+<p>Next, you’ll store the embeddings of the website data in Chroma’s vector store using LlamaIndex.</p>
+<p>First, you have to initiate a Javascript client in <code>chromadb</code>. You will use the <code>ChromaClient</code>. You can read more about the different clients in Chroma in the <a href="https://docs.trychroma.com/reference/Client">client reference guide</a>.</p>
+<p>After initializing the client, you have to create a Chroma collection. You’ll then initialize the <code>ChromaVectorStore</code> class in LlamaIndex using the collection created in the previous step.</p>
+<p>Next, you have to set <code>Settings</code> and create storage contexts for the vector store.</p>
+<p><code>Settings</code> is a collection of commonly used resources that are utilized during the indexing and querying phase in a LlamaIndex pipeline. You can specify the LLM, Embedding model, etc that will be used to create the application in the <code>Settings</code>. To know more about <code>Settings</code>, read the <a href="https://ts.llamaindex.ai/docs/api/variables/Settings">module guide for Settings</a>.</p>
+<p><code>StorageContext</code> is an abstraction offered by LlamaIndex around different types of storage. To know more about storage context, read the <a href="https://ts.llamaindex.ai/docs/api/interfaces/StorageContext">storage context API guide</a>.</p>
+<p>The final step is to load the documents and build an index over them. LlamaIndex offers several indices that help in retrieving relevant context for a user query. Here you’ll use the <code>VectorStoreIndex</code> since the website embeddings have to be stored in a vector store.</p>
+<p>To create the index you have to pass the storage context along with the documents to the <code>fromDocuments</code> function of <code>VectorStoreIndex</code>. The <code>VectorStoreIndex</code> uses the embedding model specified in the <code>Settings</code> to create embedding vectors from the documents and stores these vectors in the vector store specified in the storage context. To know more about the <code>VectorStoreIndex</code> you can read the <a href="https://ts.llamaindex.ai/docs/api/classes/VectorStoreIndex">Using VectorStoreIndex guide</a>.</p>
+<div id="cell-16" class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { ChromaClient } <span class="im">from</span> <span class="st">"chromadb"</span><span class="op">;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { ChromaVectorStore } <span class="im">from</span> <span class="st">"@llamaindex/chroma"</span><span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Settings<span class="op">,</span> VectorStoreIndex<span class="op">,</span> storageContextFromDefaults } <span class="im">from</span> <span class="st">"llamaindex"</span><span class="op">;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>Settings<span class="op">.</span><span class="at">llm</span> <span class="op">=</span> llm<span class="op">;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>Settings<span class="op">.</span><span class="at">embedModel</span> <span class="op">=</span> embedding_model<span class="op">;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> CHROMA_HOST <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">CHROMA_HOST</span> <span class="op">??</span> <span class="st">"localhost"</span><span class="op">;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> CHROMA_PORT <span class="op">=</span> <span class="pp">parseInt</span>(<span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">CHROMA_PORT</span> <span class="op">??</span> <span class="st">"8000"</span>)<span class="op">;</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chroma_client <span class="op">=</span> <span class="kw">new</span> <span class="fu">ChromaClient</span>({</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  host<span class="op">:</span> CHROMA_HOST<span class="op">,</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  port<span class="op">:</span> CHROMA_PORT<span class="op">,</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> collection <span class="op">=</span> <span class="cf">await</span> chroma_client<span class="op">.</span><span class="fu">getOrCreateCollection</span>({</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="st">"quickstart"</span><span class="op">,</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> vector_store <span class="op">=</span> <span class="kw">new</span> <span class="fu">ChromaVectorStore</span>({ collectionName<span class="op">:</span> <span class="st">"quickstart"</span> })<span class="op">;</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> storage_context <span class="op">=</span> <span class="cf">await</span> <span class="fu">storageContextFromDefaults</span>({ vectorStore<span class="op">:</span> vector_store })<span class="op">;</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> index <span class="op">=</span> <span class="cf">await</span> VectorStoreIndex<span class="op">.</span><span class="fu">fromDocuments</span>(documents<span class="op">,</span> {</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  storageContext<span class="op">:</span> storage_context<span class="op">,</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="create-a-retriever-using-chroma" class="level3">
+<h3 class="anchored" data-anchor-id="create-a-retriever-using-chroma">Create a retriever using Chroma</h3>
+<p>You’ll now create a retriever that can retrieve data embeddings from the newly created Chroma vector store.</p>
+<p>You can use the collection name to initialize the <code>ChromaVectorStore</code> in which you store the embeddings of the website data. You can then use the <code>fromVectorStore</code> function of <code>VectorStoreIndex</code> to load the index.</p>
+<div id="cell-18" class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> quickstart_vector_store <span class="op">=</span> <span class="kw">new</span> <span class="fu">ChromaVectorStore</span>({ collectionName<span class="op">:</span> <span class="st">"quickstart"</span> })<span class="op">;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> quickstart_index <span class="op">=</span> <span class="cf">await</span> VectorStoreIndex<span class="op">.</span><span class="fu">fromVectorStore</span>(quickstart_vector_store)<span class="op">;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> test_query_engine <span class="op">=</span> quickstart_index<span class="op">.</span><span class="fu">asQueryEngine</span>()<span class="op">;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> test_query_engine<span class="op">.</span><span class="fu">query</span>({ query<span class="op">:</span> <span class="st">"AIME"</span> })<span class="op">;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(response<span class="op">.</span><span class="fu">toString</span>())<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>AIME 2025 is a math and science benchmark in which Gemini 2.5 Pro leads.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="generator" class="level2">
+<h2 class="anchored" data-anchor-id="generator">2. Generator</h2>
+<p>The Generator prompts the LLM for an answer when the user asks a question. The retriever you created in the previous stage from the Chroma vector store will be used to pass relevant embeddings from the website data to the LLM to provide more context to the user’s query.</p>
+<p>You’ll perform the following steps in this stage:</p>
+<ol type="1">
+<li>Create a prompt for answering any question using LlamaIndex.</li>
+<li>Use a query engine to ask a question and prompt the model for an answer.</li>
+</ol>
+<section id="create-prompt-templates" class="level3">
+<h3 class="anchored" data-anchor-id="create-prompt-templates">Create prompt templates</h3>
+<p>You’ll use LlamaIndex’s <a href="https://ts.llamaindex.ai/docs/api/classes/PromptTemplate">PromptTemplate</a> to generate prompts to the LLM for answering questions.</p>
+<p>In the <code>textQaPrompt</code>, the variable <code>query</code> will be replaced later by the input question, and the variable <code>context</code> will be replaced by the relevant text from the website retrieved from the Chroma vector store.</p>
+<div id="cell-20" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { TextQAPrompt<span class="op">,</span> PromptTemplate<span class="op">,</span> getResponseSynthesizer } <span class="im">from</span> <span class="st">"llamaindex"</span><span class="op">;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> textQaPrompt <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="vs">    You are an assistant for question-answering tasks.</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="vs">    Use the following context to answer the question.</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="vs">    If you don't know the answer, just say that you don't know.</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    Use five sentences maximum and keep the answer concise.</span><span class="sc">\n</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="vs">    Question: {query} </span><span class="sc">\n</span><span class="vs">Context: {context} </span><span class="sc">\n</span><span class="vs">Answer:</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response_synthesizer <span class="op">=</span> <span class="fu">getResponseSynthesizer</span>(<span class="st">"compact"</span><span class="op">,</span> {</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  textQATemplate<span class="op">:</span> <span class="kw">new</span> <span class="fu">PromptTemplate</span>({</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    template<span class="op">:</span> textQaPrompt<span class="op">,</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    templateVars<span class="op">:</span> [<span class="st">"query"</span><span class="op">,</span> <span class="st">"context"</span>]<span class="op">,</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  }) <span class="im">as</span> TextQAPrompt<span class="op">,</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="prompt-the-model-using-query-engine" class="level3">
+<h3 class="anchored" data-anchor-id="prompt-the-model-using-query-engine">Prompt the model using Query Engine</h3>
+<p>You will use the <code>asQueryEngine</code> function of the <code>VectorStoreIndex</code> to create a query engine from the index using the <code>response_synthesizer</code> passed as the value for the <code>responseSynthesizer</code> argument. You can then use the <code>query</code> function of the query engine to prompt the LLM. To know more about custom prompting in LlamaIndex, read LlamaIndex’s <a href="https://ts.llamaindex.ai/docs/llamaindex/modules/models/prompt">prompts usage pattern documentation</a>.</p>
+<div id="cell-22" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> query_engine <span class="op">=</span> index<span class="op">.</span><span class="fu">asQueryEngine</span>({ responseSynthesizer<span class="op">:</span> response_synthesizer })<span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> answer <span class="op">=</span> <span class="cf">await</span> query_engine<span class="op">.</span><span class="fu">query</span>({ query<span class="op">:</span> <span class="st">"What is Gemini?"</span> })<span class="op">;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(answer<span class="op">.</span><span class="fu">toString</span>())<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Gemini 2.5 is Google’s most intelligent AI model, described as a “thinking model” designed to tackle increasingly complex problems. It is capable of reasoning through its thoughts before responding, which enhances performance and accuracy. This model combines an enhanced base with improved post-training, featuring native multimodality and a long context window. The current experimental version, Gemini 2.5 Pro, leads common benchmarks and demonstrates strong reasoning and code capabilities. It can comprehend vast datasets from various sources, including text, audio, images, and video.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="whats-next" class="level2">
+<h2 class="anchored" data-anchor-id="whats-next">What’s next?</h2>
+<p>This notebook showed only one possible use case for langchain with Gemini API. You can find many more here.</p>
 
 
 </section>
@@ -1378,13 +1493,13 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../examples/json_capabilities/Sentiment_Analysis.html" class="pagination-link" aria-label="Gemini API: Sentiment Analysis">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Sentiment Analysis</span>
+      <a href="../../examples/langchain/Gemini_LangChain_Summarization_WebLoad.html" class="pagination-link" aria-label="Gemini API: Summarize large documents using LangChain">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Summarize large documents using LangChain</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../examples/json_capabilities/Text_Summarization.html" class="pagination-link" aria-label="Gemini API: Text Summarization">
-        <span class="nav-page-text">Gemini API: Text Summarization</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../examples/mcp/Building_a_MCP_server.html" class="pagination-link" aria-label="Gemini API: Building a MCP Server">
+        <span class="nav-page-text">Gemini API: Building a MCP Server</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1393,5 +1508,5 @@ Note
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Text_Classification.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/json_capabilities/Text_Classification.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/llamaindex/Gemini_LlamaIndex_QA_Chroma_WebPageReader.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/llamaindex/Gemini_LlamaIndex_QA_Chroma_WebPageReader.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
