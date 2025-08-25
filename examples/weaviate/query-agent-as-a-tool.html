@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gemini API: List models – Gemini Cookbook</title>
+<title>Weaviate Query Agent with Gemini API – Gemini Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,26 +58,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../quickstarts/New_in_002.html" rel="next">
-<link href="../quickstarts/JSON_mode.html" rel="prev">
-<link href="../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-eeda95415d7a773dff7c598679dfde2d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../quickstarts/Audio.html" rel="next">
+<link href="../../examples/prompting/Zero_shot_prompting.html" rel="prev">
+<link href="../../assets/docs/gemini-icon.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b194c1a1b3b5fe72c175427f7f6a988c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-eeda95415d7a773dff7c598679dfde2d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -117,10 +117,10 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Gemini API: List models – Gemini Cookbook">
+<meta property="og:title" content="Weaviate Query Agent with Gemini API – Gemini Cookbook">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Gemini Cookbook">
-<meta name="twitter:title" content="Gemini API: List models – Gemini Cookbook">
+<meta name="twitter:title" content="Weaviate Query Agent with Gemini API – Gemini Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -132,7 +132,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Gemini Cookbook</span>
     </a>
   </div>
@@ -143,15 +143,15 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../quickstarts/Get_started.html" aria-current="page"> 
+    <a class="nav-link active" href="../../quickstarts/Get_started.html" aria-current="page"> 
 <span class="menu-text">Quickstarts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../examples/Applets.html"> 
+    <a class="nav-link" href="../../examples/Applets.html"> 
 <span class="menu-text">Examples</span></a>
   </li>  
 </ul>
@@ -180,7 +180,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Models.html">Gemini API: List models</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/weaviate/query-agent-as-a-tool.html">Weaviate</a></li><li class="breadcrumb-item"><a href="../../examples/weaviate/query-agent-as-a-tool.html">Weaviate Query Agent with Gemini API</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -194,7 +194,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Applets.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Applets.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Google AI Studio</span></a>
   </div>
 </li>
@@ -209,145 +209,145 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Agents_Function_Calling_Barista_Bot.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Agents_Function_Calling_Barista_Bot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Agents and Automatic Function Calling with Barista Bot</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Analyze_a_Video_Classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Analyze a Video - Classification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Analyze_a_Video_Historic_Event_Recognition.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Analyze a Video - Historic Event Recognition</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Analyze_a_Video_Summarization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Analyze a Video - Summarization</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Anomaly_detection_with_embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Anomaly_detection_with_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Anomaly detection with embeddings</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Apollo_11.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prompting with an Apollo 11 transcript</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Browser_as_a_tool.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Browser_as_a_tool.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Browser as a tool</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Classify_text_with_embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Classify_text_with_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Classify text with embeddings</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Entity_Extraction.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Entity extraction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Guess_the_shape.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Guess the shape: Triangle, Square, Pentagon?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/LiveAPI_plotting_and_mapping.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/LiveAPI_plotting_and_mapping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini 2.X - Multi-tool with the Multimodal Live API</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Market_a_Jet_Backpack.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Create a marketing campaign from a product sketch of a Jet Backpack</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Opossum_search.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Opossum search</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Pdf_structured_outputs_on_invoices_and_forms.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Pdf_structured_outputs_on_invoices_and_forms.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Automated Invoice and Form Data Extraction with Gemini API &amp; Zod</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Search_grounding_for_research_report.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Search_grounding_for_research_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Search tool with Gemini 2.x</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Search_reranking_using_embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Search_reranking_using_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Search re-ranking using Gemini embeddings</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Search_Wikipedia_using_ReAct.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Search_Wikipedia_using_ReAct.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Search Wikipedia using ReAct</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Spatial_understanding_3d.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Spatial_understanding_3d.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Pointing and 3D Spatial Understanding with Gemini 2.0 (Experimental)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Story_Writing_with_Prompt_Chaining.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Story_Writing_with_Prompt_Chaining.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prompt Chaining and Iterative Generation for Story Writing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Tag_and_caption_images.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Tag_and_caption_images.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Using Gemini API to tag and caption images</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Talk_to_documents_with_embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Talk_to_documents_with_embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Document search with embeddings</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Translate_a_Public_Domain_Book.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Translate a public domain book</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Voice_memos.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Voice_memos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Voice memos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/Working_with_Charts_Graphs_and_Slide_Decks.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Working with Charts, Graphs, and Slide Decks</span></a>
   </div>
 </li>
@@ -362,7 +362,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/chromadb/Vectordb_with_chroma.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/chromadb/Vectordb_with_chroma.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Document Q&amp;A with ChromaDB</span></a>
   </div>
 </li>
@@ -379,25 +379,25 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/json_capabilities/Entity_Extraction_JSON.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/json_capabilities/Entity_Extraction_JSON.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Entity Extraction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/json_capabilities/Sentiment_Analysis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/json_capabilities/Sentiment_Analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Sentiment Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/json_capabilities/Text_Classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/json_capabilities/Text_Classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Text Classification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/json_capabilities/Text_Summarization.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/json_capabilities/Text_Summarization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Text Summarization</span></a>
   </div>
 </li>
@@ -414,31 +414,31 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/langchain/Chat_with_SQL_using_langchain.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/langchain/Chat_with_SQL_using_langchain.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Chat with SQL using LangChain</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/langchain/Code_analysis_using_Gemini_LangChain.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/langchain/Code_analysis_using_Gemini_LangChain.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Code analysis using LangChain</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/langchain/Gemini_LangChain_QA_Chroma_WebLoad.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Question Answering using LangChain and Chroma</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/langchain/Gemini_LangChain_QA_Pinecone_WebLoad.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Question Answering using LangChain and Pinecone</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/langchain/Gemini_LangChain_Summarization_WebLoad.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/langchain/Gemini_LangChain_Summarization_WebLoad.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Summarize large documents using LangChain</span></a>
   </div>
 </li>
@@ -455,7 +455,7 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/llamaindex/Gemini_LlamaIndex_QA_Chroma_WebPageReader.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/llamaindex/Gemini_LlamaIndex_QA_Chroma_WebPageReader.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Question Answering LlamaIndex and Chroma</span></a>
   </div>
 </li>
@@ -472,13 +472,13 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/mcp/Building_a_MCP_server.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/mcp/Building_a_MCP_server.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Building a MCP Server</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/mcp/Querying_a_MCP_server.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/mcp/Querying_a_MCP_server.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Querying a MCP Server</span></a>
   </div>
 </li>
@@ -495,73 +495,73 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/prompting/Adding_context_information.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/prompting/Adding_context_information.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Adding context information</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/prompting/Basic_Classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/prompting/Basic_Classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Basic classification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/prompting/Basic_Code_Generation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/prompting/Basic_Code_Generation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Basic code generation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/prompting/Basic_Evaluation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/prompting/Basic_Evaluation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Basic evaluation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/prompting/Basic_Information_Extraction.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/prompting/Basic_Information_Extraction.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Basic information extraction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/prompting/Basic_Reasoning.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/prompting/Basic_Reasoning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Basic reasoning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/prompting/Chain_of_thought_prompting.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/prompting/Chain_of_thought_prompting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Chain of thought prompting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/prompting/Few_shot_prompting.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/prompting/Few_shot_prompting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Few-shot prompting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/prompting/Providing_base_cases.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/prompting/Providing_base_cases.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Providing base cases</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/prompting/Role_prompting.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/prompting/Role_prompting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Role prompting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/prompting/Self_ask_prompting.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/prompting/Self_ask_prompting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Self-ask prompting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/prompting/Zero_shot_prompting.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/prompting/Zero_shot_prompting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Zero-shot prompting</span></a>
   </div>
 </li>
@@ -569,16 +569,16 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
  <span class="menu-text">Weaviate</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../examples/weaviate/query-agent-as-a-tool.html" class="sidebar-item-text sidebar-link">
+  <a href="../../examples/weaviate/query-agent-as-a-tool.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Weaviate Query Agent with Gemini API</span></a>
   </div>
 </li>
@@ -597,175 +597,175 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Audio.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Audio Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Caching.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Context Caching Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Code_Execution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Code Execution</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Counting_Tokens.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: All about tokens</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Embeddings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Embeddings Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Enum.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Enum Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/File_API.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: File API Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Function_calling.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Function_calling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Function calling with JS</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Getting started with Gemini models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_LearnLM.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Guide: Building AI Tutors with LearnLM via System Instructions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_LiveAPI.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multimodal Live API - Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_LiveAPI_tools.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini 2.0 - Multimodal live API: Tool use</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_LyriaRealtime.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Get started with Music generation using Lyria RealTime</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_OpenAI_Compatibility.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Getting started with the Gemini API OpenAI compatibility</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_thinking.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Use Gemini thinking</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Get_started_TTS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Gemini Text-to-speech</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Grounding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Getting started with information grounding for Gemini models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Image_out.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Gemini 2.0 Image output</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/JSON_mode.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: JSON Mode Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Models.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../quickstarts/Models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: List models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/New_in_002.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/PDF_Files.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Read a PDF</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Prompting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Prompting Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Safety.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Safety Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Search_Grounding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Grounding using Search as a tool</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Spatial_understanding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2D spatial understanding with Gemini 2.0</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Streaming.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: Streaming Quickstart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/System_instructions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gemini API: System instructions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
+  <a href="../../quickstarts/Video_understanding.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Video understanding with Gemini</span></a>
   </div>
 </li>
@@ -781,25 +781,27 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
+  <li><a href="#requirements" id="toc-requirements" class="nav-link active" data-scroll-target="#requirements">Requirements</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a>
   <ul class="collapse">
   <li><a href="#install-the-google-genai-sdk" id="toc-install-the-google-genai-sdk" class="nav-link" data-scroll-target="#install-the-google-genai-sdk">Install the Google GenAI SDK</a></li>
   <li><a href="#setup-your-api-key" id="toc-setup-your-api-key" class="nav-link" data-scroll-target="#setup-your-api-key">Setup your API key</a></li>
   <li><a href="#load-the-api-key" id="toc-load-the-api-key" class="nav-link" data-scroll-target="#load-the-api-key">Load the API key</a></li>
   <li><a href="#initialize-sdk-client" id="toc-initialize-sdk-client" class="nav-link" data-scroll-target="#initialize-sdk-client">Initialize SDK Client</a></li>
+  <li><a href="#select-a-model" id="toc-select-a-model" class="nav-link" data-scroll-target="#select-a-model">Select a model</a></li>
   </ul></li>
-  <li><a href="#list-models" id="toc-list-models" class="nav-link" data-scroll-target="#list-models">List models</a></li>
-  <li><a href="#find-details-about-a-model" id="toc-find-details-about-a-model" class="nav-link" data-scroll-target="#find-details-about-a-model">Find details about a model</a></li>
-  <li><a href="#learning-more" id="toc-learning-more" class="nav-link" data-scroll-target="#learning-more">Learning more</a></li>
+  <li><a href="#define-query-agent-function" id="toc-define-query-agent-function" class="nav-link" data-scroll-target="#define-query-agent-function">Define Query Agent function</a></li>
+  <li><a href="#configure-tool" id="toc-configure-tool" class="nav-link" data-scroll-target="#configure-tool">Configure Tool</a></li>
+  <li><a href="#query-time" id="toc-query-time" class="nav-link" data-scroll-target="#query-time">Query Time</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Models.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Models.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/weaviate/query-agent-as-a-tool.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/weaviate/query-agent-as-a-tool.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../quickstarts/Audio.html">Quickstarts</a></li><li class="breadcrumb-item"><a href="../quickstarts/Models.html">Gemini API: List models</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../examples/Agents_Function_Calling_Barista_Bot.html">Examples</a></li><li class="breadcrumb-item"><a href="../../examples/weaviate/query-agent-as-a-tool.html">Weaviate</a></li><li class="breadcrumb-item"><a href="../../examples/weaviate/query-agent-as-a-tool.html">Weaviate Query Agent with Gemini API</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Gemini API: List models</h1>
+<h1 class="title">Weaviate Query Agent with Gemini API</h1>
 </div>
 
 
@@ -816,7 +818,17 @@ gtag('config', 'G-GE1DFPVL15', { 'anonymize_ip': true});
 </header>
 
 
-<p>This notebook demonstrates how to list the models that are available for you to use in the Gemini API, and how to find details about a model.</p>
+<p>This notebook will show you how to define the Weaviate Query Agent as a tool through the Gemini API.</p>
+<section id="requirements" class="level2">
+<h2 class="anchored" data-anchor-id="requirements">Requirements</h2>
+<ol type="1">
+<li>Weaviate Cloud instance (WCD): The Weaviate Query Agent is only accessible through WCD at the moment. You can create a serverless cluster or a free 14-day sandbox <a href="https://console.weaviate.cloud/">here</a>.</li>
+<li>Have a GCP project and Gemini API key (generate one <a href="https://aistudio.google.com/">here</a>)</li>
+<li>Install the Google Gen AI SDK with <code>npm install @google/genai</code></li>
+<li>Install the Weaviate Javascript client with <code>npm install weaviate-client</code></li>
+<li>You’ll need a Weaviate cluster with data. If you don’t have one, check out this <a href="https://github.com/weaviate/recipes/blob/main/integrations/Weaviate-Import-Example.ipynb">notebook</a> to import the Weaviate Blogs.</li>
+</ol>
+</section>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <section id="install-the-google-genai-sdk" class="level3">
@@ -855,7 +867,7 @@ Tip
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> dotenv <span class="op">=</span> <span class="pp">require</span>(<span class="st">"dotenv"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"dotenv"</span>)<span class="op">;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dotenv<span class="op">.</span><span class="fu">config</span>({</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../.env"</span><span class="op">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="st">"../../.env"</span><span class="op">,</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GEMINI_API_KEY <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">GEMINI_API_KEY</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
@@ -877,11 +889,12 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In our particular case the <code>.env</code> is is one directory up from the notebook, hence we need to use <code>../</code> to go up one directory. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
+<p>In our particular case the <code>.env</code> is is two directories up from the notebook, hence we need to use <code>../../</code> to go up two directories. If the <code>.env</code> file is in the same directory as the notebook, you can omit it altogether.</p>
 <pre><code>│
 ├── .env
-└── quickstarts
-    └── Models.ipynb</code></pre>
+└── examples
+    └── weaviate
+        └── query-agent-as-a-tool.ipynb</code></pre>
 </div>
 </div>
 </section>
@@ -894,135 +907,164 @@ Note
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ai <span class="op">=</span> <span class="kw">new</span> google<span class="op">.</span><span class="fu">GoogleGenAI</span>({ apiKey<span class="op">:</span> GEMINI_API_KEY })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-</section>
-<section id="list-models" class="level2">
-<h2 class="anchored" data-anchor-id="list-models">List models</h2>
-<p>Use <code>models.list()</code> to see what models are available. These models support <code>generateContent</code>, the main method used for prompting.</p>
+<section id="select-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="select-a-model">Select a model</h3>
+<p>Now select the model you want to use in this guide, either by selecting one in the list or writing it down. Keep in mind that some models, like the 2.5 ones are thinking models and thus take slightly more time to respond (cf.&nbsp;<a href="../../quickstarts/Get_started_thinking.html">thinking notebook</a> for more details and in particular learn how to switch the thiking off).</p>
 <div id="cell-9" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> models <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">list</span>()<span class="op">;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> { page } <span class="op">=</span> models<span class="op">;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (page<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> model <span class="kw">of</span> page) {</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`- </span><span class="sc">${</span>model<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs"> (</span><span class="sc">${</span>model<span class="op">.</span><span class="at">displayName</span><span class="sc">}</span><span class="vs">) | [Actions: </span><span class="sc">${</span>model<span class="op">.</span><span class="at">supportedActions</span><span class="op">?.</span><span class="fu">join</span>(<span class="st">", "</span>)<span class="sc">}</span><span class="vs">]`</span>)<span class="op">;</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  page <span class="op">=</span> models<span class="op">.</span><span class="fu">hasNextPage</span>() <span class="op">?</span> <span class="cf">await</span> models<span class="op">.</span><span class="fu">nextPage</span>() <span class="op">:</span> []<span class="op">;</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>- models/embedding-gecko-001 (Embedding Gecko) | [Actions: embedText, countTextTokens]
-- models/gemini-1.0-pro-vision-latest (Gemini 1.0 Pro Vision) | [Actions: generateContent, countTokens]
-- models/gemini-pro-vision (Gemini 1.0 Pro Vision) | [Actions: generateContent, countTokens]
-- models/gemini-1.5-pro-latest (Gemini 1.5 Pro Latest) | [Actions: generateContent, countTokens]
-- models/gemini-1.5-pro-002 (Gemini 1.5 Pro 002) | [Actions: generateContent, countTokens, createCachedContent]
-- models/gemini-1.5-pro (Gemini 1.5 Pro) | [Actions: generateContent, countTokens]
-- models/gemini-1.5-flash-latest (Gemini 1.5 Flash Latest) | [Actions: generateContent, countTokens]
-- models/gemini-1.5-flash (Gemini 1.5 Flash) | [Actions: generateContent, countTokens]
-- models/gemini-1.5-flash-002 (Gemini 1.5 Flash 002) | [Actions: generateContent, countTokens, createCachedContent]
-- models/gemini-1.5-flash-8b (Gemini 1.5 Flash-8B) | [Actions: createCachedContent, generateContent, countTokens]
-- models/gemini-1.5-flash-8b-001 (Gemini 1.5 Flash-8B 001) | [Actions: createCachedContent, generateContent, countTokens]
-- models/gemini-1.5-flash-8b-latest (Gemini 1.5 Flash-8B Latest) | [Actions: createCachedContent, generateContent, countTokens]
-- models/gemini-2.5-pro-exp-03-25 (Gemini 2.5 Pro Experimental 03-25) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.5-pro-preview-03-25 (Gemini 2.5 Pro Preview 03-25) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.5-flash-preview-04-17 (Gemini 2.5 Flash Preview 04-17) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.5-flash-preview-05-20 (Gemini 2.5 Flash Preview 05-20) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.5-flash-preview-04-17-thinking (Gemini 2.5 Flash Preview 04-17 for cursor testing) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.5-pro-preview-05-06 (Gemini 2.5 Pro Preview 05-06) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.5-pro-preview-06-05 (Gemini 2.5 Pro Preview) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.0-flash-exp (Gemini 2.0 Flash Experimental) | [Actions: generateContent, countTokens, bidiGenerateContent]
-- models/gemini-2.0-flash (Gemini 2.0 Flash) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.0-flash-001 (Gemini 2.0 Flash 001) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.0-flash-exp-image-generation (Gemini 2.0 Flash (Image Generation) Experimental) | [Actions: generateContent, countTokens, bidiGenerateContent]
-- models/gemini-2.0-flash-lite-001 (Gemini 2.0 Flash-Lite 001) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.0-flash-lite (Gemini 2.0 Flash-Lite) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.0-flash-preview-image-generation (Gemini 2.0 Flash Preview Image Generation) | [Actions: generateContent, countTokens]
-- models/gemini-2.0-flash-lite-preview-02-05 (Gemini 2.0 Flash-Lite Preview 02-05) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.0-flash-lite-preview (Gemini 2.0 Flash-Lite Preview) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.0-pro-exp (Gemini 2.0 Pro Experimental) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.0-pro-exp-02-05 (Gemini 2.0 Pro Experimental 02-05) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-exp-1206 (Gemini Experimental 1206) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.0-flash-thinking-exp-01-21 (Gemini 2.5 Flash Preview 04-17) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.0-flash-thinking-exp (Gemini 2.5 Flash Preview 04-17) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.0-flash-thinking-exp-1219 (Gemini 2.5 Flash Preview 04-17) | [Actions: generateContent, countTokens, createCachedContent, batchGenerateContent]
-- models/gemini-2.5-flash-preview-tts (Gemini 2.5 Flash Preview TTS) | [Actions: countTokens, generateContent]
-- models/gemini-2.5-pro-preview-tts (Gemini 2.5 Pro Preview TTS) | [Actions: countTokens, generateContent]
-- models/learnlm-2.0-flash-experimental (LearnLM 2.0 Flash Experimental) | [Actions: generateContent, countTokens]
-- models/gemma-3-1b-it (Gemma 3 1B) | [Actions: generateContent, countTokens]
-- models/gemma-3-4b-it (Gemma 3 4B) | [Actions: generateContent, countTokens]
-- models/gemma-3-12b-it (Gemma 3 12B) | [Actions: generateContent, countTokens]
-- models/gemma-3-27b-it (Gemma 3 27B) | [Actions: generateContent, countTokens]
-- models/gemma-3n-e4b-it (Gemma 3n E4B) | [Actions: generateContent, countTokens]
-- models/embedding-001 (Embedding 001) | [Actions: embedContent]
-- models/text-embedding-004 (Text Embedding 004) | [Actions: embedContent]
-- models/gemini-embedding-exp-03-07 (Gemini Embedding Experimental 03-07) | [Actions: embedContent, countTextTokens, countTokens]
-- models/gemini-embedding-exp (Gemini Embedding Experimental) | [Actions: embedContent, countTextTokens, countTokens]
-- models/aqa (Model that performs Attributed Question Answering.) | [Actions: generateAnswer]
-- models/imagen-3.0-generate-002 (Imagen 3.0 002 model) | [Actions: predict]
-- models/veo-2.0-generate-001 (Veo 2) | [Actions: predictLongRunning]
-- models/gemini-2.5-flash-preview-native-audio-dialog (Gemini 2.5 Flash Preview Native Audio Dialog) | [Actions: countTokens, bidiGenerateContent]
-- models/gemini-2.5-flash-preview-native-audio-dialog-rai-v3 (Gemini 2.5 Flash Preview Native Audio Dialog RAI v3) | [Actions: countTokens, bidiGenerateContent]
-- models/gemini-2.5-flash-exp-native-audio-thinking-dialog (Gemini 2.5 Flash Exp Native Audio Thinking Dialog) | [Actions: countTokens, bidiGenerateContent]
-- models/gemini-2.0-flash-live-001 (Gemini 2.0 Flash 001) | [Actions: bidiGenerateContent, countTokens]</code></pre>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> tslab <span class="op">=</span> <span class="pp">require</span>(<span class="st">"tslab"</span>) <span class="im">as</span> <span class="kw">typeof</span> <span class="im">import</span>(<span class="st">"tslab"</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODEL_ID <span class="op">=</span> <span class="st">"gemini-2.5-flash-preview-05-20"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+</section>
+<section id="define-query-agent-function" class="level2">
+<h2 class="anchored" data-anchor-id="define-query-agent-function">Define Query Agent function</h2>
+<div id="cell-11" class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> weaviate <span class="im">from</span> <span class="st">"weaviate-client"</span><span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { QueryAgent } <span class="im">from</span> <span class="st">"weaviate-agents"</span><span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">query_agent_request</span>(query<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> {</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> client <span class="op">=</span> <span class="cf">await</span> weaviate<span class="op">.</span><span class="fu">connectToWeaviateCloud</span>(<span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">WEAVIATE_URL</span><span class="op">!,</span> {</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    authCredentials<span class="op">:</span> <span class="kw">new</span> weaviate<span class="op">.</span><span class="fu">ApiKey</span>(<span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">WEAVIATE_API_KEY</span><span class="op">!</span>)<span class="op">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    headers<span class="op">:</span> {}<span class="op">,</span> <span class="co">// add the API key to the model provider from your Weaviate collection, for example `headers={"X-Goog-Studio-Api-Key": GEMINI_API_KEY}` not needed for purpose of this example</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> agent <span class="op">=</span> <span class="kw">new</span> <span class="fu">QueryAgent</span>(client<span class="op">,</span> {</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    collections<span class="op">:</span> [<span class="st">"WeaviateBlogChunk"</span>]<span class="op">,</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> agent<span class="op">.</span><span class="fu">run</span>(query)<span class="op">;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> response<span class="op">.</span><span class="at">finalAnswer</span><span class="op">;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>These models support <code>embedContent</code>, used for embeddings:</p>
-<div id="cell-11" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> models_1 <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">list</span>()<span class="op">;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> page_1 <span class="op">=</span> models_1<span class="op">.</span><span class="at">page</span><span class="op">;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (page_1<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> model <span class="kw">of</span> page_1) {</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (model<span class="op">.</span><span class="at">supportedActions</span><span class="op">?.</span><span class="fu">includes</span>(<span class="st">"embedContent"</span>)) {</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`- </span><span class="sc">${</span>model<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs"> (</span><span class="sc">${</span>model<span class="op">.</span><span class="at">displayName</span><span class="sc">}</span><span class="vs">) | [Actions: </span><span class="sc">${</span>model<span class="op">.</span><span class="at">supportedActions</span><span class="op">.</span><span class="fu">join</span>(<span class="st">", "</span>)<span class="sc">}</span><span class="vs">]`</span>)<span class="op">;</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  page_1 <span class="op">=</span> models_1<span class="op">.</span><span class="fu">hasNextPage</span>() <span class="op">?</span> <span class="cf">await</span> models_1<span class="op">.</span><span class="fu">nextPage</span>() <span class="op">:</span> []<span class="op">;</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>- models/embedding-001 (Embedding 001) | [Actions: embedContent]
-- models/text-embedding-004 (Text Embedding 004) | [Actions: embedContent]
-- models/gemini-embedding-exp-03-07 (Gemini Embedding Experimental 03-07) | [Actions: embedContent, countTextTokens, countTokens]
-- models/gemini-embedding-exp (Gemini Embedding Experimental) | [Actions: embedContent, countTextTokens, countTokens]</code></pre>
+<p>Let’s test the Weaviate Query Agent function. This function will take a question as input and return the answer from the Weaviate cluster.</p>
+<div id="cell-13" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> answer <span class="op">=</span> <span class="cf">await</span> <span class="fu">query_agent_request</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Can you explain what the 'Weaviate retrieval plugin' does and how it was created?"</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(answer)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>The Weaviate retrieval plugin is designed to connect ChatGPT to an instance of the Weaviate vector database. Its main functionality is to enable ChatGPT to query relevant documents stored in the vector database, effectively allowing it to “know” and use custom data for answering questions. Beyond querying, the plugin allows ChatGPT to upsert (store or update) documents for remembering information for later use, as well as delete documents to forget information. This integration serves as a form of long-term memory for ChatGPT, enabling it to persist knowledge beyond the short-lived memory of a chat session. This capability makes the vector database act as the cortex of ChatGPT, grounding its responses in the context of data stored externally.</p>
+<p>Regarding its creation, the Weaviate retrieval plugin was developed primarily using Python with FastAPI as the server framework to run the plugin. The development process follows a typical plugin-building approach, involving setting up server endpoints that handle the plugin’s core functionalities: <code>/query</code> to retrieve documents, <code>/upsert</code> to add or update documents, and <code>/delete</code> to remove documents. The complete source code and development details, including implementation challenges and how they were overcome, are openly available on GitHub. The creation process highlights the plugin’s extendable design, which allows for customizing ChatGPT by integrating it with third-party vector databases like Weaviate to enhance its knowledge base.</p>
+<p>In summary, the Weaviate retrieval plugin connects ChatGPT seamlessly with a vector database to provide a persistent, context-aware information layer, and it was built using familiar web development tools and practices, primarily Python and FastAPI, with openly shared resources to guide others in creating similar plugins.</p>
 </div>
 </div>
 </section>
-<section id="find-details-about-a-model" class="level2">
-<h2 class="anchored" data-anchor-id="find-details-about-a-model">Find details about a model</h2>
-<p>You can see more details about a model, including the <code>inputTokenLimit</code> and <code>outputTokenLimit</code> as follows.</p>
-<div id="cell-13" class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> models_2 <span class="op">=</span> <span class="cf">await</span> ai<span class="op">.</span><span class="at">models</span><span class="op">.</span><span class="fu">list</span>()<span class="op">;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> page_2 <span class="op">=</span> models_2<span class="op">.</span><span class="at">page</span><span class="op">;</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (page_2<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> model <span class="kw">of</span> page_2) {</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (model<span class="op">.</span><span class="at">name</span> <span class="op">===</span> <span class="st">"models/gemini-2.0-flash"</span>) {</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(model<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  page_2 <span class="op">=</span> models_2<span class="op">.</span><span class="fu">hasNextPage</span>() <span class="op">?</span> <span class="cf">await</span> models_2<span class="op">.</span><span class="fu">nextPage</span>() <span class="op">:</span> []<span class="op">;</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>{
-  "name": "models/gemini-2.0-flash",
-  "displayName": "Gemini 2.0 Flash",
-  "description": "Gemini 2.0 Flash",
-  "version": "2.0",
-  "tunedModelInfo": {},
-  "inputTokenLimit": 1048576,
-  "outputTokenLimit": 8192,
-  "supportedActions": [
-    "generateContent",
-    "countTokens",
-    "createCachedContent",
-    "batchGenerateContent"
-  ]
-}</code></pre>
-</div>
+<section id="configure-tool" class="level2">
+<h2 class="anchored" data-anchor-id="configure-tool">Configure Tool</h2>
+<div id="cell-15" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { CallableTool<span class="op">,</span> FunctionCall<span class="op">,</span> FunctionDeclaration<span class="op">,</span> Part<span class="op">,</span> Tool<span class="op">,</span> Type } <span class="im">from</span> <span class="st">"@google/genai"</span><span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> query_agent_request_tool<span class="op">:</span> FunctionDeclaration <span class="op">=</span> {</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> <span class="st">"query_agent_request"</span><span class="op">,</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  description<span class="op">:</span> <span class="st">"A function that takes a question as input and returns the answer from the Weaviate cluster."</span><span class="op">,</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  parameters<span class="op">:</span> {</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> Type<span class="op">.</span><span class="at">OBJECT</span><span class="op">,</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    properties<span class="op">:</span> {</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>      query<span class="op">:</span> {</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        description<span class="op">:</span> <span class="st">"The question to be answered by the Weaviate cluster."</span><span class="op">,</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    required<span class="op">:</span> [<span class="st">"query"</span>]<span class="op">,</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  response<span class="op">:</span> {</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    type<span class="op">:</span> Type<span class="op">.</span><span class="at">STRING</span><span class="op">,</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span> <span class="st">"The answer from the Weaviate cluster."</span><span class="op">,</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> query_agent_request_callable<span class="op">:</span> CallableTool <span class="op">=</span> {</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  callTool<span class="op">:</span> <span class="kw">async</span> (functionCalls<span class="op">:</span> FunctionCall[])<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>Part[]<span class="op">&gt;</span> <span class="kw">=&gt;</span> {</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Query Agent Function Calls:"</span><span class="op">,</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(functionCalls<span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> fc <span class="op">=</span> functionCalls[<span class="dv">0</span>]<span class="op">;</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> { query } <span class="op">=</span> fc<span class="op">.</span><span class="at">args</span> <span class="im">as</span> { query<span class="op">:</span> <span class="dt">string</span> }<span class="op">;</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>      google<span class="op">.</span><span class="fu">createPartFromFunctionResponse</span>(fc<span class="op">.</span><span class="at">id</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> fc<span class="op">.</span><span class="at">name</span> <span class="op">??</span> <span class="st">""</span><span class="op">,</span> {</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>        name<span class="op">:</span> fc<span class="op">.</span><span class="at">name</span><span class="op">,</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>        result<span class="op">:</span> <span class="cf">await</span> <span class="fu">query_agent_request</span>(query)<span class="op">,</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>      })<span class="op">,</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">;</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>  tool<span class="op">:</span> <span class="kw">async</span> ()<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>Tool<span class="op">&gt;</span> <span class="kw">=&gt;</span> ({ functionDeclarations<span class="op">:</span> [query_agent_request_tool] })<span class="op">,</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="learning-more" class="level2">
-<h2 class="anchored" data-anchor-id="learning-more">Learning more</h2>
-<ul>
-<li>To learn how use a model for prompting, see the <a href="../quickstarts/Prompting.html">Prompting</a> quickstart.</li>
-<li>To learn how use a model for embedding, see the <a href="../quickstarts/Embeddings.html">Embedding</a> quickstart.</li>
-<li>For more information on models, visit the <a href="https://ai.google.dev/models/gemini">Gemini models</a> documentation.</li>
-</ul>
+<section id="query-time" class="level2">
+<h2 class="anchored" data-anchor-id="query-time">Query Time</h2>
+<div id="cell-17" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat <span class="op">=</span> ai<span class="op">.</span><span class="at">chats</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">:</span> MODEL_ID<span class="op">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  config<span class="op">:</span> {</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">:</span> [query_agent_request_callable]<span class="op">,</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    toolConfig<span class="op">:</span> {</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      functionCallingConfig<span class="op">:</span> {</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        mode<span class="op">:</span> google<span class="op">.</span><span class="at">FunctionCallingConfigMode</span><span class="op">.</span><span class="at">AUTO</span><span class="op">,</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">// temporarily make console.warn a no-op to avoid warnings in the output (non-text part in GenerateContentResponse caused by accessing .text)</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">// https://github.com/googleapis/js-genai/blob/d82aba244bdb804b063ef8a983b2916c00b901d2/src/types.ts#L2005</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">// copy the original console.warn function to restore it later</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> warn_fn <span class="op">=</span> <span class="bu">console</span><span class="op">.</span><span class="fu">warn</span><span class="op">;</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">// eslint-disable-next-line @typescript-eslint/no-empty-function, no-empty-function</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">warn</span> <span class="op">=</span> <span class="kw">function</span> () {}<span class="op">;</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chat_response <span class="op">=</span> <span class="cf">await</span> chat<span class="op">.</span><span class="fu">sendMessageStream</span>({</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  message<span class="op">:</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"You are connected to a database that has a blog post on deploying Weaviate on Docker. Can you answer how I can use Weaviate with Docker?"</span><span class="op">,</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> response_parts <span class="op">=</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="cf">await</span> (<span class="kw">const</span> part <span class="kw">of</span> chat_response) {</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  response_parts <span class="op">+=</span> part<span class="op">.</span><span class="at">text</span> <span class="op">??</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>tslab<span class="op">.</span><span class="at">display</span><span class="op">.</span><span class="fu">markdown</span>(response_parts)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Query Agent Function Calls: [
+  {
+    "name": "query_agent_request",
+    "args": {
+      "query": "How can I use Weaviate with Docker?"
+    }
+  }
+]</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Weaviate can be used with Docker in two primary ways:</p>
+<p><strong>1. Quick Start with Docker Run:</strong> You can quickly launch a Weaviate instance using a simple Docker command:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-p</span> 8080:8080 <span class="at">-p</span> 50051:50051 cr.weaviate.io/semitechnologies/weaviate:1.24.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This command exposes the necessary ports for API and gRPC communication.</p>
+<p><strong>2. Custom Setup with Docker Compose:</strong> For more customized deployments, you can configure a <code>docker-compose.yml</code> file. This allows you to define the Weaviate service and enable other modules.</p>
+<p>Here’s an example of a <code>docker-compose.yml</code> to run Weaviate with OpenAI modules:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">version</span><span class="kw">:</span><span class="at"> </span><span class="st">'3.4'</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">services</span><span class="kw">:</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">weaviate</span><span class="kw">:</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">image</span><span class="kw">:</span><span class="at"> semitechnologies/weaviate:1.17.3</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">ports</span><span class="kw">:</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> 8080:8080</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">environment</span><span class="kw">:</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">QUERY_DEFAULTS_LIMIT</span><span class="kw">:</span><span class="at"> </span><span class="dv">25</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED</span><span class="kw">:</span><span class="at"> </span><span class="st">'true'</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">PERSISTENCE_DATA_PATH</span><span class="kw">:</span><span class="at"> </span><span class="st">'/var/lib/weaviate'</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">DEFAULT_VECTORIZER_MODULE</span><span class="kw">:</span><span class="at"> </span><span class="st">'text2vec-openai'</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">ENABLE_MODULES</span><span class="kw">:</span><span class="at"> </span><span class="st">'text2vec-openai,generative-openai'</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">OPENAI_APIKEY</span><span class="kw">:</span><span class="at"> sk-foobar</span><span class="co"> # Replace with your actual OpenAI API key or provide at runtime</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">CLUSTER_HOSTNAME</span><span class="kw">:</span><span class="at"> </span><span class="st">'node1'</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">command</span><span class="kw">:</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> --host</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fl">0.0.0.0</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> --port</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="st">'8080'</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> --scheme</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> http</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">restart</span><span class="kw">:</span><span class="at"> on-failure:0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After creating or modifying your <code>docker-compose.yml</code>, navigate to the directory containing the file and run:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker-compose</span> up <span class="at">-d</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will start Weaviate with your specified configuration. Remember to replace <code>sk-foobar</code> with your actual OpenAI API key if you’re using OpenAI modules.</p>
+<p><strong>Advanced Setups:</strong> You can integrate additional modules (e.g., <code>multi2vec-bind</code> for multimodal data, or other vectorizers like Cohere or Hugging Face) by adjusting the <code>ENABLE_MODULES</code> environment variable and adding relevant services and environment variables to your <code>docker-compose.yml</code>. When integrating with other projects like Auto-GPT, you’ll need to configure Docker Compose for inter-container communication and update environment variables with your Weaviate instance URL and API keys.</p>
+<p><strong>Verification:</strong> To verify that Weaviate is running, you can access <code>http://localhost:8080</code> in your browser.</p>
+</div>
+</div>
 
 
 </section>
@@ -1429,13 +1471,13 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../quickstarts/JSON_mode.html" class="pagination-link" aria-label="Gemini API: JSON Mode Quickstart">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: JSON Mode Quickstart</span>
+      <a href="../../examples/prompting/Zero_shot_prompting.html" class="pagination-link" aria-label="Gemini API: Zero-shot prompting">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Gemini API: Zero-shot prompting</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../quickstarts/New_in_002.html" class="pagination-link" aria-label="What's new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002">
-        <span class="nav-page-text">What’s new in Gemini-1.5-pro-002 and Gemini-1.5-flash-002</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../quickstarts/Audio.html" class="pagination-link" aria-label="Gemini API: Audio Quickstart">
+        <span class="nav-page-text">Gemini API: Audio Quickstart</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1444,5 +1486,5 @@ Note
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/quickstarts/Models.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/quickstarts/Models.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/FallenDeity/deepmind-starter/blob/main/examples/weaviate/query-agent-as-a-tool.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/blob/main/examples/weaviate/query-agent-as-a-tool.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FallenDeity/deepmind-starter/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
