@@ -2,6 +2,17 @@
 
 Applets are small, applications built using JavaScript and TypeScript, designed to run in the Google AI Studio environment. They showcase the capabilities of the Gemini API and provide a hands-on way to interact with AI models.
 
+## Gemini Notebook Playground
+
+A TypeScript/JavaScript Jupyter notebook environment running in Google AI Studio that lets users experiment with the Google JS GenAI SDK. Load existing notebooks or create new ones to test and prototype with Google's Generative AI APIs directly in your browser.
+
+<iframe src="https://drive.google.com/file/d/1X-tKGEdMeTYM-UMCCvzauJMUXFH6aOJR/preview" width="100%" height="480" allow="autoplay"></iframe>
+
+<button class="btn btn-primary" onclick="window.open('https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221TeY4jGUipL4O9Ub-XGomg3n1qXkcTIec%22%5D,%22action%22:%22open%22,%22userId%22:%22114338421781446865462%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing', '_blank')">
+    Open in Google AI Studio
+    <i class="ms-2 bi bi-box-arrow-up-right"></i>
+</button>
+
 ## Gemini Based Image Filter
 
 This applet demonstrates how to apply image filters using the Gemini API. It allows users to upload an image and apply various artistic filters to it, such as `Renaissance`, `Cyberpunk`, `Watercolor` and more.
